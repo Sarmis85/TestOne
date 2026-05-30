@@ -6,526 +6,677 @@
 <title>Pro rozvoj Holčovic</title>
 <!--
   ╔══════════════════════════════════════════════════════╗
-  ║  PRO ROZVOJ HOLČOVIC — komunální web                ║
-  ║  Jeden HTML soubor, bez externích závislostí        ║
-  ║                                                     ║
-  ║  KDE CO UPRAVIT:                                    ║
-  ║  • Barvy      → :root { } v <style>                 ║
-  ║  • Program    → sekce id="program"                  ║
-  ║  • Úspěchy    → sekce id="vysledky"                 ║
-  ║  • Kandidáti  → sekce id="kandidati"                ║
-  ║  • Kontakt    → sekce id="kontakt"                  ║
-  ║                                                     ║
-  ║  JAK SPUSTIT:                                       ║
-  ║  Uložte jako index.html a otevřete v prohlížeči.   ║
+  ║  PRO ROZVOJ HOLČOVIC — komunální web                 ║
+  ║  KDE CO UPRAVIT:                                     ║
+  ║  • Barvy      → :root { } v <style>                  ║
+  ║  • Program    → sekce id="program"                   ║
+  ║  • Úspěchy    → sekce id="vysledky"                  ║
+  ║  • Kandidáti  → sekce id="kandidati"                 ║
+  ║  • Kontakt    → sekce id="kontakt"                   ║
   ╚══════════════════════════════════════════════════════╝
 -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&display=swap" rel="stylesheet">
+
 <style>
 /* ═══════════════════════════════════════════════
    BARVY — upravuj zde
    ═══════════════════════════════════════════════ */
 :root {
-  --blue:        #1a3a5c;   /* hlavní tmavá modrá */
-  --blue-mid:    #2a5280;   /* střední modrá */
-  --blue-deep:   #0e2440;   /* velmi tmavá modrá */
-  --gold:        #c4973a;   /* zlatá — akcent */
-  --gold-light:  #e2bb72;   /* světlá zlatá */
-  --gold-pale:   #f5ecd6;   /* velmi světlá zlatá */
-  --green:       #4a7056;   /* přírodní zelená */
-  --bg:          #f7f4ef;   /* krémové pozadí */
-  --bg-alt:      #ede9e0;   /* alternativní sekce */
-  --white:       #ffffff;
-  --text:        #2c2824;
-  --text-mid:    #5a5550;
-  --text-muted:  #8a8580;
-  --border:      #ddd8ce;
-  --shadow:      rgba(26,58,92,0.10);
-  --shadow-md:   rgba(26,58,92,0.16);
+  --navy:        #1C3354;
+  --navy-deep:   #0F1E32;
+  --navy-mid:    #264878;
+  --gold:        #B8873A;
+  --gold-light:  #D4A85C;
+  --gold-pale:   #F0E0C0;
+  --gold-wash:   #FAF4EB;
+  --cream:       #F6F1E9;
+  --cream-dark:  #EDE6D8;
+  --green:       #3D6B4A;
+  --text:        #1A1612;
+  --text-mid:    #4A443C;
+  --text-muted:  #8A8178;
+  --border:      #DDD5C5;
+  --white:       #FFFFFF;
 }
 
-/* ── Reset ────────────────────────────────────── */
+/* ── Reset ─────────────────────────────────────── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; font-size: 16px; }
 body {
-  font-family: Georgia, 'Times New Roman', serif;
-  background: var(--bg);
+  font-family: 'DM Sans', -apple-system, sans-serif;
+  background: var(--cream);
   color: var(--text);
   line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
 }
 img { display: block; max-width: 100%; }
-a { color: inherit; }
+a { color: inherit; text-decoration: none; }
 
-/* ── Layout helpers ───────────────────────────── */
-.wrap {
-  max-width: 1160px;
-  margin: 0 auto;
-  padding: 0 24px;
+/* ── Typografická hierarchie ─────────────────── */
+.display {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-weight: 300;
+  letter-spacing: -0.01em;
+  line-height: 1.05;
 }
-.section        { padding: 88px 24px; }
-.section-alt    { background: var(--bg-alt); }
-.section-dark   { background: var(--blue); color: #fff; }
+.serif { font-family: 'Cormorant Garamond', Georgia, serif; }
 
-/* ── Ornamentální oddělovač (slezský motivek) ─── */
+/* ── Layout ──────────────────────────────────── */
+.wrap { max-width: 1200px; margin: 0 auto; padding: 0 32px; }
+.section { padding: 100px 32px; }
+.section-cream { background: var(--cream); }
+.section-white { background: var(--white); }
+.section-dark  { background: var(--navy-deep); color: var(--white); }
+.section-navy  { background: var(--navy); color: var(--white); }
+
+/* ── Dekorativní ornament ────────────────────── */
 .orn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  margin: 0 auto 2.5rem;
+  display: flex; align-items: center; gap: 14px;
+  margin: 0 auto 2.8rem;
 }
-.orn::before, .orn::after {
-  content: '';
-  flex: 1;
-  max-width: 80px;
+.orn-line {
   height: 1px;
-  background: var(--gold);
-  opacity: .5;
+  flex: 1; max-width: 60px;
+  background: currentColor;
+  opacity: .25;
 }
-.orn-diamond {
-  display: flex;
-  gap: 5px;
-  align-items: center;
+.orn-glyph {
+  display: flex; gap: 4px; align-items: center;
+  color: var(--gold);
 }
-.orn-diamond i {
-  display: block;
-  background: var(--gold);
-  transform: rotate(45deg);
-  font-style: normal;
+.orn-glyph span {
+  display: block; background: var(--gold); transform: rotate(45deg);
 }
-.orn-diamond i:nth-child(1),
-.orn-diamond i:nth-child(3) { width: 6px; height: 6px; opacity: .6; }
-.orn-diamond i:nth-child(2) { width: 9px; height: 9px; }
+.orn-glyph span:nth-child(1),
+.orn-glyph span:nth-child(3) { width: 5px; height: 5px; opacity: .5; }
+.orn-glyph span:nth-child(2) { width: 8px; height: 8px; }
 
 /* ── Záhlaví sekce ───────────────────────────── */
-.sec-head { text-align: center; margin-bottom: 56px; }
-.sec-label {
-  display: block;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  font-size: .72rem;
-  letter-spacing: .22em;
-  text-transform: uppercase;
-  color: var(--gold);
-  margin-bottom: 10px;
+.sec-head { text-align: center; margin-bottom: 64px; }
+.sec-eyebrow {
+  display: inline-block;
+  font-size: .68rem; letter-spacing: .28em; text-transform: uppercase;
+  font-weight: 500; color: var(--gold);
+  margin-bottom: 14px;
 }
 .sec-title {
-  font-size: clamp(1.55rem, 4vw, 2.35rem);
-  font-weight: normal;
-  color: var(--blue);
-  margin-bottom: 16px;
-  line-height: 1.2;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 300; line-height: 1.1;
+  color: var(--navy);
+  margin-bottom: 20px;
 }
-.section-dark .sec-title { color: #fff; }
-.sec-intro {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  font-size: .96rem;
-  color: var(--text-mid);
-  max-width: 580px;
-  margin: 0 auto;
+.section-dark .sec-title,
+.section-navy .sec-title { color: var(--white); }
+.sec-sub {
+  font-size: .95rem; color: var(--text-mid);
+  max-width: 560px; margin: 0 auto;
+  line-height: 1.8;
 }
-.section-dark .sec-intro { color: rgba(255,255,255,.65); }
+.section-dark .sec-sub,
+.section-navy .sec-sub { color: rgba(255,255,255,.55); }
 
-/* ════════════════════════════════════════════════
+/* ══════════════════════════════════════════════
    NAVIGACE
-   ════════════════════════════════════════════════ */
+   ══════════════════════════════════════════════ */
 .nav {
-  position: fixed; top: 0; left: 0; right: 0;
-  z-index: 900;
-  background: rgba(14,36,64,.96);
-  backdrop-filter: blur(10px);
-  box-shadow: 0 2px 20px rgba(0,0,0,.18);
+  position: fixed; top: 0; left: 0; right: 0; z-index: 900;
+  transition: background .3s, box-shadow .3s;
+}
+.nav.scrolled {
+  background: rgba(15,30,50,.97);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 1px 0 rgba(255,255,255,.06), 0 4px 24px rgba(0,0,0,.25);
 }
 .nav-inner {
-  max-width: 1160px;
-  margin: 0 auto;
-  padding: 0 24px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  height: 62px;
+  max-width: 1200px; margin: 0 auto; padding: 0 32px;
+  display: flex; align-items: center; justify-content: space-between;
+  height: 68px;
 }
 .nav-brand {
-  font-family: Georgia, serif;
-  font-size: 1rem;
-  color: #fff;
-  text-decoration: none;
-  letter-spacing: .02em;
-  white-space: nowrap;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.1rem; font-weight: 400;
+  color: var(--white); letter-spacing: .02em;
+  display: flex; align-items: center; gap: 10px;
 }
-.nav-brand em { font-style: normal; color: var(--gold-light); }
-.nav-list { display: flex; gap: 28px; list-style: none; }
+.nav-brand-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--gold); flex-shrink: 0;
+}
+.nav-list { display: flex; gap: 36px; list-style: none; }
 .nav-list a {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  color: rgba(255,255,255,.8);
-  text-decoration: none;
-  font-size: .82rem;
-  letter-spacing: .1em;
-  text-transform: uppercase;
-  padding-bottom: 3px;
-  border-bottom: 2px solid transparent;
-  transition: color .2s, border-color .2s;
+  font-size: .78rem; letter-spacing: .14em; text-transform: uppercase;
+  color: rgba(255,255,255,.65); font-weight: 500;
+  transition: color .2s;
+  position: relative; padding-bottom: 2px;
 }
-.nav-list a:hover,
-.nav-list a.active { color: var(--gold-light); border-bottom-color: var(--gold-light); }
+.nav-list a::after {
+  content: ''; position: absolute; left: 0; bottom: 0; right: 100%;
+  height: 1px; background: var(--gold-light);
+  transition: right .25s ease;
+}
+.nav-list a:hover, .nav-list a.active { color: var(--white); }
+.nav-list a:hover::after, .nav-list a.active::after { right: 0; }
 .nav-burger {
-  display: none;
-  background: none; border: none; cursor: pointer; padding: 8px;
+  display: none; background: none; border: none;
+  cursor: pointer; padding: 6px; gap: 5px;
+  flex-direction: column; align-items: flex-end;
 }
 .nav-burger span {
-  display: block; width: 22px; height: 2px;
-  background: #fff; margin: 5px 0; transition: .3s;
+  display: block; height: 1.5px; background: #fff;
+  transition: .3s;
 }
+.nav-burger span:nth-child(1) { width: 22px; }
+.nav-burger span:nth-child(2) { width: 16px; }
+.nav-burger span:nth-child(3) { width: 22px; }
 
-/* ════════════════════════════════════════════════
+/* ══════════════════════════════════════════════
    HERO
-   ════════════════════════════════════════════════ */
+   ══════════════════════════════════════════════ */
 .hero {
   min-height: 100vh;
   position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: flex; align-items: center;
   overflow: hidden;
-  background: linear-gradient(160deg, #0a1e35 0%, #1a3a5c 45%, #1b4a38 100%);
+  background: var(--navy-deep);
 }
-.hero-pattern {
+
+/* Gradient mesh pozadí */
+.hero::before {
+  content: '';
   position: absolute; inset: 0;
-  background-image:
-    radial-gradient(circle at 25% 55%, rgba(196,151,58,.07) 0%, transparent 55%),
-    radial-gradient(circle at 75% 25%, rgba(74,112,86,.09) 0%, transparent 45%);
+  background:
+    radial-gradient(ellipse 80% 60% at 70% 40%, rgba(184,135,58,.12) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 80% at 20% 70%, rgba(38,72,120,.4) 0%, transparent 55%),
+    linear-gradient(160deg, #0a1828 0%, #1C3354 55%, #0e2218 100%);
+}
+
+/* Jemný šumový vzor */
+.hero::after {
+  content: '';
+  position: absolute; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+  opacity: .4;
   pointer-events: none;
 }
-/* Silueta krajiny — placeholder za fotografii */
+
+/* Silueta krajiny */
 .hero-landscape {
   position: absolute; bottom: 0; left: 0; right: 0;
-  height: 42%; pointer-events: none;
+  pointer-events: none; z-index: 1;
 }
-.hero-body {
+
+/* Vertikální dělicí linie */
+.hero-line {
+  position: absolute; top: 0; bottom: 0; left: 52%;
+  width: 1px;
+  background: linear-gradient(to bottom, transparent, rgba(184,135,58,.25) 30%, rgba(184,135,58,.12) 70%, transparent);
+  z-index: 1;
+}
+
+.hero-inner {
   position: relative; z-index: 2;
-  text-align: center;
-  padding: 110px 24px 96px;
-  max-width: 780px;
+  width: 100%; max-width: 1200px;
+  margin: 0 auto; padding: 140px 32px 100px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 64px; align-items: center;
 }
-.hero-pill {
-  display: inline-block;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  font-size: .72rem; letter-spacing: .2em; text-transform: uppercase;
-  color: var(--gold-light);
-  border: 1px solid rgba(226,187,114,.35);
-  padding: 5px 18px; border-radius: 100px;
-  margin-bottom: 26px;
+
+.hero-eyebrow {
+  display: flex; align-items: center; gap: 12px;
+  margin-bottom: 28px;
 }
+.hero-eyebrow-line {
+  width: 32px; height: 1px; background: var(--gold);
+}
+.hero-eyebrow-text {
+  font-size: .7rem; letter-spacing: .25em; text-transform: uppercase;
+  color: var(--gold-light); font-weight: 500;
+}
+
 .hero h1 {
-  font-size: clamp(2.1rem, 6vw, 3.8rem);
-  font-weight: normal; color: #fff;
-  line-height: 1.13; margin-bottom: 18px;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(3rem, 7vw, 5.5rem);
+  font-weight: 300; color: var(--white);
+  line-height: 1.0; margin-bottom: 24px;
 }
-.hero h1 em { font-style: normal; color: var(--gold-light); }
-.hero-sub {
-  font-size: clamp(.95rem, 2.5vw, 1.2rem);
-  color: rgba(255,255,255,.7);
-  font-style: italic; margin-bottom: 24px;
+.hero h1 em {
+  font-style: italic; color: var(--gold-light);
+  display: block;
 }
+
+.hero-tagline {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1rem, 2vw, 1.2rem);
+  font-style: italic;
+  color: rgba(255,255,255,.6);
+  margin-bottom: 28px;
+  border-left: 2px solid var(--gold);
+  padding-left: 16px;
+  line-height: 1.6;
+}
+
 .hero-text {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  font-size: .96rem; color: rgba(255,255,255,.58);
-  max-width: 540px; margin: 0 auto 44px; line-height: 1.8;
+  font-size: .92rem; color: rgba(255,255,255,.5);
+  line-height: 1.85; margin-bottom: 48px;
+  max-width: 420px;
 }
-.btns { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
-.btn-gold {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  background: var(--gold); color: #fff;
-  padding: 13px 34px; border-radius: 6px;
-  text-decoration: none; font-size: .93rem; font-weight: 600;
-  letter-spacing: .02em; border: 2px solid transparent;
-  transition: background .25s, transform .2s, box-shadow .2s;
+
+.hero-btns { display: flex; gap: 14px; flex-wrap: wrap; }
+
+.btn-primary {
+  background: var(--gold);
+  color: var(--white);
+  padding: 14px 36px; border-radius: 3px;
+  font-size: .82rem; font-weight: 600;
+  letter-spacing: .1em; text-transform: uppercase;
+  border: 1.5px solid var(--gold);
+  transition: background .2s, transform .2s, box-shadow .2s;
+  cursor: pointer;
 }
-.btn-gold:hover {
-  background: #b0852c; transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(196,151,58,.35);
+.btn-primary:hover {
+  background: var(--gold-light); border-color: var(--gold-light);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 28px rgba(184,135,58,.3);
 }
-.btn-outline {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  background: transparent; color: #fff;
-  padding: 13px 34px; border-radius: 6px;
-  text-decoration: none; font-size: .93rem; font-weight: 500;
-  border: 2px solid rgba(255,255,255,.45);
+.btn-ghost {
+  background: transparent; color: var(--white);
+  padding: 14px 36px; border-radius: 3px;
+  font-size: .82rem; font-weight: 500;
+  letter-spacing: .1em; text-transform: uppercase;
+  border: 1.5px solid rgba(255,255,255,.3);
   transition: border-color .2s, background .2s;
 }
-.btn-outline:hover { border-color: #fff; background: rgba(255,255,255,.08); }
-.scroll-hint {
-  position: absolute; bottom: 28px; left: 50%;
-  transform: translateX(-50%);
-  display: flex; flex-direction: column; align-items: center; gap: 6px;
-  color: rgba(255,255,255,.35);
-  font-family: sans-serif; font-size: .65rem; letter-spacing: .12em;
-  text-transform: uppercase;
-}
-.scroll-arrow {
-  width: 20px; height: 20px;
-  border-right: 2px solid rgba(255,255,255,.3);
-  border-bottom: 2px solid rgba(255,255,255,.3);
-  transform: rotate(45deg);
-  animation: bounce 2.2s infinite;
-}
-@keyframes bounce {
-  0%,100% { opacity: .3; transform: rotate(45deg) translateY(0); }
-  50%      { opacity: .7; transform: rotate(45deg) translateY(5px); }
+.btn-ghost:hover {
+  border-color: rgba(255,255,255,.7);
+  background: rgba(255,255,255,.06);
 }
 
-/* ════════════════════════════════════════════════
-   PRIORITY — karty
-   ════════════════════════════════════════════════ */
-.grid-priorities {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
-  gap: 22px;
+/* Hero pravá strana — statistiky */
+.hero-right {
+  display: flex; flex-direction: column; gap: 2px;
 }
-.card-priority {
-  background: var(--white);
-  border-radius: 12px;
-  padding: 30px 26px;
-  border: 1px solid var(--border);
-  border-top: 3px solid var(--gold);
-  box-shadow: 0 2px 14px var(--shadow);
-  transition: transform .25s, box-shadow .25s;
-}
-.card-priority:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 10px 30px var(--shadow-md);
-}
-.p-icon {
-  width: 46px; height: 46px;
-  background: linear-gradient(135deg, var(--blue), var(--blue-mid));
-  border-radius: 10px;
-  display: flex; align-items: center; justify-content: center;
-  margin-bottom: 18px;
-}
-.p-icon svg { width: 22px; height: 22px; fill: #fff; }
-.card-priority h3 {
-  font-size: 1.05rem; color: var(--blue);
-  margin-bottom: 10px; font-weight: bold;
-}
-.card-priority p {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  font-size: .88rem; color: var(--text-mid); line-height: 1.72;
-}
-
-/* ════════════════════════════════════════════════
-   ÚSPĚCHY — seznam
-   ════════════════════════════════════════════════ */
-.grid-achievements {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
-  gap: 18px;
-}
-.card-achievement {
-  background: var(--white);
-  border-radius: 10px;
-  padding: 24px 22px;
-  border-left: 4px solid var(--green);
-  box-shadow: 0 2px 12px var(--shadow);
-  display: flex; gap: 14px; align-items: flex-start;
-  transition: transform .2s;
-}
-.card-achievement:hover { transform: translateX(4px); }
-.ach-check {
-  width: 30px; height: 30px; border-radius: 50%;
-  background: var(--green);
-  display: flex; align-items: center; justify-content: center;
-  flex-shrink: 0; margin-top: 2px;
-}
-.ach-check svg { width: 15px; height: 15px; fill: #fff; }
-.card-achievement h4 { font-size: .97rem; color: var(--blue); margin-bottom: 5px; }
-.card-achievement p {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  font-size: .84rem; color: var(--text-mid); line-height: 1.65;
-}
-
-/* ════════════════════════════════════════════════
-   KANDIDÁTI
-   ════════════════════════════════════════════════ */
-.grid-candidates {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(188px, 1fr));
-  gap: 22px;
-}
-.card-candidate {
-  background: var(--white);
-  border-radius: 12px;
-  padding: 26px 18px 22px;
-  text-align: center;
-  border: 1px solid var(--border);
-  box-shadow: 0 2px 12px var(--shadow);
-  transition: transform .25s, box-shadow .25s;
-}
-.card-candidate:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 10px 28px var(--shadow-md);
-}
-/* Lídr — zlatý rámeček */
-.card-candidate.leader {
-  border: 2px solid var(--gold);
-  background: linear-gradient(to bottom, #fffdf6, #fff);
-}
-.cand-photo {
-  width: 90px; height: 90px;
-  border-radius: 50%;
-  margin: 0 auto 14px;
-  position: relative;
-  display: flex; align-items: center; justify-content: center;
-}
-.cand-photo-inner {
-  width: 90px; height: 90px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, #c0d8ea, #8ab0cc);
-  display: flex; align-items: center; justify-content: center;
+.hero-stat-group {
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 4px;
   overflow: hidden;
 }
-/* Foto: nahradit img tagem uvnitř .cand-photo-inner */
-.cand-photo-inner svg { width: 48px; height: 48px; fill: rgba(255,255,255,.65); }
-.card-candidate.leader .cand-photo-inner { border: 3px solid var(--gold); }
-.cand-num {
-  position: absolute; bottom: 0; right: 0;
-  background: var(--blue); color: #fff;
-  width: 22px; height: 22px; border-radius: 50%;
-  font-family: sans-serif; font-size: .68rem; font-weight: 700;
-  display: flex; align-items: center; justify-content: center;
+.hero-stat {
+  padding: 24px 28px;
+  border-bottom: 1px solid rgba(255,255,255,.06);
+  display: flex; align-items: center; gap: 20px;
+  background: rgba(255,255,255,.03);
+  transition: background .2s;
 }
-.card-candidate.leader .cand-num { background: var(--gold); }
+.hero-stat:last-child { border-bottom: none; }
+.hero-stat:hover { background: rgba(255,255,255,.06); }
+.hero-stat-num {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2.8rem; font-weight: 300;
+  color: var(--gold-light);
+  line-height: 1;
+  min-width: 72px;
+}
+.hero-stat-label {
+  font-size: .82rem; color: rgba(255,255,255,.55);
+  line-height: 1.5;
+}
+.hero-stat-label strong {
+  display: block;
+  font-size: .92rem; font-weight: 500;
+  color: rgba(255,255,255,.85);
+  margin-bottom: 2px;
+}
+
+/* Scroll šipka */
+.hero-scroll {
+  position: absolute; bottom: 32px; left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+  display: flex; flex-direction: column;
+  align-items: center; gap: 8px;
+  color: rgba(255,255,255,.3);
+  font-size: .62rem; letter-spacing: .15em; text-transform: uppercase;
+  animation: scrollFade 3s ease-in-out infinite;
+}
+.hero-scroll svg { width: 20px; height: 20px; }
+@keyframes scrollFade {
+  0%,100% { opacity: .3; transform: translateX(-50%) translateY(0); }
+  50%      { opacity: .7; transform: translateX(-50%) translateY(6px); }
+}
+
+/* ══════════════════════════════════════════════
+   PRIORITY — karty s číslem
+   ══════════════════════════════════════════════ */
+.priorities-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+.priority-card {
+  background: var(--white);
+  padding: 36px 32px 32px;
+  position: relative;
+  overflow: hidden;
+  transition: background .25s;
+}
+.priority-card:hover { background: var(--gold-wash); }
+.priority-num {
+  position: absolute; top: 16px; right: 20px;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 5rem; font-weight: 300;
+  color: var(--gold-pale);
+  line-height: 1;
+  transition: color .25s;
+  user-select: none;
+  pointer-events: none;
+}
+.priority-card:hover .priority-num { color: rgba(184,135,58,.18); }
+.priority-icon-wrap {
+  width: 40px; height: 40px;
+  border: 1.5px solid var(--gold);
+  border-radius: 3px;
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 20px;
+  transition: background .25s;
+}
+.priority-card:hover .priority-icon-wrap { background: var(--gold); }
+.priority-icon-wrap svg {
+  width: 18px; height: 18px; fill: var(--gold);
+  transition: fill .25s;
+}
+.priority-card:hover .priority-icon-wrap svg { fill: var(--white); }
+.priority-card h3 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.25rem; font-weight: 600;
+  color: var(--navy); margin-bottom: 12px;
+  line-height: 1.2;
+}
+.priority-card p {
+  font-size: .86rem; color: var(--text-mid);
+  line-height: 1.75;
+}
+
+/* ══════════════════════════════════════════════
+   ÚSPĚCHY — timeline
+   ══════════════════════════════════════════════ */
+.timeline {
+  position: relative;
+  max-width: 800px; margin: 0 auto;
+}
+.timeline::before {
+  content: '';
+  position: absolute; left: 20px; top: 8px; bottom: 8px;
+  width: 1px;
+  background: linear-gradient(to bottom, transparent, var(--gold) 10%, var(--gold) 90%, transparent);
+  opacity: .4;
+}
+.timeline-item {
+  display: flex; gap: 28px;
+  padding: 0 0 40px 0;
+  position: relative;
+}
+.timeline-item:last-child { padding-bottom: 0; }
+.timeline-dot {
+  flex-shrink: 0;
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  background: var(--navy);
+  border: 2px solid var(--gold);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 1;
+  transition: background .2s;
+}
+.timeline-item:hover .timeline-dot { background: var(--gold); }
+.timeline-dot svg { width: 16px; height: 16px; fill: var(--gold); transition: fill .2s; }
+.timeline-item:hover .timeline-dot svg { fill: var(--white); }
+.timeline-body {
+  flex: 1;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--green);
+  border-radius: 0 6px 6px 0;
+  padding: 20px 24px;
+  transition: border-left-color .2s, box-shadow .2s;
+}
+.timeline-item:hover .timeline-body {
+  border-left-color: var(--gold);
+  box-shadow: 0 4px 20px rgba(26,58,92,.08);
+}
+.timeline-body h4 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.15rem; font-weight: 600;
+  color: var(--navy); margin-bottom: 6px;
+}
+.timeline-body p {
+  font-size: .86rem; color: var(--text-mid); line-height: 1.7;
+}
+
+/* ══════════════════════════════════════════════
+   KANDIDÁTI
+   ══════════════════════════════════════════════ */
+.candidates-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 20px;
+}
+.cand-card {
+  text-align: center;
+  padding: 28px 16px 22px;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  transition: transform .25s, box-shadow .25s, border-color .25s;
+  cursor: default;
+}
+.cand-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 36px rgba(28,51,84,.12);
+  border-color: var(--gold);
+}
+.cand-card.leader {
+  border: 2px solid var(--gold);
+  background: linear-gradient(160deg, #fffdf7 0%, var(--white) 100%);
+}
+
+/* Avatar s iniciálami */
+.cand-avatar {
+  width: 80px; height: 80px;
+  border-radius: 50%;
+  margin: 0 auto 14px;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.6rem; font-weight: 300;
+  color: var(--navy-mid);
+  background: var(--cream-dark);
+  position: relative;
+  transition: background .2s;
+}
+.cand-card:hover .cand-avatar { background: var(--gold-pale); }
+.cand-card.leader .cand-avatar {
+  border: 2.5px solid var(--gold);
+  background: var(--gold-wash);
+}
+/* Číslo kandidáta */
+.cand-num {
+  position: absolute; bottom: -2px; right: -2px;
+  background: var(--navy); color: var(--white);
+  width: 21px; height: 21px; border-radius: 50%;
+  font-family: 'DM Sans', sans-serif;
+  font-size: .62rem; font-weight: 600;
+  display: flex; align-items: center; justify-content: center;
+  border: 2px solid var(--white);
+}
+.cand-card.leader .cand-num { background: var(--gold); }
+
 .cand-badge {
   display: inline-block;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  font-size: .62rem; letter-spacing: .14em; text-transform: uppercase;
-  background: var(--gold); color: #fff;
-  padding: 3px 10px; border-radius: 100px;
-  margin-bottom: 9px;
+  font-size: .58rem; letter-spacing: .18em; text-transform: uppercase;
+  font-weight: 600; background: var(--gold); color: var(--white);
+  padding: 3px 10px; border-radius: 2px;
+  margin-bottom: 8px;
 }
-.card-candidate h3 { font-size: .97rem; color: var(--blue); margin-bottom: 3px; }
+.cand-card h3 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.05rem; font-weight: 600;
+  color: var(--navy); margin-bottom: 2px;
+}
 .cand-role {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  font-size: .74rem; color: var(--gold); font-weight: 600;
-  text-transform: uppercase; letter-spacing: .05em;
-  margin-bottom: 9px;
+  font-size: .7rem; letter-spacing: .08em; text-transform: uppercase;
+  color: var(--gold); font-weight: 500; margin-bottom: 8px;
 }
 .cand-bio {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  font-size: .8rem; color: var(--text-mid);
+  font-size: .78rem; color: var(--text-muted);
   line-height: 1.6; font-style: italic;
 }
 
-/* ════════════════════════════════════════════════
+/* ══════════════════════════════════════════════
    KONTAKT
-   ════════════════════════════════════════════════ */
-.contact-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 60px; align-items: start;
+   ══════════════════════════════════════════════ */
+.contact-wrap {
+  display: grid; grid-template-columns: 5fr 7fr;
+  gap: 80px; align-items: start;
 }
 .contact-info h2 {
-  font-size: clamp(1.35rem, 3.5vw, 2rem);
-  font-weight: normal; color: #fff;
-  margin-bottom: 14px;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  font-weight: 300; color: var(--white);
+  margin-bottom: 16px; line-height: 1.15;
 }
 .contact-info .lead {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  color: rgba(255,255,255,.65); margin-bottom: 28px; line-height: 1.75;
+  font-size: .9rem; color: rgba(255,255,255,.55);
+  line-height: 1.8; margin-bottom: 36px;
 }
-.contact-meta { list-style: none; display: flex; flex-direction: column; gap: 11px; }
-.contact-meta li {
-  display: flex; align-items: center; gap: 10px;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  font-size: .9rem; color: rgba(255,255,255,.75);
+.contact-list { list-style: none; display: flex; flex-direction: column; gap: 14px; }
+.contact-list li {
+  display: flex; align-items: center; gap: 12px;
+  font-size: .88rem; color: rgba(255,255,255,.7);
 }
-.contact-meta svg { width: 17px; height: 17px; fill: var(--gold-light); flex-shrink: 0; }
-.contact-form { display: flex; flex-direction: column; gap: 13px; }
+.contact-list svg { width: 16px; height: 16px; fill: var(--gold-light); flex-shrink: 0; }
+
+/* Formulář */
+.contact-form { display: flex; flex-direction: column; gap: 14px; }
+.frow { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
 .fgrp { display: flex; flex-direction: column; gap: 5px; }
 .fgrp label {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  font-size: .78rem; color: rgba(255,255,255,.55); letter-spacing: .04em;
+  font-size: .72rem; letter-spacing: .1em; text-transform: uppercase;
+  color: rgba(255,255,255,.4); font-weight: 500;
 }
-.fgrp input,
-.fgrp textarea {
-  background: rgba(255,255,255,.07);
-  border: 1px solid rgba(255,255,255,.18);
-  border-radius: 7px; padding: 11px 15px;
-  color: #fff;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  font-size: .93rem; outline: none;
-  transition: border-color .2s;
+.fgrp input, .fgrp textarea {
+  background: rgba(255,255,255,.06);
+  border: 1px solid rgba(255,255,255,.12);
+  border-radius: 3px; padding: 12px 16px;
+  color: var(--white);
+  font-family: 'DM Sans', sans-serif; font-size: .9rem;
+  outline: none; transition: border-color .2s, background .2s;
 }
-.fgrp input:focus,
-.fgrp textarea:focus { border-color: var(--gold-light); }
-.fgrp input::placeholder,
-.fgrp textarea::placeholder { color: rgba(255,255,255,.28); }
-.fgrp textarea { min-height: 115px; resize: vertical; }
-.btn-submit {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  background: var(--gold); color: #fff;
-  border: none; padding: 13px 30px; border-radius: 7px;
-  font-size: .93rem; font-weight: 600;
-  cursor: pointer; transition: background .25s, transform .2s;
+.fgrp input:focus, .fgrp textarea:focus {
+  border-color: var(--gold-light);
+  background: rgba(255,255,255,.09);
+}
+.fgrp input::placeholder, .fgrp textarea::placeholder { color: rgba(255,255,255,.2); }
+.fgrp textarea { min-height: 110px; resize: vertical; }
+.btn-send {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--gold); color: var(--white);
+  border: none; padding: 14px 36px; border-radius: 3px;
+  font-size: .82rem; font-weight: 600;
+  letter-spacing: .1em; text-transform: uppercase;
+  cursor: pointer; transition: background .2s, transform .2s;
   align-self: flex-start;
 }
-.btn-submit:hover { background: #b0852c; transform: translateY(-2px); }
+.btn-send:hover { background: var(--gold-light); transform: translateY(-2px); }
 #form-ok {
-  display: none;
-  font-family: sans-serif; font-size: .85rem;
-  color: #8de8b0; margin-top: 6px;
+  display: none; font-size: .84rem;
+  color: #7de8a8; margin-top: 4px; font-style: italic;
 }
 
-/* ════════════════════════════════════════════════
+/* ══════════════════════════════════════════════
    PATIČKA
-   ════════════════════════════════════════════════ */
-footer {
-  background: #09192b;
-  color: rgba(255,255,255,.45);
-  text-align: center; padding: 30px 24px;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  font-size: .8rem;
+   ══════════════════════════════════════════════ */
+.footer {
+  background: #080f1a;
+  color: rgba(255,255,255,.35);
+  padding: 36px 32px;
+  text-align: center;
+  font-size: .78rem;
 }
-footer strong { color: rgba(255,255,255,.7); display: block; margin-bottom: 4px; }
+.footer-brand {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.1rem; font-weight: 300;
+  color: rgba(255,255,255,.6);
+  margin-bottom: 6px;
+}
+.footer-orn {
+  display: flex; align-items: center; gap: 10px;
+  justify-content: center; margin: 16px 0;
+}
+.footer-orn-line { flex: 1; max-width: 60px; height: 1px; background: rgba(255,255,255,.08); }
+.footer-orn-glyph { width: 5px; height: 5px; background: var(--gold); transform: rotate(45deg); opacity: .5; }
 
-/* ════════════════════════════════════════════════
-   ANIMACE FADE-IN
-   ════════════════════════════════════════════════ */
-.fi { opacity: 0; transform: translateY(22px); transition: opacity .55s ease, transform .55s ease; }
+/* ══════════════════════════════════════════════
+   FADE-IN
+   ══════════════════════════════════════════════ */
+.fi { opacity: 0; transform: translateY(28px); transition: opacity .65s ease, transform .65s ease; }
 .fi.on { opacity: 1; transform: none; }
+.fi-left { opacity: 0; transform: translateX(-24px); transition: opacity .6s ease, transform .6s ease; }
+.fi-left.on { opacity: 1; transform: none; }
 
-/* ════════════════════════════════════════════════
+/* ══════════════════════════════════════════════
    RESPONZIVITA
-   ════════════════════════════════════════════════ */
-@media (max-width: 820px) {
-  .contact-grid { grid-template-columns: 1fr; gap: 40px; }
-  .grid-priorities { grid-template-columns: 1fr; }
+   ══════════════════════════════════════════════ */
+@media (max-width: 1024px) {
+  .priorities-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 860px) {
+  .hero-inner { grid-template-columns: 1fr; padding-top: 120px; }
+  .hero-right { display: none; }
+  .hero-line { display: none; }
+  .contact-wrap { grid-template-columns: 1fr; gap: 48px; }
+  .frow { grid-template-columns: 1fr; }
 }
 @media (max-width: 700px) {
   .nav-list {
-    display: none; flex-direction: column; gap: 0;
-    position: fixed; top: 62px; left: 0; right: 0;
-    background: var(--blue-deep); padding: 10px 0;
+    display: none; position: fixed;
+    top: 68px; left: 0; right: 0;
+    background: rgba(10,24,40,.98);
+    flex-direction: column; gap: 0;
+    padding: 12px 0; border-top: 1px solid rgba(255,255,255,.08);
   }
   .nav-list.open { display: flex; }
-  .nav-list a { display: block; padding: 13px 26px; border-bottom: none; }
-  .nav-burger { display: block; }
-  .section { padding: 64px 20px; }
+  .nav-list a { display: block; padding: 14px 32px; border-bottom: none; }
+  .nav-list a::after { display: none; }
+  .nav-burger { display: flex; }
+  .section { padding: 72px 20px; }
+  .wrap { padding: 0 20px; }
 }
-@media (max-width: 520px) {
-  .grid-candidates { grid-template-columns: repeat(2,1fr); }
-  .btns { flex-direction: column; align-items: center; }
+@media (max-width: 640px) {
+  .priorities-grid { grid-template-columns: 1fr; }
+  .candidates-grid { grid-template-columns: repeat(2, 1fr); }
 }
-@media (max-width: 340px) {
-  .grid-candidates { grid-template-columns: 1fr; }
+@media (max-width: 380px) {
+  .candidates-grid { grid-template-columns: 1fr; }
 }
 </style>
 </head>
 <body>
 
-<!-- ════════════════════════════════════════════════
+<!-- ══════════════════════════════════════════════
      NAVIGACE
-     ════════════════════════════════════════════════ -->
-<nav class="nav">
+     ══════════════════════════════════════════════ -->
+<nav class="nav" id="nav">
   <div class="nav-inner">
-    <a href="#uvod" class="nav-brand">Pro rozvoj <em>Holčovic</em></a>
+    <a href="#uvod" class="nav-brand">
+      <span class="nav-brand-dot"></span>
+      Pro rozvoj Holčovic
+    </a>
     <ul class="nav-list" id="navList">
       <li><a href="#program">Program</a></li>
       <li><a href="#vysledky">Výsledky</a></li>
@@ -538,235 +689,263 @@ footer strong { color: rgba(255,255,255,.7); display: block; margin-bottom: 4px;
   </div>
 </nav>
 
-<!-- ════════════════════════════════════════════════
+<!-- ══════════════════════════════════════════════
      HERO
-     Krajinný SVG je placeholder — pro fotografii nahraďte
-     element .hero-landscape tagem <img> nebo CSS background-image
-     ════════════════════════════════════════════════ -->
+     ══════════════════════════════════════════════ -->
 <section class="hero" id="uvod">
-  <div class="hero-pattern"></div>
-
-  <!-- Stylizovaná silueta Jeseníků a vesnice -->
-  <svg class="hero-landscape" viewBox="0 0 1440 260" preserveAspectRatio="xMidYMax slice"
-       xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-    <path d="M0,260 L0,150 C120,60 220,110 340,75 C460,40 540,0 650,35
-             C760,70 850,90 960,55 C1070,20 1160,65 1280,90 C1360,108 1400,95 1440,100
-             L1440,260 Z" fill="rgba(255,255,255,.045)"/>
-    <path d="M0,260 L0,195 C80,160 180,180 280,165
-             C380,150 460,120 560,145 C660,168 740,190 860,168
-             C980,146 1060,155 1160,170 C1280,186 1360,165 1440,172
-             L1440,260 Z" fill="rgba(255,255,255,.035)"/>
-    <g fill="rgba(255,255,255,.055)">
-      <rect x="310" y="225" width="28" height="26"/>
-      <polygon points="310,225 338,225 324,207"/>
-      <rect x="346" y="233" width="22" height="18"/>
-      <polygon points="346,233 368,233 357,217"/>
-      <rect x="660" y="228" width="32" height="22"/>
-      <polygon points="660,228 692,228 676,208"/>
-      <rect x="700" y="236" width="20" height="15"/>
-      <polygon points="700,236 720,236 710,222"/>
-      <rect x="1040" y="230" width="26" height="20"/>
-      <polygon points="1040,230 1066,230 1053,212"/>
-      <rect x="1080" y="215" width="14" height="36"/>
-      <polygon points="1080,215 1094,215 1087,200"/>
-      <rect x="1085" y="225" width="4" height="6"/>
+  <!-- Silueta krajiny -->
+  <svg class="hero-landscape" viewBox="0 0 1440 220" preserveAspectRatio="xMidYMax slice"
+       xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="height:38%;opacity:.12;">
+    <path d="M0,220 L0,110 C140,40 260,100 380,65 C500,30 580,0 700,42
+             C820,82 900,100 1020,58 C1140,18 1240,70 1340,88 C1390,96 1420,90 1440,92
+             L1440,220Z" fill="#fff"/>
+    <path d="M0,220 L0,160 C90,130 200,148 300,136 C400,124 480,100 580,128
+             C680,154 760,168 880,148 C1000,128 1080,136 1180,150
+             C1300,166 1380,148 1440,155 L1440,220Z" fill="#fff" opacity=".6"/>
+    <g fill="#fff" opacity=".8">
+      <rect x="290" y="190" width="30" height="20"/><polygon points="290,190 320,190 305,172"/>
+      <rect x="328" y="197" width="22" height="14"/><polygon points="328,197 350,197 339,183"/>
+      <rect x="700" y="192" width="28" height="18"/><polygon points="700,192 728,192 714,174"/>
+      <rect x="1060" y="194" width="26" height="18"/><polygon points="1060,194 1086,194 1073,177"/>
+      <rect x="1094" y="182" width="12" height="30"/><polygon points="1094,182 1106,182 1100,168"/>
     </g>
   </svg>
 
-  <div class="hero-body">
-    <div class="hero-pill">Komunální volby · Holčovice · Slezsko</div>
-    <h1>Pro rozvoj<br><em>Holčovic</em></h1>
-    <p class="hero-sub">Zkušeně, odpovědně a s respektem k místu, kde žijeme.</p>
-    <p class="hero-text">
-      Navazujeme na roky konkrétní a poctivé práce pro naši obec.
-      Chceme pokračovat v jejím rozvoji, pečovat o to, co se podařilo vybudovat,
-      a společně zvládnout výzvy, které před námi stojí.
-    </p>
-    <div class="btns">
-      <a href="#program" class="btn-gold">Náš program</a>
-      <a href="#kandidati" class="btn-outline">Kandidáti</a>
+  <div class="hero-line"></div>
+
+  <div class="hero-inner">
+    <div class="hero-left">
+      <div class="hero-eyebrow">
+        <div class="hero-eyebrow-line"></div>
+        <span class="hero-eyebrow-text">Komunální volby · Holčovice · Slezsko</span>
+      </div>
+
+      <h1>Pro rozvoj<br><em>Holčovic</em></h1>
+
+      <p class="hero-tagline">
+        Zkušeně, odpovědně a s respektem<br>k místu, kde žijeme.
+      </p>
+
+      <p class="hero-text">
+        Navazujeme na roky konkrétní a poctivé práce pro naši obec.
+        Chceme pokračovat v jejím rozvoji, pečovat o to, co se podařilo vybudovat,
+        a společně zvládnout výzvy, které před námi stojí.
+      </p>
+
+      <div class="hero-btns">
+        <a href="#program" class="btn-primary">Náš program</a>
+        <a href="#kandidati" class="btn-ghost">Kandidáti</a>
+      </div>
+    </div>
+
+    <div class="hero-right">
+      <div class="hero-stat-group">
+        <!-- STATISTIKY — upravte čísla dle skutečnosti -->
+        <div class="hero-stat">
+          <div class="hero-stat-num">750</div>
+          <div class="hero-stat-label">
+            <strong>Obyvatel</strong>
+            vesnice v srdci Jeseníků
+          </div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-num">2×</div>
+          <div class="hero-stat-label">
+            <strong>Opakovaná kandidatura</strong>
+            zkušení zastupitelé
+          </div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-num">12</div>
+          <div class="hero-stat-label">
+            <strong>Kandidátů</strong>
+            odhodlaných pracovat pro obec
+          </div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-num">6</div>
+          <div class="hero-stat-label">
+            <strong>Priorit</strong>
+            s konkrétními cíli a termíny
+          </div>
+        </div>
+      </div>
     </div>
   </div>
-  <div class="scroll-hint"><div class="scroll-arrow"></div></div>
+
+  <div class="hero-scroll" aria-hidden="true">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+      <path d="M12 5v14M5 12l7 7 7-7"/>
+    </svg>
+  </div>
 </section>
 
-<!-- ════════════════════════════════════════════════
-     NAŠE PRIORITY
-     PROGRAMOVÉ BODY — upravte texty dle skutečného programu
-     ════════════════════════════════════════════════ -->
-<section class="section" id="program">
+<!-- ══════════════════════════════════════════════
+     PRIORITY
+     PROGRAMOVÉ BODY — upravte dle skutečného programu
+     ══════════════════════════════════════════════ -->
+<section class="section section-white" id="program">
   <div class="wrap">
     <div class="sec-head fi">
-      <span class="sec-label">Naše priority</span>
+      <span class="sec-eyebrow">Naše priority</span>
       <h2 class="sec-title">Co chceme pro Holčovice</h2>
-      <div class="orn"><div class="orn-diamond"><i></i><i></i><i></i></div></div>
-      <p class="sec-intro">
-        Každý bod programu vychází z reálných potřeb obce a rozhovorů s občany.
-        Slibujeme jen to, co lze splnit.
-      </p>
+      <div class="orn">
+        <div class="orn-line"></div>
+        <div class="orn-glyph"><span></span><span></span><span></span></div>
+        <div class="orn-line"></div>
+      </div>
+      <p class="sec-sub">Každý bod programu vychází z reálných potřeb obce.<br>Slibujeme jen to, co lze splnit.</p>
     </div>
 
-    <div class="grid-priorities">
+    <div class="priorities-grid fi">
 
       <!-- PRIORITA 1 — upravte -->
-      <div class="card-priority fi">
-        <div class="p-icon">
+      <div class="priority-card">
+        <div class="priority-num">01</div>
+        <div class="priority-icon-wrap">
           <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
         </div>
         <h3>Obnova a bezpečnost po povodních</h3>
-        <p>Dokončení obnovy obecního majetku poškozeného povodněmi v říjnu 2024.
-           Posílení protipovodňových opatření, oprava přístupových cest a mostků
-           a příprava záchranných plánů ve spolupráci se složkami IZS.</p>
+        <p>Dokončení obnovy obecního majetku poškozeného povodněmi v říjnu 2024. Posílení protipovodňových opatření a příprava záchranných plánů ve spolupráci se složkami IZS.</p>
       </div>
 
       <!-- PRIORITA 2 — upravte -->
-      <div class="card-priority fi">
-        <div class="p-icon">
-          <svg viewBox="0 0 24 24"><path d="M1 9l2 2c4.97-4.97 13.03-4.97 18 0l2-2C16.93 2.93 7.08 2.93 1 9zm8 8l3 3 3-3c-1.65-1.66-4.34-1.66-6 0zm-4-4 2 2c2.76-2.76 7.24-2.76 10 0l2-2C15.14 9.14 8.87 9.14 5 13z"/></svg>
+      <div class="priority-card">
+        <div class="priority-num">02</div>
+        <div class="priority-icon-wrap">
+          <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
         </div>
         <h3>Opravy cest, mostků a veřejného prostoru</h3>
-        <p>Systematická oprava místních komunikací, chodníků a veřejných prostranství.
-           Průběžná údržba tak, aby obec byla v dobrém stavu — nejen po opravách,
-           ale každý den v roce.</p>
+        <p>Systematická oprava místních komunikací a chodníků. Průběžná údržba tak, aby obec byla v dobrém stavu každý den v roce.</p>
       </div>
 
       <!-- PRIORITA 3 — upravte -->
-      <div class="card-priority fi">
-        <div class="p-icon">
+      <div class="priority-card">
+        <div class="priority-num">03</div>
+        <div class="priority-icon-wrap">
           <svg viewBox="0 0 24 24"><path d="M11 9H9V2H7v7H5V2H3v7c0 2.12 1.66 3.84 3.75 3.97V22h2.5v-9.03C11.34 12.84 13 11.12 13 9V2h-2v7zm5-3v8h2.5v8H21V2c-2.76 0-5 2.24-5 4z"/></svg>
         </div>
-        <h3>Zachování obecní restaurace jako služby občanům</h3>
-        <p>Obecní restaurace není jen pohostinství — je to místo setkávání a srdce vesnice.
-           Chceme ji zachovat jako dotovanou obecní službu dostupnou všem,
-           protože soukromý provoz by ji v tak malé obci neudržel.</p>
+        <h3>Zachování obecní restaurace jako služby</h3>
+        <p>Obecní restaurace je místo setkávání a srdce vesnice. Chceme ji zachovat jako dotovanou obecní službu, protože soukromý provoz by ji v tak malé obci neudržel.</p>
       </div>
 
       <!-- PRIORITA 4 — upravte -->
-      <div class="card-priority fi">
-        <div class="p-icon">
+      <div class="priority-card">
+        <div class="priority-num">04</div>
+        <div class="priority-icon-wrap">
           <svg viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
         </div>
-        <h3>Podpora spolků, školy, seniorů a komunitního života</h3>
-        <p>Místní hasiči, sportovci a kulturní spolky dávají obci duši. Budeme je
-           i nadále podporovat. Zároveň dbáme na dostupné služby pro rodiny s dětmi
-           i pro seniory, kteří potřebují pomoc blízko domova.</p>
+        <h3>Podpora spolků, školy a seniorů</h3>
+        <p>Místní hasiči, sportovci a kulturní spolky dávají obci duši. Budeme je nadále podporovat spolu s dostupnými službami pro rodiny s dětmi a seniory.</p>
       </div>
 
       <!-- PRIORITA 5 — upravte -->
-      <div class="card-priority fi">
-        <div class="p-icon">
+      <div class="priority-card">
+        <div class="priority-num">05</div>
+        <div class="priority-icon-wrap">
           <svg viewBox="0 0 24 24"><path d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"/></svg>
         </div>
-        <h3>Rozvoj turistiky a péče o místní historii</h3>
-        <p>Holčovice leží v krásném prostředí jesenických hor s bohatou historií.
-           Chceme zlepšit podmínky pro turisty a cyklisty, pečovat o pamětní místa
-           a obec propagovat jako příjemné místo k návštěvě i životu.</p>
+        <h3>Rozvoj turistiky a péče o historii</h3>
+        <p>Holčovice leží v krásném prostředí jesenických hor s bohatou historií. Chceme zlepšit podmínky pro turisty a cyklisty a pečovat o pamětní místa.</p>
       </div>
 
       <!-- PRIORITA 6 — upravte -->
-      <div class="card-priority fi">
-        <div class="p-icon">
+      <div class="priority-card">
+        <div class="priority-num">06</div>
+        <div class="priority-icon-wrap">
           <svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/></svg>
         </div>
-        <h3>Transparentní hospodaření a otevřená komunikace</h3>
-        <p>Každá koruna z obecního rozpočtu musí být vynaložena s rozvahou
-           a veřejně dostupná. Budeme pravidelně informovat občany o dění v obci
-           — na úřední desce, na webu i na veřejných setkáních.</p>
+        <h3>Transparentní hospodaření a komunikace</h3>
+        <p>Každá koruna z obecního rozpočtu musí být vynaložena s rozvahou a veřejně dostupná. Pravidelné informování občanů — na webu, úřední desce i osobně.</p>
       </div>
 
     </div>
   </div>
 </section>
 
-<!-- ════════════════════════════════════════════════
-     CO SE PODAŘILO
-     ÚSPĚCHY — nahraďte konkrétními výsledky volebního období!
-     Texty níže jsou ZÁSTUPNÉ a musí být nahrazeny před spuštěním.
-     ════════════════════════════════════════════════ -->
-<section class="section section-alt" id="vysledky">
+<!-- ══════════════════════════════════════════════
+     ÚSPĚCHY — timeline
+     ÚSPĚCHY — nahraďte konkrétními výsledky!
+     ══════════════════════════════════════════════ -->
+<section class="section section-cream" id="vysledky">
   <div class="wrap">
     <div class="sec-head fi">
-      <span class="sec-label">Dosavadní práce</span>
+      <span class="sec-eyebrow">Dosavadní práce</span>
       <h2 class="sec-title">Co se za tu dobu podařilo</h2>
-      <div class="orn"><div class="orn-diamond"><i></i><i></i><i></i></div></div>
-      <p class="sec-intro">
-        Za sebou máme roky konkrétní práce. Zde jsou výsledky,
-        na nichž chceme dál stavět.
-      </p>
+      <div class="orn">
+        <div class="orn-line"></div>
+        <div class="orn-glyph"><span></span><span></span><span></span></div>
+        <div class="orn-line"></div>
+      </div>
+      <p class="sec-sub">Za sebou máme roky konkrétní práce. Zde jsou výsledky, na nichž chceme dál stavět.</p>
     </div>
 
-    <div class="grid-achievements">
+    <div class="timeline fi">
 
       <!-- ÚSPĚCH 1 — nahraďte konkrétním výsledkem -->
-      <div class="card-achievement fi">
-        <div class="ach-check">
+      <div class="timeline-item">
+        <div class="timeline-dot">
           <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
         </div>
-        <div>
+        <div class="timeline-body">
           <h4>Stabilní a klidné vedení obce</h4>
-          <p>Obec fungovala bez politických turbulencí. Rozhodnutí se přijímala věcně
-             a s ohledem na dlouhodobé zájmy Holčovic a jejich obyvatel.</p>
+          <p>Obec fungovala bez politických turbulencí. Rozhodnutí se přijímala věcně a s ohledem na dlouhodobé zájmy Holčovic.</p>
         </div>
       </div>
 
       <!-- ÚSPĚCH 2 — nahraďte konkrétním výsledkem -->
-      <div class="card-achievement fi">
-        <div class="ach-check">
+      <div class="timeline-item">
+        <div class="timeline-dot">
           <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
         </div>
-        <div>
+        <div class="timeline-body">
           <h4>Zvládnutí krizové situace po povodních</h4>
-          <p>Obec koordinovala záchranné práce, čerpání dotací a postupnou obnovu
-             infrastruktury. Spolupracovali jsme se státem, krajem i dobrovolníky.</p>
+          <p>Obec koordinovala záchranné práce, čerpání dotací a postupnou obnovu infrastruktury ve spolupráci se státem, krajem i dobrovolníky.</p>
         </div>
       </div>
 
-      <!-- ÚSPĚCH 3 — DOPLŇTE konkrétní opravené objekty -->
-      <div class="card-achievement fi">
-        <div class="ach-check">
+      <!-- ÚSPĚCH 3 — DOPLŇTE konkrétní stavby -->
+      <div class="timeline-item">
+        <div class="timeline-dot">
           <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
         </div>
-        <div>
+        <div class="timeline-body">
           <h4>Průběžné opravy obecního majetku</h4>
           <!-- DOPLŇTE: uveďte konkrétní opravené cesty, mosty, budovy -->
-          <p>Opravili jsme [doplňte konkrétní stavby a lokality]. Dbali jsme na to,
-             aby obecní majetek byl v dobrém stavu a sloužil všem obyvatelům.</p>
+          <p>Opravili jsme [doplňte konkrétní stavby]. Dbali jsme na to, aby obecní majetek sloužil všem obyvatelům.</p>
         </div>
       </div>
 
       <!-- ÚSPĚCH 4 — nahraďte konkrétním výsledkem -->
-      <div class="card-achievement fi">
-        <div class="ach-check">
+      <div class="timeline-item">
+        <div class="timeline-dot">
           <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
         </div>
-        <div>
+        <div class="timeline-body">
           <h4>Podpora místních spolků a tradic</h4>
-          <p>Pravidelně jsme podporovali místní hasiče, sportovce a kulturní spolky.
-             Pomáhali jsme organizovat tradiční obecní akce, na které se těší celá obec.</p>
+          <p>Pravidelně jsme podporovali místní hasiče, sportovce a kulturní spolky. Pomáhali jsme organizovat tradiční obecní akce.</p>
         </div>
       </div>
 
       <!-- ÚSPĚCH 5 — nahraďte konkrétním výsledkem -->
-      <div class="card-achievement fi">
-        <div class="ach-check">
+      <div class="timeline-item">
+        <div class="timeline-dot">
           <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
         </div>
-        <div>
+        <div class="timeline-body">
           <h4>Zachování klíčových obecních služeb</h4>
-          <p>Udrželi jsme provoz obecní restaurace i dalších služeb,
-             které jsou v malé obci nenahraditelné a na které mají občané právo spoléhat.</p>
+          <p>Udrželi jsme provoz obecní restaurace i dalších služeb, které jsou v malé obci nenahraditelné.</p>
         </div>
       </div>
 
       <!-- ÚSPĚCH 6 — nahraďte konkrétním výsledkem -->
-      <div class="card-achievement fi">
-        <div class="ach-check">
+      <div class="timeline-item">
+        <div class="timeline-dot">
           <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
         </div>
-        <div>
+        <div class="timeline-body">
           <h4>Pravidelná komunikace s občany</h4>
-          <p>Informovali jsme o rozhodnutích zastupitelstva, o hospodaření obce
-             i o plánovaných akcích. Zastupitelé byli dostupní a otevření rozhovoru.</p>
+          <p>Informovali jsme o rozhodnutích zastupitelstva, o hospodaření obce i o plánovaných akcích. Zastupitelé byli dostupní a otevření rozhovoru.</p>
         </div>
       </div>
 
@@ -774,219 +953,148 @@ footer strong { color: rgba(255,255,255,.7); display: block; margin-bottom: 4px;
   </div>
 </section>
 
-<!-- ════════════════════════════════════════════════
+<!-- ══════════════════════════════════════════════
      KANDIDÁTI
-     KANDIDÁTI — nahraďte skutečnými jmény, rolemi a fotografiemi
-     Pro přidání fotografie: uvnitř .cand-photo-inner nahraďte <svg>
-     za <img src="foto-jmeno.jpg" alt="Jméno Příjmení" style="width:100%;height:100%;object-fit:cover">
-     ════════════════════════════════════════════════ -->
-<section class="section" id="kandidati">
+     KANDIDÁTI — nahraďte jmény, rolemi, fotografiemi
+     Iniciály: zadejte první písmena jména a příjmení
+     Foto: nahraďte <span> za <img src="foto.jpg" ...>
+     ══════════════════════════════════════════════ -->
+<section class="section section-white" id="kandidati">
   <div class="wrap">
     <div class="sec-head fi">
-      <span class="sec-label">Naše kandidátka</span>
+      <span class="sec-eyebrow">Naše kandidátka</span>
       <h2 class="sec-title">Lidé, kteří stojí za programem</h2>
-      <div class="orn"><div class="orn-diamond"><i></i><i></i><i></i></div></div>
-      <p class="sec-intro">
-        Kandidujeme jako sousedé a spoluobčané — lidé, kteří mají Holčovice rádi
-        a chtějí pro ně pracovat.
-      </p>
+      <div class="orn">
+        <div class="orn-line"></div>
+        <div class="orn-glyph"><span></span><span></span><span></span></div>
+        <div class="orn-line"></div>
+      </div>
+      <p class="sec-sub">Kandidujeme jako sousedé a spoluobčané — lidé, kteří mají Holčovice rádi a chtějí pro ně pracovat.</p>
     </div>
 
-    <div class="grid-candidates">
+    <div class="candidates-grid fi">
 
-      <!-- KANDIDÁT 1 — LÍDR / STAROSTA — nahraďte jménem, rolí, citátem a fotografií -->
-      <div class="card-candidate leader fi">
-        <div class="cand-photo">
-          <div class="cand-photo-inner">
-            <!-- Sem vložte: <img src="foto1.jpg" alt="Jméno Příjmení" style="width:100%;height:100%;object-fit:cover"> -->
-            <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
-          </div>
-          <span class="cand-num">1</span>
+      <!-- KANDIDÁT 1 — LÍDR / STAROSTA — nahraďte iniciálami, jménem, rolí, citátem -->
+      <div class="cand-card leader">
+        <div class="cand-avatar">
+          <!-- Iniciály — nahraďte nebo odstraňte, pokud vkládáte fotografii -->
+          <span>JP</span>
+          <div class="cand-num">1</div>
         </div>
         <div class="cand-badge">Lídr · Starosta</div>
         <h3>Jméno Příjmení</h3>
         <div class="cand-role">Starosta obce</div>
-        <p class="cand-bio">„Holčovice jsou můj domov. Chci pro ně pracovat dál, protože vím, co obec potřebuje."</p>
+        <p class="cand-bio">„Holčovice jsou můj domov. Chci pro ně pracovat dál."</p>
       </div>
 
       <!-- KANDIDÁT 2 — nahraďte -->
-      <div class="card-candidate fi">
-        <div class="cand-photo">
-          <div class="cand-photo-inner">
-            <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
-          </div>
-          <span class="cand-num">2</span>
-        </div>
+      <div class="cand-card">
+        <div class="cand-avatar"><span>JP</span><div class="cand-num">2</div></div>
         <h3>Jméno Příjmení</h3>
         <div class="cand-role">Místostarosta/ka</div>
-        <p class="cand-bio">„Záleží mi na tom, aby obec fungovala a lidé se tu cítili dobře."</p>
+        <p class="cand-bio">„Záleží mi na tom, aby obec fungovala."</p>
       </div>
 
-      <!-- KANDIDÁT 3 — nahraďte -->
-      <div class="card-candidate fi">
-        <div class="cand-photo">
-          <div class="cand-photo-inner">
-            <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
-          </div>
-          <span class="cand-num">3</span>
-        </div>
+      <!-- KANDIDÁT 3 -->
+      <div class="cand-card">
+        <div class="cand-avatar"><span>JP</span><div class="cand-num">3</div></div>
         <h3>Jméno Příjmení</h3>
         <div class="cand-role">Zastupitel/ka</div>
-        <p class="cand-bio">„Chci přispět ke klidnému rozvoji obce, ve které moje rodina žije."</p>
+        <p class="cand-bio">„Chci přispět ke klidnému rozvoji obce."</p>
       </div>
 
-      <!-- KANDIDÁT 4 — nahraďte -->
-      <div class="card-candidate fi">
-        <div class="cand-photo">
-          <div class="cand-photo-inner">
-            <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
-          </div>
-          <span class="cand-num">4</span>
-        </div>
+      <!-- KANDIDÁT 4 -->
+      <div class="cand-card">
+        <div class="cand-avatar"><span>JP</span><div class="cand-num">4</div></div>
         <h3>Jméno Příjmení</h3>
         <div class="cand-role">Zastupitel/ka</div>
-        <p class="cand-bio">„V Holčovicích jsem vyrůstala. Chci, aby tu bylo dobře i pro další generace."</p>
+        <p class="cand-bio">„Chci, aby tu bylo dobře i pro další generace."</p>
       </div>
 
-      <!-- KANDIDÁT 5 — nahraďte -->
-      <div class="card-candidate fi">
-        <div class="cand-photo">
-          <div class="cand-photo-inner">
-            <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
-          </div>
-          <span class="cand-num">5</span>
-        </div>
+      <!-- KANDIDÁT 5 -->
+      <div class="cand-card">
+        <div class="cand-avatar"><span>JP</span><div class="cand-num">5</div></div>
         <h3>Jméno Příjmení</h3>
         <div class="cand-role">Zastupitel/ka</div>
-        <p class="cand-bio">„Dobrá obec se nestaví sama. Je třeba přiložit ruku k dílu."</p>
+        <p class="cand-bio">„Dobrá obec se nestaví sama."</p>
       </div>
 
-      <!-- KANDIDÁT 6 — nahraďte -->
-      <div class="card-candidate fi">
-        <div class="cand-photo">
-          <div class="cand-photo-inner">
-            <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
-          </div>
-          <span class="cand-num">6</span>
-        </div>
+      <!-- KANDIDÁT 6 -->
+      <div class="cand-card">
+        <div class="cand-avatar"><span>JP</span><div class="cand-num">6</div></div>
         <h3>Jméno Příjmení</h3>
         <div class="cand-role">Zastupitel/ka</div>
-        <p class="cand-bio">„Zapojit se a pomoci — to je to, co od sebe čekám."</p>
+        <p class="cand-bio">„Zapojit se a pomoci — to od sebe čekám."</p>
       </div>
 
-      <!-- KANDIDÁT 7 — nahraďte -->
-      <div class="card-candidate fi">
-        <div class="cand-photo">
-          <div class="cand-photo-inner">
-            <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
-          </div>
-          <span class="cand-num">7</span>
-        </div>
+      <!-- KANDIDÁT 7 -->
+      <div class="cand-card">
+        <div class="cand-avatar"><span>JP</span><div class="cand-num">7</div></div>
         <h3>Jméno Příjmení</h3>
         <div class="cand-role">Kandidát/ka</div>
-        <p class="cand-bio">„Místní spolky jsou srdcem vesnice. Chci, aby tu šly i nadále."</p>
+        <p class="cand-bio">„Místní spolky jsou srdcem vesnice."</p>
       </div>
 
-      <!-- KANDIDÁT 8 — nahraďte -->
-      <div class="card-candidate fi">
-        <div class="cand-photo">
-          <div class="cand-photo-inner">
-            <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
-          </div>
-          <span class="cand-num">8</span>
-        </div>
+      <!-- KANDIDÁT 8 -->
+      <div class="cand-card">
+        <div class="cand-avatar"><span>JP</span><div class="cand-num">8</div></div>
         <h3>Jméno Příjmení</h3>
         <div class="cand-role">Kandidát/ka</div>
-        <p class="cand-bio">„Záleží mi na budoucnosti Holčovic. Proto kandiduji."</p>
+        <p class="cand-bio">„Záleží mi na budoucnosti Holčovic."</p>
       </div>
 
-      <!-- KANDIDÁT 9 — nahraďte -->
-      <div class="card-candidate fi">
-        <div class="cand-photo">
-          <div class="cand-photo-inner">
-            <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
-          </div>
-          <span class="cand-num">9</span>
-        </div>
+      <!-- KANDIDÁT 9 -->
+      <div class="cand-card">
+        <div class="cand-avatar"><span>JP</span><div class="cand-num">9</div></div>
         <h3>Jméno Příjmení</h3>
         <div class="cand-role">Kandidát/ka</div>
-        <p class="cand-bio">„Práce v obci má smysl. Vím, že i malá věc může hodně změnit."</p>
+        <p class="cand-bio">„Vím, že i malá věc může hodně změnit."</p>
       </div>
 
-      <!-- KANDIDÁT 10 — nahraďte -->
-      <div class="card-candidate fi">
-        <div class="cand-photo">
-          <div class="cand-photo-inner">
-            <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
-          </div>
-          <span class="cand-num">10</span>
-        </div>
+      <!-- KANDIDÁT 10 -->
+      <div class="cand-card">
+        <div class="cand-avatar"><span>JP</span><div class="cand-num">10</div></div>
         <h3>Jméno Příjmení</h3>
         <div class="cand-role">Kandidát/ka</div>
-        <p class="cand-bio">„Holčovice jsou malá obec. O to víc záleží na každém, kdo se zapojí."</p>
+        <p class="cand-bio">„O to víc záleží na každém, kdo se zapojí."</p>
       </div>
 
-      <!-- KANDIDÁT 11 — nahraďte -->
-      <div class="card-candidate fi">
-        <div class="cand-photo">
-          <div class="cand-photo-inner">
-            <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
-          </div>
-          <span class="cand-num">11</span>
-        </div>
+      <!-- KANDIDÁT 11 -->
+      <div class="cand-card">
+        <div class="cand-avatar"><span>JP</span><div class="cand-num">11</div></div>
         <h3>Jméno Příjmení</h3>
         <div class="cand-role">Kandidát/ka</div>
-        <p class="cand-bio">„Rád/a přiložím ruku k dílu tam, kde to obec potřebuje."</p>
+        <p class="cand-bio">„Rád/a přiložím ruku k dílu."</p>
       </div>
 
-      <!-- KANDIDÁT 12 — nahraďte -->
-      <div class="card-candidate fi">
-        <div class="cand-photo">
-          <div class="cand-photo-inner">
-            <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
-          </div>
-          <span class="cand-num">12</span>
-        </div>
+      <!-- KANDIDÁT 12 -->
+      <div class="cand-card">
+        <div class="cand-avatar"><span>JP</span><div class="cand-num">12</div></div>
         <h3>Jméno Příjmení</h3>
         <div class="cand-role">Kandidát/ka</div>
-        <p class="cand-bio">„Pro Holčovice chci pracovat s pokorou a upřímností."</p>
+        <p class="cand-bio">„Pro Holčovice chci pracovat s pokorou."</p>
       </div>
 
     </div>
   </div>
 </section>
 
-<!-- ════════════════════════════════════════════════
+<!-- ══════════════════════════════════════════════
      KONTAKT
-     KONTAKT — nahraďte skutečným e-mailem a telefonem
-     Formulář je vizuální — pro odesílání přidejte na <form>:
-       action="https://formspree.io/f/VÁŠE_ID" method="POST"
-     nebo připojte vlastní backend logiku.
-     ════════════════════════════════════════════════ -->
-<section class="section section-dark" id="kontakt">
+     KONTAKT — nahraďte skutečnými kontaktními údaji
+     ══════════════════════════════════════════════ -->
+<section class="section section-navy" id="kontakt">
   <div class="wrap">
-    <div class="sec-head fi">
-      <span class="sec-label" style="color:var(--gold-light)">Napište nám</span>
-      <h2 class="sec-title">Máte otázku nebo podnět?</h2>
-      <div class="orn">
-        <div class="orn-diamond">
-          <i style="background:var(--gold-light)"></i>
-          <i style="background:var(--gold-light)"></i>
-          <i style="background:var(--gold-light)"></i>
-        </div>
-      </div>
-    </div>
+    <div class="contact-wrap">
 
-    <div class="contact-grid">
-
-      <div class="contact-info fi">
+      <div class="contact-info fi-left">
+        <span class="sec-eyebrow" style="color:var(--gold-light)">Napište nám</span>
         <h2>Ozvěte se nám</h2>
         <p class="lead">
           Máte podnět, otázku nebo nápad pro Holčovice?
-          Ozvěte se nám. Každý hlas a každý nápad bereme vážně —
-          protože obec stavíme společně.
+          Každý hlas bereme vážně — protože obec stavíme společně.
         </p>
-        <ul class="contact-meta">
+        <ul class="contact-list">
           <li>
             <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
             <!-- ADRESA — upravte -->
@@ -1005,77 +1113,89 @@ footer strong { color: rgba(255,255,255,.7); display: block; margin-bottom: 4px;
         </ul>
       </div>
 
-      <!-- Formulář — pouze vizuální, bez backendu -->
+      <!-- Formulář — vizuální, bez backendu
+           Pro odesílání přidejte: action="https://formspree.io/f/VASE_ID" method="POST" -->
       <form class="contact-form fi" id="contactForm" novalidate>
-        <div class="fgrp">
-          <label for="f-name">Jméno a příjmení</label>
-          <input type="text" id="f-name" name="name" placeholder="Vaše jméno" required>
-        </div>
-        <div class="fgrp">
-          <label for="f-email">E-mail</label>
-          <input type="email" id="f-email" name="email" placeholder="vas@email.cz" required>
+        <div class="frow">
+          <div class="fgrp">
+            <label for="f-name">Jméno</label>
+            <input type="text" id="f-name" name="name" placeholder="Vaše jméno" required>
+          </div>
+          <div class="fgrp">
+            <label for="f-email">E-mail</label>
+            <input type="email" id="f-email" name="email" placeholder="vas@email.cz" required>
+          </div>
         </div>
         <div class="fgrp">
           <label for="f-msg">Zpráva</label>
           <textarea id="f-msg" name="message" placeholder="Váš podnět, otázka nebo nápad pro Holčovice…" required></textarea>
         </div>
-        <button type="submit" class="btn-submit">Odeslat zprávu</button>
-        <p id="form-ok">Děkujeme za zprávu! Ozveme se vám co nejdříve.</p>
+        <button type="submit" class="btn-send">Odeslat zprávu</button>
+        <p id="form-ok">Děkujeme za zprávu — ozveme se co nejdříve.</p>
       </form>
 
     </div>
   </div>
 </section>
 
-<!-- ════════════════════════════════════════════════
+<!-- ══════════════════════════════════════════════
      PATIČKA
-     ════════════════════════════════════════════════ -->
-<footer>
-  <!-- ROK — upravte dle aktuálního roku voleb -->
-  <strong>Pro rozvoj Holčovic</strong>
-  Volební uskupení pro komunální volby · Holčovice, Moravskoslezský kraj
-  <br><br>
-  <span style="font-size:.75rem">&copy; 2026 Pro rozvoj Holčovic · Všechna práva vyhrazena</span>
+     ══════════════════════════════════════════════ -->
+<footer class="footer">
+  <div class="footer-brand">Pro rozvoj Holčovic</div>
+  <div style="font-size:.8rem">Volební uskupení pro komunální volby · Holčovice, Moravskoslezský kraj</div>
+  <div class="footer-orn">
+    <div class="footer-orn-line"></div>
+    <div class="footer-orn-glyph"></div>
+    <div class="footer-orn-line"></div>
+  </div>
+  <!-- ROK — upravte -->
+  <div>&copy; 2026 Pro rozvoj Holčovic · Všechna práva vyhrazena</div>
 </footer>
 
-<!-- ════════════════════════════════════════════════
-     JAVASCRIPT — navigace, animace, formulář
-     ════════════════════════════════════════════════ -->
+<!-- ══════════════════════════════════════════════
+     JAVASCRIPT
+     ══════════════════════════════════════════════ -->
 <script>
-/* ── Hamburger menu ───────────────────────────── */
-const burger  = document.getElementById('burger');
-const navList = document.getElementById('navList');
+/* ── Navigace: scrolled stav + burger ────────── */
+const nav      = document.getElementById('nav');
+const burger   = document.getElementById('burger');
+const navList  = document.getElementById('navList');
+
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 40);
+}, { passive: true });
+
 burger.addEventListener('click', () => navList.classList.toggle('open'));
 navList.querySelectorAll('a').forEach(a =>
   a.addEventListener('click', () => navList.classList.remove('open'))
 );
 
-/* ── Fade-in při scrollu (Intersection Observer) */
-const fiEls = document.querySelectorAll('.fi');
-const io = new IntersectionObserver((entries) => {
-  entries.forEach((e, i) => {
-    if (e.isIntersecting) {
-      setTimeout(() => e.target.classList.add('on'), (i % 5) * 90);
-      io.unobserve(e.target);
-    }
-  });
-}, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
-fiEls.forEach(el => io.observe(el));
-
-/* ── Aktivní odkaz dle pozice scrollu ─────────── */
+/* ── Aktivní odkaz ───────────────────────────── */
 const secs     = document.querySelectorAll('section[id]');
 const navLinks = document.querySelectorAll('.nav-list a');
 window.addEventListener('scroll', () => {
   let cur = '';
-  secs.forEach(s => { if (window.scrollY >= s.offsetTop - 80) cur = s.id; });
-  navLinks.forEach(a => {
-    a.classList.toggle('active', a.getAttribute('href') === '#' + cur);
-  });
+  secs.forEach(s => { if (window.scrollY >= s.offsetTop - 90) cur = s.id; });
+  navLinks.forEach(a =>
+    a.classList.toggle('active', a.getAttribute('href') === '#' + cur)
+  );
 }, { passive: true });
 
-/* ── Kontaktní formulář (vizuální ukázka) ─────── */
+/* ── Fade-in ─────────────────────────────────── */
+const io = new IntersectionObserver((entries) => {
+  entries.forEach((e, i) => {
+    if (e.isIntersecting) {
+      setTimeout(() => e.target.classList.add('on'), (i % 6) * 80);
+      io.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.07, rootMargin: '0px 0px -24px 0px' });
+document.querySelectorAll('.fi, .fi-left').forEach(el => io.observe(el));
+
+/* ── Formulář ────────────────────────────────── */
 // Pro skutečné odesílání přidejte na <form>:
-//   action="https://formspree.io/f/VÁŠE_ID" method="POST"
+//   action="https://formspree.io/f/VASE_ID" method="POST"
 document.getElementById('contactForm').addEventListener('submit', e => {
   e.preventDefault();
   document.getElementById('form-ok').style.display = 'block';
