@@ -147,7 +147,7 @@ let carCanvas = null;  // offscreen canvas with alpha (no white)
 carImg.onload = () => { carCanvas = removeWhiteBg(carImg, 247); };
 carImg.src = 'media/car-trailer.png';
 
-function removeWhiteBg(img, threshold) {
+function removeWhiteBg(img, threshold, softMin=210) {
   const oc = document.createElement('canvas');
   oc.width = img.naturalWidth; oc.height = img.naturalHeight;
   const octx = oc.getContext('2d');
@@ -158,18 +158,32 @@ function removeWhiteBg(img, threshold) {
     const r = d[i], g = d[i+1], b = d[i+2];
     if (r >= threshold && g >= threshold && b >= threshold) {
       d[i+3] = 0;
-    } else if (r > 210 && g > 210 && b > 210) {
-      // soft edge (anti-aliasing fringe)
-      d[i+3] = Math.round((1 - (Math.min(r,g,b) - 210) / (threshold - 210)) * 255);
+    } else if (r > softMin && g > softMin && b > softMin) {
+      d[i+3] = Math.round((1 - (Math.min(r,g,b) - softMin) / (threshold - softMin)) * 255);
     }
   }
   octx.putImageData(id, 0, 0);
   return oc;
 }
 
-// Player config
-const PLAYER_SPEED = 2.8;
-const PLAYER_W = 32, PLAYER_H = 52;
+// Player sprite sheet (1536×1024: 3 cols × 2 rows, each cell 512×512)
+// Row 0: idle | walk-1 | walk-2    Row 1: carry | dig | smoke
+const playerImg = new Image();
+let playerCanvas = null;
+playerImg.onload = () => { playerCanvas = removeWhiteBg(playerImg, 185, 155); };
+playerImg.src = 'media/player-sprites.png';
+
+// Sprite display constants — cell 512×512 scaled to ~121px on canvas
+// Anchor = waist center (body center x≈170, waist y≈288 in source cell)
+const SP_CELL = 512;
+const SP_SC   = 0.236;
+const SP_DISP = Math.round(SP_CELL * SP_SC);    // 121
+const SP_WX   = Math.round(170  * SP_SC);        // 40  (body center x in display)
+const SP_WY   = Math.round(288  * SP_SC);        // 68  (waist y in display = anchor)
+const SP_FRAMES = {
+  idle:  [0,0], walk1: [1,0], walk2: [2,0],
+  carry: [0,1], dig:   [1,1], smoke: [2,1]
+};
 
 // Obstacle timings (seconds)
 const PHOTO_FIRST_MIN = 20, PHOTO_FIRST_MAX = 35;
@@ -338,8 +352,8 @@ function update(dt){
     // emit puffs during pause
     if(Math.random()<0.15){
       puff.push({
-        x:player.x+(player.facing>0?14:-14),
-        y:player.y-30,
+        x:player.x+(player.facing>0?30:-30),
+        y:player.y-55,
         r:4, a:0.7,
         vx:rand(-10,10), vy:rand(-25,-10)
       });
@@ -373,7 +387,7 @@ function update(dt){
   }
   // Clamp to playable ground (below hedge line, above bottom edge)
   player.x=Math.max(20,Math.min(W-20,player.x));
-  player.y=Math.max(252,Math.min(H-28,player.y));
+  player.y=Math.max(252,Math.min(448,player.y));
 
   // Animation
   animTick+=dt;
@@ -565,228 +579,40 @@ function drawSmokeParticles(){
   ctx.globalAlpha=1;
 }
 
-// ── Player drawing ─────────────────────────────────────────────────────────────
+// ── Player drawing — sprite sheet ─────────────────────────────────────────────
 function drawPlayer(){
   const px=player.x, py=player.y;
   const f=player.facing;
-  const t=animFrame;
 
   const moving=Math.abs(joy.dx)>0.1||Math.abs(joy.dy)>0.1||
     keys['ArrowLeft']||keys['ArrowRight']||keys['ArrowUp']||keys['ArrowDown']||
     keys['a']||keys['A']||keys['d']||keys['D']||keys['w']||keys['W']||keys['s']||keys['S'];
 
-  let st='idle';
-  if(smokePause) st='smoke';
-  else if(moving && carrying) st='carry';
-  else if(moving) st='walk';
-  else if(carrying) st='carry';
+  let fk;
+  if(smokePause)    fk='smoke';
+  else if(carrying) fk='carry';
+  else if(moving)   fk=animFrame%8<4?'walk1':'walk2';
+  else              fk='idle';
 
   ctx.save();
   ctx.translate(px,py);
   if(f<0) ctx.scale(-1,1);
 
-  const bob=st==='idle' ? Math.sin(t*0.55)*1.5 : 0;
-  const swing=(st==='walk'||st==='carry') ? Math.sin(t*0.9)*12 : 0;
-  ctx.translate(0,bob);
-
-  // Legs (behind body)
-  _leg(ctx,-7,0, swing,'#c4c8bc','#252220');
-  _leg(ctx, 7,0,-swing,'#c4c8bc','#252220');
-
-  // Back arm (left when facing right)
-  _arm(ctx,-13,-19,swing*0.5,'#b0c848','#9ab038','#c4a070');
-
-  // Hoodie torso
-  const tG=ctx.createLinearGradient(-15,-24,15,-24);
-  tG.addColorStop(0,'#8a9e30');
-  tG.addColorStop(0.22,'#c8e050');
-  tG.addColorStop(0.55,'#b0c848');
-  tG.addColorStop(1,'#8a9e30');
-  ctx.fillStyle=tG;
-  ctx.beginPath();
-  ctx.moveTo(-12,2);
-  ctx.bezierCurveTo(-14,-4,-15,-16,-13,-24);
-  ctx.bezierCurveTo(-7,-27,7,-27,13,-24);
-  ctx.bezierCurveTo(15,-16,14,-4,12,2);
-  ctx.bezierCurveTo(7,5,-7,5,-12,2);
-  ctx.closePath(); ctx.fill();
-  // Seams
-  ctx.strokeStyle='rgba(0,0,0,.13)'; ctx.lineWidth=1;
-  ctx.beginPath(); ctx.moveTo(0,-24); ctx.quadraticCurveTo(0.5,-10,0,2); ctx.stroke();
-  ctx.beginPath(); ctx.moveTo(-7,-18); ctx.quadraticCurveTo(-9,-8,-7,1); ctx.stroke();
-  ctx.beginPath(); ctx.moveTo(7,-18); ctx.quadraticCurveTo(9,-8,7,1); ctx.stroke();
-  // Kangaroo pocket
-  ctx.fillStyle='rgba(0,0,0,.10)';
-  ctx.beginPath(); ctx.roundRect(-8,3,16,9,3); ctx.fill();
-  // Neck
-  ctx.fillStyle='#c4a070';
-  ctx.beginPath(); ctx.ellipse(0,-25,4,5,0,0,Math.PI*2); ctx.fill();
-
-  // Shovel (in front of torso, behind front arm)
-  if(st!=='smoke') drawShovel(carrying);
-
-  // Front arm (right when facing right — appears to grip shovel)
-  _arm(ctx,13,-19,-swing*0.5-8,'#b0c848','#9ab038','#c4a070');
-
-  // Head
-  _head(ctx);
-
-  // Cap
-  ctx.fillStyle='#0b0c10';
-  ctx.beginPath(); ctx.ellipse(0,-49,13,5,0,Math.PI,Math.PI*2); ctx.fill();
-  ctx.beginPath(); ctx.roundRect(-13,-53,26,8,3); ctx.fill();
-  ctx.beginPath(); ctx.ellipse(0,-49,13,5,0,0,Math.PI); ctx.fill();
-  // Flat brim
-  ctx.fillStyle='#0d0e14';
-  ctx.beginPath();
-  ctx.moveTo(-4,-50); ctx.lineTo(18,-50);
-  ctx.quadraticCurveTo(22,-49,19,-47);
-  ctx.quadraticCurveTo(17,-45,-4,-45);
-  ctx.closePath(); ctx.fill();
-  // Brim underside
-  ctx.fillStyle='#1c1e26';
-  ctx.beginPath();
-  ctx.moveTo(-2,-50); ctx.lineTo(17,-50);
-  ctx.quadraticCurveTo(20,-49,18,-47);
-  ctx.lineTo(-2,-47); ctx.closePath(); ctx.fill();
-
-  // Smoke state
-  if(st==='smoke'){
-    ctx.fillStyle='#1a1a1a';
-    ctx.beginPath(); ctx.roundRect(10,-40,7,16,2); ctx.fill();
-    ctx.strokeStyle='#eeeecc'; ctx.lineWidth=2;
-    ctx.beginPath(); ctx.moveTo(5,-27); ctx.lineTo(17,-25); ctx.stroke();
-    ctx.fillStyle='#ff5500'; ctx.beginPath(); ctx.arc(17,-25,2.5,0,Math.PI*2); ctx.fill();
-    ctx.font='12px serif'; ctx.textAlign='center';
-    ctx.fillText('🚬',0,-66);
+  if(playerCanvas){
+    const [col,row]=SP_FRAMES[fk];
+    ctx.drawImage(playerCanvas,
+      col*SP_CELL, row*SP_CELL, SP_CELL, SP_CELL,
+      -SP_WX, -SP_WY, SP_DISP, SP_DISP
+    );
+  } else {
+    // Placeholder while sprite loads
+    ctx.fillStyle='#b0c848';
+    ctx.beginPath(); ctx.roundRect(-13,-22,26,44,6); ctx.fill();
+    ctx.fillStyle='#c4a070';
+    ctx.beginPath(); ctx.ellipse(0,-34,11,13,0,0,Math.PI*2); ctx.fill();
   }
 
   ctx.restore();
-}
-
-function _leg(ctx,ox,oy,angle,col,shoeCol){
-  const bend=Math.abs(angle)*0.35;
-  ctx.save();
-  ctx.translate(ox,oy);
-  ctx.rotate(angle*Math.PI/180);
-  // Thigh
-  ctx.fillStyle=col;
-  ctx.beginPath();
-  ctx.moveTo(-5,0); ctx.quadraticCurveTo(-6,11,-5,22);
-  ctx.quadraticCurveTo(0,24,5,22); ctx.quadraticCurveTo(6,11,5,0);
-  ctx.closePath(); ctx.fill();
-  // Shin
-  ctx.save();
-  ctx.translate(0,22);
-  ctx.rotate(-bend*Math.PI/180);
-  ctx.fillStyle=col;
-  ctx.beginPath();
-  ctx.moveTo(-4,0); ctx.quadraticCurveTo(-5,11,-3,22);
-  ctx.quadraticCurveTo(0,24,4,22); ctx.quadraticCurveTo(5,11,4,0);
-  ctx.closePath(); ctx.fill();
-  // Shoe
-  ctx.fillStyle=shoeCol;
-  ctx.beginPath();
-  ctx.moveTo(-5,22); ctx.lineTo(-4,26); ctx.lineTo(9,26);
-  ctx.quadraticCurveTo(13,26,13,23); ctx.quadraticCurveTo(13,20,8,20);
-  ctx.lineTo(-4,20); ctx.closePath(); ctx.fill();
-  ctx.restore();
-  ctx.restore();
-}
-
-function _arm(ctx,ox,oy,angle,upperCol,lowerCol,handCol){
-  ctx.save();
-  ctx.translate(ox,oy);
-  ctx.rotate(angle*Math.PI/180);
-  // Upper arm
-  ctx.fillStyle=upperCol;
-  ctx.beginPath();
-  ctx.moveTo(-4,0); ctx.quadraticCurveTo(-5,8,-4,16);
-  ctx.quadraticCurveTo(-1,18,4,16); ctx.quadraticCurveTo(5,8,4,0);
-  ctx.closePath(); ctx.fill();
-  // Forearm with elbow bend
-  ctx.save();
-  ctx.translate(0,16);
-  ctx.rotate(18*Math.PI/180);
-  ctx.fillStyle=lowerCol;
-  ctx.beginPath();
-  ctx.moveTo(-3,0); ctx.quadraticCurveTo(-4,7,-3,14);
-  ctx.quadraticCurveTo(-1,16,3,14); ctx.quadraticCurveTo(4,7,3,0);
-  ctx.closePath(); ctx.fill();
-  // Hand
-  ctx.fillStyle=handCol;
-  ctx.beginPath(); ctx.ellipse(0,15,4,5,0.2,0,Math.PI*2); ctx.fill();
-  ctx.restore();
-  ctx.restore();
-}
-
-function _head(ctx){
-  const sg=ctx.createRadialGradient(3,-40,2,0,-40,13);
-  sg.addColorStop(0,'#d8b885');
-  sg.addColorStop(0.7,'#c4a070');
-  sg.addColorStop(1,'#a07845');
-  ctx.fillStyle=sg;
-  ctx.beginPath(); ctx.ellipse(0,-40,11,13,0,0,Math.PI*2); ctx.fill();
-  // Beard coverage
-  const bg=ctx.createRadialGradient(0,-33,1,0,-34,10);
-  bg.addColorStop(0,'rgba(55,35,15,.72)');
-  bg.addColorStop(0.5,'rgba(45,28,12,.50)');
-  bg.addColorStop(1,'rgba(35,20,8,0)');
-  ctx.fillStyle=bg;
-  ctx.beginPath(); ctx.ellipse(0,-32,9,8,0,0,Math.PI*2); ctx.fill();
-  // Mustache
-  ctx.fillStyle='rgba(48,30,12,.70)';
-  ctx.beginPath(); ctx.ellipse(-2.5,-38,3,1.8,0.1,0,Math.PI*2); ctx.fill();
-  ctx.beginPath(); ctx.ellipse(2.5,-38,3,1.8,-0.1,0,Math.PI*2); ctx.fill();
-  // Eyes
-  ctx.fillStyle='#1e1e1e';
-  ctx.beginPath(); ctx.ellipse(-4,-42,2.2,1.8,0,0,Math.PI*2); ctx.fill();
-  ctx.beginPath(); ctx.ellipse(4,-42,2.2,1.8,0,0,Math.PI*2); ctx.fill();
-  // Eye highlights
-  ctx.fillStyle='rgba(255,255,255,.50)';
-  ctx.beginPath(); ctx.arc(-3.2,-42.5,0.9,0,Math.PI*2); ctx.fill();
-  ctx.beginPath(); ctx.arc(4.8,-42.5,0.9,0,Math.PI*2); ctx.fill();
-  // Nose
-  ctx.fillStyle='rgba(120,75,30,.42)';
-  ctx.beginPath(); ctx.ellipse(0,-38,2.5,2,0,0,Math.PI*2); ctx.fill();
-  // Eyebrows
-  ctx.strokeStyle='rgba(55,38,14,.65)'; ctx.lineWidth=1.5;
-  ctx.beginPath(); ctx.moveTo(-6,-44); ctx.quadraticCurveTo(-4,-45,-2,-44); ctx.stroke();
-  ctx.beginPath(); ctx.moveTo(2,-44); ctx.quadraticCurveTo(4,-45,6,-44); ctx.stroke();
-}
-
-function drawShovel(hasDirt){
-  // Large realistic shovel, ~15° from vertical, held at shoulder height
-  const hg=ctx.createLinearGradient(10,-18,22,38);
-  hg.addColorStop(0,'#b07828');
-  hg.addColorStop(0.4,'#d09040');
-  hg.addColorStop(1,'#8a6018');
-  ctx.strokeStyle=hg; ctx.lineWidth=5; ctx.lineCap='round';
-  ctx.beginPath(); ctx.moveTo(10,-18); ctx.lineTo(22,40); ctx.stroke();
-  ctx.lineCap='butt';
-  // Blade
-  const blG=ctx.createLinearGradient(18,36,30,52);
-  blG.addColorStop(0,'#c8c8d2');
-  blG.addColorStop(0.4,'#ebebf4');
-  blG.addColorStop(1,'#9090a0');
-  ctx.fillStyle=blG;
-  ctx.beginPath();
-  ctx.moveTo(20,36); ctx.lineTo(30,45);
-  ctx.bezierCurveTo(28,55,18,57,14,51);
-  ctx.lineTo(20,36); ctx.closePath(); ctx.fill();
-  // Metal highlight
-  ctx.strokeStyle='rgba(255,255,255,.35)'; ctx.lineWidth=1.5;
-  ctx.beginPath(); ctx.moveTo(22,38); ctx.lineTo(29,45); ctx.stroke();
-  // Blade shadow edge
-  ctx.strokeStyle='rgba(0,0,0,.22)'; ctx.lineWidth=1;
-  ctx.beginPath(); ctx.moveTo(15,51); ctx.quadraticCurveTo(13,55,16,57); ctx.stroke();
-  if(hasDirt){
-    ctx.fillStyle='rgba(75,32,8,.88)';
-    ctx.beginPath(); ctx.ellipse(22,49,8,5,0.4,0,Math.PI*2); ctx.fill();
-    ctx.fillStyle='rgba(100,50,15,.60)';
-    ctx.beginPath(); ctx.ellipse(20,47,3,2,0.2,0,Math.PI*2); ctx.fill();
-    ctx.beginPath(); ctx.ellipse(25,52,3,2,-0.3,0,Math.PI*2); ctx.fill();
-  }
 }
 
 // ── Photographer ───────────────────────────────────────────────────────────────
