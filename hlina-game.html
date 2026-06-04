@@ -134,7 +134,7 @@ const W = 720, H = 500;
 // Dirt zone: left grass in front of yellow building
 // Truck zone: trailer of car-trailer.png (VW left, trailer right, no flip)
 const DIRT_ZONE  = {x:18,  y:252, w:90,  h:68};
-const TRUCK_ZONE = {x:568, y:238, w:106, h:72};
+const TRUCK_ZONE = {x:568, y:274, w:106, h:72};
 
 // Background photo (1848×850)
 const bgImg = new Image();
@@ -483,13 +483,13 @@ function drawBackground(){
 // ── Car + trailer — real photo, white bg removed, original orientation ───────
 // Image 1403×1121: VW left, trailer right (no flip)
 // Scale 0.13 → 182×146 px on canvas
-// Wheels (y≈1000 in src) land at canvas y≈272; car sits on road in photo
+// Wheels (y≈1000 in src) land at canvas y≈308; sits on lower grass/road
 function drawCarTrailer(){
   if(!carCanvas) return;
   const SC = 0.13;
   const dw = Math.round(carImg.naturalWidth  * SC);  // 182
   const dh = Math.round(carImg.naturalHeight * SC);  // 146
-  const dy = 272 - Math.round(1000 * SC);            // 272-130 = 142
+  const dy = 308 - Math.round(1000 * SC);            // 308-130 = 178
   const dx = 492;
 
   ctx.save();
@@ -499,7 +499,7 @@ function drawCarTrailer(){
   // Dirt fill on trailer bed (trailer on right: x≈580–672)
   if(load > 0){
     const fillRatio = load / 10;
-    const bx = 582, bw2 = 80, bTop = 242, bBot = 272;
+    const bx = 582, bw2 = 80, bTop = 278, bBot = 308;
     const fillH = Math.round((bBot - bTop) * fillRatio);
     ctx.fillStyle = 'rgba(72,36,10,0.82)';
     ctx.beginPath();
