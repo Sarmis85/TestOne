@@ -132,13 +132,40 @@ const W = 720, H = 500;
 // Photo: 1848×850 → drawn at (0,0,1087,500), scale = 500/850 ≈ 0.588
 // Game ground: road/grass at canvas y ≈ 348–480 (photo y ≈ 592–816)
 // Dirt zone: left grass in front of building (photo x 50–250, y 620–790)
-// Truck zone: road right of building (photo x 850–1100, y 600–775)
+// Truck zone: calibrated to car-trailer.png overlay (see drawCarTrailer)
 const DIRT_ZONE  = {x:28,  y:368, w:120, h:90};
-const TRUCK_ZONE = {x:502, y:352, w:150, h:98};
+const TRUCK_ZONE = {x:488, y:362, w:138, h:92};
 
 // Background photo (1848×850)
 const bgImg = new Image();
 bgImg.src = 'media/bg.png';
+
+// Car + trailer photo (1403×1121, white bg → removed via removeWhiteBg)
+// Drawn flipped: trailer on LEFT (player side), VW on RIGHT
+const carImg = new Image();
+let carCanvas = null;  // offscreen canvas with alpha (no white)
+carImg.onload = () => { carCanvas = removeWhiteBg(carImg, 247); };
+carImg.src = 'media/car-trailer.png';
+
+function removeWhiteBg(img, threshold) {
+  const oc = document.createElement('canvas');
+  oc.width = img.naturalWidth; oc.height = img.naturalHeight;
+  const octx = oc.getContext('2d');
+  octx.drawImage(img, 0, 0);
+  const id = octx.getImageData(0, 0, oc.width, oc.height);
+  const d = id.data;
+  for (let i = 0; i < d.length; i += 4) {
+    const r = d[i], g = d[i+1], b = d[i+2];
+    if (r >= threshold && g >= threshold && b >= threshold) {
+      d[i+3] = 0;
+    } else if (r > 210 && g > 210 && b > 210) {
+      // soft edge (anti-aliasing fringe)
+      d[i+3] = Math.round((1 - (Math.min(r,g,b) - 210) / (threshold - 210)) * 255);
+    }
+  }
+  octx.putImageData(id, 0, 0);
+  return oc;
+}
 
 // Player config
 const PLAYER_SPEED = 2.8;
@@ -419,8 +446,8 @@ function render(){
   ctx.clearRect(0,0,W,H);
 
   drawBackground();
+  drawCarTrailer();
   drawDirtHeap();
-  drawTrailer();
   drawZoneIndicators();
   drawSmokeParticles();
 
@@ -444,6 +471,39 @@ function drawBackground(){
   } else {
     // Fallback while loading
     ctx.fillStyle='#8aa870'; ctx.fillRect(0,0,W,H);
+  }
+}
+
+// ── Car + trailer — real photo, white bg removed, horizontally flipped ───────
+// Image 1403×1121: VW left, trailer right → flip → trailer left (player side)
+// Scale 0.145 → 203×163 px on canvas
+// Wheels (y≈1000 in src) land at canvas y=442; x offset puts trailer over TRUCK_ZONE
+function drawCarTrailer(){
+  if(!carCanvas) return;
+  const SCALE_CT = 0.145;
+  const dw = Math.round(carImg.naturalWidth  * SCALE_CT);  // 203
+  const dh = Math.round(carImg.naturalHeight * SCALE_CT);  // 163
+  const wheelSrcY = 1000;
+  const dy = 442 - Math.round(wheelSrcY * SCALE_CT);      // 442-145 = 297
+  const dx = 482;  // left edge of flipped image on canvas
+
+  // Draw flipped (trailer ends up on left, VW on right)
+  ctx.save();
+  ctx.translate(dx + dw, dy);
+  ctx.scale(-1, 1);
+  ctx.drawImage(carCanvas, 0, 0, dw, dh);
+  ctx.restore();
+
+  // Dirt fill on trailer bed (when load > 0)
+  if(load > 0){
+    // Trailer bed in canvas space: approx x 490–575, y 350–395
+    const fillRatio = load / 10;
+    const bx = 492, bw2 = 80, bTop = 352, bBot = 394;
+    const fillH = Math.round((bBot - bTop) * fillRatio);
+    ctx.fillStyle = 'rgba(72,36,10,0.82)';
+    ctx.beginPath();
+    ctx.roundRect(bx, bBot - fillH, bw2, fillH, 3);
+    ctx.fill();
   }
 }
 
@@ -473,79 +533,6 @@ function drawDirtHeap(){
   ctx.beginPath(); ctx.ellipse(cx-6,cy+6,26,9,-0.2,0,Math.PI*2); ctx.fill();
 }
 
-// ── Trailer — agados, overlaid on photo road ──────────────────────────────────
-function drawTrailer(){
-  const tx = TRUCK_ZONE.x + TRUCK_ZONE.w*0.46;
-  const ty = TRUCK_ZONE.y + TRUCK_ZONE.h*0.52;
-  const tw = 148, th = 52;
-  // Shadow
-  ctx.fillStyle='rgba(0,0,0,.22)';
-  ctx.beginPath(); ctx.ellipse(tx,ty+th*0.54,tw*0.52,8,0,0,Math.PI*2); ctx.fill();
-  // Main body
-  ctx.fillStyle='rgba(130,138,142,0.94)';
-  ctx.beginPath(); ctx.roundRect(tx-tw/2,ty-th/2,tw,th,5); ctx.fill();
-  // Aluminium plank stripes
-  for(let i=0;i<7;i++){
-    const pg=ctx.createLinearGradient(tx-tw/2,0,tx+tw/2,0);
-    pg.addColorStop(0,'rgba(148,158,163,0.9)');
-    pg.addColorStop(0.42,'rgba(205,215,220,0.9)');
-    pg.addColorStop(0.75,'rgba(158,168,173,0.9)');
-    pg.addColorStop(1,'rgba(128,136,140,0.9)');
-    ctx.fillStyle=pg;
-    ctx.fillRect(tx-tw/2+3, ty-th/2+3+i*7, tw-6, 5);
-  }
-  // Side walls (darker edges)
-  ctx.fillStyle='rgba(80,88,92,0.88)';
-  ctx.fillRect(tx-tw/2,ty-th/2,5,th);
-  ctx.fillRect(tx+tw/2-5,ty-th/2,5,th);
-  // Rear lights
-  ctx.fillStyle='rgba(255,30,30,0.92)';
-  ctx.beginPath(); ctx.roundRect(tx-tw/2-7,ty-12,7,10,2); ctx.fill();
-  ctx.beginPath(); ctx.roundRect(tx+tw/2,ty-12,7,10,2); ctx.fill();
-  ctx.fillStyle='rgba(255,120,120,0.6)';
-  ctx.beginPath(); ctx.roundRect(tx-tw/2-7,ty-12,7,10,2); ctx.fill();
-  // AGADOS label
-  ctx.fillStyle='#ffe030'; ctx.font='bold 9px Arial'; ctx.textAlign='center';
-  ctx.fillText('agados', tx-8, ty-8);
-  // 100 km/h circle sticker
-  ctx.fillStyle='rgba(255,255,255,0.9)';
-  ctx.beginPath(); ctx.arc(tx+44, ty-10, 9, 0, Math.PI*2); ctx.fill();
-  ctx.strokeStyle='#cc0000'; ctx.lineWidth=1.5;
-  ctx.beginPath(); ctx.arc(tx+44, ty-10, 9, 0, Math.PI*2); ctx.stroke();
-  ctx.fillStyle='#111'; ctx.font='bold 7px Arial';
-  ctx.fillText('100', tx+44, ty-6);
-  // Licence plate
-  ctx.fillStyle='rgba(240,240,224,0.96)';
-  ctx.beginPath(); ctx.roundRect(tx-17,ty+th/2-14,34,12,2); ctx.fill();
-  ctx.fillStyle='#111'; ctx.font='bold 6px Arial';
-  ctx.fillText('3M7 9681', tx, ty+th/2-5);
-  // Tow bar
-  ctx.strokeStyle='rgba(80,80,80,0.9)'; ctx.lineWidth=5; ctx.lineCap='round';
-  ctx.beginPath(); ctx.moveTo(tx-tw/2,ty+6); ctx.lineTo(tx-tw/2-22,ty+6); ctx.stroke();
-  ctx.lineCap='butt';
-  // Wheels
-  for(const wx of [tx-46, tx+42]){
-    ctx.fillStyle='rgba(18,18,18,0.9)'; ctx.beginPath(); ctx.arc(wx,ty+th/2+4,13,0,Math.PI*2); ctx.fill();
-    ctx.fillStyle='rgba(70,70,70,0.85)'; ctx.beginPath(); ctx.arc(wx,ty+th/2+4,9,0,Math.PI*2); ctx.fill();
-    ctx.strokeStyle='rgba(110,110,110,0.8)'; ctx.lineWidth=1.5;
-    for(let a=0;a<5;a++){
-      const ang=a*Math.PI*2/5;
-      ctx.beginPath();
-      ctx.moveTo(wx,ty+th/2+4);
-      ctx.lineTo(wx+Math.cos(ang)*8,ty+th/2+4+Math.sin(ang)*8);
-      ctx.stroke();
-    }
-    ctx.fillStyle='rgba(50,50,50,0.9)'; ctx.beginPath(); ctx.arc(wx,ty+th/2+4,3,0,Math.PI*2); ctx.fill();
-  }
-  // Dirt fill when carrying progress
-  if(load>0){
-    const fillH=Math.min(th-8,load/10*(th-8));
-    ctx.fillStyle='rgba(75,38,10,0.88)';
-    ctx.beginPath();
-    ctx.roundRect(tx-tw/2+4, ty-th/2+3+(th-8-fillH), tw-8, fillH, 3);
-    ctx.fill();
-  }
-}
 
 function drawZoneIndicators(){
   if(state!=='play') return;
