@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Postava — Návrh animací</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#1a1e14;color:#fff;font-family:'Segoe UI',Arial,sans-serif;padding:20px;min-height:100vh}
+h1{font-size:18px;font-weight:600;opacity:.9;margin-bottom:6px;text-align:center}
+.sub{font-size:11px;opacity:.45;text-align:center;margin-bottom:18px}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;max-width:720px;margin:0 auto}
+.panel{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:12px;display:flex;flex-direction:column;align-items:center;gap:8px}
+.panel.ref{background:rgba(100,160,40,.12);border-color:rgba(160,220,60,.35)}
+.panel canvas{display:block}
+.lbl{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;opacity:.55}
+.panel.ref .lbl{color:#b4e04a;opacity:1}
+.desc{font-size:10px;opacity:.38;text-align:center;line-height:1.5;max-width:180px}
+.panel.ref .desc{color:#c8f060;opacity:.6}
+.badge{font-size:9px;background:rgba(160,220,60,.25);color:#c0e840;border:1px solid rgba(160,220,60,.4);border-radius:4px;padding:2px 7px;letter-spacing:.05em}
+</style>
+</head>
+<body>
+<h1>Hlína do Vlečky — návrh animací postavy</h1>
+<div class="sub">Zelená = referenční pozice z fotografie &nbsp;|&nbsp; Ostatní = navržené pohyby</div>
+<div class="grid" id="grid"></div>
+
+<script>
+// ─── Layout ─────────────────────────────────────────────────────────────────
+const STATES = [
+  { id:'idle',   label:'IDLE',   desc:'Stojí, lehké dýchání,\nlopata opřená o bok' },
+  { id:'walk',   label:'WALK',   desc:'Chůze — střídání nohou,\nlopata šlape s tělem' },
+  { id:'carry',  label:'CARRY',  desc:'Nese hlínu — lopata\nvodorovně, těžký krok' },
+  { id:'dig',    label:'DIG',    desc:'Nabírá — záhyb v bocích,\nlopata do hromady' },
+  { id:'smoke',  label:'PAUZA',  desc:'Z fotografie — ruka u pusy,\nlopata volně v druhé ruce', ref:true },
+  { id:'caught', label:'CHYCEN', desc:'Šok — ruce nahoru,\nlopata padá' },
+];
+
+const CW = 200, CH = 260;  // panel canvas size
+const FOOT_Y = CH - 28;    // anchor Y of feet
+
+const grid = document.getElementById('grid');
+const canvases = {};
+
+STATES.forEach(s => {
+  const panel = document.createElement('div');
+  panel.className = 'panel' + (s.ref ? ' ref' : '');
+  panel.innerHTML =
+    (s.ref ? '<div class="badge">z fotografie ✓</div>' : '') +
+    `<canvas id="c_${s.id}" width="${CW}" height="${CH}"></canvas>` +
+    `<div class="lbl">${s.label}</div>` +
+    `<div class="desc">${s.desc.replace(/\n/g,'<br>')}</div>`;
+  grid.appendChild(panel);
+  canvases[s.id] = document.getElementById(`c_${s.id}`);
+});
+
+// ─── Animation loop ──────────────────────────────────────────────────────────
+let frame = 0;
+function loop() {
+  requestAnimationFrame(loop);
+  frame++;
+  STATES.forEach(s => {
+    const c = canvases[s.id];
+    const ctx = c.getContext('2d');
+    ctx.clearRect(0, 0, CW, CH);
+    // subtle panel bg gradient
+    const bg = ctx.createLinearGradient(0, 0, 0, CH);
+    bg.addColorStop(0, 'rgba(0,0,0,0)');
+    bg.addColorStop(1, 'rgba(0,0,0,.18)');
+    ctx.fillStyle = bg;
+    ctx.fillRect(0, 0, CW, CH);
+
+    drawCharacter(ctx, CW/2, FOOT_Y, s.id, frame);
+  });
+}
+
+// ─── Character drawing ───────────────────────────────────────────────────────
+// Coordinate system: origin at (ox, oy) = feet bottom-center
+// Y increases downward (canvas standard), so UP = negative Y
+
+function drawCharacter(ctx, ox, oy, state, f) {
+  const t = f * 0.07;
+
+  // ── Compute animation params ────────────────────────────────────────────
+  let p = {};  // all params
+
+  switch(state) {
+    case 'idle':
+      p = {
+        bob: Math.sin(t * 1.4) * 2.5,
+        legL: Math.sin(t * 0.8) * 3,
+        legR: -Math.sin(t * 0.8) * 3,
+        kneeL: 0, kneeR: 0,
+        armFUpper: -12,    // front arm upper-arm angle (fwd = negative)
+        armFLower: 8,      // front arm forearm bend
+        armBUpper: 8,
+        armBLower: 5,
+        shovelHand: 'back',
+        shovelAng: -38,    // degrees from vertical (neg = lean forward/left)
+        shovelGrip: 0.42,  // 0=top end, 1=blade end
+        hasDirt: false,
+        smoking: false,
+        caught: false,
+      };
+      break;
+
+    case 'walk': {
+      const s3 = Math.sin(t * 3.2);
+      p = {
+        bob: -Math.abs(s3) * 3.5,
+        legL: s3 * 24,
+        legR: -s3 * 24,
+        kneeL: Math.max(0, -s3) * 18,
+        kneeR: Math.max(0,  s3) * 18,
+        armFUpper: s3 * 16 - 10,
+        armFLower: 8 + Math.abs(s3) * 6,
+        armBUpper: -s3 * 14 + 10,
+        armBLower: 5,
+        shovelHand: 'back',
+        shovelAng: -34 + s3 * 8,
+        shovelGrip: 0.42,
+        hasDirt: false,
+        smoking: false,
+        caught: false,
+      };
+      break;
+    }
+
+    case 'carry': {
+      const s3 = Math.sin(t * 2.8);
+      p = {
+        bob: -Math.abs(s3) * 3,
+        legL: s3 * 20,
+        legR: -s3 * 20,
+        kneeL: Math.max(0, -s3) * 14,
+        kneeR: Math.max(0,  s3) * 14,
+        // both arms forward holding shovel horizontally
+        armFUpper: -28 + s3 * 5,
+        armFLower: 35,
+        armBUpper: -22 + s3 * 4,
+        armBLower: 30,
+        shovelHand: 'both',
+        shovelAng: 8,       // nearly horizontal, slight tilt
+        shovelGrip: 0.35,
+        hasDirt: true,
+        smoking: false,
+        caught: false,
+      };
+      break;
+    }
+
+    case 'dig': {
+      // 4-phase cycle: raise → lean-in → scoop → lift-out
+      const cycle = (Math.sin(t * 2.0) + 1) / 2;  // 0→1→0
+      p = {
+        bob: cycle * -10,
+        legL: 10,
+        legR: -6,
+        kneeL: 0, kneeR: 5,
+        armFUpper: -35 - cycle * 20,
+        armFLower: 20 + cycle * 35,
+        armBUpper: -20 - cycle * 30,
+        armBLower: 15 + cycle * 25,
+        shovelHand: 'both',
+        shovelAng: -55 + cycle * 55,  // from angled-down to near-vertical
+        shovelGrip: 0.3,
+        hasDirt: cycle > 0.6,
+        smoking: false,
+        caught: false,
+      };
+      break;
+    }
+
+    case 'smoke':
+      // ── REFERENCE from photo ──────────────────────────────────────────────
+      // Front (visible) arm raised to mouth — elbow ~90°, hand at face
+      // Back arm down holding shovel loosely, diagonal ~42° from vertical
+      p = {
+        bob: Math.sin(t * 1.1) * 1.8,
+        legL: 4,
+        legR: -4,
+        kneeL: 0, kneeR: 2,
+        // Front (left) arm: raised — upper arm forward+up, forearm folds back to face
+        armFUpper: -55,     // upper arm: forward ~55° from hanging
+        armFLower: -75,     // forearm: bends back sharply (toward face)
+        // Back (right) arm: hangs down, slight bend, holds shovel
+        armBUpper: 12,      // slightly behind vertical
+        armBLower: 8,
+        shovelHand: 'back',
+        shovelAng: -42,     // 42° forward of vertical — matches photo diagonal
+        shovelGrip: 0.48,   // held near middle of handle (lower half)
+        hasDirt: false,
+        smoking: true,
+        caught: false,
+      };
+      break;
+
+    case 'caught': {
+      // oscillating panic
+      const shake = Math.sin(t * 8) * 5;
+      p = {
+        bob: -Math.abs(Math.sin(t * 5)) * 4,
+        legL: shake - 12,
+        legR: shake + 12,
+        kneeL: 8, kneeR: 8,
+        // both arms thrown up
+        armFUpper: -120,
+        armFLower: -30,
+        armBUpper: -100,
+        armBLower: -20,
+        shovelHand: 'drop',
+        shovelAng: -60 - f * 2,  // falling shovel
+        shovelGrip: 0.42,
+        hasDirt: false,
+        smoking: false,
+        caught: true,
+        shake,
+      };
+      break;
+    }
+  }
+
+  ctx.save();
+  ctx.translate(ox, oy + p.bob);
+
+  // Ground shadow
+  ctx.fillStyle = 'rgba(0,0,0,.22)';
+  ctx.beginPath(); ctx.ellipse(0, 0, 20, 5, 0, 0, Math.PI*2); ctx.fill();
+
+  // ── Back leg (right leg, farther from viewer) ───────────────────────────
+  drawLeg(ctx, 5, p.legR, p.kneeR, '#9ea0a8', '#8a8c94');
+
+  // ── Back arm (right arm) + shovel in back hand ──────────────────────────
+  const backArm = drawArmSegments(ctx, 6, p.armBUpper, p.armBLower, '#8a9c32', '#7e8e2c', true);
+  if (p.shovelHand === 'back') drawShovelAt(ctx, backArm, p.shovelAng, p.hasDirt, p.shovelGrip);
+
+  // ── Torso ───────────────────────────────────────────────────────────────
+  drawTorso(ctx, state);
+
+  // ── Front leg (left leg, closer to viewer) ──────────────────────────────
+  drawLeg(ctx, -5, p.legL, p.kneeL, '#c4c8bc', '#b4b8b0');
+
+  // ── Front arm (left arm) + shovel if needed ─────────────────────────────
+  const frontArm = drawArmSegments(ctx, -6, p.armFUpper, p.armFLower, '#a8bc3e', '#98ac36', false);
+  if (p.shovelHand === 'both') {
+    // grip near lower-hand position (front arm hand)
+    drawShovelAt(ctx, frontArm, p.shovelAng, p.hasDirt, p.shovelGrip);
+  }
+
+  // Dropped shovel
+  if (p.shovelHand === 'drop') {
+    const dropAng = -60 - (frame % 360) * 1.5;
+    ctx.save();
+    ctx.translate(-5, -10);
+    ctx.rotate(dropAng * Math.PI/180);
+    drawShovelShape(ctx, 0, 0, 0, false);
+    ctx.restore();
+  }
+
+  // ── Head ─────────────────────────────────────────────────────────────────
+  drawHead(ctx, p.caught, p.smoking, state);
+
+  // Panic markers
+  if (p.caught) {
+    ctx.font = 'bold 22px serif';
+    ctx.textAlign = 'center';
+    ctx.fillText('❗', 0, -148);
+  }
+
+  ctx.restore();
+}
+
+// ─── Body parts ──────────────────────────────────────────────────────────────
+
+function drawLeg(ctx, xOff, swingDeg, kneeBend, col1, col2) {
+  ctx.save();
+  ctx.translate(xOff, 0);
+  ctx.rotate(swingDeg * Math.PI/180);
+
+  // Thigh
+  const tg = ctx.createLinearGradient(-6, -48, 6, -48);
+  tg.addColorStop(0, col2); tg.addColorStop(0.5, col1); tg.addColorStop(1, col2);
+  ctx.fillStyle = tg;
+  ctx.beginPath(); ctx.roundRect(-6, -48, 12, 34, 5); ctx.fill();
+
+  // Shin (knee pivot)
+  ctx.save();
+  ctx.translate(0, -14);
+  ctx.rotate(kneeBend * Math.PI/180);
+  ctx.fillStyle = col1;
+  ctx.beginPath(); ctx.roundRect(-5, 0, 10, 30, 4); ctx.fill();
+
+  // Ankle/sock
+  ctx.fillStyle = '#b8b4a8';
+  ctx.fillRect(-4, 26, 8, 5);
+  // Shoe
+  ctx.fillStyle = '#3a3c44';
+  ctx.beginPath(); ctx.roundRect(-6, 28, 20, 9, 3); ctx.fill();
+  ctx.fillStyle = '#4a4c54';
+  ctx.beginPath(); ctx.roundRect(-6, 28, 12, 5, 2); ctx.fill();
+  ctx.restore();
+
+  ctx.restore();
+}
+
+// Returns hand position in parent (feet-anchor) coords
+function drawArmSegments(ctx, xOff, upperAng, lowerAng, col1, col2, isBack) {
+  const shoulderY = -90;  // relative to feet anchor
+
+  ctx.save();
+  ctx.translate(xOff, shoulderY);
+  ctx.rotate(upperAng * Math.PI/180);
+
+  // Upper arm
+  const ag = ctx.createLinearGradient(-5, 0, 5, 0);
+  ag.addColorStop(0, col2); ag.addColorStop(0.5, col1); ag.addColorStop(1, col2);
+  ctx.fillStyle = ag;
+  ctx.beginPath(); ctx.roundRect(-5, 0, 10, 22, 4); ctx.fill();
+
+  // Forearm pivot at elbow
+  ctx.save();
+  ctx.translate(0, 22);
+  ctx.rotate(lowerAng * Math.PI/180);
+  ctx.fillStyle = ctx.createLinearGradient(-4,0,4,0);
+  // re-create
+  const fg = ctx.createLinearGradient(-4, 0, 4, 0);
+  fg.addColorStop(0, col2); fg.addColorStop(0.5, col1); fg.addColorStop(1, col2);
+  ctx.fillStyle = fg;
+  ctx.beginPath(); ctx.roundRect(-4, 0, 8, 18, 3); ctx.fill();
+
+  // Hand
+  ctx.fillStyle = '#c8a878';
+  ctx.beginPath(); ctx.ellipse(0, 20, 5, 5.5, 0, 0, Math.PI*2); ctx.fill();
+
+  // Get hand position in parent (feet-anchor) coordinates
+  // We need to transform (0,20) through all the current transforms back to root
+  const handLocal = new DOMPoint(0, 20);
+  const ctm = ctx.getTransform();
+  ctx.restore(); // undo forearm
+  ctx.restore(); // undo upper arm → back to feet-anchor space
+
+  // Approximate hand world position (manual transform chain)
+  // shoulder = (xOff, shoulderY) from feet
+  // upper arm end = shoulder + rot(upperAng) * (0, 22)
+  // forearm end = upper arm end + rot(upperAng+lowerAng) * (0, 22)
+  // hand = forearm end + rot(upperAng+lowerAng) * (0, 20)
+  const uAng = upperAng * Math.PI/180;
+  const fAng = (upperAng + lowerAng) * Math.PI/180;
+  const upperEndX = xOff + Math.sin(uAng) * 22;
+  const upperEndY = shoulderY + Math.cos(uAng) * 22;
+  const foreEndX = upperEndX + Math.sin(fAng) * 18;
+  const foreEndY = upperEndY + Math.cos(fAng) * 18;
+  const handX = foreEndX + Math.sin(fAng) * 4;
+  const handY = foreEndY + Math.cos(fAng) * 4;
+
+  return { x: handX, y: handY, ang: upperAng + lowerAng };
+}
+
+function drawShovelAt(ctx, hand, shovelAngDeg, hasDirt, grip) {
+  drawShovelShape(ctx, hand.x, hand.y, shovelAngDeg, hasDirt, grip);
+}
+
+function drawShovelShape(ctx, hx, hy, angDeg, hasDirt, grip = 0.42) {
+  const ang = angDeg * Math.PI/180;
+  const totalLen = 72;
+  // grip position: 0=top, 1=blade end
+  // grip = 0.42 → grip is 30px from top (handle end), 42px from blade
+  const fromGripToHandle = totalLen * grip;        // toward handle/top
+  const fromGripToBlade  = totalLen * (1 - grip);  // toward blade
+
+  const dx = Math.sin(ang);
+  const dy = Math.cos(ang);
+
+  const htx = hx - dx * fromGripToHandle;  // handle tip (top)
+  const hty = hy - dy * fromGripToHandle;
+  const blx = hx + dx * fromGripToBlade;   // blade end
+  const bly = hy + dy * fromGripToBlade;
+
+  // Handle gradient (wood)
+  const hg = ctx.createLinearGradient(htx, hty, blx, bly);
+  hg.addColorStop(0, '#c89040');
+  hg.addColorStop(0.3, '#a07030');
+  hg.addColorStop(0.7, '#8a5c1c');
+  hg.addColorStop(1, '#7a5018');
+  ctx.strokeStyle = hg;
+  ctx.lineWidth = 3.5;
+  ctx.lineCap = 'round';
+  ctx.beginPath(); ctx.moveTo(htx, hty); ctx.lineTo(blx, bly); ctx.stroke();
+  ctx.lineCap = 'butt';
+
+  // Blade (metal trapezoidal)
+  const perpX = -dy;
+  const perpY = dx;
+  const bw = 8;  // blade half-width
+  const bl = 14; // blade length along handle axis
+  const bg = ctx.createLinearGradient(blx - perpX*bw, bly - perpY*bw, blx + perpX*bw, bly + perpY*bw);
+  bg.addColorStop(0, '#7a8090');
+  bg.addColorStop(0.4, '#c0c4cc');
+  bg.addColorStop(0.7, '#a8acb4');
+  bg.addColorStop(1, '#68707c');
+  ctx.fillStyle = bg;
+  ctx.beginPath();
+  ctx.moveTo(blx - dx*bl*0.5 - perpX*bw,  bly - dy*bl*0.5 - perpY*bw);
+  ctx.lineTo(blx - dx*bl*0.5 + perpX*bw,  bly - dy*bl*0.5 + perpY*bw);
+  ctx.lineTo(blx + dx*bl*0.8 + perpX*bw*0.7, bly + dy*bl*0.8 + perpY*bw*0.7);
+  ctx.lineTo(blx + dx*bl*0.8 - perpX*bw*0.7, bly + dy*bl*0.8 - perpY*bw*0.7);
+  ctx.closePath();
+  ctx.fill();
+  // Blade edge highlight
+  ctx.strokeStyle = 'rgba(200,210,230,.6)'; ctx.lineWidth = 1;
+  ctx.stroke();
+
+  // Dirt on blade
+  if (hasDirt) {
+    ctx.fillStyle = 'rgba(85,42,10,.82)';
+    ctx.beginPath();
+    ctx.ellipse(blx + dx*2, bly + dy*2, 7, 4.5, ang + 0.15, 0, Math.PI*2);
+    ctx.fill();
+  }
+}
+
+function drawTorso(ctx, state) {
+  // Hoodie — lime-yellow-green, slightly desaturated like in photo
+  const hg = ctx.createLinearGradient(-15, -90, 15, -90);
+  hg.addColorStop(0, '#7a9030');
+  hg.addColorStop(0.15, '#b0c848');
+  hg.addColorStop(0.5, '#aac044');
+  hg.addColorStop(0.85, '#a4bc3c');
+  hg.addColorStop(1, '#6e8428');
+  ctx.fillStyle = hg;
+  ctx.beginPath(); ctx.roundRect(-15, -92, 30, 52, 9); ctx.fill();
+  // Hood arch (visible behind neck)
+  ctx.fillStyle = '#9ab038';
+  ctx.beginPath(); ctx.ellipse(1, -90, 11, 7, 0, Math.PI, Math.PI*2); ctx.fill();
+  // Side shadow
+  ctx.fillStyle = 'rgba(0,0,0,.1)';
+  ctx.beginPath(); ctx.roundRect(-15, -92, 8, 52, 9); ctx.fill();
+  // Center seam
+  ctx.strokeStyle = 'rgba(0,0,0,.13)'; ctx.lineWidth = 1;
+  ctx.beginPath(); ctx.moveTo(1, -88); ctx.lineTo(1, -42); ctx.stroke();
+  // Kangaroo pocket
+  ctx.fillStyle = 'rgba(0,0,0,.09)';
+  ctx.beginPath(); ctx.roundRect(-10, -66, 20, 14, 5); ctx.fill();
+  // Neck
+  ctx.fillStyle = '#c4a072';
+  ctx.beginPath(); ctx.roundRect(-4, -96, 8, 8, 3); ctx.fill();
+}
+
+function drawHead(ctx, caught, smoking, state) {
+  const headY = -112;
+
+  // Face (skin)
+  const sg = ctx.createRadialGradient(2, headY - 2, 2, 1, headY, 12);
+  sg.addColorStop(0, '#d8b888');
+  sg.addColorStop(1, '#c4a070');
+  ctx.fillStyle = sg;
+  ctx.beginPath(); ctx.ellipse(0, headY, 12, 13.5, 0, 0, Math.PI*2); ctx.fill();
+
+  // Ear
+  ctx.fillStyle = '#c09868';
+  ctx.beginPath(); ctx.ellipse(-11, headY + 2, 3.5, 5, 0, 0, Math.PI*2); ctx.fill();
+
+  // Beard/stubble
+  ctx.fillStyle = 'rgba(55,35,16,.65)';
+  ctx.beginPath(); ctx.ellipse(1, headY + 6, 8.5, 6.5, 0, 0, Math.PI*2); ctx.fill();
+  // Mustache
+  ctx.fillStyle = 'rgba(55,35,16,.5)';
+  ctx.beginPath(); ctx.ellipse(0, headY + 1, 6, 2.5, 0, 0, Math.PI*2); ctx.fill();
+
+  // Eyes
+  ctx.fillStyle = caught ? '#cc2222' : '#2a2418';
+  ctx.beginPath(); ctx.arc(-4, headY - 3, 1.8, 0, Math.PI*2); ctx.fill();
+  ctx.beginPath(); ctx.arc(5, headY - 3, 1.8, 0, Math.PI*2); ctx.fill();
+  // Eye whites
+  ctx.fillStyle = 'rgba(255,255,255,.6)';
+  ctx.beginPath(); ctx.arc(-4, headY - 3, 1, 0, Math.PI*2); ctx.fill();
+  ctx.beginPath(); ctx.arc(5, headY - 3, 1, 0, Math.PI*2); ctx.fill();
+
+  // Nose (subtle)
+  ctx.fillStyle = 'rgba(160,100,60,.4)';
+  ctx.beginPath(); ctx.ellipse(4, headY + 1, 3, 2, 0.2, 0, Math.PI*2); ctx.fill();
+
+  // Cap — black flat brim
+  ctx.fillStyle = '#0c0d10';
+  // Cap crown
+  ctx.beginPath(); ctx.ellipse(1, headY - 11, 14, 7, 0, 0, Math.PI*2); ctx.fill();
+  ctx.fillRect(-14, headY - 16, 29, 8);
+  // Back of cap
+  ctx.beginPath(); ctx.ellipse(1, headY - 16, 13, 5, 0, 0, Math.PI); ctx.fill();
+  // Brim (flat, long)
+  ctx.fillStyle = '#131418';
+  ctx.beginPath(); ctx.roundRect(4, headY - 14, 22, 5, 2); ctx.fill();
+  // Button on top
+  ctx.fillStyle = '#282a30';
+  ctx.beginPath(); ctx.arc(1, headY - 20, 2.5, 0, Math.PI*2); ctx.fill();
+  // Cap shadow on face
+  ctx.fillStyle = 'rgba(0,0,0,.12)';
+  ctx.beginPath(); ctx.ellipse(0, headY - 8, 12, 4, 0, 0, Math.PI*2); ctx.fill();
+
+  // Smoking extras (cigarette in front arm hand area)
+  if (smoking) {
+    // Hand near face — cigarette sticking out
+    // Since front arm is raised to ~face level (approx (−10, −82) in panel coords)
+    const cx = -14, cy = headY + 4;
+    ctx.strokeStyle = '#f0f0e4'; ctx.lineWidth = 2.2;
+    ctx.lineCap = 'round';
+    ctx.beginPath(); ctx.moveTo(cx, cy); ctx.lineTo(cx - 11, cy - 3); ctx.stroke();
+    ctx.lineCap = 'butt';
+    // Ember
+    ctx.fillStyle = '#ff5500';
+    ctx.beginPath(); ctx.arc(cx - 12, cy - 3.5, 2.8, 0, Math.PI*2); ctx.fill();
+    ctx.fillStyle = '#ff8800';
+    ctx.beginPath(); ctx.arc(cx - 12, cy - 3.5, 1.5, 0, Math.PI*2); ctx.fill();
+    // Smoke puffs
+    const now = Date.now() * 0.0008;
+    for (let i = 0; i < 4; i++) {
+      const pT = ((now + i * 0.25) % 1.0);
+      ctx.globalAlpha = (1 - pT) * 0.45;
+      ctx.fillStyle = '#d0d0d0';
+      ctx.beginPath();
+      ctx.arc(cx - 12 + Math.sin(pT * 4) * 5, cy - 3.5 - pT * 22, 2 + pT * 6, 0, Math.PI*2);
+      ctx.fill();
+    }
+    ctx.globalAlpha = 1;
+  }
+}
+
+requestAnimationFrame(loop);
+</script>
+</body>
+</html>

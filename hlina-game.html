@@ -129,9 +129,43 @@ canvas{display:block;image-rendering:auto}
 // ── Constants ────────────────────────────────────────────────────────────────
 const W = 720, H = 500;
 
-// Zone definitions (logical coords)
-const DIRT_ZONE  = {x:60,  y:280, w:110, h:80};
-const TRUCK_ZONE = {x:540, y:300, w:130, h:80};
+// Photo: 1848×850 → drawn at (0,0,1087,500), scale = 500/850 ≈ 0.588
+// Game ground: road/grass at canvas y ≈ 348–480 (photo y ≈ 592–816)
+// Dirt zone: left grass in front of building (photo x 50–250, y 620–790)
+// Truck zone: calibrated to car-trailer.png overlay (see drawCarTrailer)
+const DIRT_ZONE  = {x:28,  y:368, w:120, h:90};
+const TRUCK_ZONE = {x:488, y:362, w:138, h:92};
+
+// Background photo (1848×850)
+const bgImg = new Image();
+bgImg.src = 'media/bg.png';
+
+// Car + trailer photo (1403×1121, white bg → removed via removeWhiteBg)
+// Drawn flipped: trailer on LEFT (player side), VW on RIGHT
+const carImg = new Image();
+let carCanvas = null;  // offscreen canvas with alpha (no white)
+carImg.onload = () => { carCanvas = removeWhiteBg(carImg, 247); };
+carImg.src = 'media/car-trailer.png';
+
+function removeWhiteBg(img, threshold) {
+  const oc = document.createElement('canvas');
+  oc.width = img.naturalWidth; oc.height = img.naturalHeight;
+  const octx = oc.getContext('2d');
+  octx.drawImage(img, 0, 0);
+  const id = octx.getImageData(0, 0, oc.width, oc.height);
+  const d = id.data;
+  for (let i = 0; i < d.length; i += 4) {
+    const r = d[i], g = d[i+1], b = d[i+2];
+    if (r >= threshold && g >= threshold && b >= threshold) {
+      d[i+3] = 0;
+    } else if (r > 210 && g > 210 && b > 210) {
+      // soft edge (anti-aliasing fringe)
+      d[i+3] = Math.round((1 - (Math.min(r,g,b) - 210) / (threshold - 210)) * 255);
+    }
+  }
+  octx.putImageData(id, 0, 0);
+  return oc;
+}
 
 // Player config
 const PLAYER_SPEED = 2.8;
@@ -186,7 +220,7 @@ function rand(a,b){return a+Math.random()*(b-a)}
 function randInt(a,b){return Math.floor(rand(a,b+1))}
 
 function initGame(){
-  player = {x:180, y:310, vx:0, vy:0, facing:1};
+  player = {x:230, y:415, vx:0, vy:0, facing:1};
   load=0; carrying=false;
   elapsedMs=0;
   animFrame=0; animTick=0;
@@ -337,9 +371,9 @@ function update(dt){
     player.y+=dy*PLAYER_SPEED;
     if(dx!==0) player.facing=dx>0?1:-1;
   }
-  // Clamp
+  // Clamp to playable ground (below hedge line, above bottom edge)
   player.x=Math.max(20,Math.min(W-20,player.x));
-  player.y=Math.max(240,Math.min(H-30,player.y));
+  player.y=Math.max(348,Math.min(H-28,player.y));
 
   // Animation
   animTick+=dt;
@@ -368,7 +402,7 @@ function update(dt){
     // spawn off-screen edge
     const side=Math.random()<0.5?0:1;
     photoX=side===0?-40:W+40;
-    photoY=rand(240,H-60);
+    photoY=rand(355,H-60);
   }
   if(photoVisible){
     photoVisTimer-=dt;
@@ -411,7 +445,9 @@ function render(){
   ctx.setTransform(SCALE*DPR,0,0,SCALE*DPR,OX*DPR,OY*DPR);
   ctx.clearRect(0,0,W,H);
 
-  drawScene();
+  drawBackground();
+  drawCarTrailer();
+  drawDirtHeap();
   drawZoneIndicators();
   drawSmokeParticles();
 
@@ -425,308 +461,78 @@ function render(){
   ctx.restore();
 }
 
-// ── Scene Drawing ─────────────────────────────────────────────────────────────
-function drawScene(){
-  // Sky gradient
-  const sky=ctx.createLinearGradient(0,0,0,H*0.55);
-  sky.addColorStop(0,'#c4dce8');
-  sky.addColorStop(1,'#d8ead0');
-  ctx.fillStyle=sky; ctx.fillRect(0,0,W,H*0.55);
-
-  // Background trees (right upper)
-  ctx.fillStyle='#1a3810';
-  for(let i=0;i<8;i++){
-    ctx.beginPath();
-    ctx.ellipse(520+i*22,85+Math.sin(i)*15,28+i*3,38+i*2,0,0,Math.PI*2);
-    ctx.fill();
+// ── Background — real photo ───────────────────────────────────────────────────
+function drawBackground(){
+  // Scale photo to canvas height (500px), left-anchored
+  // Photo 1848×850 → display 1087×500; shows left 66% of photo
+  if(bgImg.complete && bgImg.naturalWidth>0){
+    const dw = Math.round(1848 * H / 850);
+    ctx.drawImage(bgImg, 0, 0, dw, H);
+  } else {
+    // Fallback while loading
+    ctx.fillStyle='#8aa870'; ctx.fillRect(0,0,W,H);
   }
-  ctx.fillStyle='#162e0c';
-  for(let i=0;i<5;i++){
-    ctx.beginPath();
-    ctx.ellipse(530+i*28,70+Math.cos(i)*10,22,30,0,0,Math.PI*2);
-    ctx.fill();
-  }
-
-  // Orange building (left)
-  // Main façade
-  const bldg=ctx.createLinearGradient(0,80,0,220);
-  bldg.addColorStop(0,'#d4923a');
-  bldg.addColorStop(1,'#c07828');
-  ctx.fillStyle=bldg;
-  ctx.beginPath(); ctx.roundRect(10,90,200,160,4); ctx.fill();
-  // Metal roof
-  const roof=ctx.createLinearGradient(0,75,0,95);
-  roof.addColorStop(0,'#9a9a9a');
-  roof.addColorStop(1,'#717171');
-  ctx.fillStyle=roof; ctx.fillRect(5,75,210,20);
-  // Drainpipe
-  ctx.fillStyle='#888'; ctx.fillRect(195,95,8,155);
-  // Door
-  ctx.fillStyle='#5c3810';
-  ctx.beginPath(); ctx.roundRect(70,160,50,90,3); ctx.fill();
-  ctx.fillStyle='#7a4e20';
-  ctx.fillRect(75,165,19,38); ctx.fillRect(96,165,19,38);
-  ctx.fillRect(75,207,19,38); ctx.fillRect(96,207,19,38);
-  // Mailboxes
-  ctx.fillStyle='#8b5c20';
-  ctx.fillRect(130,175,18,22); ctx.fillRect(152,175,18,22);
-  ctx.fillStyle='rgba(0,0,0,.15)'; ctx.fillRect(130,175,18,1); ctx.fillRect(152,175,18,1);
-  // Bushes (shaped)
-  ctx.fillStyle='#2e6b24';
-  ctx.beginPath(); ctx.ellipse(40,250,28,18,0,0,Math.PI*2); ctx.fill();
-  ctx.beginPath(); ctx.ellipse(65,248,22,16,0,0,Math.PI*2); ctx.fill();
-  ctx.beginPath(); ctx.ellipse(52,255,20,13,0,0,Math.PI*2); ctx.fill();
-
-  // Background car behind hedge
-  ctx.fillStyle='#2a2a2a';
-  ctx.beginPath(); ctx.roundRect(390,202,80,30,6); ctx.fill();
-  ctx.fillStyle='#1a1a1a';
-  ctx.beginPath(); ctx.roundRect(395,195,70,20,8); ctx.fill();
-
-  // Hedge / living fence (full width)
-  const hedgeGrad=ctx.createLinearGradient(0,225,0,265);
-  hedgeGrad.addColorStop(0,'#3a8030');
-  hedgeGrad.addColorStop(0.5,'#2d6e24');
-  hedgeGrad.addColorStop(1,'#1e5018');
-  ctx.fillStyle=hedgeGrad;
-  for(let i=0;i<18;i++){
-    ctx.beginPath();
-    ctx.roundRect(i*42-5,222,46,42,8);
-    ctx.fill();
-  }
-  // hedge texture / depth
-  ctx.fillStyle='rgba(0,0,0,.12)';
-  for(let i=0;i<18;i++){
-    ctx.beginPath();
-    ctx.ellipse(i*42+14,238,12,8,0.3,0,Math.PI*2);
-    ctx.fill();
-  }
-
-  // Road
-  ctx.fillStyle='#5a5a5a';
-  ctx.fillRect(0,265,W,50);
-  // Red kerb
-  ctx.fillStyle='#c83030';
-  ctx.fillRect(0,265,W,6);
-  ctx.fillRect(0,309,W,6);
-  // Dashed center line
-  ctx.strokeStyle='#ffe060'; ctx.lineWidth=2; ctx.setLineDash([20,14]);
-  ctx.beginPath(); ctx.moveTo(0,290); ctx.lineTo(W,290); ctx.stroke();
-  ctx.setLineDash([]);
-
-  // Ground — dirt area left
-  const dirtGnd=ctx.createLinearGradient(0,315,0,H);
-  dirtGnd.addColorStop(0,'#2a1408');
-  dirtGnd.addColorStop(1,'#3a1c0a');
-  ctx.fillStyle=dirtGnd;
-  ctx.fillRect(0,315,W*0.55,H-315);
-
-  // Grass right
-  const grassGnd=ctx.createLinearGradient(0,315,0,H);
-  grassGnd.addColorStop(0,'#2e6020');
-  grassGnd.addColorStop(1,'#1e4814');
-  ctx.fillStyle=grassGnd;
-  ctx.fillRect(W*0.55,315,W*0.45,H-315);
-
-  // Dirt heap (left area)
-  drawDirtHeap();
-
-  // VW SUV (rear view, right area)
-  drawVWSUV();
-
-  // Trailer (agados)
-  drawTrailer();
-
-  // Garden lamp (right)
-  drawLamp();
-
-  // Decorative vegetation front
-  drawVegetation();
 }
 
+// ── Car + trailer — real photo, white bg removed, horizontally flipped ───────
+// Image 1403×1121: VW left, trailer right → flip → trailer left (player side)
+// Scale 0.145 → 203×163 px on canvas
+// Wheels (y≈1000 in src) land at canvas y=442; x offset puts trailer over TRUCK_ZONE
+function drawCarTrailer(){
+  if(!carCanvas) return;
+  const SCALE_CT = 0.145;
+  const dw = Math.round(carImg.naturalWidth  * SCALE_CT);  // 203
+  const dh = Math.round(carImg.naturalHeight * SCALE_CT);  // 163
+  const wheelSrcY = 1000;
+  const dy = 442 - Math.round(wheelSrcY * SCALE_CT);      // 442-145 = 297
+  const dx = 482;  // left edge of flipped image on canvas
+
+  // Draw flipped (trailer ends up on left, VW on right)
+  ctx.save();
+  ctx.translate(dx + dw, dy);
+  ctx.scale(-1, 1);
+  ctx.drawImage(carCanvas, 0, 0, dw, dh);
+  ctx.restore();
+
+  // Dirt fill on trailer bed (when load > 0)
+  if(load > 0){
+    // Trailer bed in canvas space: approx x 490–575, y 350–395
+    const fillRatio = load / 10;
+    const bx = 492, bw2 = 80, bTop = 352, bBot = 394;
+    const fillH = Math.round((bBot - bTop) * fillRatio);
+    ctx.fillStyle = 'rgba(72,36,10,0.82)';
+    ctx.beginPath();
+    ctx.roundRect(bx, bBot - fillH, bw2, fillH, 3);
+    ctx.fill();
+  }
+}
+
+// ── Dirt heap — overlaid on photo grass ──────────────────────────────────────
 function drawDirtHeap(){
-  const cx=DIRT_ZONE.x+DIRT_ZONE.w*0.45, cy=DIRT_ZONE.y+DIRT_ZONE.h*0.3;
+  const cx = DIRT_ZONE.x + DIRT_ZONE.w*0.44;
+  const cy = DIRT_ZONE.y + DIRT_ZONE.h*0.38;
+  // Shadow under mound
+  ctx.fillStyle='rgba(0,0,0,.18)';
+  ctx.beginPath(); ctx.ellipse(cx+4,cy+28,54,14,0,0,Math.PI*2); ctx.fill();
   // Main mound
-  const mnd=ctx.createRadialGradient(cx,cy,5,cx,cy+15,60);
-  mnd.addColorStop(0,'#6b3810');
-  mnd.addColorStop(0.4,'#4a2208');
-  mnd.addColorStop(1,'rgba(42,20,8,0)');
+  const mnd=ctx.createRadialGradient(cx,cy,4,cx,cy+12,58);
+  mnd.addColorStop(0,'rgba(115,62,18,0.95)');
+  mnd.addColorStop(0.45,'rgba(80,38,10,0.90)');
+  mnd.addColorStop(1,'rgba(50,20,4,0)');
   ctx.fillStyle=mnd;
-  ctx.beginPath();
-  ctx.ellipse(cx,cy+20,58,32,0,0,Math.PI*2);
-  ctx.fill();
-  // Clumps
-  ctx.fillStyle='#5a2e10';
-  for(let i=0;i<8;i++){
+  ctx.beginPath(); ctx.ellipse(cx,cy+18,56,30,0,0,Math.PI*2); ctx.fill();
+  // Surface clumps
+  ctx.fillStyle='rgba(95,48,14,0.82)';
+  for(let i=0;i<9;i++){
     ctx.beginPath();
-    ctx.ellipse(
-      cx+rand(-40,40), cy+rand(-10,28),
-      rand(4,9), rand(3,6),
-      rand(-0.5,0.5), 0, Math.PI*2
-    );
+    ctx.ellipse(cx+rand(-38,38),cy+rand(-8,24),rand(4,9),rand(3,5),rand(-0.5,0.5),0,Math.PI*2);
     ctx.fill();
   }
+  // Highlight ridge
+  ctx.fillStyle='rgba(150,88,30,0.35)';
+  ctx.beginPath(); ctx.ellipse(cx-6,cy+6,26,9,-0.2,0,Math.PI*2); ctx.fill();
 }
 
-function drawVWSUV(){
-  // VW black SUV rear view
-  const bx=480, by=340;
-  // Body
-  const body=ctx.createLinearGradient(bx,by-35,bx,by+30);
-  body.addColorStop(0,'#2a2a2e');
-  body.addColorStop(0.4,'#1a1a1e');
-  body.addColorStop(1,'#111116');
-  ctx.fillStyle=body;
-  ctx.beginPath(); ctx.roundRect(bx-55,by-35,110,65,10); ctx.fill();
-  // Roof
-  ctx.fillStyle='#1c1c20';
-  ctx.beginPath(); ctx.roundRect(bx-38,by-55,76,24,8); ctx.fill();
-  // LED light bar (red)
-  const led=ctx.createLinearGradient(bx-52,by-20,bx+52,by-20);
-  led.addColorStop(0,'#ff2222');
-  led.addColorStop(0.45,'#ff6644');
-  led.addColorStop(0.55,'#ff6644');
-  led.addColorStop(1,'#ff2222');
-  ctx.fillStyle=led;
-  ctx.fillRect(bx-50,by-22,100,5);
-  ctx.shadowColor='#ff3300'; ctx.shadowBlur=10;
-  ctx.fillRect(bx-50,by-22,100,5);
-  ctx.shadowBlur=0;
-  // Chrome bumper
-  ctx.fillStyle='#b0b0b8';
-  ctx.beginPath(); ctx.roundRect(bx-50,by+22,100,10,4); ctx.fill();
-  // Licence plate
-  ctx.fillStyle='#f0f0e0';
-  ctx.beginPath(); ctx.roundRect(bx-20,by+6,40,14,2); ctx.fill();
-  ctx.fillStyle='#111'; ctx.font='bold 8px Arial'; ctx.textAlign='center';
-  ctx.fillText('8H8 8023',bx,by+16);
-  // Wheels
-  for(const wx of [bx-40,bx+40]){
-    ctx.fillStyle='#111'; ctx.beginPath(); ctx.arc(wx,by+32,14,0,Math.PI*2); ctx.fill();
-    ctx.fillStyle='#555'; ctx.beginPath(); ctx.arc(wx,by+32,10,0,Math.PI*2); ctx.fill();
-    // spokes
-    ctx.strokeStyle='#777'; ctx.lineWidth=1.5;
-    for(let a=0;a<6;a++){
-      const ang=a*Math.PI/3;
-      ctx.beginPath();
-      ctx.moveTo(wx,by+32);
-      ctx.lineTo(wx+Math.cos(ang)*9,by+32+Math.sin(ang)*9);
-      ctx.stroke();
-    }
-    ctx.fillStyle='#444'; ctx.beginPath(); ctx.arc(wx,by+32,3,0,Math.PI*2); ctx.fill();
-  }
-  // Rear window tint
-  ctx.fillStyle='rgba(100,150,255,.08)';
-  ctx.beginPath(); ctx.roundRect(bx-35,by-53,70,20,6); ctx.fill();
-}
-
-function drawTrailer(){
-  const tx=540, ty=340;
-  // Chassis
-  ctx.fillStyle='#888c8e';
-  ctx.beginPath(); ctx.roundRect(tx-85,ty-30,160,55,6); ctx.fill();
-  // Aluminium planks
-  for(let i=0;i<7;i++){
-    const pg=ctx.createLinearGradient(tx-85,ty-28+i*7,tx+75,ty-28+i*7);
-    pg.addColorStop(0,'#a0a8ac');
-    pg.addColorStop(0.4,'#c0c8cc');
-    pg.addColorStop(0.7,'#a8b0b4');
-    pg.addColorStop(1,'#909898');
-    ctx.fillStyle=pg;
-    ctx.fillRect(tx-85,ty-28+i*7,160,5);
-  }
-  // Side walls
-  ctx.fillStyle='#6e7678';
-  ctx.fillRect(tx-85,ty-30,6,55);
-  ctx.fillRect(tx+69,ty-30,6,55);
-  // Rear lights
-  ctx.fillStyle='#ff2222'; ctx.beginPath(); ctx.roundRect(tx-90,ty-18,8,12,2); ctx.fill();
-  ctx.fillStyle='#ff4444'; ctx.beginPath(); ctx.roundRect(tx-90,ty-18,8,12,2); ctx.fill();
-  ctx.fillStyle='#ff2222'; ctx.beginPath(); ctx.roundRect(tx+74,ty-18,8,12,2); ctx.fill();
-  // AGADOS logo
-  ctx.fillStyle='#ffe030'; ctx.font='bold 9px Arial'; ctx.textAlign='center';
-  ctx.fillText('agados',tx-10,ty-15);
-  // 100 km/h sticker
-  ctx.fillStyle='#fff'; ctx.font='7px Arial';
-  ctx.fillText('100',tx+35,ty-10);
-  ctx.strokeStyle='#e00'; ctx.lineWidth=1;
-  ctx.beginPath(); ctx.arc(tx+35,ty-14,8,0,Math.PI*2); ctx.stroke();
-  // Licence plate
-  ctx.fillStyle='#f0f0e0';
-  ctx.beginPath(); ctx.roundRect(tx-18,ty+18,36,12,2); ctx.fill();
-  ctx.fillStyle='#111'; ctx.font='bold 6px Arial';
-  ctx.fillText('3M7 9681',tx-1,ty+27);
-  // Tow bar
-  ctx.strokeStyle='#555'; ctx.lineWidth=5;
-  ctx.beginPath(); ctx.moveTo(tx-85,ty+20); ctx.lineTo(tx-110,ty+20); ctx.stroke();
-  // Wheels
-  for(const wx of [tx-55,tx+45]){
-    ctx.fillStyle='#111'; ctx.beginPath(); ctx.arc(wx,ty+30,13,0,Math.PI*2); ctx.fill();
-    ctx.fillStyle='#555'; ctx.beginPath(); ctx.arc(wx,ty+30,9,0,Math.PI*2); ctx.fill();
-    ctx.strokeStyle='#777'; ctx.lineWidth=1.5;
-    for(let a=0;a<5;a++){
-      const ang=a*Math.PI/2.5;
-      ctx.beginPath();
-      ctx.moveTo(wx,ty+30);
-      ctx.lineTo(wx+Math.cos(ang)*8,ty+30+Math.sin(ang)*8);
-      ctx.stroke();
-    }
-  }
-  // If load >0, show dirt in trailer
-  if(load>0){
-    ctx.fillStyle='rgba(60,25,8,0.85)';
-    const fillH=Math.min(40,load/10*42);
-    ctx.beginPath();
-    ctx.roundRect(tx-79,ty-28+42-fillH,158,fillH,3);
-    ctx.fill();
-  }
-}
-
-function drawLamp(){
-  const lx=650, ly=270;
-  // Post
-  ctx.strokeStyle='#606060'; ctx.lineWidth=4;
-  ctx.beginPath(); ctx.moveTo(lx,ly+80); ctx.lineTo(lx,ly); ctx.stroke();
-  // Arm
-  ctx.beginPath(); ctx.moveTo(lx,ly); ctx.lineTo(lx+20,ly-10); ctx.stroke();
-  // Lamp head
-  ctx.fillStyle='#808880';
-  ctx.beginPath(); ctx.roundRect(lx+14,ly-18,18,14,4); ctx.fill();
-  // Glow
-  const glow=ctx.createRadialGradient(lx+23,ly-8,2,lx+23,ly-8,40);
-  glow.addColorStop(0,'rgba(255,240,140,.4)');
-  glow.addColorStop(1,'rgba(255,240,140,0)');
-  ctx.fillStyle=glow;
-  ctx.fillRect(lx-15,ly-45,80,80);
-  // Light bulb
-  ctx.fillStyle='#ffe880';
-  ctx.beginPath(); ctx.arc(lx+23,ly-11,4,0,Math.PI*2); ctx.fill();
-}
-
-function drawVegetation(){
-  // Decorative grass tufts (bezier blades)
-  ctx.strokeStyle='#3a7828'; ctx.lineWidth=1.5;
-  for(let i=0;i<14;i++){
-    const gx=W-100+i*8, gy=H-10;
-    ctx.beginPath();
-    ctx.moveTo(gx,gy);
-    ctx.bezierCurveTo(gx-3,gy-10,gx+2,gy-20,gx+rand(-4,4),gy-rand(18,28));
-    ctx.stroke();
-  }
-  // Front green plants
-  ctx.fillStyle='#1e5012';
-  for(let i=0;i<5;i++){
-    ctx.beginPath();
-    ctx.ellipse(40+i*30, H-8, 18, 12, 0, 0, Math.PI*2);
-    ctx.fill();
-  }
-  ctx.fillStyle='#2a6a1a';
-  for(let i=0;i<5;i++){
-    ctx.beginPath();
-    ctx.ellipse(50+i*30, H-12, 14, 9, 0, 0, Math.PI*2);
-    ctx.fill();
-  }
-}
 
 function drawZoneIndicators(){
   if(state!=='play') return;
