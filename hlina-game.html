@@ -128,13 +128,13 @@ canvas{display:block;image-rendering:auto}
 <script>
 // ── Constants ────────────────────────────────────────────────────────────────
 const W = 720, H = 500;
+// World is the full photo at canvas height: 1848×850 → 1087×500 (scale 500/850)
+// Camera follows player horizontally; canvas shows a 720-wide viewport
+const WORLD_W = Math.round(1848 * H / 850);  // 1087
 
-// Photo: 1848×850 → drawn at (0,0,720,500), scale_x=0.390 scale_y=0.588
-// Both buildings visible; y-scale matches original 500/850 mapping
-// Dirt zone: left grass in front of yellow building
-// Truck zone: trailer of car-trailer.png (VW left, trailer right, no flip)
-const DIRT_ZONE  = {x:18,  y:365, w:90,  h:85};
-const TRUCK_ZONE = {x:568, y:358, w:106, h:88};
+// All zone/object coords are in world space (0–1087 × 0–500)
+const DIRT_ZONE  = {x:28,  y:355, w:92,  h:90};
+const TRUCK_ZONE = {x:710, y:355, w:110, h:90};
 
 // Background photo (1848×850)
 const bgImg = new Image();
@@ -226,6 +226,7 @@ let keys={};
 let joy={dx:0,dy:0};
 
 let player, load, carrying;
+let camX=0;
 let elapsedMs, timerInterval;
 let photoTimer, photoVisible, photoX, photoY, photoVisTimer;
 let smokeTimer, smokePause, smokePauseTimer;
@@ -237,7 +238,8 @@ function rand(a,b){return a+Math.random()*(b-a)}
 function randInt(a,b){return Math.floor(rand(a,b+1))}
 
 function initGame(){
-  player = {x:220, y:415, vx:0, vy:0, facing:1};
+  player = {x:300, y:415, vx:0, vy:0, facing:1};
+  camX=0;
   load=0; carrying=false;
   elapsedMs=0;
   animFrame=0; animTick=0;
@@ -389,8 +391,9 @@ function update(dt){
     if(dx!==0) player.facing=dx>0?1:-1;
   }
   // Clamp to playable ground (below hedge line, above bottom edge)
-  player.x=Math.max(20,Math.min(W-20,player.x));
+  player.x=Math.max(20,Math.min(WORLD_W-20,player.x));
   player.y=Math.max(348,Math.min(H-30,player.y));
+  camX=Math.max(0,Math.min(WORLD_W-W,player.x-W/2));
 
   // Animation
   animTick+=dt;
@@ -418,7 +421,7 @@ function update(dt){
     photoVisTimer=rand(PHOTO_VIS_MIN,PHOTO_VIS_MAX);
     // spawn off-screen edge
     const side=Math.random()<0.5?0:1;
-    photoX=side===0?-40:W+40;
+    photoX=side===0?camX-40:camX+W+40;
     photoY=rand(355,H-60);
   }
   if(photoVisible){
@@ -462,52 +465,56 @@ function render(){
   ctx.setTransform(SCALE*DPR,0,0,SCALE*DPR,OX*DPR,OY*DPR);
   ctx.clearRect(0,0,W,H);
 
-  drawBackground();
+  drawBackground();          // screen space — uses camX internally
+
+  ctx.save();
+  ctx.translate(-camX, 0);   // world space: all objects in world coords
   drawCarTrailer();
   drawDirtHeap();
   drawZoneIndicators();
   drawSmokeParticles();
-
   if(photoVisible) drawPhotographer();
   drawPlayer();
-
-  if(photoVisible && carrying){
-    drawDetectionLine();
-  }
+  if(photoVisible && carrying) drawDetectionLine();
+  ctx.restore();
 
   ctx.restore();
 }
 
-// ── Background — real photo ───────────────────────────────────────────────────
+// ── Background — scrolling photo viewport ─────────────────────────────────────
 function drawBackground(){
-  // Stretch photo to full canvas (720×500) — no empty zone at bottom
-  if(bgImg.complete && bgImg.naturalWidth>0){
-    ctx.drawImage(bgImg, 0, 0, W, H);
-  } else {
-    ctx.fillStyle='#8aa870'; ctx.fillRect(0,0,W,H);
+  if(!bgImg.complete || bgImg.naturalWidth===0){
+    ctx.fillStyle='#8aa870'; ctx.fillRect(0,0,W,H); return;
   }
+  // Map canvas viewport [camX, camX+W] → source photo pixels
+  const scaleX = bgImg.naturalWidth / WORLD_W;   // 1848/1087 ≈ 1.700
+  const scaleY = bgImg.naturalHeight / H;          // 850/500  = 1.700
+  ctx.drawImage(bgImg,
+    camX * scaleX, 0,
+    W    * scaleX, bgImg.naturalHeight,
+    0, 0, W, H
+  );
 }
 
 // ── Car + trailer — real photo, white bg removed, original orientation ───────
-// Image 1403×1121: VW left, trailer right (no flip)
-// Scale 0.13 → 182×146 px on canvas
-// Wheels (y≈1000 in src) land at canvas y≈400 (grass foreground)
+// Image 1403×1121: VW left, trailer right (no flip) — world coords
+// Scale 0.13 → 182×146; wheels at world y≈400 (grass foreground)
 function drawCarTrailer(){
   if(!carCanvas) return;
   const SC = 0.13;
   const dw = Math.round(carImg.naturalWidth  * SC);  // 182
   const dh = Math.round(carImg.naturalHeight * SC);  // 146
-  const dy = 400 - Math.round(1000 * SC);            // 400-130 = 270
-  const dx = 492;
+  const dy = 400 - Math.round(1000 * SC);            // 270
+  const dx = 650;  // world x (right portion of photo)
 
   ctx.save();
   ctx.drawImage(carCanvas, dx, dy, dw, dh);
   ctx.restore();
 
-  // Dirt fill on trailer bed (trailer on right: x≈580–672)
+  // Dirt fill on trailer bed (trailer on right: world x≈717–800)
   if(load > 0){
     const fillRatio = load / 10;
-    const bx = 582, bw2 = 80, bTop = 368, bBot = 400;
+    const bx = 718, bw2 = 80, bTop = 368, bBot = 400;
     const fillH = Math.round((bBot - bTop) * fillRatio);
     ctx.fillStyle = 'rgba(72,36,10,0.82)';
     ctx.beginPath();
