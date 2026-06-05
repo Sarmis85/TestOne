@@ -6,7 +6,7 @@
 <title>Hlína do Vlečky</title>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html,body{width:100%;height:100dvh;overflow:hidden;background:#000;touch-action:none}
+html,body{width:100%;height:100dvh;overflow:hidden;background:#2e5018;touch-action:none}
 #wrap{position:relative;width:100%;height:100%;display:flex;align-items:center;justify-content:center}
 canvas{display:block;image-rendering:auto}
 #hud{
@@ -38,8 +38,17 @@ canvas{display:block;image-rendering:auto}
   display:none;
 }
 #joystick-wrap{
-  position:absolute;bottom:clamp(20px,5vw,40px);left:clamp(20px,5vw,40px);
+  position:absolute;bottom:clamp(20px,5vw,40px);right:clamp(20px,5vw,40px);
   display:none;pointer-events:auto;
+}
+#joy-switch{
+  position:absolute;bottom:clamp(20px,5vw,40px);left:clamp(20px,5vw,40px);
+  width:clamp(40px,10vw,52px);height:clamp(40px,10vw,52px);
+  border-radius:50%;background:rgba(255,255,255,.15);border:2px solid rgba(255,255,255,.35);
+  color:#fff;font-size:clamp(14px,4vw,20px);font-weight:700;
+  display:none;align-items:center;justify-content:center;
+  pointer-events:auto;cursor:pointer;touch-action:manipulation;
+  user-select:none;
 }
 #joystick-base{
   width:clamp(80px,18vw,110px);height:clamp(80px,18vw,110px);
@@ -102,6 +111,7 @@ canvas{display:block;image-rendering:auto}
     <div id="smoke-indicator">🚬 Přestávka…</div>
   </div>
   <div id="joystick-wrap"><div id="joystick-base"><div id="joystick-knob"></div></div></div>
+  <div id="joy-switch">⇄</div>
   <div id="flash-overlay"></div>
   <div id="toast"></div>
 
@@ -187,6 +197,8 @@ const SP_FRAMES = {
   idle:  [0,0], walk1: [1,0], walk2: [2,0],
   carry: [0,1], dig:   [1,1], smoke: [2,1]
 };
+const SP_SRC_H = 465;                            // crop label text below sprites
+const SP_DSP_H = Math.round(SP_SRC_H * SP_SC);  // ~110
 
 // Obstacle timings (seconds)
 const PHOTO_FIRST_MIN = 20, PHOTO_FIRST_MAX = 35;
@@ -201,12 +213,15 @@ const SMOKE_DUR = 3;
 const canvas = document.getElementById('c');
 const ctx    = canvas.getContext('2d');
 let SCALE=1, OX=0, OY=0, DPR=1;
+let VIEW_W=W;  // effective viewport width (W…WORLD_W depending on screen)
 
 function resize(){
   DPR   = window.devicePixelRatio || 1;
   const vw = window.innerWidth, vh = window.innerHeight;
   SCALE = Math.min(vw/W, vh/H);
-  OX    = (vw - W*SCALE)/2;
+  // Show as much of the world as fits the screen width at current scale
+  VIEW_W = Math.min(WORLD_W, Math.floor(vw / SCALE));
+  OX    = (vw - VIEW_W*SCALE)/2;
   OY    = (vh - H*SCALE)/2;
   canvas.width  = vw*DPR;
   canvas.height = vh*DPR;
@@ -291,7 +306,25 @@ let jTouch=null, jCx=0, jCy=0, jR=0;
 
 function setupJoystick(){
   const isTouch = 'ontouchstart' in window;
-  if(isTouch) document.getElementById('joystick-wrap').style.display='block';
+  const jWrap   = document.getElementById('joystick-wrap');
+  const jSwitch = document.getElementById('joy-switch');
+  if(!isTouch) return;
+
+  let joyRight = true;
+  function positionJoy(){
+    if(joyRight){
+      jWrap.style.right='clamp(20px,5vw,40px)'; jWrap.style.left='';
+      jSwitch.style.left='clamp(20px,5vw,40px)'; jSwitch.style.right='';
+    } else {
+      jWrap.style.left='clamp(20px,5vw,40px)'; jWrap.style.right='';
+      jSwitch.style.right='clamp(20px,5vw,40px)'; jSwitch.style.left='';
+    }
+  }
+  jWrap.style.display='block';
+  jSwitch.style.display='flex';
+  positionJoy();
+  jSwitch.addEventListener('click',()=>{ joyRight=!joyRight; positionJoy(); });
+
   jBase.addEventListener('touchstart',e=>{
     e.preventDefault();
     const t=e.touches[0];
@@ -393,7 +426,7 @@ function update(dt){
   // Clamp to playable ground (below hedge line, above bottom edge)
   player.x=Math.max(20,Math.min(WORLD_W-20,player.x));
   player.y=Math.max(348,Math.min(H-30,player.y));
-  camX=Math.max(0,Math.min(WORLD_W-W,player.x-W/2));
+  camX=Math.max(0,Math.min(WORLD_W-VIEW_W,player.x-VIEW_W/2));
 
   // Animation
   animTick+=dt;
@@ -461,11 +494,22 @@ function endGame(result){
 
 // ── Rendering ─────────────────────────────────────────────────────────────────
 function render(){
+  // Fill full screen with photo-edge gradient (hides any letterbox bars)
+  if(OX>2||OY>2){
+    ctx.save();
+    ctx.setTransform(DPR,0,0,DPR,0,0);
+    const cw=canvas.width/DPR, ch=canvas.height/DPR;
+    const g=ctx.createLinearGradient(0,0,0,ch);
+    g.addColorStop(0,'#6a8fa8'); g.addColorStop(0.3,'#4a7830'); g.addColorStop(1,'#2a4e18');
+    ctx.fillStyle=g; ctx.fillRect(0,0,cw,ch);
+    ctx.restore();
+  }
+
   ctx.save();
   ctx.setTransform(SCALE*DPR,0,0,SCALE*DPR,OX*DPR,OY*DPR);
-  ctx.clearRect(0,0,W,H);
+  ctx.clearRect(0,0,VIEW_W,H);
 
-  drawBackground();          // screen space — uses camX internally
+  drawBackground();          // screen space — uses camX + VIEW_W
 
   ctx.save();
   ctx.translate(-camX, 0);   // world space: all objects in world coords
@@ -484,15 +528,13 @@ function render(){
 // ── Background — scrolling photo viewport ─────────────────────────────────────
 function drawBackground(){
   if(!bgImg.complete || bgImg.naturalWidth===0){
-    ctx.fillStyle='#8aa870'; ctx.fillRect(0,0,W,H); return;
+    ctx.fillStyle='#8aa870'; ctx.fillRect(0,0,VIEW_W,H); return;
   }
-  // Map canvas viewport [camX, camX+W] → source photo pixels
-  const scaleX = bgImg.naturalWidth / WORLD_W;   // 1848/1087 ≈ 1.700
-  const scaleY = bgImg.naturalHeight / H;          // 850/500  = 1.700
+  const scaleX = bgImg.naturalWidth / WORLD_W;  // 1848/1087 ≈ 1.700
   ctx.drawImage(bgImg,
-    camX * scaleX, 0,
-    W    * scaleX, bgImg.naturalHeight,
-    0, 0, W, H
+    camX  * scaleX, 0,
+    VIEW_W * scaleX, bgImg.naturalHeight,
+    0, 0, VIEW_W, H
   );
 }
 
@@ -504,17 +546,17 @@ function drawCarTrailer(){
   const SC = 0.13;
   const dw = Math.round(carImg.naturalWidth  * SC);  // 182
   const dh = Math.round(carImg.naturalHeight * SC);  // 146
-  const dy = 400 - Math.round(1000 * SC);            // 270
-  const dx = 650;  // world x (right portion of photo)
+  const dx = 655;  // world x — VW front near path, trailer over grass
+  const dy = 255;  // car top; bottom ~401, wheels ~383 (path/grass boundary)
 
   ctx.save();
   ctx.drawImage(carCanvas, dx, dy, dw, dh);
   ctx.restore();
 
-  // Dirt fill on trailer bed (trailer on right: world x≈717–800)
+  // Dirt fill on trailer bed (trailer right half: world x≈731–806)
   if(load > 0){
     const fillRatio = load / 10;
-    const bx = 718, bw2 = 80, bTop = 368, bBot = 400;
+    const bx = 731, bw2 = 75, bTop = 360, bBot = 395;
     const fillH = Math.round((bBot - bTop) * fillRatio);
     ctx.fillStyle = 'rgba(72,36,10,0.82)';
     ctx.beginPath();
@@ -524,6 +566,20 @@ function drawCarTrailer(){
 }
 
 // ── Dirt heap — overlaid on photo grass ──────────────────────────────────────
+// Stable clump offsets (relative to heap center) — computed once, no per-frame rand
+const DIRT_CLUMPS = (()=>{
+  const phi=2.39996;
+  const clr=['rgba(92,46,12,.85)','rgba(108,56,15,.80)','rgba(75,35,10,.88)',
+    'rgba(125,70,20,.75)','rgba(85,42,11,.82)','rgba(97,50,14,.78)',
+    'rgba(70,32,9,.90)','rgba(115,60,17,.76)','rgba(80,38,11,.84)',
+    'rgba(104,54,15,.79)','rgba(68,30,8,.88)','rgba(120,65,18,.72)'];
+  return clr.map((col,i)=>{
+    const r=5+Math.sqrt((i+.5)/clr.length)*35, a=i*phi;
+    return {x:Math.cos(a)*r*.9, y:Math.sin(a)*r*.52+10,
+      rx:3+Math.abs(Math.sin(i*3.7))*5.5, ry:2+Math.abs(Math.cos(i*2.3))*2.5,
+      rot:Math.sin(i*1.9)*.55, col};
+  });
+})();
 function drawDirtHeap(){
   const cx = DIRT_ZONE.x + DIRT_ZONE.w*0.44;
   const cy = DIRT_ZONE.y + DIRT_ZONE.h*0.38;
@@ -537,11 +593,11 @@ function drawDirtHeap(){
   mnd.addColorStop(1,'rgba(50,20,4,0)');
   ctx.fillStyle=mnd;
   ctx.beginPath(); ctx.ellipse(cx,cy+18,56,30,0,0,Math.PI*2); ctx.fill();
-  // Surface clumps
-  ctx.fillStyle='rgba(95,48,14,0.82)';
-  for(let i=0;i<9;i++){
+  // Stable surface clumps — no per-frame random, no flicker
+  for(const c of DIRT_CLUMPS){
+    ctx.fillStyle=c.col;
     ctx.beginPath();
-    ctx.ellipse(cx+rand(-38,38),cy+rand(-8,24),rand(4,9),rand(3,5),rand(-0.5,0.5),0,Math.PI*2);
+    ctx.ellipse(cx+c.x,cy+c.y,c.rx,c.ry,c.rot,0,Math.PI*2);
     ctx.fill();
   }
   // Highlight ridge
@@ -602,8 +658,8 @@ function drawPlayer(){
   if(playerCanvas){
     const [col,row]=SP_FRAMES[fk];
     ctx.drawImage(playerCanvas,
-      col*SP_CELL, row*SP_CELL, SP_CELL, SP_CELL,
-      -SP_WX, -SP_WY, SP_DISP, SP_DISP
+      col*SP_CELL, row*SP_CELL, SP_CELL, SP_SRC_H,
+      -SP_WX, -SP_WY, SP_DISP, SP_DSP_H
     );
   } else {
     // Placeholder while sprite loads
