@@ -157,6 +157,12 @@ let carCanvas = null;  // offscreen canvas with alpha (no white)
 carImg.onload = () => { carCanvas = removeWhiteBg(carImg, 247); };
 carImg.src = 'media/car-trailer.png';
 
+// Dirt heap photo — save the uploaded image as media/dirt-heap.png to activate
+const dirtImg = new Image();
+let dirtCanvas = null;
+dirtImg.onload = () => { dirtCanvas = removeWhiteBg(dirtImg, 240); };
+dirtImg.src = 'media/dirt-heap.png';
+
 function removeWhiteBg(img, threshold, softMin=210) {
   const oc = document.createElement('canvas');
   oc.width = img.naturalWidth; oc.height = img.naturalHeight;
@@ -208,6 +214,9 @@ const PHOTO_DETECT_DIST = 200;
 
 const SMOKE_GAP_MIN = 12, SMOKE_GAP_MAX = 18;
 const SMOKE_DUR = 3;
+const PHONE_DUR_MIN = 9, PHONE_DUR_MAX = 13;
+const PHONE_PROB = 0.70;  // 70% phone break, 30% smoke
+const PHONE_BUBBLES = ['Čau', 'Na to mám lidi', 'Někdo tady musí přemýšlet', 'to je hlína'];
 
 // ── Canvas setup ─────────────────────────────────────────────────────────────
 const canvas = document.getElementById('c');
@@ -245,6 +254,7 @@ let camX=0;
 let elapsedMs, timerInterval;
 let photoTimer, photoVisible, photoX, photoY, photoVisTimer;
 let smokeTimer, smokePause, smokePauseTimer;
+let phonePause, phonePauseTimer, phoneBubbleIdx, phoneDur;
 let animFrame=0, animTick=0;
 let puff=[];  // smoke puffs [{x,y,r,a,vx,vy}]
 let flashTimer=0;
@@ -264,6 +274,7 @@ function initGame(){
   photoTimer = rand(PHOTO_FIRST_MIN, PHOTO_FIRST_MAX);
   smokeTimer = rand(SMOKE_GAP_MIN, SMOKE_GAP_MAX);
   smokePause=false; smokePauseTimer=0;
+  phonePause=false; phonePauseTimer=0; phoneBubbleIdx=0; phoneDur=10;
 
   document.getElementById('progress-bar').style.width='0%';
   document.getElementById('progress-label').textContent='Vlečka: 0 / 10';
@@ -272,7 +283,7 @@ function initGame(){
 
   if(timerInterval) clearInterval(timerInterval);
   timerInterval = setInterval(()=>{
-    if(state==='play' && !smokePause){
+    if(state==='play' && !smokePause && !phonePause){
       elapsedMs+=100;
       updateTimerDisplay();
     }
@@ -387,7 +398,6 @@ function update(dt){
       smokePause=false;
       document.getElementById('smoke-indicator').style.display='none';
     }
-    // emit puffs during pause
     if(Math.random()<0.15){
       puff.push({
         x:player.x+(player.facing>0?30:-30),
@@ -396,17 +406,37 @@ function update(dt){
         vx:rand(-10,10), vy:rand(-25,-10)
       });
     }
-    return; // player frozen
+    return;
   }
 
-  // Smoke timer
+  // Phone pause
+  if(phonePause){
+    phonePauseTimer-=dt;
+    const elapsed=phoneDur-phonePauseTimer;
+    phoneBubbleIdx=Math.min(PHONE_BUBBLES.length-1,
+      Math.floor(elapsed/(phoneDur/PHONE_BUBBLES.length)));
+    if(phonePauseTimer<=0){
+      phonePause=false;
+      document.getElementById('smoke-indicator').style.display='none';
+    }
+    return;
+  }
+
+  // Break timer — 70% phone call, 30% smoke
   smokeTimer-=dt;
   if(smokeTimer<=0){
-    smokePause=true;
-    smokePauseTimer=SMOKE_DUR;
     smokeTimer=rand(SMOKE_GAP_MIN,SMOKE_GAP_MAX);
-    document.getElementById('smoke-indicator').style.display='block';
-    showToast('🚬 Cigaretová přestávka!');
+    const si=document.getElementById('smoke-indicator');
+    if(Math.random()<PHONE_PROB){
+      phoneDur=rand(PHONE_DUR_MIN,PHONE_DUR_MAX);
+      phonePause=true; phonePauseTimer=phoneDur; phoneBubbleIdx=0;
+      si.textContent='📱 Telefonát…'; si.style.display='block';
+      showToast('📱 Telefonát!');
+    } else {
+      smokePause=true; smokePauseTimer=SMOKE_DUR;
+      si.textContent='🚬 Přestávka…'; si.style.display='block';
+      showToast('🚬 Cigaretová přestávka!');
+    }
   }
 
   // Player movement
@@ -519,6 +549,7 @@ function render(){
   drawSmokeParticles();
   if(photoVisible) drawPhotographer();
   drawPlayer();
+  drawPhoneBubbles();
   if(photoVisible && carrying) drawDetectionLine();
   ctx.restore();
 
@@ -546,63 +577,60 @@ function drawCarTrailer(){
   const SC = 0.13;
   const dw = Math.round(carImg.naturalWidth  * SC);  // 182
   const dh = Math.round(carImg.naturalHeight * SC);  // 146
-  const dx = 655;  // world x — VW front near path, trailer over grass
-  const dy = 255;  // car top; bottom ~401, wheels ~383 (path/grass boundary)
+  const dx = 655;  // world x — VW near path, trailer over grass
+  const dy = 305;  // lower: wheels at ~dy+128=433
 
-  ctx.save();
   ctx.drawImage(carCanvas, dx, dy, dw, dh);
-  ctx.restore();
-
-  // Dirt fill on trailer bed (trailer right half: world x≈731–806)
-  if(load > 0){
-    const fillRatio = load / 10;
-    const bx = 731, bw2 = 75, bTop = 360, bBot = 395;
-    const fillH = Math.round((bBot - bTop) * fillRatio);
-    ctx.fillStyle = 'rgba(72,36,10,0.82)';
-    ctx.beginPath();
-    ctx.roundRect(bx, bBot - fillH, bw2, fillH, 3);
-    ctx.fill();
-  }
 }
 
 // ── Dirt heap — overlaid on photo grass ──────────────────────────────────────
-// Stable clump offsets (relative to heap center) — computed once, no per-frame rand
+// Stable clump offsets — sandy/warm-brown palette matching reference photo
 const DIRT_CLUMPS = (()=>{
   const phi=2.39996;
-  const clr=['rgba(92,46,12,.85)','rgba(108,56,15,.80)','rgba(75,35,10,.88)',
-    'rgba(125,70,20,.75)','rgba(85,42,11,.82)','rgba(97,50,14,.78)',
-    'rgba(70,32,9,.90)','rgba(115,60,17,.76)','rgba(80,38,11,.84)',
-    'rgba(104,54,15,.79)','rgba(68,30,8,.88)','rgba(120,65,18,.72)'];
+  const clr=[
+    'rgba(148,105,52,.82)','rgba(162,118,60,.78)','rgba(132,90,44,.86)',
+    'rgba(172,130,68,.72)','rgba(142,100,50,.80)','rgba(155,112,58,.76)',
+    'rgba(128,86,42,.88)','rgba(165,122,62,.74)','rgba(138,96,48,.82)',
+    'rgba(158,114,58,.77)','rgba(125,84,40,.86)','rgba(168,126,64,.70)'
+  ];
   return clr.map((col,i)=>{
     const r=5+Math.sqrt((i+.5)/clr.length)*35, a=i*phi;
-    return {x:Math.cos(a)*r*.9, y:Math.sin(a)*r*.52+10,
+    return {x:Math.cos(a)*r*.9, y:Math.sin(a)*r*.52,
       rx:3+Math.abs(Math.sin(i*3.7))*5.5, ry:2+Math.abs(Math.cos(i*2.3))*2.5,
       rot:Math.sin(i*1.9)*.55, col};
   });
 })();
 function drawDirtHeap(){
-  const cx = DIRT_ZONE.x + DIRT_ZONE.w*0.44;
-  const cy = DIRT_ZONE.y + DIRT_ZONE.h*0.38;
-  // Shadow under mound
-  ctx.fillStyle='rgba(0,0,0,.18)';
-  ctx.beginPath(); ctx.ellipse(cx+4,cy+28,54,14,0,0,Math.PI*2); ctx.fill();
-  // Main mound
-  const mnd=ctx.createRadialGradient(cx,cy,4,cx,cy+12,58);
-  mnd.addColorStop(0,'rgba(115,62,18,0.95)');
-  mnd.addColorStop(0.45,'rgba(80,38,10,0.90)');
-  mnd.addColorStop(1,'rgba(50,20,4,0)');
-  ctx.fillStyle=mnd;
-  ctx.beginPath(); ctx.ellipse(cx,cy+18,56,30,0,0,Math.PI*2); ctx.fill();
-  // Stable surface clumps — no per-frame random, no flicker
-  for(const c of DIRT_CLUMPS){
-    ctx.fillStyle=c.col;
-    ctx.beginPath();
-    ctx.ellipse(cx+c.x,cy+c.y,c.rx,c.ry,c.rot,0,Math.PI*2);
-    ctx.fill();
+  const cx=DIRT_ZONE.x+DIRT_ZONE.w*0.50;
+  const cy=DIRT_ZONE.y+DIRT_ZONE.h;   // base of zone
+  // Ground shadow
+  ctx.fillStyle='rgba(0,0,0,.15)';
+  ctx.beginPath(); ctx.ellipse(cx+2,cy+2,60,10,0,0,Math.PI*2); ctx.fill();
+  if(dirtCanvas && dirtCanvas.width>0){
+    // Real photo texture (white bg removed)
+    const dispW=125;
+    const dispH=Math.round(dirtCanvas.height*dispW/dirtCanvas.width);
+    ctx.drawImage(dirtCanvas,cx-dispW/2,cy-dispH+8,dispW,dispH);
+  } else {
+    // Canvas fallback — layered conical mound in sandy tones
+    const baseY=cy-4, topY=cy-52;
+    const gb=ctx.createRadialGradient(cx,baseY,0,cx,baseY,62);
+    gb.addColorStop(0,'rgba(140,98,48,.92)'); gb.addColorStop(.65,'rgba(118,80,36,.70)'); gb.addColorStop(1,'rgba(95,62,25,0)');
+    ctx.fillStyle=gb; ctx.beginPath(); ctx.ellipse(cx,baseY,62,22,0,0,Math.PI*2); ctx.fill();
+    const gm=ctx.createRadialGradient(cx,topY+22,0,cx,topY+22,44);
+    gm.addColorStop(0,'rgba(162,118,62,.95)'); gm.addColorStop(.75,'rgba(128,88,42,.90)'); gm.addColorStop(1,'rgba(0,0,0,0)');
+    ctx.fillStyle=gm; ctx.beginPath(); ctx.ellipse(cx,topY+22,44,24,0,0,Math.PI*2); ctx.fill();
+    const gu=ctx.createRadialGradient(cx,topY+8,0,cx,topY+8,26);
+    gu.addColorStop(0,'rgba(178,138,78,.95)'); gu.addColorStop(.8,'rgba(152,112,58,.88)'); gu.addColorStop(1,'rgba(0,0,0,0)');
+    ctx.fillStyle=gu; ctx.beginPath(); ctx.ellipse(cx,topY+8,26,18,0,0,Math.PI*2); ctx.fill();
+    const ga=ctx.createRadialGradient(cx,topY,0,cx,topY,12);
+    ga.addColorStop(0,'rgba(192,158,92,.90)'); ga.addColorStop(1,'rgba(0,0,0,0)');
+    ctx.fillStyle=ga; ctx.beginPath(); ctx.ellipse(cx,topY,12,9,0,0,Math.PI*2); ctx.fill();
+    for(const c of DIRT_CLUMPS){
+      ctx.fillStyle=c.col;
+      ctx.beginPath(); ctx.ellipse(cx+c.x,cy-10+c.y,c.rx,c.ry,c.rot,0,Math.PI*2); ctx.fill();
+    }
   }
-  // Highlight ridge
-  ctx.fillStyle='rgba(150,88,30,0.35)';
-  ctx.beginPath(); ctx.ellipse(cx-6,cy+6,26,9,-0.2,0,Math.PI*2); ctx.fill();
 }
 
 
@@ -646,8 +674,9 @@ function drawPlayer(){
     keys['a']||keys['A']||keys['d']||keys['D']||keys['w']||keys['W']||keys['s']||keys['S'];
 
   let fk;
-  if(smokePause)    fk='smoke';
-  else if(carrying) fk='carry';
+  if(smokePause)      fk='smoke';
+  else if(phonePause) fk='carry';   // 'carry' = holding phone
+  else if(carrying)   fk='carry';
   else if(moving)   fk=animFrame%8<4?'walk1':'walk2';
   else              fk='idle';
 
@@ -669,6 +698,40 @@ function drawPlayer(){
     ctx.beginPath(); ctx.ellipse(0,-34,11,13,0,0,Math.PI*2); ctx.fill();
   }
 
+  ctx.restore();
+}
+
+// ── Phone call speech bubbles ─────────────────────────────────────────────────
+function drawPhoneBubbles(){
+  if(!phonePause) return;
+  const idx=Math.min(phoneBubbleIdx,PHONE_BUBBLES.length-1);
+  const text=PHONE_BUBBLES[idx];
+  const px=player.x, py=player.y;
+  ctx.save();
+  ctx.font='bold 12px sans-serif';
+  ctx.textBaseline='middle'; ctx.textAlign='left';
+  const tw=ctx.measureText(text).width;
+  const pad=8, bh=26, bw=tw+pad*2;
+  let bx=px+20;
+  if(bx+bw>WORLD_W-10) bx=px-bw-20;
+  bx=Math.max(4,bx);
+  const by=py-94;
+  // Shadow
+  ctx.fillStyle='rgba(0,0,0,.12)';
+  ctx.beginPath(); ctx.roundRect(bx+2,by+2,bw,bh,9); ctx.fill();
+  // Bubble body
+  ctx.fillStyle='rgba(255,255,255,.96)';
+  ctx.beginPath(); ctx.roundRect(bx,by,bw,bh,9); ctx.fill();
+  ctx.strokeStyle='rgba(80,80,80,.25)'; ctx.lineWidth=1; ctx.stroke();
+  // Tail triangle
+  const tx=Math.min(Math.max(px,bx+14),bx+bw-14);
+  ctx.fillStyle='rgba(255,255,255,.96)';
+  ctx.beginPath(); ctx.moveTo(tx-7,by+bh); ctx.lineTo(tx,by+bh+11); ctx.lineTo(tx+7,by+bh); ctx.closePath(); ctx.fill();
+  ctx.strokeStyle='rgba(80,80,80,.25)'; ctx.lineWidth=1;
+  ctx.beginPath(); ctx.moveTo(tx-7,by+bh); ctx.lineTo(tx,by+bh+11); ctx.lineTo(tx+7,by+bh); ctx.stroke();
+  ctx.fillStyle='rgba(255,255,255,.96)'; ctx.fillRect(tx-6,by+bh-1,12,2);
+  // Text
+  ctx.fillStyle='#222'; ctx.fillText(text,bx+pad,by+bh/2);
   ctx.restore();
 }
 
