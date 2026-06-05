@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>Hlína do Vlečky</title>
+<title>To je hlína!</title>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html,body{width:100%;height:100dvh;overflow:hidden;background:#000;touch-action:none}
+html,body{width:100%;height:100dvh;overflow:hidden;background:#2e5018;touch-action:none}
 #wrap{position:relative;width:100%;height:100%;display:flex;align-items:center;justify-content:center}
 canvas{display:block;image-rendering:auto}
 #hud{
@@ -38,8 +38,17 @@ canvas{display:block;image-rendering:auto}
   display:none;
 }
 #joystick-wrap{
-  position:absolute;bottom:clamp(20px,5vw,40px);left:clamp(20px,5vw,40px);
+  position:absolute;bottom:clamp(20px,5vw,40px);right:clamp(20px,5vw,40px);
   display:none;pointer-events:auto;
+}
+#joy-switch{
+  position:absolute;bottom:clamp(20px,5vw,40px);left:clamp(20px,5vw,40px);
+  width:clamp(40px,10vw,52px);height:clamp(40px,10vw,52px);
+  border-radius:50%;background:rgba(255,255,255,.15);border:2px solid rgba(255,255,255,.35);
+  color:#fff;font-size:clamp(14px,4vw,20px);font-weight:700;
+  display:none;align-items:center;justify-content:center;
+  pointer-events:auto;cursor:pointer;touch-action:manipulation;
+  user-select:none;
 }
 #joystick-base{
   width:clamp(80px,18vw,110px);height:clamp(80px,18vw,110px);
@@ -102,13 +111,14 @@ canvas{display:block;image-rendering:auto}
     <div id="smoke-indicator">🚬 Přestávka…</div>
   </div>
   <div id="joystick-wrap"><div id="joystick-base"><div id="joystick-knob"></div></div></div>
+  <div id="joy-switch">⇄</div>
   <div id="flash-overlay"></div>
   <div id="toast"></div>
 
   <!-- START -->
   <div class="overlay" id="ov-start">
-    <h1>⛏ Hlína do Vlečky</h1>
-    <p>Naplň vlečku 10× lopatou hlíny. Pohyb: <b>WASD / šipky</b> nebo joystick.<br>Dávej pozor na fotografa! A na cigaretové přestávky…</p>
+    <h1>To je hlína!</h1>
+    <p>Naplň vlečku 10× lopatou hlíny. Pohyb: <b>WASD / šipky</b> nebo joystick.<br>Dávej pozor na cigaretové přestávky a telefonáty…</p>
     <button class="btn" id="btn-start">Hrát!</button>
   </div>
   <!-- WIN -->
@@ -128,34 +138,100 @@ canvas{display:block;image-rendering:auto}
 <script>
 // ── Constants ────────────────────────────────────────────────────────────────
 const W = 720, H = 500;
+// World is the full photo at canvas height: 1848×850 → 1087×500 (scale 500/850)
+// Camera follows player horizontally; canvas shows a 720-wide viewport
+const WORLD_W = Math.round(1848 * H / 850);  // 1087
 
-// Zone definitions (logical coords)
-const DIRT_ZONE  = {x:60,  y:280, w:110, h:80};
-const TRUCK_ZONE = {x:540, y:300, w:130, h:80};
+// All zone/object coords are in world space (0–1087 × 0–500)
+const DIRT_ZONE  = {x:28,  y:355, w:92,  h:90};
+const TRUCK_ZONE = {x:762, y:355, w:95,  h:90};
+
+// Background photo (1848×850)
+const bgImg = new Image();
+bgImg.src = 'media/bg.png';
+
+// Car + trailer photo (1403×1121, white bg → removed via removeWhiteBg)
+// Drawn in original orientation: VW on LEFT, trailer on RIGHT
+const carImg = new Image();
+let carCanvas = null;  // offscreen canvas with alpha (no white)
+carImg.onload = () => { carCanvas = removeWhiteBg(carImg, 247); };
+carImg.src = 'media/car-trailer.png';
+
+// Dirt heap photo — save the uploaded image as media/dirt-heap.png to activate
+const dirtImg = new Image();
+let dirtCanvas = null;
+dirtImg.onload = () => { dirtCanvas = removeWhiteBg(dirtImg, 240); };
+dirtImg.src = 'media/dirt-heap.png';
+
+function removeWhiteBg(img, threshold, softMin=210) {
+  const oc = document.createElement('canvas');
+  oc.width = img.naturalWidth; oc.height = img.naturalHeight;
+  const octx = oc.getContext('2d');
+  octx.drawImage(img, 0, 0);
+  const id = octx.getImageData(0, 0, oc.width, oc.height);
+  const d = id.data;
+  for (let i = 0; i < d.length; i += 4) {
+    const r = d[i], g = d[i+1], b = d[i+2];
+    if (r >= threshold && g >= threshold && b >= threshold) {
+      d[i+3] = 0;
+    } else if (r > softMin && g > softMin && b > softMin) {
+      d[i+3] = Math.round((1 - (Math.min(r,g,b) - softMin) / (threshold - softMin)) * 255);
+    }
+  }
+  octx.putImageData(id, 0, 0);
+  return oc;
+}
 
 // Player config
 const PLAYER_SPEED = 2.8;
-const PLAYER_W = 32, PLAYER_H = 52;
 
-// Obstacle timings (seconds)
-const PHOTO_FIRST_MIN = 20, PHOTO_FIRST_MAX = 35;
-const PHOTO_GAP_MIN   = 25, PHOTO_GAP_MAX   = 45;
-const PHOTO_VIS_MIN   = 6,  PHOTO_VIS_MAX   = 10;
-const PHOTO_DETECT_DIST = 200;
+// Player sprite sheet (1536×1024: 3 cols × 2 rows, each cell 512×512)
+// Row 0: idle | walk-1 | walk-2    Row 1: carry | dig | smoke
+const playerImg = new Image();
+let playerCanvas = null;
+playerImg.onload = () => { playerCanvas = removeWhiteBg(playerImg, 185, 155); };
+playerImg.src = 'media/player-sprites.png';
+
+// Sprite display constants — cell 512×512 scaled to ~121px on canvas
+// Anchor = waist center (body center x≈170, waist y≈288 in source cell)
+const SP_CELL = 512;
+const SP_SC   = 0.236;
+const SP_DISP = Math.round(SP_CELL * SP_SC);    // 121
+const SP_WX   = Math.round(170  * SP_SC);        // 40  (body center x in display)
+const SP_WY   = Math.round(288  * SP_SC);        // 68  (waist y in display = anchor)
+const SP_FRAMES = {
+  idle:  [0,0], walk1: [1,0], walk2: [2,0],
+  carry: [0,1], dig:   [1,1], smoke: [2,1]
+};
+const SP_SRC_H = 465;                            // crop label text below sprites
+const SP_DSP_H = Math.round(SP_SRC_H * SP_SC);  // ~110
 
 const SMOKE_GAP_MIN = 12, SMOKE_GAP_MAX = 18;
 const SMOKE_DUR = 3;
+const PHONE_DUR_MIN = 9, PHONE_DUR_MAX = 13;
+const PHONE_PROB = 0.70;  // 70% phone break, 30% smoke
+function pickBubble(){
+  const r=Math.random();
+  if(r<0.50) return 'bla, bla..';
+  if(r<0.75) return 'bla';
+  if(r<0.85) return 'Na to mám lidi';
+  if(r<0.93) return 'Někdo tady musí přemýšlet';
+  return 'to je hlína';
+}
 
 // ── Canvas setup ─────────────────────────────────────────────────────────────
 const canvas = document.getElementById('c');
 const ctx    = canvas.getContext('2d');
 let SCALE=1, OX=0, OY=0, DPR=1;
+let VIEW_W=W;  // effective viewport width (W…WORLD_W depending on screen)
 
 function resize(){
   DPR   = window.devicePixelRatio || 1;
   const vw = window.innerWidth, vh = window.innerHeight;
   SCALE = Math.min(vw/W, vh/H);
-  OX    = (vw - W*SCALE)/2;
+  // Show as much of the world as fits the screen width at current scale
+  VIEW_W = Math.min(WORLD_W, Math.floor(vw / SCALE));
+  OX    = (vw - VIEW_W*SCALE)/2;
   OY    = (vh - H*SCALE)/2;
   canvas.width  = vw*DPR;
   canvas.height = vh*DPR;
@@ -175,9 +251,10 @@ let keys={};
 let joy={dx:0,dy:0};
 
 let player, load, carrying;
+let camX=0;
 let elapsedMs, timerInterval;
-let photoTimer, photoVisible, photoX, photoY, photoVisTimer;
 let smokeTimer, smokePause, smokePauseTimer;
+let phonePause, phonePauseTimer, phoneBubbleIdx, phoneDur, phoneBubbleSeq;
 let animFrame=0, animTick=0;
 let puff=[];  // smoke puffs [{x,y,r,a,vx,vy}]
 let flashTimer=0;
@@ -186,16 +263,16 @@ function rand(a,b){return a+Math.random()*(b-a)}
 function randInt(a,b){return Math.floor(rand(a,b+1))}
 
 function initGame(){
-  player = {x:180, y:310, vx:0, vy:0, facing:1};
+  player = {x:300, y:415, vx:0, vy:0, facing:1};
+  camX=0;
   load=0; carrying=false;
   elapsedMs=0;
   animFrame=0; animTick=0;
   puff=[];
   flashTimer=0;
-  photoVisible=false;
-  photoTimer = rand(PHOTO_FIRST_MIN, PHOTO_FIRST_MAX);
   smokeTimer = rand(SMOKE_GAP_MIN, SMOKE_GAP_MAX);
   smokePause=false; smokePauseTimer=0;
+  phonePause=false; phonePauseTimer=0; phoneBubbleIdx=0; phoneDur=10; phoneBubbleSeq=[];
 
   document.getElementById('progress-bar').style.width='0%';
   document.getElementById('progress-label').textContent='Vlečka: 0 / 10';
@@ -204,7 +281,7 @@ function initGame(){
 
   if(timerInterval) clearInterval(timerInterval);
   timerInterval = setInterval(()=>{
-    if(state==='play' && !smokePause){
+    if(state==='play' && !smokePause && !phonePause){
       elapsedMs+=100;
       updateTimerDisplay();
     }
@@ -238,7 +315,25 @@ let jTouch=null, jCx=0, jCy=0, jR=0;
 
 function setupJoystick(){
   const isTouch = 'ontouchstart' in window;
-  if(isTouch) document.getElementById('joystick-wrap').style.display='block';
+  const jWrap   = document.getElementById('joystick-wrap');
+  const jSwitch = document.getElementById('joy-switch');
+  if(!isTouch) return;
+
+  let joyRight = true;
+  function positionJoy(){
+    if(joyRight){
+      jWrap.style.right='clamp(20px,5vw,40px)'; jWrap.style.left='';
+      jSwitch.style.left='clamp(20px,5vw,40px)'; jSwitch.style.right='';
+    } else {
+      jWrap.style.left='clamp(20px,5vw,40px)'; jWrap.style.right='';
+      jSwitch.style.right='clamp(20px,5vw,40px)'; jSwitch.style.left='';
+    }
+  }
+  jWrap.style.display='block';
+  jSwitch.style.display='flex';
+  positionJoy();
+  jSwitch.addEventListener('click',()=>{ joyRight=!joyRight; positionJoy(); });
+
   jBase.addEventListener('touchstart',e=>{
     e.preventDefault();
     const t=e.touches[0];
@@ -301,26 +396,45 @@ function update(dt){
       smokePause=false;
       document.getElementById('smoke-indicator').style.display='none';
     }
-    // emit puffs during pause
     if(Math.random()<0.15){
       puff.push({
-        x:player.x+(player.facing>0?14:-14),
-        y:player.y-30,
+        x:player.x+(player.facing>0?30:-30),
+        y:player.y-55,
         r:4, a:0.7,
         vx:rand(-10,10), vy:rand(-25,-10)
       });
     }
-    return; // player frozen
+    return;
   }
 
-  // Smoke timer
+  // Phone pause
+  if(phonePause){
+    phonePauseTimer-=dt;
+    const elapsed=phoneDur-phonePauseTimer;
+    phoneBubbleIdx=Math.min(phoneBubbleSeq.length-1, Math.floor(elapsed/2.2));
+    if(phonePauseTimer<=0){
+      phonePause=false;
+      document.getElementById('smoke-indicator').style.display='none';
+    }
+    return;
+  }
+
+  // Break timer — 70% phone call, 30% smoke
   smokeTimer-=dt;
   if(smokeTimer<=0){
-    smokePause=true;
-    smokePauseTimer=SMOKE_DUR;
     smokeTimer=rand(SMOKE_GAP_MIN,SMOKE_GAP_MAX);
-    document.getElementById('smoke-indicator').style.display='block';
-    showToast('🚬 Cigaretová přestávka!');
+    const si=document.getElementById('smoke-indicator');
+    if(Math.random()<PHONE_PROB){
+      phoneDur=rand(PHONE_DUR_MIN,PHONE_DUR_MAX);
+      phonePause=true; phonePauseTimer=phoneDur; phoneBubbleIdx=0;
+      phoneBubbleSeq=Array.from({length:Math.max(4,Math.ceil(phoneDur/2.2))},pickBubble);
+      si.textContent='📱 Telefonát…'; si.style.display='block';
+      showToast('📱 Telefonát!');
+    } else {
+      smokePause=true; smokePauseTimer=SMOKE_DUR;
+      si.textContent='🚬 Přestávka…'; si.style.display='block';
+      showToast('🚬 Cigaretová přestávka!');
+    }
   }
 
   // Player movement
@@ -337,9 +451,10 @@ function update(dt){
     player.y+=dy*PLAYER_SPEED;
     if(dx!==0) player.facing=dx>0?1:-1;
   }
-  // Clamp
-  player.x=Math.max(20,Math.min(W-20,player.x));
-  player.y=Math.max(240,Math.min(H-30,player.y));
+  // Clamp to playable ground (below hedge line, above bottom edge)
+  player.x=Math.max(20,Math.min(WORLD_W-20,player.x));
+  player.y=Math.max(348,Math.min(H-30,player.y));
+  camX=Math.max(0,Math.min(WORLD_W-VIEW_W,player.x-VIEW_W/2));
 
   // Animation
   animTick+=dt;
@@ -360,33 +475,6 @@ function update(dt){
     if(load>=10){ endGame('win'); return; }
   }
 
-  // Photographer
-  photoTimer-=dt;
-  if(photoTimer<=0 && !photoVisible){
-    photoVisible=true;
-    photoVisTimer=rand(PHOTO_VIS_MIN,PHOTO_VIS_MAX);
-    // spawn off-screen edge
-    const side=Math.random()<0.5?0:1;
-    photoX=side===0?-40:W+40;
-    photoY=rand(240,H-60);
-  }
-  if(photoVisible){
-    photoVisTimer-=dt;
-    // move toward player
-    const pdx=player.x-photoX, pdy=player.y-photoY;
-    const pd=Math.sqrt(pdx*pdx+pdy*pdy);
-    const spd=55;
-    if(pd>1){photoX+=pdx/pd*spd*dt; photoY+=pdy/pd*spd*dt;}
-
-    // detect
-    if(carrying && pd<PHOTO_DETECT_DIST){
-      endGame('lose'); return;
-    }
-    if(photoVisTimer<=0){
-      photoVisible=false;
-      photoTimer=rand(PHOTO_GAP_MIN,PHOTO_GAP_MAX);
-    }
-  }
 }
 
 function endGame(result){
@@ -407,326 +495,113 @@ function endGame(result){
 
 // ── Rendering ─────────────────────────────────────────────────────────────────
 function render(){
+  // Fill full screen with photo-edge gradient (hides any letterbox bars)
+  if(OX>2||OY>2){
+    ctx.save();
+    ctx.setTransform(DPR,0,0,DPR,0,0);
+    const cw=canvas.width/DPR, ch=canvas.height/DPR;
+    const g=ctx.createLinearGradient(0,0,0,ch);
+    g.addColorStop(0,'#6a8fa8'); g.addColorStop(0.3,'#4a7830'); g.addColorStop(1,'#2a4e18');
+    ctx.fillStyle=g; ctx.fillRect(0,0,cw,ch);
+    ctx.restore();
+  }
+
   ctx.save();
   ctx.setTransform(SCALE*DPR,0,0,SCALE*DPR,OX*DPR,OY*DPR);
-  ctx.clearRect(0,0,W,H);
+  ctx.clearRect(0,0,VIEW_W,H);
 
-  drawScene();
+  drawBackground();          // screen space — uses camX + VIEW_W
+
+  ctx.save();
+  ctx.translate(-camX, 0);   // world space: all objects in world coords
+  drawCarTrailer();
+  drawDirtHeap();
   drawZoneIndicators();
   drawSmokeParticles();
-
-  if(photoVisible) drawPhotographer();
   drawPlayer();
-
-  if(photoVisible && carrying){
-    drawDetectionLine();
-  }
+  drawPhoneBubbles();
+  ctx.restore();
 
   ctx.restore();
 }
 
-// ── Scene Drawing ─────────────────────────────────────────────────────────────
-function drawScene(){
-  // Sky gradient
-  const sky=ctx.createLinearGradient(0,0,0,H*0.55);
-  sky.addColorStop(0,'#c4dce8');
-  sky.addColorStop(1,'#d8ead0');
-  ctx.fillStyle=sky; ctx.fillRect(0,0,W,H*0.55);
-
-  // Background trees (right upper)
-  ctx.fillStyle='#1a3810';
-  for(let i=0;i<8;i++){
-    ctx.beginPath();
-    ctx.ellipse(520+i*22,85+Math.sin(i)*15,28+i*3,38+i*2,0,0,Math.PI*2);
-    ctx.fill();
+// ── Background — scrolling photo viewport ─────────────────────────────────────
+function drawBackground(){
+  if(!bgImg.complete || bgImg.naturalWidth===0){
+    ctx.fillStyle='#8aa870'; ctx.fillRect(0,0,VIEW_W,H); return;
   }
-  ctx.fillStyle='#162e0c';
-  for(let i=0;i<5;i++){
-    ctx.beginPath();
-    ctx.ellipse(530+i*28,70+Math.cos(i)*10,22,30,0,0,Math.PI*2);
-    ctx.fill();
-  }
-
-  // Orange building (left)
-  // Main façade
-  const bldg=ctx.createLinearGradient(0,80,0,220);
-  bldg.addColorStop(0,'#d4923a');
-  bldg.addColorStop(1,'#c07828');
-  ctx.fillStyle=bldg;
-  ctx.beginPath(); ctx.roundRect(10,90,200,160,4); ctx.fill();
-  // Metal roof
-  const roof=ctx.createLinearGradient(0,75,0,95);
-  roof.addColorStop(0,'#9a9a9a');
-  roof.addColorStop(1,'#717171');
-  ctx.fillStyle=roof; ctx.fillRect(5,75,210,20);
-  // Drainpipe
-  ctx.fillStyle='#888'; ctx.fillRect(195,95,8,155);
-  // Door
-  ctx.fillStyle='#5c3810';
-  ctx.beginPath(); ctx.roundRect(70,160,50,90,3); ctx.fill();
-  ctx.fillStyle='#7a4e20';
-  ctx.fillRect(75,165,19,38); ctx.fillRect(96,165,19,38);
-  ctx.fillRect(75,207,19,38); ctx.fillRect(96,207,19,38);
-  // Mailboxes
-  ctx.fillStyle='#8b5c20';
-  ctx.fillRect(130,175,18,22); ctx.fillRect(152,175,18,22);
-  ctx.fillStyle='rgba(0,0,0,.15)'; ctx.fillRect(130,175,18,1); ctx.fillRect(152,175,18,1);
-  // Bushes (shaped)
-  ctx.fillStyle='#2e6b24';
-  ctx.beginPath(); ctx.ellipse(40,250,28,18,0,0,Math.PI*2); ctx.fill();
-  ctx.beginPath(); ctx.ellipse(65,248,22,16,0,0,Math.PI*2); ctx.fill();
-  ctx.beginPath(); ctx.ellipse(52,255,20,13,0,0,Math.PI*2); ctx.fill();
-
-  // Background car behind hedge
-  ctx.fillStyle='#2a2a2a';
-  ctx.beginPath(); ctx.roundRect(390,202,80,30,6); ctx.fill();
-  ctx.fillStyle='#1a1a1a';
-  ctx.beginPath(); ctx.roundRect(395,195,70,20,8); ctx.fill();
-
-  // Hedge / living fence (full width)
-  const hedgeGrad=ctx.createLinearGradient(0,225,0,265);
-  hedgeGrad.addColorStop(0,'#3a8030');
-  hedgeGrad.addColorStop(0.5,'#2d6e24');
-  hedgeGrad.addColorStop(1,'#1e5018');
-  ctx.fillStyle=hedgeGrad;
-  for(let i=0;i<18;i++){
-    ctx.beginPath();
-    ctx.roundRect(i*42-5,222,46,42,8);
-    ctx.fill();
-  }
-  // hedge texture / depth
-  ctx.fillStyle='rgba(0,0,0,.12)';
-  for(let i=0;i<18;i++){
-    ctx.beginPath();
-    ctx.ellipse(i*42+14,238,12,8,0.3,0,Math.PI*2);
-    ctx.fill();
-  }
-
-  // Road
-  ctx.fillStyle='#5a5a5a';
-  ctx.fillRect(0,265,W,50);
-  // Red kerb
-  ctx.fillStyle='#c83030';
-  ctx.fillRect(0,265,W,6);
-  ctx.fillRect(0,309,W,6);
-  // Dashed center line
-  ctx.strokeStyle='#ffe060'; ctx.lineWidth=2; ctx.setLineDash([20,14]);
-  ctx.beginPath(); ctx.moveTo(0,290); ctx.lineTo(W,290); ctx.stroke();
-  ctx.setLineDash([]);
-
-  // Ground — dirt area left
-  const dirtGnd=ctx.createLinearGradient(0,315,0,H);
-  dirtGnd.addColorStop(0,'#2a1408');
-  dirtGnd.addColorStop(1,'#3a1c0a');
-  ctx.fillStyle=dirtGnd;
-  ctx.fillRect(0,315,W*0.55,H-315);
-
-  // Grass right
-  const grassGnd=ctx.createLinearGradient(0,315,0,H);
-  grassGnd.addColorStop(0,'#2e6020');
-  grassGnd.addColorStop(1,'#1e4814');
-  ctx.fillStyle=grassGnd;
-  ctx.fillRect(W*0.55,315,W*0.45,H-315);
-
-  // Dirt heap (left area)
-  drawDirtHeap();
-
-  // VW SUV (rear view, right area)
-  drawVWSUV();
-
-  // Trailer (agados)
-  drawTrailer();
-
-  // Garden lamp (right)
-  drawLamp();
-
-  // Decorative vegetation front
-  drawVegetation();
+  const scaleX = bgImg.naturalWidth / WORLD_W;  // 1848/1087 ≈ 1.700
+  ctx.drawImage(bgImg,
+    camX  * scaleX, 0,
+    VIEW_W * scaleX, bgImg.naturalHeight,
+    0, 0, VIEW_W, H
+  );
 }
 
+// ── Car + trailer — real photo, white bg removed, original orientation ───────
+// Image 1403×1121: VW left, trailer right (no flip) — world coords
+// Scale 0.13 → 182×146; wheels at world y≈400 (grass foreground)
+function drawCarTrailer(){
+  if(!carCanvas) return;
+  const SC = 0.12;
+  const dw = Math.round(carImg.naturalWidth  * SC);  // 168
+  const dh = Math.round(carImg.naturalHeight * SC);  // 135
+  const dx = 695;  // right of path, clear of parked vehicle
+  const dy = 322;  // wheels at ~dy+119=441
+
+  ctx.drawImage(carCanvas, dx, dy, dw, dh);
+}
+
+// ── Dirt heap — overlaid on photo grass ──────────────────────────────────────
+// Stable clump offsets — sandy/warm-brown palette matching reference photo
+const DIRT_CLUMPS = (()=>{
+  const phi=2.39996;
+  const clr=[
+    'rgba(148,105,52,.82)','rgba(162,118,60,.78)','rgba(132,90,44,.86)',
+    'rgba(172,130,68,.72)','rgba(142,100,50,.80)','rgba(155,112,58,.76)',
+    'rgba(128,86,42,.88)','rgba(165,122,62,.74)','rgba(138,96,48,.82)',
+    'rgba(158,114,58,.77)','rgba(125,84,40,.86)','rgba(168,126,64,.70)'
+  ];
+  return clr.map((col,i)=>{
+    const r=5+Math.sqrt((i+.5)/clr.length)*35, a=i*phi;
+    return {x:Math.cos(a)*r*.9, y:Math.sin(a)*r*.52,
+      rx:3+Math.abs(Math.sin(i*3.7))*5.5, ry:2+Math.abs(Math.cos(i*2.3))*2.5,
+      rot:Math.sin(i*1.9)*.55, col};
+  });
+})();
 function drawDirtHeap(){
-  const cx=DIRT_ZONE.x+DIRT_ZONE.w*0.45, cy=DIRT_ZONE.y+DIRT_ZONE.h*0.3;
-  // Main mound
-  const mnd=ctx.createRadialGradient(cx,cy,5,cx,cy+15,60);
-  mnd.addColorStop(0,'#6b3810');
-  mnd.addColorStop(0.4,'#4a2208');
-  mnd.addColorStop(1,'rgba(42,20,8,0)');
-  ctx.fillStyle=mnd;
-  ctx.beginPath();
-  ctx.ellipse(cx,cy+20,58,32,0,0,Math.PI*2);
-  ctx.fill();
-  // Clumps
-  ctx.fillStyle='#5a2e10';
-  for(let i=0;i<8;i++){
-    ctx.beginPath();
-    ctx.ellipse(
-      cx+rand(-40,40), cy+rand(-10,28),
-      rand(4,9), rand(3,6),
-      rand(-0.5,0.5), 0, Math.PI*2
-    );
-    ctx.fill();
-  }
-}
-
-function drawVWSUV(){
-  // VW black SUV rear view
-  const bx=480, by=340;
-  // Body
-  const body=ctx.createLinearGradient(bx,by-35,bx,by+30);
-  body.addColorStop(0,'#2a2a2e');
-  body.addColorStop(0.4,'#1a1a1e');
-  body.addColorStop(1,'#111116');
-  ctx.fillStyle=body;
-  ctx.beginPath(); ctx.roundRect(bx-55,by-35,110,65,10); ctx.fill();
-  // Roof
-  ctx.fillStyle='#1c1c20';
-  ctx.beginPath(); ctx.roundRect(bx-38,by-55,76,24,8); ctx.fill();
-  // LED light bar (red)
-  const led=ctx.createLinearGradient(bx-52,by-20,bx+52,by-20);
-  led.addColorStop(0,'#ff2222');
-  led.addColorStop(0.45,'#ff6644');
-  led.addColorStop(0.55,'#ff6644');
-  led.addColorStop(1,'#ff2222');
-  ctx.fillStyle=led;
-  ctx.fillRect(bx-50,by-22,100,5);
-  ctx.shadowColor='#ff3300'; ctx.shadowBlur=10;
-  ctx.fillRect(bx-50,by-22,100,5);
-  ctx.shadowBlur=0;
-  // Chrome bumper
-  ctx.fillStyle='#b0b0b8';
-  ctx.beginPath(); ctx.roundRect(bx-50,by+22,100,10,4); ctx.fill();
-  // Licence plate
-  ctx.fillStyle='#f0f0e0';
-  ctx.beginPath(); ctx.roundRect(bx-20,by+6,40,14,2); ctx.fill();
-  ctx.fillStyle='#111'; ctx.font='bold 8px Arial'; ctx.textAlign='center';
-  ctx.fillText('8H8 8023',bx,by+16);
-  // Wheels
-  for(const wx of [bx-40,bx+40]){
-    ctx.fillStyle='#111'; ctx.beginPath(); ctx.arc(wx,by+32,14,0,Math.PI*2); ctx.fill();
-    ctx.fillStyle='#555'; ctx.beginPath(); ctx.arc(wx,by+32,10,0,Math.PI*2); ctx.fill();
-    // spokes
-    ctx.strokeStyle='#777'; ctx.lineWidth=1.5;
-    for(let a=0;a<6;a++){
-      const ang=a*Math.PI/3;
-      ctx.beginPath();
-      ctx.moveTo(wx,by+32);
-      ctx.lineTo(wx+Math.cos(ang)*9,by+32+Math.sin(ang)*9);
-      ctx.stroke();
-    }
-    ctx.fillStyle='#444'; ctx.beginPath(); ctx.arc(wx,by+32,3,0,Math.PI*2); ctx.fill();
-  }
-  // Rear window tint
-  ctx.fillStyle='rgba(100,150,255,.08)';
-  ctx.beginPath(); ctx.roundRect(bx-35,by-53,70,20,6); ctx.fill();
-}
-
-function drawTrailer(){
-  const tx=540, ty=340;
-  // Chassis
-  ctx.fillStyle='#888c8e';
-  ctx.beginPath(); ctx.roundRect(tx-85,ty-30,160,55,6); ctx.fill();
-  // Aluminium planks
-  for(let i=0;i<7;i++){
-    const pg=ctx.createLinearGradient(tx-85,ty-28+i*7,tx+75,ty-28+i*7);
-    pg.addColorStop(0,'#a0a8ac');
-    pg.addColorStop(0.4,'#c0c8cc');
-    pg.addColorStop(0.7,'#a8b0b4');
-    pg.addColorStop(1,'#909898');
-    ctx.fillStyle=pg;
-    ctx.fillRect(tx-85,ty-28+i*7,160,5);
-  }
-  // Side walls
-  ctx.fillStyle='#6e7678';
-  ctx.fillRect(tx-85,ty-30,6,55);
-  ctx.fillRect(tx+69,ty-30,6,55);
-  // Rear lights
-  ctx.fillStyle='#ff2222'; ctx.beginPath(); ctx.roundRect(tx-90,ty-18,8,12,2); ctx.fill();
-  ctx.fillStyle='#ff4444'; ctx.beginPath(); ctx.roundRect(tx-90,ty-18,8,12,2); ctx.fill();
-  ctx.fillStyle='#ff2222'; ctx.beginPath(); ctx.roundRect(tx+74,ty-18,8,12,2); ctx.fill();
-  // AGADOS logo
-  ctx.fillStyle='#ffe030'; ctx.font='bold 9px Arial'; ctx.textAlign='center';
-  ctx.fillText('agados',tx-10,ty-15);
-  // 100 km/h sticker
-  ctx.fillStyle='#fff'; ctx.font='7px Arial';
-  ctx.fillText('100',tx+35,ty-10);
-  ctx.strokeStyle='#e00'; ctx.lineWidth=1;
-  ctx.beginPath(); ctx.arc(tx+35,ty-14,8,0,Math.PI*2); ctx.stroke();
-  // Licence plate
-  ctx.fillStyle='#f0f0e0';
-  ctx.beginPath(); ctx.roundRect(tx-18,ty+18,36,12,2); ctx.fill();
-  ctx.fillStyle='#111'; ctx.font='bold 6px Arial';
-  ctx.fillText('3M7 9681',tx-1,ty+27);
-  // Tow bar
-  ctx.strokeStyle='#555'; ctx.lineWidth=5;
-  ctx.beginPath(); ctx.moveTo(tx-85,ty+20); ctx.lineTo(tx-110,ty+20); ctx.stroke();
-  // Wheels
-  for(const wx of [tx-55,tx+45]){
-    ctx.fillStyle='#111'; ctx.beginPath(); ctx.arc(wx,ty+30,13,0,Math.PI*2); ctx.fill();
-    ctx.fillStyle='#555'; ctx.beginPath(); ctx.arc(wx,ty+30,9,0,Math.PI*2); ctx.fill();
-    ctx.strokeStyle='#777'; ctx.lineWidth=1.5;
-    for(let a=0;a<5;a++){
-      const ang=a*Math.PI/2.5;
-      ctx.beginPath();
-      ctx.moveTo(wx,ty+30);
-      ctx.lineTo(wx+Math.cos(ang)*8,ty+30+Math.sin(ang)*8);
-      ctx.stroke();
+  const cx=DIRT_ZONE.x+DIRT_ZONE.w*0.50;
+  const cy=DIRT_ZONE.y+DIRT_ZONE.h;   // base of zone
+  // Ground shadow
+  ctx.fillStyle='rgba(0,0,0,.15)';
+  ctx.beginPath(); ctx.ellipse(cx+2,cy+2,60,10,0,0,Math.PI*2); ctx.fill();
+  if(dirtCanvas && dirtCanvas.width>0){
+    // Real photo texture (white bg removed)
+    const dispW=125;
+    const dispH=Math.round(dirtCanvas.height*dispW/dirtCanvas.width);
+    ctx.drawImage(dirtCanvas,cx-dispW/2,cy-dispH+8,dispW,dispH);
+  } else {
+    // Canvas fallback — layered conical mound in sandy tones
+    const baseY=cy-4, topY=cy-52;
+    const gb=ctx.createRadialGradient(cx,baseY,0,cx,baseY,62);
+    gb.addColorStop(0,'rgba(140,98,48,.92)'); gb.addColorStop(.65,'rgba(118,80,36,.70)'); gb.addColorStop(1,'rgba(95,62,25,0)');
+    ctx.fillStyle=gb; ctx.beginPath(); ctx.ellipse(cx,baseY,62,22,0,0,Math.PI*2); ctx.fill();
+    const gm=ctx.createRadialGradient(cx,topY+22,0,cx,topY+22,44);
+    gm.addColorStop(0,'rgba(162,118,62,.95)'); gm.addColorStop(.75,'rgba(128,88,42,.90)'); gm.addColorStop(1,'rgba(0,0,0,0)');
+    ctx.fillStyle=gm; ctx.beginPath(); ctx.ellipse(cx,topY+22,44,24,0,0,Math.PI*2); ctx.fill();
+    const gu=ctx.createRadialGradient(cx,topY+8,0,cx,topY+8,26);
+    gu.addColorStop(0,'rgba(178,138,78,.95)'); gu.addColorStop(.8,'rgba(152,112,58,.88)'); gu.addColorStop(1,'rgba(0,0,0,0)');
+    ctx.fillStyle=gu; ctx.beginPath(); ctx.ellipse(cx,topY+8,26,18,0,0,Math.PI*2); ctx.fill();
+    const ga=ctx.createRadialGradient(cx,topY,0,cx,topY,12);
+    ga.addColorStop(0,'rgba(192,158,92,.90)'); ga.addColorStop(1,'rgba(0,0,0,0)');
+    ctx.fillStyle=ga; ctx.beginPath(); ctx.ellipse(cx,topY,12,9,0,0,Math.PI*2); ctx.fill();
+    for(const c of DIRT_CLUMPS){
+      ctx.fillStyle=c.col;
+      ctx.beginPath(); ctx.ellipse(cx+c.x,cy-10+c.y,c.rx,c.ry,c.rot,0,Math.PI*2); ctx.fill();
     }
   }
-  // If load >0, show dirt in trailer
-  if(load>0){
-    ctx.fillStyle='rgba(60,25,8,0.85)';
-    const fillH=Math.min(40,load/10*42);
-    ctx.beginPath();
-    ctx.roundRect(tx-79,ty-28+42-fillH,158,fillH,3);
-    ctx.fill();
-  }
 }
 
-function drawLamp(){
-  const lx=650, ly=270;
-  // Post
-  ctx.strokeStyle='#606060'; ctx.lineWidth=4;
-  ctx.beginPath(); ctx.moveTo(lx,ly+80); ctx.lineTo(lx,ly); ctx.stroke();
-  // Arm
-  ctx.beginPath(); ctx.moveTo(lx,ly); ctx.lineTo(lx+20,ly-10); ctx.stroke();
-  // Lamp head
-  ctx.fillStyle='#808880';
-  ctx.beginPath(); ctx.roundRect(lx+14,ly-18,18,14,4); ctx.fill();
-  // Glow
-  const glow=ctx.createRadialGradient(lx+23,ly-8,2,lx+23,ly-8,40);
-  glow.addColorStop(0,'rgba(255,240,140,.4)');
-  glow.addColorStop(1,'rgba(255,240,140,0)');
-  ctx.fillStyle=glow;
-  ctx.fillRect(lx-15,ly-45,80,80);
-  // Light bulb
-  ctx.fillStyle='#ffe880';
-  ctx.beginPath(); ctx.arc(lx+23,ly-11,4,0,Math.PI*2); ctx.fill();
-}
-
-function drawVegetation(){
-  // Decorative grass tufts (bezier blades)
-  ctx.strokeStyle='#3a7828'; ctx.lineWidth=1.5;
-  for(let i=0;i<14;i++){
-    const gx=W-100+i*8, gy=H-10;
-    ctx.beginPath();
-    ctx.moveTo(gx,gy);
-    ctx.bezierCurveTo(gx-3,gy-10,gx+2,gy-20,gx+rand(-4,4),gy-rand(18,28));
-    ctx.stroke();
-  }
-  // Front green plants
-  ctx.fillStyle='#1e5012';
-  for(let i=0;i<5;i++){
-    ctx.beginPath();
-    ctx.ellipse(40+i*30, H-8, 18, 12, 0, 0, Math.PI*2);
-    ctx.fill();
-  }
-  ctx.fillStyle='#2a6a1a';
-  for(let i=0;i<5;i++){
-    ctx.beginPath();
-    ctx.ellipse(50+i*30, H-12, 14, 9, 0, 0, Math.PI*2);
-    ctx.fill();
-  }
-}
 
 function drawZoneIndicators(){
   if(state!=='play') return;
@@ -758,216 +633,77 @@ function drawSmokeParticles(){
   ctx.globalAlpha=1;
 }
 
-// ── Player drawing ─────────────────────────────────────────────────────────────
+// ── Player drawing — sprite sheet ─────────────────────────────────────────────
 function drawPlayer(){
   const px=player.x, py=player.y;
   const f=player.facing;
-  const t=animFrame;
 
-  // Determine state
-  const moving = Math.abs(joy.dx)>0.1||Math.abs(joy.dy)>0.1||
-                 keys['ArrowLeft']||keys['ArrowRight']||keys['ArrowUp']||keys['ArrowDown']||
-                 keys['a']||keys['A']||keys['d']||keys['D']||keys['w']||keys['W']||keys['s']||keys['S'];
+  const moving=Math.abs(joy.dx)>0.1||Math.abs(joy.dy)>0.1||
+    keys['ArrowLeft']||keys['ArrowRight']||keys['ArrowUp']||keys['ArrowDown']||
+    keys['a']||keys['A']||keys['d']||keys['D']||keys['w']||keys['W']||keys['s']||keys['S'];
 
-  let st='idle';
-  if(smokePause) st='smoke';
-  else if(moving && carrying) st='carry';
-  else if(moving) st='walk';
-  else if(carrying) st='carry';
+  let fk;
+  if(smokePause)      fk='smoke';
+  else if(phonePause) fk='carry';   // 'carry' = holding phone
+  else if(carrying)   fk='carry';
+  else if(moving)   fk=animFrame%8<4?'walk1':'walk2';
+  else              fk='idle';
 
-  ctx.save();
-  ctx.translate(px, py);
-  if(f<0) ctx.scale(-1,1);
-
-  // Bob / walk offsets
-  const bob = st==='idle' ? Math.sin(t*0.6)*1.5 : 0;
-  const legL = (st==='walk'||st==='carry') ? Math.sin(t*0.9)*8 : 0;
-  const legR = -legL;
-  const tilt = st==='dig' ? Math.sin(t)*6*(Math.PI/180) : 0;
-
-  ctx.translate(0, bob);
-  ctx.rotate(tilt);
-
-  // Legs
-  ctx.fillStyle='#b8bcb8';
-  // Left leg
-  ctx.save();
-  ctx.translate(-7, 22);
-  ctx.rotate(legL*(Math.PI/180));
-  ctx.beginPath(); ctx.roundRect(-5,0,10,24,4); ctx.fill();
-  ctx.fillStyle='#888'; ctx.fillRect(-5,22,10,5);
-  ctx.restore();
-  // Right leg
-  ctx.save();
-  ctx.translate(7,22);
-  ctx.rotate(legR*(Math.PI/180));
-  ctx.fillStyle='#b8bcb8';
-  ctx.beginPath(); ctx.roundRect(-5,0,10,24,4); ctx.fill();
-  ctx.fillStyle='#888'; ctx.fillRect(-5,22,10,5);
-  ctx.restore();
-
-  // Body (lime green hoodie)
-  const torsoG=ctx.createLinearGradient(-13,-20,13,-20);
-  torsoG.addColorStop(0,'#7a9a30');
-  torsoG.addColorStop(0.3,'#9eb848');
-  torsoG.addColorStop(0.7,'#8aaa38');
-  torsoG.addColorStop(1,'#6a8828');
-  ctx.fillStyle=torsoG;
-  ctx.beginPath(); ctx.roundRect(-13,-22,26,44,6); ctx.fill();
-  // Hood
-  ctx.fillStyle='#8aaa38';
-  ctx.beginPath(); ctx.ellipse(0,-22,11,7,0,0,Math.PI*2); ctx.fill();
-  // Center seam
-  ctx.strokeStyle='rgba(0,0,0,.18)'; ctx.lineWidth=1;
-  ctx.beginPath(); ctx.moveTo(0,-20); ctx.lineTo(0,18); ctx.stroke();
-  // Kangaroo pocket
-  ctx.fillStyle='rgba(0,0,0,.12)';
-  ctx.beginPath(); ctx.roundRect(-9,5,18,10,4); ctx.fill();
-
-  // Head & face
-  const skinG=ctx.createRadialGradient(2,-34,2,0,-34,12);
-  skinG.addColorStop(0,'#d8b888');
-  skinG.addColorStop(1,'#c8a878');
-  ctx.fillStyle=skinG;
-  ctx.beginPath(); ctx.ellipse(0,-34,11,13,0,0,Math.PI*2); ctx.fill();
-  // Stubble
-  ctx.fillStyle='rgba(70,45,25,.55)';
-  ctx.beginPath(); ctx.ellipse(0,-28,7,4,0,0,Math.PI*2); ctx.fill();
-  // Eyes
-  ctx.fillStyle='#333';
-  ctx.beginPath(); ctx.arc(-4,-35,1.8,0,Math.PI*2); ctx.fill();
-  ctx.beginPath(); ctx.arc(4,-35,1.8,0,Math.PI*2); ctx.fill();
-
-  // Cap (flat black)
-  ctx.fillStyle='#0e0e0e';
-  ctx.beginPath(); ctx.ellipse(0,-45,13,6,0,0,Math.PI*2); ctx.fill();
-  ctx.fillRect(-13,-48,26,5);
-  // Brim
-  ctx.fillStyle='#111';
-  ctx.beginPath(); ctx.roundRect(6,-50,14,4,2); ctx.fill();
-
-  // Shovel
-  if(st!=='smoke' && st!=='caught'){
-    drawShovel(st==='carry');
-  }
-
-  // Smoke state extras
-  if(st==='smoke'){
-    // phone at ear
-    ctx.fillStyle='#222';
-    ctx.beginPath(); ctx.roundRect(10,-38,6,14,2); ctx.fill();
-    // cigarette
-    ctx.strokeStyle='#f0f0e0'; ctx.lineWidth=2;
-    ctx.beginPath(); ctx.moveTo(6,-26); ctx.lineTo(16,-24); ctx.stroke();
-    ctx.fillStyle='#ff6620'; ctx.beginPath(); ctx.arc(16,-24,2.5,0,Math.PI*2); ctx.fill();
-    // 🚬 text
-    ctx.font='12px serif'; ctx.textAlign='center';
-    ctx.fillText('🚬',0,-58);
-  }
-
-  // Caught state
-  if(st==='caught'){
-    ctx.font='16px serif'; ctx.textAlign='center';
-    ctx.fillText('❗',0,-62);
-  }
-
-  ctx.restore();
-}
-
-function drawShovel(hasDirt){
-  // Handle (wooden)
-  const handleG=ctx.createLinearGradient(8,0,14,0);
-  handleG.addColorStop(0,'#a06820');
-  handleG.addColorStop(0.5,'#c88030');
-  handleG.addColorStop(1,'#906010');
-  ctx.strokeStyle=handleG; ctx.lineWidth=4;
-  ctx.lineCap='round';
-  ctx.beginPath();
-  ctx.moveTo(6,-10);
-  ctx.lineTo(16,24);
-  ctx.stroke();
-  ctx.lineCap='butt';
-  // Blade (metal)
-  const bladeG=ctx.createLinearGradient(10,24,22,32);
-  bladeG.addColorStop(0,'#d0d0d8');
-  bladeG.addColorStop(0.5,'#f0f0f8');
-  bladeG.addColorStop(1,'#a8a8b0');
-  ctx.fillStyle=bladeG;
-  ctx.beginPath();
-  ctx.moveTo(14,22);
-  ctx.lineTo(22,28);
-  ctx.lineTo(18,36);
-  ctx.lineTo(10,30);
-  ctx.closePath();
-  ctx.fill();
-  // Dirt on blade
-  if(hasDirt){
-    ctx.fillStyle='rgba(80,35,10,.85)';
-    ctx.beginPath();
-    ctx.ellipse(16,30,6,4,0.4,0,Math.PI*2);
-    ctx.fill();
-  }
-}
-
-// ── Photographer ───────────────────────────────────────────────────────────────
-function drawPhotographer(){
-  const px=photoX, py=photoY;
   ctx.save();
   ctx.translate(px,py);
-  // Face toward player
-  const fx = player.x > photoX ? 1 : -1;
-  if(fx<0) ctx.scale(-1,1);
+  if(f<0) ctx.scale(-1,1);
 
-  // Legs (jeans)
-  ctx.fillStyle='#2a3a5a';
-  ctx.beginPath(); ctx.roundRect(-8,18,8,26,4); ctx.fill();
-  ctx.beginPath(); ctx.roundRect(2,18,8,26,4); ctx.fill();
-  // Jacket (dark)
-  ctx.fillStyle='#1e2030';
-  ctx.beginPath(); ctx.roundRect(-12,-18,24,38,6); ctx.fill();
-  // Camera strap
-  ctx.strokeStyle='#555'; ctx.lineWidth=2;
-  ctx.beginPath(); ctx.moveTo(-10,-15); ctx.lineTo(10,-15); ctx.stroke();
-  // Camera body raised
-  ctx.fillStyle='#222';
-  ctx.beginPath(); ctx.roundRect(-4,-30,20,14,3); ctx.fill();
-  // Lens
-  const lensG=ctx.createRadialGradient(6,-22,1,6,-22,7);
-  lensG.addColorStop(0,'rgba(180,220,255,.9)');
-  lensG.addColorStop(0.5,'rgba(80,120,200,.5)');
-  lensG.addColorStop(1,'#111');
-  ctx.fillStyle=lensG;
-  ctx.beginPath(); ctx.arc(6,-22,7,0,Math.PI*2); ctx.fill();
-  ctx.strokeStyle='#666'; ctx.lineWidth=1.5;
-  ctx.beginPath(); ctx.arc(6,-22,7,0,Math.PI*2); ctx.stroke();
-  // Head (above camera)
-  const skinG=ctx.createRadialGradient(2,-44,2,0,-44,10);
-  skinG.addColorStop(0,'#d0a878'); skinG.addColorStop(1,'#b89060');
-  ctx.fillStyle=skinG;
-  ctx.beginPath(); ctx.ellipse(0,-43,9,11,0,0,Math.PI*2); ctx.fill();
-  // Beanie
-  ctx.fillStyle='#2a1a0e';
-  ctx.beginPath(); ctx.ellipse(0,-51,11,7,0,0,Math.PI*2); ctx.fill();
-  ctx.fillRect(-11,-54,22,5);
-  // Badge
-  ctx.fillStyle='#e0001e';
-  ctx.beginPath(); ctx.roundRect(-22,-68,44,14,4); ctx.fill();
-  ctx.fillStyle='#fff'; ctx.font='bold 8px Arial'; ctx.textAlign='center';
-  ctx.fillText('FOTOGRAF!',0,-58);
+  if(playerCanvas){
+    const [col,row]=SP_FRAMES[fk];
+    // Subtle white glow for contrast against photo background
+    ctx.shadowColor='rgba(255,255,255,0.65)';
+    ctx.shadowBlur=6;
+    ctx.drawImage(playerCanvas,
+      col*SP_CELL, row*SP_CELL, SP_CELL, SP_SRC_H,
+      -SP_WX, -SP_WY, SP_DISP, SP_DSP_H
+    );
+    ctx.shadowColor='transparent'; ctx.shadowBlur=0;
+  } else {
+    // Placeholder while sprite loads
+    ctx.fillStyle='#b0c848';
+    ctx.beginPath(); ctx.roundRect(-13,-22,26,44,6); ctx.fill();
+    ctx.fillStyle='#c4a070';
+    ctx.beginPath(); ctx.ellipse(0,-34,11,13,0,0,Math.PI*2); ctx.fill();
+  }
 
   ctx.restore();
 }
 
-function drawDetectionLine(){
-  // Red dashed line from photographer to player
+// ── Phone call speech bubbles ─────────────────────────────────────────────────
+function drawPhoneBubbles(){
+  if(!phonePause||!phoneBubbleSeq.length) return;
+  const text=phoneBubbleSeq[Math.min(phoneBubbleIdx,phoneBubbleSeq.length-1)];
+  const px=player.x, py=player.y;
   ctx.save();
-  ctx.strokeStyle='rgba(220,0,30,.7)';
-  ctx.lineWidth=1.5; ctx.setLineDash([8,5]);
-  ctx.beginPath();
-  ctx.moveTo(photoX, photoY-20);
-  ctx.lineTo(player.x, player.y-20);
-  ctx.stroke();
-  ctx.setLineDash([]);
+  ctx.font='bold 10px sans-serif';
+  ctx.textBaseline='middle'; ctx.textAlign='left';
+  const tw=ctx.measureText(text).width;
+  const pad=6, bh=20, bw=tw+pad*2;
+  // Centre bubble horizontally above head, keep within world bounds
+  let bx=px-bw/2;
+  bx=Math.max(4,Math.min(WORLD_W-bw-4,bx));
+  const by=py-90;
+  // Shadow
+  ctx.fillStyle='rgba(0,0,0,.12)';
+  ctx.beginPath(); ctx.roundRect(bx+2,by+2,bw,bh,7); ctx.fill();
+  // Bubble body
+  ctx.fillStyle='rgba(255,255,255,.96)';
+  ctx.beginPath(); ctx.roundRect(bx,by,bw,bh,7); ctx.fill();
+  ctx.strokeStyle='rgba(80,80,80,.25)'; ctx.lineWidth=1; ctx.stroke();
+  // Tail — points to player head (px centred, py-SP_WY above waist)
+  const tx=Math.min(Math.max(px,bx+10),bx+bw-10);
+  ctx.fillStyle='rgba(255,255,255,.96)';
+  ctx.beginPath(); ctx.moveTo(tx-5,by+bh); ctx.lineTo(tx,by+bh+8); ctx.lineTo(tx+5,by+bh); ctx.closePath(); ctx.fill();
+  ctx.strokeStyle='rgba(80,80,80,.25)'; ctx.lineWidth=1;
+  ctx.beginPath(); ctx.moveTo(tx-5,by+bh); ctx.lineTo(tx,by+bh+8); ctx.lineTo(tx+5,by+bh); ctx.stroke();
+  ctx.fillStyle='rgba(255,255,255,.96)'; ctx.fillRect(tx-4,by+bh-1,8,2);
+  // Text
+  ctx.fillStyle='#222'; ctx.fillText(text,bx+pad,by+bh/2);
   ctx.restore();
 }
 
