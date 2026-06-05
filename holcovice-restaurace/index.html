@@ -1,0 +1,719 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Obecní dům Holčovice – Restaurace & Pivnice | V srdci Jeseníků</title>
+  <meta name="description" content="Restaurace a pivnice Obecní dům Holčovice. Poctivá česká kuchyně, týdenní a víkendové menu, pizza, pivnice. Kapacita 80 míst – ideální pro svatby, oslavy a firemní akce. Jeseníky." />
+
+  <!-- Schema.org structured data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Restaurant",
+    "name": "Obecní dům Holčovice – restaurace a pivnice",
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "Holčovice 241",
+      "addressLocality": "Holčovice",
+      "postalCode": "793 71",
+      "addressCountry": "CZ"
+    },
+    "telephone": "+420732732683",
+    "email": "obecnidum@obecholcovice.cz",
+    "url": "https://holcovice-restaurace.cz",
+    "servesCuisine": "Česká kuchyně",
+    "priceRange": "$$",
+    "openingHours": ["Mo-Th 11:00-21:00", "Fr-Sa 11:00-22:00", "Su 11:00-20:00"],
+    "sameAs": ["https://www.facebook.com/restauraceholcovice"]
+  }
+  </script>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&family=Lato:wght@400;700&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<!-- ===================== NAVBAR ===================== -->
+<nav id="navbar" aria-label="Hlavní navigace">
+  <div class="container nav-inner">
+    <a href="#hero" class="nav-logo" aria-label="Obecní dům Holčovice – na začátek stránky">
+      <span class="logo-main">Obecní dům Holčovice</span>
+      <span class="logo-sub">Restaurace &amp; Pivnice</span>
+    </a>
+
+    <button class="nav-toggle" id="nav-toggle" aria-label="Otevřít menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+
+    <ul class="nav-links" id="nav-links" role="list">
+      <li><a href="#menu">Menu</a></li>
+      <li><a href="#about">O nás</a></li>
+      <li><a href="#events">Akce</a></li>
+      <li><a href="#spaces">Pro firmy</a></li>
+      <li><a href="#gallery">Galerie</a></li>
+      <li><a href="#contact" class="nav-cta">Rezervace</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ===================== HERO ===================== -->
+<section id="hero" aria-label="Úvod">
+  <div class="hero-content">
+    <span class="hero-badge">🏔️ V srdci Jeseníků</span>
+    <h1>Poctivá kuchyně,<br /><em>pohodová atmosféra</em></h1>
+    <p>Přijďte na oběd, večeři nebo oslavu. Vaříme s láskou z čerstvých surovin a čekáme na vás s otevřenou náručí – na terase i u kamen.</p>
+    <div class="hero-btns">
+      <a href="#menu" class="btn btn-primary">Dnešní menu</a>
+      <a href="#contact" class="btn btn-outline">Rezervovat stůl</a>
+    </div>
+    <div class="hero-scroll" aria-hidden="true">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+      Scroll
+    </div>
+  </div>
+</section>
+
+<!-- ===================== INFO BAR ===================== -->
+<div id="info-bar" aria-label="Rychlé informace">
+  <div class="container">
+    <div class="info-bar-grid">
+      <div class="info-item">
+        <span class="info-icon" aria-hidden="true">🕐</span>
+        <div>
+          <div class="info-label">Otevírací doba</div>
+          <div class="info-value">Po–Čt 11–21 h &nbsp;|&nbsp; Pá–So 11–22 h &nbsp;|&nbsp; Ne 11–20 h</div>
+        </div>
+      </div>
+      <div class="info-item">
+        <span class="info-icon" aria-hidden="true">📞</span>
+        <div>
+          <div class="info-label">Telefon</div>
+          <div class="info-value"><a href="tel:+420732732683" style="color:inherit">+420 732 732 683</a></div>
+        </div>
+      </div>
+      <div class="info-item">
+        <span class="info-icon" aria-hidden="true">📍</span>
+        <div>
+          <div class="info-label">Adresa</div>
+          <div class="info-value">Holčovice 241, 793 71 Holčovice</div>
+        </div>
+      </div>
+      <div class="info-item">
+        <span class="info-icon" aria-hidden="true">🪑</span>
+        <div>
+          <div class="info-label">Kapacita</div>
+          <div class="info-value">80 míst + letní terasa</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===================== MENU ===================== -->
+<section id="menu" aria-label="Jídelní a nápojový lístek">
+  <div class="container">
+    <div class="section-header">
+      <h2>Naše menu</h2>
+      <p>Vaříme poctivou českou kuchyni z čerstvých surovin. Každý týden nové polední menu, stálý lístek a pizza z naší pece.</p>
+      <span class="divider" aria-hidden="true"></span>
+    </div>
+
+    <!-- Tabs -->
+    <div class="menu-tabs" role="tablist" aria-label="Výběr části menu">
+      <button class="menu-tab active" role="tab" aria-selected="true" aria-controls="tab-tydeni" data-tab="tydeni">Týdenní menu</button>
+      <button class="menu-tab" role="tab" aria-selected="false" aria-controls="tab-vikend" data-tab="vikend">Víkendové menu</button>
+      <button class="menu-tab" role="tab" aria-selected="false" aria-controls="tab-listek" data-tab="listek">Stálý lístek</button>
+      <button class="menu-tab" role="tab" aria-selected="false" aria-controls="tab-pizza" data-tab="pizza">Pizza</button>
+      <button class="menu-tab" role="tab" aria-selected="false" aria-controls="tab-napoje" data-tab="napoje">Nápoje</button>
+    </div>
+
+    <!-- Týdenní menu -->
+    <div class="menu-panel active" id="tab-tydeni" role="tabpanel">
+      <div class="weekly-notice">
+        📅 Týdenní polední menu platí <strong>pondělí–pátek</strong> a aktualizuje se každé pondělí ráno. Cena polévky + hlavního jídla <strong>od 149 Kč</strong>.
+      </div>
+
+      <div class="menu-day">
+        <h3>Pondělí</h3>
+        <div class="menu-item"><span class="menu-item-name">Hovězí vývar s nudlemi<span class="menu-item-desc">Polévka dne</span></span><span class="menu-item-price">35 Kč</span></div>
+        <div class="menu-item"><span class="menu-item-name">Svíčková na smetaně<span class="menu-item-desc">Hovězí svíčková, knedlík, brusinky, šlehačka</span></span><span class="menu-item-price">149 Kč</span></div>
+        <div class="menu-item"><span class="menu-item-name">Smažený sýr<span class="menu-item-desc">Eidam, brambory, tatarská omáčka</span></span><span class="menu-item-price">139 Kč</span></div>
+      </div>
+
+      <div class="menu-day">
+        <h3>Úterý</h3>
+        <div class="menu-item"><span class="menu-item-name">Česnečka se sýrem<span class="menu-item-desc">Polévka dne</span></span><span class="menu-item-price">35 Kč</span></div>
+        <div class="menu-item"><span class="menu-item-name">Vepřová plec na paprice<span class="menu-item-desc">S rýží nebo těstovinami</span></span><span class="menu-item-price">139 Kč</span></div>
+        <div class="menu-item"><span class="menu-item-name">Kuřecí řízek<span class="menu-item-desc">Bramborová kaše, okurkový salát</span></span><span class="menu-item-price">149 Kč</span></div>
+      </div>
+
+      <div class="menu-day">
+        <h3>Středa</h3>
+        <div class="menu-item"><span class="menu-item-name">Gulášová polévka<span class="menu-item-desc">Polévka dne</span></span><span class="menu-item-price">38 Kč</span></div>
+        <div class="menu-item"><span class="menu-item-name">Vepřový guláš<span class="menu-item-desc">Knedlík nebo rýže</span></span><span class="menu-item-price">139 Kč</span></div>
+        <div class="menu-item"><span class="menu-item-name">Zeleninové risotto<span class="menu-item-desc">Sezónní zelenina, parmazán</span></span><span class="menu-item-price">129 Kč</span></div>
+      </div>
+
+      <div class="menu-day">
+        <h3>Čtvrtek</h3>
+        <div class="menu-item"><span class="menu-item-name">Dýňová krém polévka<span class="menu-item-desc">Polévka dne</span></span><span class="menu-item-price">38 Kč</span></div>
+        <div class="menu-item"><span class="menu-item-name">Pečená kachna<span class="menu-item-desc">Červené zelí, knedlík</span></span><span class="menu-item-price">169 Kč</span></div>
+        <div class="menu-item"><span class="menu-item-name">Losos na bylinkách<span class="menu-item-desc">Brambory, grilovaná zelenina</span></span><span class="menu-item-price">179 Kč</span></div>
+      </div>
+
+      <div class="menu-day">
+        <h3>Pátek</h3>
+        <div class="menu-item"><span class="menu-item-name">Rybí polévka<span class="menu-item-desc">Polévka dne</span></span><span class="menu-item-price">42 Kč</span></div>
+        <div class="menu-item"><span class="menu-item-name">Smažený kapr<span class="menu-item-desc">Bramborový salát</span></span><span class="menu-item-price">159 Kč</span></div>
+        <div class="menu-item"><span class="menu-item-name">Grilovaný pstruh<span class="menu-item-desc">Vařené brambory, máslová omáčka</span></span><span class="menu-item-price">169 Kč</span></div>
+      </div>
+
+      <p class="menu-allergen-note">Informace o alergenech vám rádi sdělíme osobně nebo na tel. <a href="tel:+420732732683">+420 732 732 683</a>.</p>
+    </div>
+
+    <!-- Víkendové menu -->
+    <div class="menu-panel" id="tab-vikend" role="tabpanel">
+      <div class="weekly-notice">
+        🍽️ Víkendové menu platí <strong>sobota–neděle</strong>. Vydáváme od 11:00 do vyčerpání zásob.
+      </div>
+
+      <div class="menu-day">
+        <h3>Sobota &amp; Neděle</h3>
+        <div class="menu-item"><span class="menu-item-name">Výběr polévek dne<span class="menu-item-desc">Hovězí vývar, rajčatová nebo polévka dle sezóny</span></span><span class="menu-item-price">od 38 Kč</span></div>
+        <div class="menu-item"><span class="menu-item-name">Kuřecí stehno pečené<span class="menu-item-desc">Se šťávou, brambory nebo knedlíkem</span></span><span class="menu-item-price">159 Kč</span></div>
+        <div class="menu-item"><span class="menu-item-name">Vepřová žebra na medu<span class="menu-item-desc">Pečené brambory, coleslaw salát</span></span><span class="menu-item-price">189 Kč</span></div>
+        <div class="menu-item"><span class="menu-item-name">Hovězí burger<span class="menu-item-desc">Brioche bun, cheddar, slanina, hranolky</span></span><span class="menu-item-price">199 Kč</span></div>
+        <div class="menu-item"><span class="menu-item-name">Tradiční guláš<span class="menu-item-desc">Knedlík, okurka, hořčice</span></span><span class="menu-item-price">149 Kč</span></div>
+        <div class="menu-item"><span class="menu-item-name">Palačinky se zmrzlinou<span class="menu-item-desc">Jahody nebo čokoládová omáčka (dezert)</span></span><span class="menu-item-price">89 Kč</span></div>
+      </div>
+
+      <p class="menu-allergen-note">Menu se mění každý týden. Sledujte nás na <a href="https://www.facebook.com/restauraceholcovice" target="_blank" rel="noopener">Facebooku</a> nebo volejte na <a href="tel:+420732732683">+420 732 732 683</a>.</p>
+    </div>
+
+    <!-- Stálý lístek -->
+    <div class="menu-panel" id="tab-listek" role="tabpanel">
+      <div class="menu-category">
+        <h3>🥣 Polévky</h3>
+        <div class="menu-grid">
+          <div class="menu-item"><span class="menu-item-name">Hovězí vývar s nudlemi</span><span class="menu-item-price">45 Kč</span></div>
+          <div class="menu-item"><span class="menu-item-name">Gulášová polévka</span><span class="menu-item-price">52 Kč</span></div>
+          <div class="menu-item"><span class="menu-item-name">Česnečka se sýrem a krutony</span><span class="menu-item-price">48 Kč</span></div>
+          <div class="menu-item"><span class="menu-item-name">Polévka dne</span><span class="menu-item-price">od 38 Kč</span></div>
+        </div>
+      </div>
+
+      <div class="menu-category">
+        <h3>🥗 Předkrmy &amp; saláty</h3>
+        <div class="menu-grid">
+          <div class="menu-item"><span class="menu-item-name">Sýrová mísa</span><span class="menu-item-price">149 Kč</span></div>
+          <div class="menu-item"><span class="menu-item-name">Topinka s česnekem a sýrem</span><span class="menu-item-price">79 Kč</span></div>
+          <div class="menu-item"><span class="menu-item-name">Řecký salát</span><span class="menu-item-price">129 Kč</span></div>
+          <div class="menu-item"><span class="menu-item-name">Caesar salát s kuřetem</span><span class="menu-item-price">149 Kč</span></div>
+        </div>
+      </div>
+
+      <div class="menu-category">
+        <h3>🥩 Hlavní jídla</h3>
+        <div class="menu-grid">
+          <div class="menu-item"><span class="menu-item-name">Svíčková na smetaně<span class="menu-item-desc">Knedlík, brusinky, šlehačka</span></span><span class="menu-item-price">189 Kč</span></div>
+          <div class="menu-item"><span class="menu-item-name">Vepřový guláš<span class="menu-item-desc">Knedlík nebo rýže</span></span><span class="menu-item-price">159 Kč</span></div>
+          <div class="menu-item"><span class="menu-item-name">Smažený řízek<span class="menu-item-desc">Vepřový nebo kuřecí, příloha dle výběru</span></span><span class="menu-item-price">169 Kč</span></div>
+          <div class="menu-item"><span class="menu-item-name">Smažený sýr<span class="menu-item-desc">Brambory nebo hranolky, tatarská</span></span><span class="menu-item-price">149 Kč</span></div>
+          <div class="menu-item"><span class="menu-item-name">Pstruh na másle<span class="menu-item-desc">Vařené brambory, salát</span></span><span class="menu-item-price">199 Kč</span></div>
+          <div class="menu-item"><span class="menu-item-name">Hovězí burger<span class="menu-item-desc">Brioche, cheddar, slanina, hranolky</span></span><span class="menu-item-price">199 Kč</span></div>
+          <div class="menu-item"><span class="menu-item-name">Pečená kachna (sezónně)<span class="menu-item-desc">Knedlík, červené zelí</span></span><span class="menu-item-price">229 Kč</span></div>
+          <div class="menu-item"><span class="menu-item-name">Kuřecí prso na bylinkách<span class="menu-item-desc">Grilovaná zelenina, brambory</span></span><span class="menu-item-price">179 Kč</span></div>
+        </div>
+      </div>
+
+      <div class="menu-category">
+        <h3>🍟 Přílohy</h3>
+        <div class="menu-grid">
+          <div class="menu-item"><span class="menu-item-name">Knedlík (4 plátky)</span><span class="menu-item-price">35 Kč</span></div>
+          <div class="menu-item"><span class="menu-item-name">Vařené brambory</span><span class="menu-item-price">30 Kč</span></div>
+          <div class="menu-item"><span class="menu-item-name">Hranolky</span><span class="menu-item-price">45 Kč</span></div>
+          <div class="menu-item"><span class="menu-item-name">Rýže</span><span class="menu-item-price">30 Kč</span></div>
+        </div>
+      </div>
+
+      <div class="menu-category">
+        <h3>🍮 Dezerty</h3>
+        <div class="menu-grid">
+          <div class="menu-item"><span class="menu-item-name">Palačinky se šlehačkou<span class="menu-item-desc">Džem nebo čokolála</span></span><span class="menu-item-price">89 Kč</span></div>
+          <div class="menu-item"><span class="menu-item-name">Zmrzlinový pohár</span><span class="menu-item-price">79 Kč</span></div>
+          <div class="menu-item"><span class="menu-item-name">Dezert dne</span><span class="menu-item-price">od 65 Kč</span></div>
+        </div>
+      </div>
+
+      <p class="menu-allergen-note">Alergeny dostupné na vyžádání. Dáváme přednost čerstvým surovinám – dostupnost některých jídel se může lišit.</p>
+    </div>
+
+    <!-- Pizza -->
+    <div class="menu-panel" id="tab-pizza" role="tabpanel">
+      <div class="weekly-notice">
+        🍕 Pizzy připravujeme z těsta kynutého 24 hodin. Průměr 32 cm. Možnost bezlepkového těsta na vyžádání (+20 Kč).
+      </div>
+
+      <div class="pizza-grid">
+        <div class="pizza-card">
+          <h4>Margherita</h4>
+          <p class="toppings">Rajčatová omáčka, mozzarella, bazalka</p>
+          <div class="pizza-footer"><span class="pizza-size">32 cm</span><span class="pizza-price">179 Kč</span></div>
+        </div>
+        <div class="pizza-card">
+          <h4>Šunková</h4>
+          <p class="toppings">Rajčatová omáčka, mozzarella, šunka, oregano</p>
+          <div class="pizza-footer"><span class="pizza-size">32 cm</span><span class="pizza-price">199 Kč</span></div>
+        </div>
+        <div class="pizza-card">
+          <h4>Čtyři sýry</h4>
+          <p class="toppings">Mozzarella, eidam, niva, parmazán, bazalka</p>
+          <div class="pizza-footer"><span class="pizza-size">32 cm</span><span class="pizza-price">219 Kč</span></div>
+        </div>
+        <div class="pizza-card">
+          <h4>Salami</h4>
+          <p class="toppings">Rajčatová omáčka, mozzarella, salám, feferony, oregano</p>
+          <div class="pizza-footer"><span class="pizza-size">32 cm</span><span class="pizza-price">199 Kč</span></div>
+        </div>
+        <div class="pizza-card">
+          <h4>Prosciutto &amp; Rucola</h4>
+          <p class="toppings">Rajčatová omáčka, mozzarella, prosciutto crudo, rukola, cherry rajčata</p>
+          <div class="pizza-footer"><span class="pizza-size">32 cm</span><span class="pizza-price">239 Kč</span></div>
+        </div>
+        <div class="pizza-card">
+          <h4>Vegetariánská</h4>
+          <p class="toppings">Rajčatová omáčka, mozzarella, paprika, žampiony, cibule, olivy</p>
+          <div class="pizza-footer"><span class="pizza-size">32 cm</span><span class="pizza-price">209 Kč</span></div>
+        </div>
+        <div class="pizza-card">
+          <h4>BBQ Chicken</h4>
+          <p class="toppings">BBQ omáčka, mozzarella, kuřecí prso, červená cibule, kukuřice</p>
+          <div class="pizza-footer"><span class="pizza-size">32 cm</span><span class="pizza-price">219 Kč</span></div>
+        </div>
+        <div class="pizza-card">
+          <h4>Tuňáková</h4>
+          <p class="toppings">Rajčatová omáčka, mozzarella, tuňák, kapary, červená cibule</p>
+          <div class="pizza-footer"><span class="pizza-size">32 cm</span><span class="pizza-price">219 Kč</span></div>
+        </div>
+      </div>
+
+      <p class="menu-allergen-note" style="margin-top:24px">Přidání ingredience +15 Kč. Všechny pizzy obsahují lepek. Bezlepkové těsto na vyžádání.</p>
+    </div>
+
+    <!-- Nápoje -->
+    <div class="menu-panel" id="tab-napoje" role="tabpanel">
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:32px">
+        <div>
+          <div class="drinks-section">
+            <h3>🍺 Točené pivo</h3>
+            <div class="drink-item"><span>Pilsner Urquell 12° – 0,5 l</span><span class="drink-price">55 Kč</span></div>
+            <div class="drink-item"><span>Radegast 10° – 0,5 l</span><span class="drink-price">48 Kč</span></div>
+            <div class="drink-item"><span>Nealkoholické pivo – 0,5 l</span><span class="drink-price">42 Kč</span></div>
+          </div>
+          <div class="drinks-section">
+            <h3>🥤 Nealkoholické nápoje</h3>
+            <div class="drink-item"><span>Coca-Cola / Fanta / Sprite – 0,33 l</span><span class="drink-price">42 Kč</span></div>
+            <div class="drink-item"><span>Džus (pomeranč, jablko, grep) – 0,2 l</span><span class="drink-price">38 Kč</span></div>
+            <div class="drink-item"><span>Minerální voda – 0,33 l</span><span class="drink-price">32 Kč</span></div>
+            <div class="drink-item"><span>Limonáda domácí – 0,4 l</span><span class="drink-price">55 Kč</span></div>
+          </div>
+          <div class="drinks-section">
+            <h3>☕ Teplé nápoje</h3>
+            <div class="drink-item"><span>Espresso</span><span class="drink-price">45 Kč</span></div>
+            <div class="drink-item"><span>Cappuccino</span><span class="drink-price">55 Kč</span></div>
+            <div class="drink-item"><span>Čaj (výběr)</span><span class="drink-price">38 Kč</span></div>
+            <div class="drink-item"><span>Svařené víno</span><span class="drink-price">52 Kč</span></div>
+          </div>
+        </div>
+        <div>
+          <div class="drinks-section">
+            <h3>🍷 Víno</h3>
+            <div class="drink-item"><span>Bílé víno – 0,2 l</span><span class="drink-price">od 55 Kč</span></div>
+            <div class="drink-item"><span>Červené víno – 0,2 l</span><span class="drink-price">od 55 Kč</span></div>
+            <div class="drink-item"><span>Rosé – 0,2 l</span><span class="drink-price">od 52 Kč</span></div>
+            <div class="drink-item"><span>Prosecco – 0,1 l</span><span class="drink-price">69 Kč</span></div>
+          </div>
+          <div class="drinks-section">
+            <h3>🥃 Tvrdý alkohol</h3>
+            <div class="drink-item"><span>Becherovka – 0,04 l</span><span class="drink-price">45 Kč</span></div>
+            <div class="drink-item"><span>Rum / Vodka / Gin – 0,04 l</span><span class="drink-price">od 45 Kč</span></div>
+            <div class="drink-item"><span>Whisky – 0,04 l</span><span class="drink-price">od 65 Kč</span></div>
+            <div class="drink-item"><span>Slivovice moravská – 0,04 l</span><span class="drink-price">55 Kč</span></div>
+          </div>
+          <div class="drinks-section">
+            <h3>🍹 Míchané nápoje</h3>
+            <div class="drink-item"><span>Aperol Spritz</span><span class="drink-price">99 Kč</span></div>
+            <div class="drink-item"><span>Mojito</span><span class="drink-price">119 Kč</span></div>
+            <div class="drink-item"><span>Gin Tonic</span><span class="drink-price">109 Kč</span></div>
+          </div>
+        </div>
+      </div>
+
+      <p class="menu-allergen-note">Ceny jsou konečné, včetně DPH. Ke každé objednávce podáváme sklenici vody zdarma.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== ABOUT ===================== -->
+<section id="about" aria-label="O nás">
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-image-wrap">
+        <div style="width:100%;height:480px;background:linear-gradient(135deg,#3d6b42 0%,#2a4a2e 100%);border-radius:6px;box-shadow:0 4px 20px rgba(0,0,0,.12);display:flex;align-items:center;justify-content:center;font-size:6rem;color:rgba(255,255,255,.15)">🏡</div>
+        <div class="about-badge">
+          <strong>80</strong>
+          míst uvnitř<br />+ terasa
+        </div>
+      </div>
+
+      <div class="about-text">
+        <h2>Místo, kde se cítíte doma</h2>
+        <p>Obecní dům Holčovice je srdcem naší malé horské obce. Provozujeme restauraci, pivnici a víceúčelový sál s terasou uprostřed krásné přírody Jeseníků – a snažíme se, aby každý host odcházel spokojený a s úsměvem.</p>
+        <p>Vaříme poctivou českou kuchyni z čerstvých surovin. V pivnici najdete klid i zábavu – stolní fotbálek, šipky a dobré pivo na čepu. Děti mají u nás nové hřiště a cyklisté stojany přímo u terasy.</p>
+        <p>Jsme obecním zařízením, takže část z každého útraty jde zpět do rozvoje obce a regionu. Přijít sem je malý způsob, jak podpořit Holčovice.</p>
+
+        <div class="about-features">
+          <div class="about-feature"><span class="about-feature-icon">🏔️</span><span>Srdce Jeseníků – ideální zastávka při turistice</span></div>
+          <div class="about-feature"><span class="about-feature-icon">🍽️</span><span>Poctivá česká kuchyně z čerstvých surovin</span></div>
+          <div class="about-feature"><span class="about-feature-icon">🎉</span><span>Prostory pro svatby, oslavy i firemní akce</span></div>
+          <div class="about-feature"><span class="about-feature-icon">👨‍👩‍👧</span><span>Přátelské pro rodiny – dětské hřiště</span></div>
+          <div class="about-feature"><span class="about-feature-icon">🚴</span><span>Stojany na kola u terasy</span></div>
+          <div class="about-feature"><span class="about-feature-icon">🎱</span><span>Pivnice s fotbálkem a šipkami</span></div>
+        </div>
+
+        <a href="#contact" class="btn btn-green">Rezervujte stůl</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== EVENTS ===================== -->
+<section id="events" aria-label="Akce a události">
+  <div class="container">
+    <div class="section-header">
+      <h2>Akce &amp; události</h2>
+      <p>Pořádáme kulturní i sportovní akce, plesy a rodinné slavnosti. Sledujte kalendář a nenechte si ujít žádnou novinku.</p>
+      <span class="divider" aria-hidden="true"></span>
+    </div>
+
+    <div class="events-grid">
+      <article class="event-card">
+        <div class="event-img" aria-hidden="true">🎶</div>
+        <div class="event-body">
+          <div class="event-date">📅 14. června 2026 | 19:00</div>
+          <h3>Letní venkovní grilování</h3>
+          <p>Grilované speciality na terase, živá hudba a skvělá atmosféra. Vstup volný, rezervace stolu doporučena.</p>
+          <span class="event-tag">Terasa</span>
+        </div>
+      </article>
+
+      <article class="event-card">
+        <div class="event-img" aria-hidden="true">🍺</div>
+        <div class="event-body">
+          <div class="event-date">📅 28. června 2026 | 17:00</div>
+          <h3>Den piva – pivní festival</h3>
+          <p>Ochutnávka regionálních piv, soutěž ve stolním fotbálku a výherní tombola.</p>
+          <span class="event-tag">Pivnice</span>
+        </div>
+      </article>
+
+      <article class="event-card">
+        <div class="event-img" aria-hidden="true">💒</div>
+        <div class="event-body">
+          <div class="event-date">📅 Volné termíny pro oslavy</div>
+          <h3>Svatby &amp; rodinné oslavy</h3>
+          <p>Hledáte místo pro nezapomenutelnou oslavu? Kapacita 80 míst, pódium, projekce, ozvučení. Kontaktujte nás!</p>
+          <span class="event-tag">Pronájem prostor</span>
+        </div>
+      </article>
+    </div>
+
+    <div class="events-cta">
+      <p style="color:var(--clr-text-light);margin-bottom:16px">Plánujete soukromou akci? Ozvěte se nám a společně vymyslíme program na míru.</p>
+      <a href="#contact" class="btn btn-green">Kontaktujte nás</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== SPACES ===================== -->
+<section id="spaces" aria-label="Prostory pro firmy a oslavy">
+  <div class="container">
+    <div class="section-header">
+      <h2>Pro firmy a oslavy</h2>
+      <p>Disponujeme kompletně vybaveným víceúčelovým sálem vhodným pro firemní akce, prezentace, plesy, svatby i smuteční hostiny.</p>
+      <span class="divider" aria-hidden="true"></span>
+    </div>
+
+    <div class="spaces-grid">
+      <div class="space-card">
+        <div class="space-icon" aria-hidden="true">🥂</div>
+        <h3>Svatby a oslavy</h3>
+        <p>Navrhneme catering a program přímo na míru vašemu dni. Kapacita až 80 hostů uvnitř.</p>
+      </div>
+      <div class="space-card">
+        <div class="space-icon" aria-hidden="true">💼</div>
+        <h3>Firemní akce &amp; školení</h3>
+        <p>Moderní zázemí pro firemní večírky, teambuildingové akce i pracovní prezentace.</p>
+      </div>
+      <div class="space-card">
+        <div class="space-icon" aria-hidden="true">🎭</div>
+        <h3>Kulturní akce</h3>
+        <p>Pódium, velkoplošná projekce a profesionální ozvučení pro koncerty, divadla i přednášky.</p>
+      </div>
+      <div class="space-card">
+        <div class="space-icon" aria-hidden="true">🖥️</div>
+        <h3>Prezentace</h3>
+        <p>Datový projektor, plátno a diskrétní zázemí pro obchodní prezentace a workshopy.</p>
+      </div>
+    </div>
+
+    <div class="spaces-equipment">
+      <h3>Co máme k dispozici</h3>
+      <ul class="equipment-list">
+        <li>Kapacita 80 míst</li>
+        <li>Letní terasa</li>
+        <li>Taneční parket</li>
+        <li>Pódium pro kapely</li>
+        <li>Velkoplošná projekce</li>
+        <li>Profesionální ozvučení</li>
+        <li>Wi-Fi připojení</li>
+        <li>Dětské hřiště</li>
+        <li>Stojany na kola</li>
+        <li>Stolní fotbálek</li>
+        <li>Šipky</li>
+        <li>Klimatizace / topení</li>
+      </ul>
+    </div>
+
+    <div class="spaces-cta">
+      <p style="color:rgba(255,255,255,.7);margin-bottom:20px">Rádi vám připravíme nabídku na míru. Kontaktujte Mariku Lioliasovou na <a href="tel:+420732732683" style="color:var(--clr-amber)">+420 732 732 683</a>.</p>
+      <a href="#contact" class="btn btn-primary">Nezávazná poptávka</a>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== GALLERY ===================== -->
+<section id="gallery" aria-label="Fotogalerie">
+  <div class="container">
+    <div class="section-header">
+      <h2>Galerie</h2>
+      <p>Nahlédněte do prostorů, na terasu, dětské hřiště a ochutnávky našich jídel.</p>
+      <span class="divider" aria-hidden="true"></span>
+    </div>
+
+    <div class="gallery-filter" role="group" aria-label="Filtrovat galerii">
+      <button class="filter-btn active" data-filter="all">Vše</button>
+      <button class="filter-btn" data-filter="jidlo">Jídla</button>
+      <button class="filter-btn" data-filter="interier">Interiér</button>
+      <button class="filter-btn" data-filter="terasa">Terasa</button>
+      <button class="filter-btn" data-filter="akce">Akce</button>
+    </div>
+
+    <div class="gallery-grid">
+      <!-- Gallery placeholders – replace with real photos -->
+      <div class="gallery-item" data-cat="jidlo"><div class="gallery-placeholder">🍖<span>Svíčková</span></div></div>
+      <div class="gallery-item" data-cat="jidlo"><div class="gallery-placeholder">🍕<span>Pizza</span></div></div>
+      <div class="gallery-item" data-cat="interier"><div class="gallery-placeholder">🏠<span>Restaurace</span></div></div>
+      <div class="gallery-item" data-cat="terasa"><div class="gallery-placeholder">☀️<span>Letní terasa</span></div></div>
+      <div class="gallery-item" data-cat="jidlo"><div class="gallery-placeholder">🍺<span>Pivnice</span></div></div>
+      <div class="gallery-item" data-cat="akce"><div class="gallery-placeholder">🎉<span>Oslava</span></div></div>
+      <div class="gallery-item" data-cat="interier"><div class="gallery-placeholder">🎭<span>Pódium</span></div></div>
+      <div class="gallery-item" data-cat="terasa"><div class="gallery-placeholder">🚴<span>Hřiště</span></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== CONTACT ===================== -->
+<section id="contact" aria-label="Kontakt a rezervace">
+  <div class="container">
+    <div class="section-header">
+      <h2>Kontakt &amp; rezervace</h2>
+      <p>Stůl si rezervujte telefonicky nebo pomocí formuláře. Rádi se postaráme o vás i vaše hosty.</p>
+      <span class="divider" aria-hidden="true"></span>
+    </div>
+
+    <div class="contact-grid">
+      <div class="contact-info">
+        <h3>Kde nás najdete</h3>
+
+        <div class="contact-detail">
+          <div class="contact-detail-icon" aria-hidden="true">📍</div>
+          <div class="contact-detail-text">
+            <strong>Adresa</strong>
+            Holčovice 241<br />793 71 Holčovice<br /><small>(okres Bruntál, Moravskoslezský kraj)</small>
+          </div>
+        </div>
+
+        <div class="contact-detail">
+          <div class="contact-detail-icon" aria-hidden="true">📞</div>
+          <div class="contact-detail-text">
+            <strong>Telefon</strong>
+            <a href="tel:+420732732683">+420 732 732 683</a>
+          </div>
+        </div>
+
+        <div class="contact-detail">
+          <div class="contact-detail-icon" aria-hidden="true">✉️</div>
+          <div class="contact-detail-text">
+            <strong>E-mail</strong>
+            <a href="mailto:obecnidum@obecholcovice.cz">obecnidum@obecholcovice.cz</a>
+          </div>
+        </div>
+
+        <div class="contact-detail">
+          <div class="contact-detail-icon" aria-hidden="true">👤</div>
+          <div class="contact-detail-text">
+            <strong>Kontaktní osoba</strong>
+            Marika Lioliasová
+          </div>
+        </div>
+
+        <h3 style="margin-top:32px;margin-bottom:14px">Otevírací doba</h3>
+        <table class="hours-table" aria-label="Otevírací doba">
+          <tbody>
+            <tr><td>Pondělí – čtvrtek</td><td>11:00 – 21:00</td></tr>
+            <tr><td>Pátek – sobota</td><td>11:00 – 22:00</td></tr>
+            <tr><td>Neděle</td><td>11:00 – 20:00</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="reservation-form">
+        <h3>Rezervace stolu</h3>
+        <form id="reservation-form" novalidate>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="name">Jméno a příjmení *</label>
+              <input type="text" id="name" name="name" placeholder="Jan Novák" required autocomplete="name" />
+            </div>
+            <div class="form-group">
+              <label for="phone">Telefon *</label>
+              <input type="tel" id="phone" name="phone" placeholder="+420 …" required autocomplete="tel" />
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="date">Datum *</label>
+              <input type="date" id="date" name="date" required />
+            </div>
+            <div class="form-group">
+              <label for="time">Čas *</label>
+              <select id="time" name="time" required>
+                <option value="">-- vyberte --</option>
+                <option>11:00</option><option>11:30</option><option>12:00</option>
+                <option>12:30</option><option>13:00</option><option>13:30</option>
+                <option>14:00</option><option>15:00</option><option>16:00</option>
+                <option>17:00</option><option>17:30</option><option>18:00</option>
+                <option>18:30</option><option>19:00</option><option>19:30</option>
+                <option>20:00</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="guests">Počet osob *</label>
+            <select id="guests" name="guests" required>
+              <option value="">-- vyberte --</option>
+              <option>1</option><option>2</option><option>3</option><option>4</option>
+              <option>5</option><option>6</option><option>7</option><option>8</option>
+              <option>9 a více (poptávka akce)</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="note">Poznámka</label>
+            <textarea id="note" name="note" placeholder="Oslava narozenin, dětská židle, alergeny…"></textarea>
+          </div>
+
+          <div class="form-submit">
+            <button type="submit" class="btn btn-green" style="width:100%">Odeslat rezervaci</button>
+          </div>
+          <p class="form-note">* Povinná pole. Po odeslání vás do 24 hodin potvrdíme telefonicky nebo e-mailem.</p>
+        </form>
+
+        <div id="form-success" style="display:none;margin-top:20px;padding:18px 20px;background:#e8f4ea;border-left:4px solid var(--clr-green);border-radius:var(--radius)">
+          <strong style="color:var(--clr-green)">Děkujeme za rezervaci!</strong><br />
+          Ozve se vám Marika Lioliasová do 24 hodin pro potvrzení.
+        </div>
+      </div>
+    </div>
+
+    <!-- Map embed -->
+    <div class="map-wrap">
+      <iframe
+        src="https://maps.google.com/maps?q=Hol%C4%8Dovice+241,+793+71+Hol%C4%8Dovice&output=embed&z=14"
+        title="Mapa – Obecní dům Holčovice"
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade">
+      </iframe>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== FOOTER ===================== -->
+<footer id="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <span class="logo-main">Obecní dům Holčovice</span>
+        <span class="logo-sub">Restaurace &amp; Pivnice</span>
+        <p>Srdce naší obce uprostřed krásné přírody Jeseníků. Přijďte na oběd, večeři nebo oslavu – vždycky se tu budete cítit jako doma.</p>
+        <div class="footer-social">
+          <a href="https://www.facebook.com/restauraceholcovice" target="_blank" rel="noopener" class="social-btn" aria-label="Facebook">f</a>
+        </div>
+      </div>
+
+      <div class="footer-col">
+        <h4>Rychlá navigace</h4>
+        <ul>
+          <li><a href="#menu">Jídelní lístek</a></li>
+          <li><a href="#about">O nás</a></li>
+          <li><a href="#events">Akce</a></li>
+          <li><a href="#spaces">Pro firmy</a></li>
+          <li><a href="#gallery">Galerie</a></li>
+          <li><a href="#contact">Kontakt &amp; rezervace</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Otevírací doba</h4>
+        <ul style="color:rgba(255,255,255,.6);font-size:.88rem;">
+          <li>Po–Čt: 11:00 – 21:00</li>
+          <li>Pá–So: 11:00 – 22:00</li>
+          <li>Ne: 11:00 – 20:00</li>
+        </ul>
+        <div style="margin-top:20px">
+          <h4>Kontakt</h4>
+          <ul style="color:rgba(255,255,255,.6);font-size:.88rem;">
+            <li><a href="tel:+420732732683" style="color:inherit">+420 732 732 683</a></li>
+            <li><a href="mailto:obecnidum@obecholcovice.cz" style="color:inherit">obecnidum@obecholcovice.cz</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <span>&copy; 2026 Obecní dům Holčovice · Provozovatel: Obec Holčovice</span>
+      <span>Holčovice 241, 793 71 Holčovice · <a href="mailto:obecnidum@obecholcovice.cz">obecnidum@obecholcovice.cz</a></span>
+    </div>
+  </div>
+</footer>
+
+<!-- ===================== COOKIE BANNER ===================== -->
+<div id="cookie-banner" role="dialog" aria-label="Souhlas s cookies">
+  <p>Používáme cookies pro správné fungování webu a analýzu návštěvnosti. Žádné osobní údaje bez vašeho souhlasu nesbíráme.</p>
+  <div class="cookie-btns">
+    <button class="cookie-accept" id="cookie-accept">Souhlasím</button>
+    <button class="cookie-reject" id="cookie-reject">Odmítnout</button>
+  </div>
+</div>
+
+<script src="js/main.js"></script>
+</body>
+</html>
