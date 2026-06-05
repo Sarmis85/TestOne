@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>Hlína do Vlečky</title>
+<title>To je hlína!</title>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html,body{width:100%;height:100dvh;overflow:hidden;background:#2e5018;touch-action:none}
@@ -117,8 +117,8 @@ canvas{display:block;image-rendering:auto}
 
   <!-- START -->
   <div class="overlay" id="ov-start">
-    <h1>⛏ Hlína do Vlečky</h1>
-    <p>Naplň vlečku 10× lopatou hlíny. Pohyb: <b>WASD / šipky</b> nebo joystick.<br>Dávej pozor na fotografa! A na cigaretové přestávky…</p>
+    <h1>To je hlína!</h1>
+    <p>Naplň vlečku 10× lopatou hlíny. Pohyb: <b>WASD / šipky</b> nebo joystick.<br>Dávej pozor na cigaretové přestávky a telefonáty…</p>
     <button class="btn" id="btn-start">Hrát!</button>
   </div>
   <!-- WIN -->
@@ -144,7 +144,7 @@ const WORLD_W = Math.round(1848 * H / 850);  // 1087
 
 // All zone/object coords are in world space (0–1087 × 0–500)
 const DIRT_ZONE  = {x:28,  y:355, w:92,  h:90};
-const TRUCK_ZONE = {x:710, y:355, w:110, h:90};
+const TRUCK_ZONE = {x:762, y:355, w:95,  h:90};
 
 // Background photo (1848×850)
 const bgImg = new Image();
@@ -206,12 +206,6 @@ const SP_FRAMES = {
 const SP_SRC_H = 465;                            // crop label text below sprites
 const SP_DSP_H = Math.round(SP_SRC_H * SP_SC);  // ~110
 
-// Obstacle timings (seconds)
-const PHOTO_FIRST_MIN = 20, PHOTO_FIRST_MAX = 35;
-const PHOTO_GAP_MIN   = 25, PHOTO_GAP_MAX   = 45;
-const PHOTO_VIS_MIN   = 6,  PHOTO_VIS_MAX   = 10;
-const PHOTO_DETECT_DIST = 200;
-
 const SMOKE_GAP_MIN = 12, SMOKE_GAP_MAX = 18;
 const SMOKE_DUR = 3;
 const PHONE_DUR_MIN = 9, PHONE_DUR_MAX = 13;
@@ -259,7 +253,6 @@ let joy={dx:0,dy:0};
 let player, load, carrying;
 let camX=0;
 let elapsedMs, timerInterval;
-let photoTimer, photoVisible, photoX, photoY, photoVisTimer;
 let smokeTimer, smokePause, smokePauseTimer;
 let phonePause, phonePauseTimer, phoneBubbleIdx, phoneDur, phoneBubbleSeq;
 let animFrame=0, animTick=0;
@@ -277,8 +270,6 @@ function initGame(){
   animFrame=0; animTick=0;
   puff=[];
   flashTimer=0;
-  photoVisible=false;
-  photoTimer = rand(PHOTO_FIRST_MIN, PHOTO_FIRST_MAX);
   smokeTimer = rand(SMOKE_GAP_MIN, SMOKE_GAP_MAX);
   smokePause=false; smokePauseTimer=0;
   phonePause=false; phonePauseTimer=0; phoneBubbleIdx=0; phoneDur=10; phoneBubbleSeq=[];
@@ -484,33 +475,6 @@ function update(dt){
     if(load>=10){ endGame('win'); return; }
   }
 
-  // Photographer
-  photoTimer-=dt;
-  if(photoTimer<=0 && !photoVisible){
-    photoVisible=true;
-    photoVisTimer=rand(PHOTO_VIS_MIN,PHOTO_VIS_MAX);
-    // spawn off-screen edge
-    const side=Math.random()<0.5?0:1;
-    photoX=side===0?camX-40:camX+W+40;
-    photoY=rand(355,H-60);
-  }
-  if(photoVisible){
-    photoVisTimer-=dt;
-    // move toward player
-    const pdx=player.x-photoX, pdy=player.y-photoY;
-    const pd=Math.sqrt(pdx*pdx+pdy*pdy);
-    const spd=55;
-    if(pd>1){photoX+=pdx/pd*spd*dt; photoY+=pdy/pd*spd*dt;}
-
-    // detect
-    if(carrying && pd<PHOTO_DETECT_DIST){
-      endGame('lose'); return;
-    }
-    if(photoVisTimer<=0){
-      photoVisible=false;
-      photoTimer=rand(PHOTO_GAP_MIN,PHOTO_GAP_MAX);
-    }
-  }
 }
 
 function endGame(result){
@@ -554,10 +518,8 @@ function render(){
   drawDirtHeap();
   drawZoneIndicators();
   drawSmokeParticles();
-  if(photoVisible) drawPhotographer();
   drawPlayer();
   drawPhoneBubbles();
-  if(photoVisible && carrying) drawDetectionLine();
   ctx.restore();
 
   ctx.restore();
@@ -581,11 +543,11 @@ function drawBackground(){
 // Scale 0.13 → 182×146; wheels at world y≈400 (grass foreground)
 function drawCarTrailer(){
   if(!carCanvas) return;
-  const SC = 0.13;
-  const dw = Math.round(carImg.naturalWidth  * SC);  // 182
-  const dh = Math.round(carImg.naturalHeight * SC);  // 146
-  const dx = 655;  // world x — VW near path, trailer over grass
-  const dy = 305;  // lower: wheels at ~dy+128=433
+  const SC = 0.12;
+  const dw = Math.round(carImg.naturalWidth  * SC);  // 168
+  const dh = Math.round(carImg.naturalHeight * SC);  // 135
+  const dx = 695;  // right of path, clear of parked vehicle
+  const dy = 322;  // wheels at ~dy+119=441
 
   ctx.drawImage(carCanvas, dx, dy, dw, dh);
 }
@@ -693,10 +655,14 @@ function drawPlayer(){
 
   if(playerCanvas){
     const [col,row]=SP_FRAMES[fk];
+    // Subtle white glow for contrast against photo background
+    ctx.shadowColor='rgba(255,255,255,0.65)';
+    ctx.shadowBlur=6;
     ctx.drawImage(playerCanvas,
       col*SP_CELL, row*SP_CELL, SP_CELL, SP_SRC_H,
       -SP_WX, -SP_WY, SP_DISP, SP_DSP_H
     );
+    ctx.shadowColor='transparent'; ctx.shadowBlur=0;
   } else {
     // Placeholder while sprite loads
     ctx.fillStyle='#b0c848';
@@ -738,68 +704,6 @@ function drawPhoneBubbles(){
   ctx.fillStyle='rgba(255,255,255,.96)'; ctx.fillRect(tx-4,by+bh-1,8,2);
   // Text
   ctx.fillStyle='#222'; ctx.fillText(text,bx+pad,by+bh/2);
-  ctx.restore();
-}
-
-// ── Photographer ───────────────────────────────────────────────────────────────
-function drawPhotographer(){
-  const px=photoX, py=photoY;
-  ctx.save();
-  ctx.translate(px,py);
-  // Face toward player
-  const fx = player.x > photoX ? 1 : -1;
-  if(fx<0) ctx.scale(-1,1);
-
-  // Legs (jeans)
-  ctx.fillStyle='#2a3a5a';
-  ctx.beginPath(); ctx.roundRect(-8,18,8,26,4); ctx.fill();
-  ctx.beginPath(); ctx.roundRect(2,18,8,26,4); ctx.fill();
-  // Jacket (dark)
-  ctx.fillStyle='#1e2030';
-  ctx.beginPath(); ctx.roundRect(-12,-18,24,38,6); ctx.fill();
-  // Camera strap
-  ctx.strokeStyle='#555'; ctx.lineWidth=2;
-  ctx.beginPath(); ctx.moveTo(-10,-15); ctx.lineTo(10,-15); ctx.stroke();
-  // Camera body raised
-  ctx.fillStyle='#222';
-  ctx.beginPath(); ctx.roundRect(-4,-30,20,14,3); ctx.fill();
-  // Lens
-  const lensG=ctx.createRadialGradient(6,-22,1,6,-22,7);
-  lensG.addColorStop(0,'rgba(180,220,255,.9)');
-  lensG.addColorStop(0.5,'rgba(80,120,200,.5)');
-  lensG.addColorStop(1,'#111');
-  ctx.fillStyle=lensG;
-  ctx.beginPath(); ctx.arc(6,-22,7,0,Math.PI*2); ctx.fill();
-  ctx.strokeStyle='#666'; ctx.lineWidth=1.5;
-  ctx.beginPath(); ctx.arc(6,-22,7,0,Math.PI*2); ctx.stroke();
-  // Head (above camera)
-  const skinG=ctx.createRadialGradient(2,-44,2,0,-44,10);
-  skinG.addColorStop(0,'#d0a878'); skinG.addColorStop(1,'#b89060');
-  ctx.fillStyle=skinG;
-  ctx.beginPath(); ctx.ellipse(0,-43,9,11,0,0,Math.PI*2); ctx.fill();
-  // Beanie
-  ctx.fillStyle='#2a1a0e';
-  ctx.beginPath(); ctx.ellipse(0,-51,11,7,0,0,Math.PI*2); ctx.fill();
-  ctx.fillRect(-11,-54,22,5);
-  // Badge
-  ctx.fillStyle='#e0001e';
-  ctx.beginPath(); ctx.roundRect(-22,-68,44,14,4); ctx.fill();
-  ctx.fillStyle='#fff'; ctx.font='bold 8px Arial'; ctx.textAlign='center';
-  ctx.fillText('FOTOGRAF!',0,-58);
-
-  ctx.restore();
-}
-
-function drawDetectionLine(){
-  // Red dashed line from photographer to player
-  ctx.save();
-  ctx.strokeStyle='rgba(220,0,30,.7)';
-  ctx.lineWidth=1.5; ctx.setLineDash([8,5]);
-  ctx.beginPath();
-  ctx.moveTo(photoX, photoY-20);
-  ctx.lineTo(player.x, player.y-20);
-  ctx.stroke();
-  ctx.setLineDash([]);
   ctx.restore();
 }
 
