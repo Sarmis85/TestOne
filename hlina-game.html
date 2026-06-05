@@ -574,12 +574,12 @@ function drawDirtHeap(){
   const cy=DIRT_ZONE.y+DIRT_ZONE.h;   // base of zone
   // Ground shadow
   ctx.fillStyle='rgba(0,0,0,.15)';
-  ctx.beginPath(); ctx.ellipse(cx+2,cy+2,60,10,0,0,Math.PI*2); ctx.fill();
+  ctx.beginPath(); ctx.ellipse(cx+2,cy+2,72,12,0,0,Math.PI*2); ctx.fill();
   if(dirtCanvas && dirtCanvas.width>0){
     // Real photo texture (white bg removed)
-    const dispW=125;
+    const dispW=160;
     const dispH=Math.round(dirtCanvas.height*dispW/dirtCanvas.width);
-    ctx.drawImage(dirtCanvas,cx-dispW/2,cy-dispH+8,dispW,dispH);
+    ctx.drawImage(dirtCanvas,cx-dispW/2,cy-dispH+6,dispW,dispH);
   } else {
     // Canvas fallback — layered conical mound in sandy tones
     const baseY=cy-4, topY=cy-52;
