@@ -216,7 +216,14 @@ const SMOKE_GAP_MIN = 12, SMOKE_GAP_MAX = 18;
 const SMOKE_DUR = 3;
 const PHONE_DUR_MIN = 9, PHONE_DUR_MAX = 13;
 const PHONE_PROB = 0.70;  // 70% phone break, 30% smoke
-const PHONE_BUBBLES = ['Čau', 'Na to mám lidi', 'Někdo tady musí přemýšlet', 'to je hlína'];
+function pickBubble(){
+  const r=Math.random();
+  if(r<0.50) return 'bla, bla..';
+  if(r<0.75) return 'bla';
+  if(r<0.85) return 'Na to mám lidi';
+  if(r<0.93) return 'Někdo tady musí přemýšlet';
+  return 'to je hlína';
+}
 
 // ── Canvas setup ─────────────────────────────────────────────────────────────
 const canvas = document.getElementById('c');
@@ -254,7 +261,7 @@ let camX=0;
 let elapsedMs, timerInterval;
 let photoTimer, photoVisible, photoX, photoY, photoVisTimer;
 let smokeTimer, smokePause, smokePauseTimer;
-let phonePause, phonePauseTimer, phoneBubbleIdx, phoneDur;
+let phonePause, phonePauseTimer, phoneBubbleIdx, phoneDur, phoneBubbleSeq;
 let animFrame=0, animTick=0;
 let puff=[];  // smoke puffs [{x,y,r,a,vx,vy}]
 let flashTimer=0;
@@ -274,7 +281,7 @@ function initGame(){
   photoTimer = rand(PHOTO_FIRST_MIN, PHOTO_FIRST_MAX);
   smokeTimer = rand(SMOKE_GAP_MIN, SMOKE_GAP_MAX);
   smokePause=false; smokePauseTimer=0;
-  phonePause=false; phonePauseTimer=0; phoneBubbleIdx=0; phoneDur=10;
+  phonePause=false; phonePauseTimer=0; phoneBubbleIdx=0; phoneDur=10; phoneBubbleSeq=[];
 
   document.getElementById('progress-bar').style.width='0%';
   document.getElementById('progress-label').textContent='Vlečka: 0 / 10';
@@ -413,8 +420,7 @@ function update(dt){
   if(phonePause){
     phonePauseTimer-=dt;
     const elapsed=phoneDur-phonePauseTimer;
-    phoneBubbleIdx=Math.min(PHONE_BUBBLES.length-1,
-      Math.floor(elapsed/(phoneDur/PHONE_BUBBLES.length)));
+    phoneBubbleIdx=Math.min(phoneBubbleSeq.length-1, Math.floor(elapsed/2.2));
     if(phonePauseTimer<=0){
       phonePause=false;
       document.getElementById('smoke-indicator').style.display='none';
@@ -430,6 +436,7 @@ function update(dt){
     if(Math.random()<PHONE_PROB){
       phoneDur=rand(PHONE_DUR_MIN,PHONE_DUR_MAX);
       phonePause=true; phonePauseTimer=phoneDur; phoneBubbleIdx=0;
+      phoneBubbleSeq=Array.from({length:Math.max(4,Math.ceil(phoneDur/2.2))},pickBubble);
       si.textContent='📱 Telefonát…'; si.style.display='block';
       showToast('📱 Telefonát!');
     } else {
@@ -703,33 +710,32 @@ function drawPlayer(){
 
 // ── Phone call speech bubbles ─────────────────────────────────────────────────
 function drawPhoneBubbles(){
-  if(!phonePause) return;
-  const idx=Math.min(phoneBubbleIdx,PHONE_BUBBLES.length-1);
-  const text=PHONE_BUBBLES[idx];
+  if(!phonePause||!phoneBubbleSeq.length) return;
+  const text=phoneBubbleSeq[Math.min(phoneBubbleIdx,phoneBubbleSeq.length-1)];
   const px=player.x, py=player.y;
   ctx.save();
-  ctx.font='bold 12px sans-serif';
+  ctx.font='bold 10px sans-serif';
   ctx.textBaseline='middle'; ctx.textAlign='left';
   const tw=ctx.measureText(text).width;
-  const pad=8, bh=26, bw=tw+pad*2;
-  let bx=px+20;
-  if(bx+bw>WORLD_W-10) bx=px-bw-20;
-  bx=Math.max(4,bx);
-  const by=py-94;
+  const pad=6, bh=20, bw=tw+pad*2;
+  // Centre bubble horizontally above head, keep within world bounds
+  let bx=px-bw/2;
+  bx=Math.max(4,Math.min(WORLD_W-bw-4,bx));
+  const by=py-90;
   // Shadow
   ctx.fillStyle='rgba(0,0,0,.12)';
-  ctx.beginPath(); ctx.roundRect(bx+2,by+2,bw,bh,9); ctx.fill();
+  ctx.beginPath(); ctx.roundRect(bx+2,by+2,bw,bh,7); ctx.fill();
   // Bubble body
   ctx.fillStyle='rgba(255,255,255,.96)';
-  ctx.beginPath(); ctx.roundRect(bx,by,bw,bh,9); ctx.fill();
+  ctx.beginPath(); ctx.roundRect(bx,by,bw,bh,7); ctx.fill();
   ctx.strokeStyle='rgba(80,80,80,.25)'; ctx.lineWidth=1; ctx.stroke();
-  // Tail triangle
-  const tx=Math.min(Math.max(px,bx+14),bx+bw-14);
+  // Tail — points to player head (px centred, py-SP_WY above waist)
+  const tx=Math.min(Math.max(px,bx+10),bx+bw-10);
   ctx.fillStyle='rgba(255,255,255,.96)';
-  ctx.beginPath(); ctx.moveTo(tx-7,by+bh); ctx.lineTo(tx,by+bh+11); ctx.lineTo(tx+7,by+bh); ctx.closePath(); ctx.fill();
+  ctx.beginPath(); ctx.moveTo(tx-5,by+bh); ctx.lineTo(tx,by+bh+8); ctx.lineTo(tx+5,by+bh); ctx.closePath(); ctx.fill();
   ctx.strokeStyle='rgba(80,80,80,.25)'; ctx.lineWidth=1;
-  ctx.beginPath(); ctx.moveTo(tx-7,by+bh); ctx.lineTo(tx,by+bh+11); ctx.lineTo(tx+7,by+bh); ctx.stroke();
-  ctx.fillStyle='rgba(255,255,255,.96)'; ctx.fillRect(tx-6,by+bh-1,12,2);
+  ctx.beginPath(); ctx.moveTo(tx-5,by+bh); ctx.lineTo(tx,by+bh+8); ctx.lineTo(tx+5,by+bh); ctx.stroke();
+  ctx.fillStyle='rgba(255,255,255,.96)'; ctx.fillRect(tx-4,by+bh-1,8,2);
   // Text
   ctx.fillStyle='#222'; ctx.fillText(text,bx+pad,by+bh/2);
   ctx.restore();
