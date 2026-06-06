@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Oslavy & Pronájmy – Obecní dům Holčovice</title>
+  <meta name="description" content="Pronájem sálů pro oslavy, svatby, firemní akce a spolkové události. Kapacita až 120 osob, catering zajištěn.">
+  <link rel="stylesheet" href="css/main.css">
+  <style>
+    .package-card { background:var(--c-white);border-radius:var(--r-2xl);padding:2.5rem;box-shadow:var(--shadow-card);transition:box-shadow var(--tr-base),transform var(--tr-base);position:relative;overflow:hidden; }
+    .package-card:hover { box-shadow:var(--shadow-card-hover);transform:translateY(-3px); }
+    .package-card--featured { border:2px solid var(--c-gold); }
+    .package-card--featured::before { content:'Nejoblíbenější';position:absolute;top:1.25rem;right:-2rem;background:var(--c-gold);color:white;font-size:0.75rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;padding:0.3rem 3rem;transform:rotate(45deg); }
+    .package-price { font-family:var(--font-serif);font-size:2.5rem;font-weight:700;color:var(--c-green-700);line-height:1; }
+    .package-price span { font-size:1rem;color:var(--c-text-muted);font-family:var(--font-sans);font-weight:400; }
+    .package-features { display:flex;flex-direction:column;gap:0.6rem;margin:1.5rem 0; }
+    .package-feature { display:flex;align-items:flex-start;gap:0.5rem;font-size:0.9375rem;color:var(--c-text-sec); }
+    .package-feature svg { color:var(--c-success);flex-shrink:0;margin-top:2px; }
+    .venue-stat { text-align:center;padding:2rem;background:var(--c-cream-50);border-radius:var(--r-xl); }
+    .venue-stat__num { font-family:var(--font-serif);font-size:3rem;font-weight:700;color:var(--c-green-700);line-height:1; }
+    .venue-stat__label { font-size:0.875rem;color:var(--c-text-muted);margin-top:0.25rem; }
+    .faq-item { border-bottom:1px solid var(--c-border-light); }
+    .faq-item summary { padding:1.25rem 0;font-weight:600;color:var(--c-text);cursor:pointer;display:flex;justify-content:space-between;align-items:center;list-style:none; }
+    .faq-item summary::-webkit-details-marker { display:none; }
+    .faq-item summary::after { content:'↓';color:var(--c-text-muted);transition:transform var(--tr-base); }
+    .faq-item[open] summary::after { transform:rotate(180deg); }
+    .faq-item p { padding-bottom:1.25rem;color:var(--c-text-sec);line-height:var(--lh-relaxed);font-size:0.9375rem; }
+  </style>
+</head>
+<body>
+
+<nav class="nav nav--scrolled" id="main-nav">
+  <div class="container nav__inner">
+    <a href="index.html" class="nav__logo"><div class="nav__logo-mark"><span>OD</span></div><div class="nav__logo-text"><span class="nav__logo-name">Obecní dům</span><span class="nav__logo-sub">Holčovice</span></div></a>
+    <ul class="nav__links">
+      <li><a href="menu.html" class="nav__link">Jídelní lístek</a></li>
+      <li><a href="events.html" class="nav__link">Akce & Události</a></li>
+      <li><a href="celebrations.html" class="nav__link nav__link--active">Oslavy & Pronájmy</a></li>
+      <li><a href="discover.html" class="nav__link">Objevte Holčovice</a></li>
+      <li><a href="gallery.html" class="nav__link">Galerie</a></li>
+      <li><a href="contact.html" class="nav__link">Kontakt</a></li>
+    </ul>
+    <div class="nav__actions">
+      <div class="nav__lang"><a href="#" class="active">CZ</a><span>/</span><a href="#">EN</a></div>
+      <a href="contact.html" class="btn btn--accent btn--sm">Nezávazná poptávka</a>
+      <button class="nav__hamburger"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</nav>
+<div class="mobile-menu"><nav class="mobile-menu__nav"><a href="menu.html" class="mobile-menu__link">Jídelní lístek</a><a href="events.html" class="mobile-menu__link">Akce & Události</a><a href="celebrations.html" class="mobile-menu__link">Oslavy & Pronájmy</a><a href="discover.html" class="mobile-menu__link">Objevte Holčovice</a><a href="gallery.html" class="mobile-menu__link">Galerie</a><a href="contact.html" class="mobile-menu__link">Kontakt</a></nav><div class="mobile-menu__actions"><a href="contact.html" class="btn btn--accent btn--lg btn--full">Poptávka</a></div></div>
+
+<header class="page-header">
+  <div class="container page-header__content">
+    <nav class="page-header__breadcrumb"><a href="index.html">Domů</a><span>/</span><span>Oslavy & Pronájmy</span></nav>
+    <h1 class="page-header__title">Oslavy & Pronájmy</h1>
+    <p class="page-header__subtitle">Váš výjimečný den si zaslouží dokonalé prostředí. My se postaráme o zbytek.</p>
+  </div>
+</header>
+
+<!-- Intro -->
+<section class="section" style="background:var(--c-cream-50)">
+  <div class="container">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:4rem;align-items:center">
+      <div>
+        <p class="section-eyebrow">O prostorách</p>
+        <h2 class="section-title">Prostory pro každou příležitost</h2>
+        <p style="font-size:1.0625rem;color:var(--c-text-sec);line-height:1.7;margin-bottom:1.5rem">Obecní dům Holčovice nabízí nádherné prostory uprostřed jesenické přírody pro oslavy od intimních rodinných setkání až po velké firemní konference.</p>
+        <p style="font-size:1.0625rem;color:var(--c-text-sec);line-height:1.7;margin-bottom:2rem">Náš zkušený tým se postará o kompletní zajištění vašeho eventi – od cateringu, přes výzdobu, až po hudbu a techniku.</p>
+        <a href="#poptavka" class="btn btn--primary btn--lg">Nezávazná poptávka</a>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
+        <div class="venue-stat"><div class="venue-stat__num">120</div><div class="venue-stat__label">Max. kapacita osob</div></div>
+        <div class="venue-stat"><div class="venue-stat__num">2</div><div class="venue-stat__label">Prostory k pronájmu</div></div>
+        <div class="venue-stat"><div class="venue-stat__num">15+</div><div class="venue-stat__label">Let zkušeností</div></div>
+        <div class="venue-stat"><div class="venue-stat__num">500+</div><div class="venue-stat__label">Spokojených hostů ročně</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Venues -->
+<section class="section" style="background:var(--c-white)">
+  <div class="container">
+    <div class="section-header section-header--center">
+      <p class="section-eyebrow">Naše prostory</p>
+      <h2 class="section-title">Vyberte si prostor</h2>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:2rem">
+      <div class="card card--flat" style="border-radius:var(--r-2xl);overflow:hidden">
+        <div style="height:260px;background:linear-gradient(135deg,#1A3129,#4A7C65);display:flex;align-items:center;justify-content:center">
+          <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.25)" stroke-width="1"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+        </div>
+        <div style="padding:2rem">
+          <h3 style="font-family:var(--font-serif);font-size:1.5rem;margin-bottom:0.5rem">Velký sál</h3>
+          <div style="display:flex;gap:1rem;font-size:0.875rem;color:var(--c-text-muted);margin-bottom:1rem;flex-wrap:wrap">
+            <span>👥 až 120 osob</span><span>📐 180 m²</span><span>🎤 Ozvučení</span><span>📽 Projektor</span>
+          </div>
+          <p style="color:var(--c-text-sec);line-height:1.7;font-size:0.9375rem;margin-bottom:1.5rem">Hlavní sál s parketou, barem a plným technickým vybavením. Ideální pro svatby, plesy, firemní akce a kulturní události.</p>
+          <div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-bottom:1.5rem">
+            <span class="badge badge--green">Parketový sál</span>
+            <span class="badge badge--green">Plné vybavení</span>
+            <span class="badge badge--green">Catering</span>
+            <span class="badge badge--green">Klimatizace</span>
+          </div>
+          <div style="font-family:var(--font-serif);font-size:1.5rem;font-weight:700;color:var(--c-green-700);margin-bottom:1rem">od 8 000 Kč <span style="font-size:1rem;color:var(--c-text-muted);font-family:var(--font-sans);font-weight:400">/ den</span></div>
+          <a href="#poptavka" class="btn btn--primary btn--full">Mám zájem</a>
+        </div>
+      </div>
+      <div class="card card--flat" style="border-radius:var(--r-2xl);overflow:hidden">
+        <div style="height:260px;background:linear-gradient(135deg,#8B6B47,#C49A6C);display:flex;align-items:center;justify-content:center">
+          <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.25)" stroke-width="1"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>
+        </div>
+        <div style="padding:2rem">
+          <h3 style="font-family:var(--font-serif);font-size:1.5rem;margin-bottom:0.5rem">Společenský salónek</h3>
+          <div style="display:flex;gap:1rem;font-size:0.875rem;color:var(--c-text-muted);margin-bottom:1rem;flex-wrap:wrap">
+            <span>👥 až 40 osob</span><span>📐 65 m²</span><span>📺 TV / prezentace</span>
+          </div>
+          <p style="color:var(--c-text-sec);line-height:1.7;font-size:0.9375rem;margin-bottom:1.5rem">Útulný salónek s krbem, ideální pro rodinné oslavy, pracovní schůzky, kulaté stoly a menší společenské události.</p>
+          <div style="display:flex;gap:0.5rem;flex-wrap:wrap;margin-bottom:1.5rem">
+            <span class="badge badge--gold">Krb</span>
+            <span class="badge badge--gold">Intimní atmosféra</span>
+            <span class="badge badge--gold">Catering</span>
+          </div>
+          <div style="font-family:var(--font-serif);font-size:1.5rem;font-weight:700;color:var(--c-green-700);margin-bottom:1rem">od 3 500 Kč <span style="font-size:1rem;color:var(--c-text-muted);font-family:var(--font-sans);font-weight:400">/ den</span></div>
+          <a href="#poptavka" class="btn btn--primary btn--full">Mám zájem</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Packages -->
+<section class="section" style="background:var(--c-cream-50)">
+  <div class="container">
+    <div class="section-header section-header--center">
+      <p class="section-eyebrow">Balíčky</p>
+      <h2 class="section-title">Vyberte si balíček</h2>
+      <p class="section-desc" style="margin-inline:auto">Připravili jsme balíčky pro nejčastější typy akcí. Vše lze přizpůsobit vašim přáním.</p>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem">
+      <div class="package-card">
+        <div style="font-size:0.75rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--c-text-muted);margin-bottom:1rem">Základ</div>
+        <h3 style="font-family:var(--font-serif);font-size:1.5rem;margin-bottom:1rem">Rodinná oslava</h3>
+        <div class="package-price">od 5 500 Kč <span>/ akce</span></div>
+        <div class="package-features">
+          <div class="package-feature"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>Pronájem salónku (do 40 os.)</div>
+          <div class="package-feature"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>6 hodin</div>
+          <div class="package-feature"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>Catering – výběr menu</div>
+          <div class="package-feature"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>Základní výzdoba</div>
+          <div class="package-feature"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>Ubrusový servis</div>
+        </div>
+        <a href="#poptavka" class="btn btn--outline btn--full">Poptávka</a>
+      </div>
+      <div class="package-card package-card--featured">
+        <div style="font-size:0.75rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--c-gold-dark);margin-bottom:1rem">Populární</div>
+        <h3 style="font-family:var(--font-serif);font-size:1.5rem;margin-bottom:1rem">Oslava Premium</h3>
+        <div class="package-price">od 12 000 Kč <span>/ akce</span></div>
+        <div class="package-features">
+          <div class="package-feature"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>Velký sál (do 80 os.)</div>
+          <div class="package-feature"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>8 hodin</div>
+          <div class="package-feature"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>Catering – slavnostní menu</div>
+          <div class="package-feature"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>Floristická výzdoba</div>
+          <div class="package-feature"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>Ozvučení</div>
+          <div class="package-feature"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>Koordinátor akce</div>
+        </div>
+        <a href="#poptavka" class="btn btn--accent btn--full">Poptávka</a>
+      </div>
+      <div class="package-card">
+        <div style="font-size:0.75rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--c-text-muted);margin-bottom:1rem">Firemní</div>
+        <h3 style="font-family:var(--font-serif);font-size:1.5rem;margin-bottom:1rem">Firemní akce</h3>
+        <div class="package-price">individuální</div>
+        <div class="package-features">
+          <div class="package-feature"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>Kompletní prostory</div>
+          <div class="package-feature"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>Technika & AV</div>
+          <div class="package-feature"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>Catering dle přání</div>
+          <div class="package-feature"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>Teambuilding program</div>
+          <div class="package-feature"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>Ubytování v okolí</div>
+        </div>
+        <a href="#poptavka" class="btn btn--outline btn--full">Poptávka</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="section" style="background:var(--c-white)">
+  <div class="container" style="max-width:var(--container-md)">
+    <div class="section-header section-header--center">
+      <p class="section-eyebrow">Časté dotazy</p>
+      <h2 class="section-title">Nejčastější otázky</h2>
+    </div>
+    <div style="display:flex;flex-direction:column">
+      <details class="faq-item"><summary>Jak probíhá rezervace prostoru?</summary><p>Kontaktujte nás prostřednictvím poptávkového formuláře níže nebo telefonicky. Do 48 hodin vám pošleme návrh a zašleme dostupné termíny. Rezervace je závazná po podpisu smlouvy a zaplacení zálohy.</p></details>
+      <details class="faq-item"><summary>Mohu si přivézt vlastní catering?</summary><p>Z hygienických důvodů zajišťujeme catering výhradně prostřednictvím naší kuchyně. Výjimkou jsou dortíky od místních pekáren, které přivézt lze. Naše menu catering je plně přizpůsobitelné.</p></details>
+      <details class="faq-item"><summary>Je možné v prostorách kouřit?</summary><p>Prostory jsou nekuřácké. Kouření je povoleno pouze na venkovní terase a vyhrazených místech u vchodu.</p></details>
+      <details class="faq-item"><summary>Do kdy trvá pronájem standardně?</summary><p>Standardní pronájem končí ve 24:00. Na základě domluvy a příplatku lze termín prodloužit. V neděli je max. čas ukončení akce 22:00.</p></details>
+      <details class="faq-item"><summary>Zajistíte ubytování pro naše hosty?</summary><p>Sami ubytování neposkytujeme, ale rádi zprostředkujeme kontakty na partnerské penziony a hotely v okolí Holčovic a Bruntálu.</p></details>
+      <details class="faq-item"><summary>Lze v prostoru instalovat vlastní dekorace?</summary><p>Ano, vlastní dekorace jsou vítány. Jediným omezením je zákaz přichycení k nátěrovým plochám a nesmí být poškozeny stálé prvky sálu. Balóny, textilie a květinová výzdoba jsou v pořádku.</p></details>
+    </div>
+  </div>
+</section>
+
+<!-- Inquiry Form -->
+<section class="section" id="poptavka" style="background:var(--c-cream-50)">
+  <div class="container" style="max-width:var(--container-md)">
+    <div class="section-header section-header--center">
+      <p class="section-eyebrow">Kontakt</p>
+      <h2 class="section-title">Nezávazná poptávka</h2>
+      <p class="section-desc" style="margin-inline:auto">Napište nám o vaší akci a my se vám obratem ozveme s nabídkou.</p>
+    </div>
+    <div style="background:var(--c-white);border-radius:var(--r-2xl);padding:3rem;box-shadow:var(--shadow-lg)">
+      <form data-validate onsubmit="event.preventDefault();Toast.show({title:'Poptávka odeslána',message:'Ozveme se vám do 48 hodin.',type:'success'})">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem">
+          <div class="form-group"><label class="form-label form-label--req">Jméno a příjmení</label><input type="text" class="form-input" required placeholder="Jan Novák"></div>
+          <div class="form-group"><label class="form-label form-label--req">Telefon</label><input type="tel" class="form-input" required placeholder="+420 000 000 000"></div>
+          <div class="form-group"><label class="form-label form-label--req">E-mail</label><input type="email" class="form-input" required placeholder="jan@example.cz"></div>
+          <div class="form-group"><label class="form-label form-label--req">Typ akce</label><select class="form-select" required><option value="">Vyberte typ akce</option><option>Narozeninová oslava</option><option>Výročí / Jubileum</option><option>Firemní akce</option><option>Spolková schůze</option><option>Kulturní akce</option><option>Jiné</option></select></div>
+          <div class="form-group"><label class="form-label form-label--req">Požadovaný termín</label><input type="date" class="form-input" required></div>
+          <div class="form-group"><label class="form-label form-label--req">Počet hostů</label><select class="form-select" required><option value="">Odhadovaný počet</option><option>do 20 osob</option><option>20–40 osob</option><option>40–80 osob</option><option>80–120 osob</option></select></div>
+        </div>
+        <div class="form-group" style="margin-bottom:1rem"><label class="form-label">Zájem o prostor</label><select class="form-select"><option>Velký sál</option><option>Společenský salónek</option><option>Venkovní terasa</option><option>Nevím ještě</option></select></div>
+        <div class="form-group" style="margin-bottom:1.5rem"><label class="form-label">Vaše přání a požadavky</label><textarea class="form-textarea" placeholder="Popište nám svoji akci – téma, speciální přání, požadavky na catering, hudbu, výzdobu..." rows="4"></textarea></div>
+        <label class="form-check" style="margin-bottom:1.5rem"><input type="checkbox" required><span style="font-size:0.875rem;color:var(--c-text-sec)">Souhlasím se zpracováním osobních údajů pro účely vyřízení poptávky.</span></label>
+        <button type="submit" class="btn btn--accent btn--xl btn--full">Odeslat poptávku</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container"><div class="footer__bottom" style="padding-block:1.5rem"><p class="footer__copy">© 2025 Obecní dům Holčovice</p><nav class="footer__bottom-links"><a href="index.html" class="footer__bottom-link">Domů</a><a href="contact.html" class="footer__bottom-link">Kontakt</a></nav></div></div>
+</footer>
+
+<div class="toast-container"></div>
+<script src="js/main.js"></script>
+</body>
+</html>

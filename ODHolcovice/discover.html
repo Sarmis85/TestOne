@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Objevte Holčovice – Turistika, příroda a místní zajímavosti</title>
+  <meta name="description" content="Turistické trasy, cyklostezky, naučné stezky, místní historie a atrakce v okolí Holčovic a Jeseníků.">
+  <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+
+<nav class="nav nav--scrolled" id="main-nav">
+  <div class="container nav__inner">
+    <a href="index.html" class="nav__logo"><div class="nav__logo-mark"><span>OD</span></div><div class="nav__logo-text"><span class="nav__logo-name">Obecní dům</span><span class="nav__logo-sub">Holčovice</span></div></a>
+    <ul class="nav__links">
+      <li><a href="menu.html" class="nav__link">Jídelní lístek</a></li>
+      <li><a href="events.html" class="nav__link">Akce & Události</a></li>
+      <li><a href="celebrations.html" class="nav__link">Oslavy & Pronájmy</a></li>
+      <li><a href="discover.html" class="nav__link nav__link--active">Objevte Holčovice</a></li>
+      <li><a href="gallery.html" class="nav__link">Galerie</a></li>
+      <li><a href="contact.html" class="nav__link">Kontakt</a></li>
+    </ul>
+    <div class="nav__actions">
+      <div class="nav__lang"><a href="#" class="active">CZ</a><span>/</span><a href="#">EN</a><span>/</span><a href="#">DE</a></div>
+      <a href="contact.html#reservation" class="btn btn--accent btn--sm">Rezervovat stůl</a>
+      <button class="nav__hamburger"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</nav>
+<div class="mobile-menu"><nav class="mobile-menu__nav"><a href="menu.html" class="mobile-menu__link">Jídelní lístek</a><a href="events.html" class="mobile-menu__link">Akce & Události</a><a href="celebrations.html" class="mobile-menu__link">Oslavy & Pronájmy</a><a href="discover.html" class="mobile-menu__link">Objevte Holčovice</a><a href="gallery.html" class="mobile-menu__link">Galerie</a><a href="contact.html" class="mobile-menu__link">Kontakt</a></nav><div class="mobile-menu__actions"><a href="contact.html#reservation" class="btn btn--accent btn--lg btn--full">Rezervovat stůl</a></div></div>
+
+<!-- Discover Hero -->
+<div class="discover-hero">
+  <div style="position:absolute;inset:0;background:linear-gradient(135deg,#0F1E18,#1A3129 40%,#2C4A3B 70%,#3D6B56)"></div>
+  <div style="position:absolute;inset:0;background:linear-gradient(to bottom,rgba(15,30,24,0.3),rgba(15,30,24,0.7))"></div>
+  <!-- SVG Mountain -->
+  <div style="position:absolute;bottom:0;left:0;right:0">
+    <svg viewBox="0 0 1440 200" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" style="display:block">
+      <path d="M0,200 L0,100 Q180,40 360,90 Q540,30 720,80 Q900,20 1080,70 Q1260,30 1440,60 L1440,200Z" fill="rgba(15,30,24,0.5)"/>
+      <path d="M0,200 L0,140 Q240,100 480,130 Q720,95 960,120 Q1200,100 1440,115 L1440,200Z" fill="rgba(15,30,24,0.7)"/>
+    </svg>
+  </div>
+  <div class="container" style="position:relative;z-index:2;padding-top:calc(var(--nav-h) + 3rem)">
+    <p class="hero__eyebrow">Turistika & Příroda</p>
+    <h1 style="font-family:var(--font-serif);font-size:clamp(2rem,4vw,3.5rem);font-weight:700;color:white;line-height:1.1;margin-bottom:1rem;max-width:14ch">Objevte <em style="color:var(--c-gold-light)">Holčovice</em><br>a Jeseníky</h1>
+    <p style="font-size:1.125rem;color:rgba(255,255,255,0.75);max-width:44ch;line-height:1.7;margin-bottom:2rem">Holčovice leží na okraji CHKO Jeseníky. Naše obec je skvělým výchozím bodem pro pěší turisty, cyklisty i milovníky přírody.</p>
+    <div style="display:flex;gap:0.75rem;flex-wrap:wrap">
+      <a href="#trasy" class="btn btn--accent btn--lg">Trasy a stezky</a>
+      <a href="#zajimavosti" class="btn btn--outline-light btn--lg">Místní zajímavosti</a>
+    </div>
+  </div>
+</div>
+
+<!-- Quick Info -->
+<div style="background:var(--c-white);border-bottom:1px solid var(--c-border-light)">
+  <div class="container">
+    <div style="display:flex;gap:0;overflow-x:auto;scrollbar-width:none">
+      <div style="padding:1.5rem 2rem;border-right:1px solid var(--c-border-light);min-width:180px;text-align:center;flex-shrink:0">
+        <div style="font-size:1.75rem;font-weight:700;font-family:var(--font-serif);color:var(--c-green-700)">15+</div>
+        <div style="font-size:0.8125rem;color:var(--c-text-muted)">Turistických tras</div>
+      </div>
+      <div style="padding:1.5rem 2rem;border-right:1px solid var(--c-border-light);min-width:180px;text-align:center;flex-shrink:0">
+        <div style="font-size:1.75rem;font-weight:700;font-family:var(--font-serif);color:var(--c-green-700)">1 490 m</div>
+        <div style="font-size:0.8125rem;color:var(--c-text-muted)">Praděd – nejvyšší hora</div>
+      </div>
+      <div style="padding:1.5rem 2rem;border-right:1px solid var(--c-border-light);min-width:180px;text-align:center;flex-shrink:0">
+        <div style="font-size:1.75rem;font-weight:700;font-family:var(--font-serif);color:var(--c-green-700)">CHKO</div>
+        <div style="font-size:0.8125rem;color:var(--c-text-muted)">Chráněná krajinná oblast</div>
+      </div>
+      <div style="padding:1.5rem 2rem;min-width:180px;text-align:center;flex-shrink:0">
+        <div style="font-size:1.75rem;font-weight:700;font-family:var(--font-serif);color:var(--c-green-700)">4 sezóny</div>
+        <div style="font-size:0.8125rem;color:var(--c-text-muted)">Celoroční turistika</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Trails & Routes -->
+<section class="section" id="trasy" style="background:var(--c-cream-50)">
+  <div class="container">
+    <div class="section-header">
+      <p class="section-eyebrow">Trasy</p>
+      <h2 class="section-title">Trasy a stezky</h2>
+    </div>
+
+    <!-- Filter -->
+    <div class="discover-filters">
+      <button class="tag tag--active" data-tab-trigger="vse2">Vše</button>
+      <button class="tag" data-tab-trigger="pesi">🥾 Pěší</button>
+      <button class="tag" data-tab-trigger="cyklo">🚴 Cyklo</button>
+      <button class="tag" data-tab-trigger="naucne">📚 Naučné</button>
+      <button class="tag" data-tab-trigger="rodiny">👨‍👩‍👧 Pro rodiny</button>
+      <button class="tag" data-tab-trigger="zima">⛷ Zimní</button>
+    </div>
+
+    <div class="tourism__grid" style="margin-top:2rem">
+      <article class="tourism-card">
+        <div class="tourism-card__img-wrap">
+          <div style="width:100%;height:100%;background:linear-gradient(135deg,#1A3129,#3D6B56)"></div>
+          <span class="tourism-card__difficulty" style="background:rgba(211,84,0,0.85)">Těžká</span>
+        </div>
+        <div class="tourism-card__body">
+          <div class="tourism-card__type">🥾 Pěší trasa · Červená</div>
+          <h3 class="tourism-card__title">Stezka k Pradědu</h3>
+          <div class="tourism-card__meta"><span>📏 18 km</span><span>⏱ 5–6 hod</span><span>📈 620 m</span></div>
+          <p class="tourism-card__desc">Klasická červená trasa přes Videlský Kříž na nejvyšší horu Moravy s úchvatnými výhledy.</p>
+        </div>
+      </article>
+
+      <article class="tourism-card">
+        <div class="tourism-card__img-wrap">
+          <div style="width:100%;height:100%;background:linear-gradient(135deg,#4A3020,#8B6B47)"></div>
+          <span class="tourism-card__difficulty" style="background:rgba(39,174,96,0.85)">Snadná</span>
+        </div>
+        <div class="tourism-card__body">
+          <div class="tourism-card__type">🚴 Cyklotrasa · č. 6145</div>
+          <h3 class="tourism-card__title">Holčovický okruh</h3>
+          <div class="tourism-card__meta"><span>📏 32 km</span><span>⏱ 2–3 hod</span><span>📈 180 m</span></div>
+          <p class="tourism-card__desc">Pohodová cyklotrasa přes Heřmanovice, Mezinu a lesní cesty s výhledy na Jeseníky.</p>
+        </div>
+      </article>
+
+      <article class="tourism-card">
+        <div class="tourism-card__img-wrap">
+          <div style="width:100%;height:100%;background:linear-gradient(135deg,#2C4A3B,#5A9A7A)"></div>
+          <span class="tourism-card__difficulty" style="background:rgba(39,174,96,0.85)">Snadná</span>
+        </div>
+        <div class="tourism-card__body">
+          <div class="tourism-card__type">📚 Naučná stezka · Pro rodiny</div>
+          <h3 class="tourism-card__title">Holčovická naučná stezka</h3>
+          <div class="tourism-card__meta"><span>📏 6 km</span><span>⏱ 1,5 hod</span><span>👨‍👩‍👧 Rodiny</span></div>
+          <p class="tourism-card__desc">12 zastávek – příroda, historie, fauna a flora Jesenicka. Doporučeno pro rodiny s dětmi.</p>
+        </div>
+      </article>
+
+      <article class="tourism-card">
+        <div class="tourism-card__img-wrap">
+          <div style="width:100%;height:100%;background:linear-gradient(135deg,#3D6B56,#1A3129)"></div>
+          <span class="tourism-card__difficulty" style="background:rgba(230,126,22,0.85)">Střední</span>
+        </div>
+        <div class="tourism-card__body">
+          <div class="tourism-card__type">🥾 Pěší trasa · Modrá</div>
+          <h3 class="tourism-card__title">Heřmanovické rašeliniště</h3>
+          <div class="tourism-card__meta"><span>📏 8 km</span><span>⏱ 2,5 hod</span><span>📈 220 m</span></div>
+          <p class="tourism-card__desc">Trasa přes unikátní horské rašeliniště s přírodovědným výkladem a výhledy na okolní kopce.</p>
+        </div>
+      </article>
+
+      <article class="tourism-card">
+        <div class="tourism-card__img-wrap">
+          <div style="width:100%;height:100%;background:linear-gradient(135deg,#8B6B47,#C49A6C)"></div>
+          <span class="tourism-card__difficulty" style="background:rgba(39,174,96,0.85)">Snadná</span>
+        </div>
+        <div class="tourism-card__body">
+          <div class="tourism-card__type">⛷ Běžkařská trasa · Zimní</div>
+          <h3 class="tourism-card__title">Zimní okruh Holčovice</h3>
+          <div class="tourism-card__meta"><span>📏 12 km</span><span>⏱ 2 hod</span><span>❄️ Prosinec–Březen</span></div>
+          <p class="tourism-card__desc">Upravovaná běžkařská trasa přes zasněžené louky a lesy. Půjčení lyží možné v obci.</p>
+        </div>
+      </article>
+
+      <article class="tourism-card">
+        <div class="tourism-card__img-wrap">
+          <div style="width:100%;height:100%;background:linear-gradient(135deg,#C49A3C,#7A5E20)"></div>
+          <span class="tourism-card__difficulty" style="background:rgba(230,126,22,0.85)">Střední</span>
+        </div>
+        <div class="tourism-card__body">
+          <div class="tourism-card__type">🚴 MTB trasa</div>
+          <h3 class="tourism-card__title">MTB Jeseník – Holčovice</h3>
+          <div class="tourism-card__meta"><span>📏 45 km</span><span>⏱ 4–5 hod</span><span>📈 850 m</span></div>
+          <p class="tourism-card__desc">Náročná horská cyklotrasa pro zkušené bikery s technickými úseky a výhledy na celé Jeseníky.</p>
+        </div>
+      </article>
+    </div>
+
+    <div style="text-align:center;margin-top:2rem">
+      <p style="color:var(--c-text-muted);margin-bottom:1rem">📍 Turistické mapy jsou k dispozici na recepci Obecního domu</p>
+      <a href="contact.html" class="btn btn--primary">Informace pro turisty</a>
+    </div>
+  </div>
+</section>
+
+<!-- Local Attractions -->
+<section class="section" id="zajimavosti" style="background:var(--c-white)">
+  <div class="container">
+    <div class="section-header section-header--center">
+      <p class="section-eyebrow">Místní zajímavosti</p>
+      <h2 class="section-title">Co navštívit v okolí</h2>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1.5rem">
+      <div class="card card--flat" style="border-radius:var(--r-xl)">
+        <div class="card__body">
+          <div style="font-size:2rem;margin-bottom:0.75rem">🏔</div>
+          <h3 class="card__title">Praděd – 1 490 m</h3>
+          <p class="card__desc">Nejvyšší hora Moravy a Slezska. Televizní věž s vyhlídkovou plošinou a restaurací.</p>
+          <div style="font-size:0.8125rem;color:var(--c-text-muted)">🚗 35 km · 🥾 18 km pěšky</div>
+        </div>
+      </div>
+      <div class="card card--flat" style="border-radius:var(--r-xl)">
+        <div class="card__body">
+          <div style="font-size:2rem;margin-bottom:0.75rem">🏰</div>
+          <h3 class="card__title">Hrad Sovinec</h3>
+          <p class="card__desc">Mohutný středověký hrad z 13. století s bohatou historií a výhledy na Nízkoresenský Jeseník.</p>
+          <div style="font-size:0.8125rem;color:var(--c-text-muted)">🚗 18 km</div>
+        </div>
+      </div>
+      <div class="card card--flat" style="border-radius:var(--r-xl)">
+        <div class="card__body">
+          <div style="font-size:2rem;margin-bottom:0.75rem">💧</div>
+          <h3 class="card__title">Prameny minerálních vod</h3>
+          <p class="card__desc">Přírodní prameny léčivých minerálních vod v okolí Jeseníku – tradice lázeňství sahá do 19. stol.</p>
+          <div style="font-size:0.8125rem;color:var(--c-text-muted)">🚗 25 km</div>
+        </div>
+      </div>
+      <div class="card card--flat" style="border-radius:var(--r-xl)">
+        <div class="card__body">
+          <div style="font-size:2rem;margin-bottom:0.75rem">🌲</div>
+          <h3 class="card__title">Rašeliniště u Heřmanovic</h3>
+          <p class="card__desc">Vzácné horské rašeliniště s unikátní flórou – borůvčí, klikva, rosnatka. Přírodní rezervace.</p>
+          <div style="font-size:0.8125rem;color:var(--c-text-muted)">🚶 8 km od OD</div>
+        </div>
+      </div>
+      <div class="card card--flat" style="border-radius:var(--r-xl)">
+        <div class="card__body">
+          <div style="font-size:2rem;margin-bottom:0.75rem">⛷</div>
+          <h3 class="card__title">Ski areály</h3>
+          <p class="card__desc">Ski areál Karlov, Červenohorské sedlo a Paprsek – alpské lyžování v srdci Jeseníků.</p>
+          <div style="font-size:0.8125rem;color:var(--c-text-muted)">🚗 15–35 km</div>
+        </div>
+      </div>
+      <div class="card card--flat" style="border-radius:var(--r-xl)">
+        <div class="card__body">
+          <div style="font-size:2rem;margin-bottom:0.75rem">🦌</div>
+          <h3 class="card__title">Obora – jelení zvěř</h3>
+          <p class="card__desc">Místní obora s jeleny a srnčí zvěří – oblíbené místo pro rodiny s dětmi po celý rok.</p>
+          <div style="font-size:0.8125rem;color:var(--c-text-muted)">🚶 2 km od OD</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Local History -->
+<section class="section" style="background:var(--c-green-700)">
+  <div class="container">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:center">
+      <div>
+        <p class="section-eyebrow section-eyebrow--inv">Historie</p>
+        <h2 class="section-title section-title--inv">Historie Holčovic</h2>
+        <p style="color:rgba(255,255,255,0.75);line-height:1.7;margin-bottom:1rem">Holčovice jsou malou obcí s bohatou historií sahající do středověku. První písemná zmínka pochází z roku 1377, kdy bylo sídlo součástí opavského knížectví.</p>
+        <p style="color:rgba(255,255,255,0.75);line-height:1.7;margin-bottom:1.5rem">Obec je charakteristická tradičním slezsko-německým architektonickým stylem, zachovanými lidovými stavbami a silnou komunitní tradicí, která přetrvává dodnes.</p>
+        <a href="#" class="btn btn--outline-light">Číst více o historii</a>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
+        <div style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:var(--r-xl);padding:1.5rem;text-align:center">
+          <div style="font-family:var(--font-serif);font-size:2rem;font-weight:700;color:var(--c-gold-light)">1377</div>
+          <div style="font-size:0.875rem;color:rgba(255,255,255,0.6);margin-top:0.25rem">První písemná zmínka</div>
+        </div>
+        <div style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:var(--r-xl);padding:1.5rem;text-align:center">
+          <div style="font-family:var(--font-serif);font-size:2rem;font-weight:700;color:var(--c-gold-light)">450</div>
+          <div style="font-size:0.875rem;color:rgba(255,255,255,0.6);margin-top:0.25rem">Obyvatel obce</div>
+        </div>
+        <div style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:var(--r-xl);padding:1.5rem;text-align:center">
+          <div style="font-family:var(--font-serif);font-size:2rem;font-weight:700;color:var(--c-gold-light)">648</div>
+          <div style="font-size:0.875rem;color:rgba(255,255,255,0.6);margin-top:0.25rem">Metrů n. m.</div>
+        </div>
+        <div style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:var(--r-xl);padding:1.5rem;text-align:center">
+          <div style="font-family:var(--font-serif);font-size:2rem;font-weight:700;color:var(--c-gold-light)">CHKO</div>
+          <div style="font-size:0.875rem;color:rgba(255,255,255,0.6);margin-top:0.25rem">Jeseníky</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Local Products -->
+<section class="section" style="background:var(--c-cream-50)">
+  <div class="container">
+    <div class="section-header section-header--center">
+      <p class="section-eyebrow">Místní produkty</p>
+      <h2 class="section-title">Od místních, pro místní</h2>
+      <p class="section-desc" style="margin-inline:auto">Podporujeme lokální producenty. Tyto produkty najdete v naší restauraci nebo přímo u výrobců.</p>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:1.5rem">
+      <div class="card card--flat" style="text-align:center;padding:2rem;border-radius:var(--r-xl)">
+        <div style="font-size:3rem;margin-bottom:0.75rem">🍯</div>
+        <h4 style="font-family:var(--font-serif);margin-bottom:0.5rem">Jesenický med</h4>
+        <p style="font-size:0.875rem;color:var(--c-text-muted)">Přírodní med z místních úlů v čistém horském prostředí</p>
+      </div>
+      <div class="card card--flat" style="text-align:center;padding:2rem;border-radius:var(--r-xl)">
+        <div style="font-size:3rem;margin-bottom:0.75rem">🧀</div>
+        <h4 style="font-family:var(--font-serif);margin-bottom:0.5rem">Farmářský sýr</h4>
+        <p style="font-size:0.875rem;color:var(--c-text-muted)">Tradiční výroba z mléka místních krav a ovcí</p>
+      </div>
+      <div class="card card--flat" style="text-align:center;padding:2rem;border-radius:var(--r-xl)">
+        <div style="font-size:3rem;margin-bottom:0.75rem">🫐</div>
+        <h4 style="font-family:var(--font-serif);margin-bottom:0.5rem">Lesní plody</h4>
+        <p style="font-size:0.875rem;color:var(--c-text-muted)">Borůvky, maliny a houby z jesenických lesů</p>
+      </div>
+      <div class="card card--flat" style="text-align:center;padding:2rem;border-radius:var(--r-xl)">
+        <div style="font-size:3rem;margin-bottom:0.75rem">🌿</div>
+        <h4 style="font-family:var(--font-serif);margin-bottom:0.5rem">Bylinky & čaje</h4>
+        <p style="font-size:0.875rem;color:var(--c-text-muted)">Bylinné čaje ze zahrádek místních pěstitelů</p>
+      </div>
+      <div class="card card--flat" style="text-align:center;padding:2rem;border-radius:var(--r-xl)">
+        <div style="font-size:3rem;margin-bottom:0.75rem">🪵</div>
+        <h4 style="font-family:var(--font-serif);margin-bottom:0.5rem">Dřevořezby</h4>
+        <p style="font-size:0.875rem;color:var(--c-text-muted)">Ručně vyřezávané suvenýry a dekorace z jesenického dřeva</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container"><div class="footer__bottom" style="padding-block:1.5rem"><p class="footer__copy">© 2025 Obecní dům Holčovice</p><nav class="footer__bottom-links"><a href="index.html" class="footer__bottom-link">Domů</a><a href="contact.html" class="footer__bottom-link">Kontakt</a></nav></div></div>
+</footer>
+
+<div class="toast-container"></div>
+<script src="js/main.js"></script>
+</body>
+</html>

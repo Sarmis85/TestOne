@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Objednávky – Admin · Obecní dům Holčovice</title>
+  <link rel="stylesheet" href="../css/admin.css">
+</head>
+<body>
+<div class="admin-root">
+<aside class="admin-sidebar" id="admin-sidebar">
+  <div class="admin-sidebar__header"><div class="admin-sidebar__brand"><div class="admin-sidebar__logo">OD</div><div><div class="admin-sidebar__name">Obecní dům</div><div class="admin-sidebar__sub">Admin</div></div></div><button class="admin-sidebar__toggle"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 19l-7-7 7-7M18 19l-7-7 7-7"/></svg></button></div>
+  <nav class="admin-sidebar__nav">
+    <div class="admin-sidebar__section-title">Přehled</div>
+    <a href="index.html" class="admin-nav-item"><svg class="admin-nav-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg><span class="admin-nav-item__label">Dashboard</span></a>
+    <div class="admin-sidebar__section-title">Restaurace</div>
+    <a href="menu.html" class="admin-nav-item"><svg class="admin-nav-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 2h2l.4 2M7 13h10l4-8H5.4"/></svg><span class="admin-nav-item__label">Jídelní lístek</span></a>
+    <a href="reservations.html" class="admin-nav-item"><svg class="admin-nav-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/></svg><span class="admin-nav-item__label">Rezervace</span><span class="admin-nav-item__badge">3</span></a>
+    <a href="orders.html" class="admin-nav-item active"><svg class="admin-nav-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg><span class="admin-nav-item__label">Objednávky</span><span class="admin-nav-item__badge">7</span></a>
+    <div class="admin-sidebar__section-title">Obsah</div>
+    <a href="events.html" class="admin-nav-item"><svg class="admin-nav-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18V5l12-2v13"/></svg><span class="admin-nav-item__label">Akce & Události</span></a>
+    <a href="content.html" class="admin-nav-item"><svg class="admin-nav-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg><span class="admin-nav-item__label">Správa obsahu</span></a>
+    <div class="admin-sidebar__section-title">Systém</div>
+    <a href="users.html" class="admin-nav-item"><svg class="admin-nav-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg><span class="admin-nav-item__label">Uživatelé</span></a>
+  </nav>
+  <div class="admin-sidebar__footer"><div class="admin-user-mini"><div class="admin-user-mini__avatar">MH</div><div class="admin-user-mini__info"><div class="admin-user-mini__name">Martin Horák</div><div class="admin-user-mini__role">Rozvoz</div></div></div></div>
+</aside>
+
+<div class="admin-main">
+  <header class="admin-topbar">
+    <h1 class="admin-topbar__title">Objednávky rozvozu</h1>
+    <div class="admin-topbar__actions">
+      <div style="display:flex;align-items:center;gap:0.5rem;background:var(--c-success-bg);color:var(--c-success);padding:0.4rem 0.75rem;border-radius:var(--r-full);font-size:0.8125rem;font-weight:600">
+        <div style="width:7px;height:7px;border-radius:50%;background:var(--c-success);animation:pulse 2s infinite"></div>
+        Přijímáme objednávky
+      </div>
+    </div>
+  </header>
+
+  <main class="admin-content">
+    <!-- Live Order Pipeline -->
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:2rem">
+
+      <!-- Pending -->
+      <div style="background:var(--c-white);border-radius:var(--r-xl);box-shadow:var(--shadow-card);overflow:hidden">
+        <div style="padding:1rem 1.25rem;background:#FEF3C7;border-bottom:1px solid #FDE68A;display:flex;align-items:center;justify-content:space-between">
+          <span style="font-weight:700;font-size:0.875rem;color:#92400E">⏳ Přijato</span>
+          <span class="badge" style="background:#FDE68A;color:#92400E">3</span>
+        </div>
+        <div style="padding:0.75rem;display:flex;flex-direction:column;gap:0.5rem">
+          <div style="background:var(--c-cream-50);border-radius:var(--r-lg);padding:0.875rem;border-left:3px solid #F59E0B">
+            <div style="font-weight:600;font-size:0.875rem">#087 · Eva Součková</div>
+            <div style="font-size:0.8125rem;color:var(--c-text-muted)">Holčovice 78 · 194 Kč</div>
+            <div style="font-size:0.8125rem;color:var(--c-text-sec);margin:0.25rem 0">Vegetariánské + polévka</div>
+            <button class="btn btn--primary btn--sm btn--full" style="margin-top:0.5rem" onclick="Toast.show({title:'Přijato do kuchyně',type:'success'})">Přijmout</button>
+          </div>
+          <div style="background:var(--c-cream-50);border-radius:var(--r-lg);padding:0.875rem;border-left:3px solid #F59E0B">
+            <div style="font-weight:600;font-size:0.875rem">#086 · Jiří Blaha</div>
+            <div style="font-size:0.8125rem;color:var(--c-text-muted)">Heřmanovice 5 · 159 Kč</div>
+            <div style="font-size:0.8125rem;color:var(--c-text-sec);margin:0.25rem 0">Vepřová pečeně</div>
+            <button class="btn btn--primary btn--sm btn--full" style="margin-top:0.5rem" onclick="Toast.show({title:'Přijato do kuchyně',type:'success'})">Přijmout</button>
+          </div>
+          <div style="background:var(--c-cream-50);border-radius:var(--r-lg);padding:0.875rem;border-left:3px solid #F59E0B">
+            <div style="font-weight:600;font-size:0.875rem">#085 · Anna Smetanová</div>
+            <div style="font-size:0.8125rem;color:var(--c-text-muted)">Holčovice 12 · 228 Kč</div>
+            <div style="font-size:0.8125rem;color:var(--c-text-sec);margin:0.25rem 0">Svíčková + vývar</div>
+            <button class="btn btn--primary btn--sm btn--full" style="margin-top:0.5rem" onclick="Toast.show({title:'Přijato do kuchyně',type:'success'})">Přijmout</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Preparing -->
+      <div style="background:var(--c-white);border-radius:var(--r-xl);box-shadow:var(--shadow-card);overflow:hidden">
+        <div style="padding:1rem 1.25rem;background:var(--c-info-bg);border-bottom:1px solid #BFDBFE;display:flex;align-items:center;justify-content:space-between">
+          <span style="font-weight:700;font-size:0.875rem;color:#1E40AF">👨‍🍳 Připravuje se</span>
+          <span class="badge" style="background:#BFDBFE;color:#1E40AF">2</span>
+        </div>
+        <div style="padding:0.75rem;display:flex;flex-direction:column;gap:0.5rem">
+          <div style="background:var(--c-cream-50);border-radius:var(--r-lg);padding:0.875rem;border-left:3px solid var(--c-info)">
+            <div style="font-weight:600;font-size:0.875rem">#089 · Jana Dvořáčková</div>
+            <div style="font-size:0.8125rem;color:var(--c-text-muted)">Holčovice 42 · 224 Kč</div>
+            <div style="font-size:0.8125rem;color:var(--c-text-sec);margin:0.25rem 0">Svíčková + polévka</div>
+            <div style="font-size:0.75rem;color:var(--c-text-muted);margin:0.25rem 0">⏱ Čeká 12 min</div>
+            <button class="btn btn--sm btn--full" style="margin-top:0.5rem;background:var(--c-green-50);color:var(--c-green-700)" onclick="Toast.show({title:'Připraveno k vyzvednutí',type:'success'})">Připraveno →</button>
+          </div>
+          <div style="background:var(--c-cream-50);border-radius:var(--r-lg);padding:0.875rem;border-left:3px solid var(--c-info)">
+            <div style="font-weight:600;font-size:0.875rem">#088 · Petr Kratochvíl</div>
+            <div style="font-size:0.8125rem;color:var(--c-text-muted)">Heřmanovice 15 · 228 Kč</div>
+            <div style="font-size:0.8125rem;color:var(--c-text-sec);margin:0.25rem 0">Kuřecí řízek + polévka</div>
+            <div style="font-size:0.75rem;color:var(--c-text-muted);margin:0.25rem 0">⏱ Čeká 8 min</div>
+            <button class="btn btn--sm btn--full" style="margin-top:0.5rem;background:var(--c-green-50);color:var(--c-green-700)" onclick="Toast.show({title:'Připraveno k vyzvednutí',type:'success'})">Připraveno →</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Ready -->
+      <div style="background:var(--c-white);border-radius:var(--r-xl);box-shadow:var(--shadow-card);overflow:hidden">
+        <div style="padding:1rem 1.25rem;background:var(--c-green-50);border-bottom:1px solid var(--c-green-100);display:flex;align-items:center;justify-content:space-between">
+          <span style="font-weight:700;font-size:0.875rem;color:var(--c-green-700)">✅ Připraveno</span>
+          <span class="badge badge--green">1</span>
+        </div>
+        <div style="padding:0.75rem;display:flex;flex-direction:column;gap:0.5rem">
+          <div style="background:var(--c-cream-50);border-radius:var(--r-lg);padding:0.875rem;border-left:3px solid var(--c-green-400)">
+            <div style="font-weight:600;font-size:0.875rem">#084 · Lucie Marková</div>
+            <div style="font-size:0.8125rem;color:var(--c-text-muted)">Holčovice 55 · 169 Kč</div>
+            <div style="font-size:0.8125rem;color:var(--c-text-sec);margin:0.25rem 0">Kuřecí steak + polévka</div>
+            <div style="font-size:0.75rem;color:var(--c-success);margin:0.25rem 0">🚴 Kurýr přijíždí</div>
+            <button class="btn btn--sm btn--full" style="margin-top:0.5rem;background:var(--c-gold);color:white" onclick="Toast.show({title:'Předáno kurýrovi',type:'success'})">Předat kurýrovi →</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Delivered -->
+      <div style="background:var(--c-white);border-radius:var(--r-xl);box-shadow:var(--shadow-card);overflow:hidden">
+        <div style="padding:1rem 1.25rem;background:var(--c-cream-100);border-bottom:1px solid var(--c-border-light);display:flex;align-items:center;justify-content:space-between">
+          <span style="font-weight:700;font-size:0.875rem;color:var(--c-text-muted)">📦 Doručeno dnes</span>
+          <span class="badge badge--brown">17</span>
+        </div>
+        <div style="padding:0.75rem;display:flex;flex-direction:column;gap:0.5rem;max-height:280px;overflow-y:auto">
+          <div style="font-size:0.8125rem;color:var(--c-text-muted);display:flex;justify-content:space-between;padding:0.5rem 0;border-bottom:1px solid var(--c-border-light)">#083 · R. Svobodová <strong style="color:var(--c-text)">198 Kč</strong></div>
+          <div style="font-size:0.8125rem;color:var(--c-text-muted);display:flex;justify-content:space-between;padding:0.5rem 0;border-bottom:1px solid var(--c-border-light)">#082 · J. Procházka <strong style="color:var(--c-text)">224 Kč</strong></div>
+          <div style="font-size:0.8125rem;color:var(--c-text-muted);display:flex;justify-content:space-between;padding:0.5rem 0;border-bottom:1px solid var(--c-border-light)">#081 · M. Kolář <strong style="color:var(--c-text)">159 Kč</strong></div>
+          <div style="font-size:0.8125rem;color:var(--c-text-muted);display:flex;justify-content:space-between;padding:0.5rem 0;border-bottom:1px solid var(--c-border-light)">#080 · A. Krejčí <strong style="color:var(--c-text)">169 Kč</strong></div>
+          <div style="font-size:0.8125rem;color:var(--c-text-muted);display:flex;justify-content:space-between;padding:0.5rem 0">#079 · P. Novotný <strong style="color:var(--c-text)">228 Kč</strong></div>
+        </div>
+        <div style="padding:0.75rem;border-top:1px solid var(--c-border-light)">
+          <div style="display:flex;justify-content:space-between;font-size:0.875rem">
+            <span style="color:var(--c-text-muted)">Celkem tržby</span>
+            <strong style="color:var(--c-green-700);font-family:var(--font-serif)">3 240 Kč</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Orders Table -->
+    <div class="admin-table-card">
+      <div class="admin-table-card__header">
+        <h3 class="admin-table-card__title">Všechny objednávky – 9. 6. 2025</h3>
+        <div class="admin-table-card__actions">
+          <select class="form-select" style="width:auto;font-size:0.875rem" data-filter-select="orders">
+            <option value="">Vše</option>
+            <option value="pending">Přijato</option>
+            <option value="preparing">Připravuje se</option>
+            <option value="ready">Připraveno</option>
+            <option value="delivered">Doručeno</option>
+          </select>
+          <button class="btn btn--ghost btn--sm">Export</button>
+        </div>
+      </div>
+      <div class="admin-table-wrap">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Zákazník</th>
+              <th>Jídla</th>
+              <th>Adresa doručení</th>
+              <th>Telefon</th>
+              <th>Čas obj.</th>
+              <th data-sort="total">Cena</th>
+              <th>Stav</th>
+              <th style="text-align:right">Akce</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr data-id="o1" data-filter-row="orders" data-filter-value="preparing"><td style="font-weight:600;font-size:0.8rem;color:var(--c-text-muted)">#089</td><td class="admin-table__cell--name">Jana Dvořáčková</td><td style="font-size:0.8125rem">Svíčková + polévka (1 os.)</td><td style="font-size:0.8125rem">Holčovice 42</td><td style="font-size:0.8125rem">+420 604 111 111</td><td style="font-size:0.8125rem">11:05</td><td class="admin-table__cell--price">224 Kč</td><td><span class="status status--preparing">Připravuje se</span></td><td><div class="admin-table__cell--actions"><button class="admin-table__action admin-table__action--success" title="Připraveno" onclick="changeStatus('o1','ready')"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg></button></div></td></tr>
+            <tr data-id="o2" data-filter-row="orders" data-filter-value="preparing"><td style="font-weight:600;font-size:0.8rem;color:var(--c-text-muted)">#088</td><td class="admin-table__cell--name">Petr Kratochvíl</td><td style="font-size:0.8125rem">Kuřecí řízek + polévka</td><td style="font-size:0.8125rem">Heřmanovice 15</td><td style="font-size:0.8125rem">+420 720 222 222</td><td style="font-size:0.8125rem">11:08</td><td class="admin-table__cell--price">228 Kč</td><td><span class="status status--preparing">Připravuje se</span></td><td><div class="admin-table__cell--actions"><button class="admin-table__action admin-table__action--success" onclick="changeStatus('o2','ready')"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg></button></div></td></tr>
+            <tr data-id="o3" data-filter-row="orders" data-filter-value="pending"><td style="font-weight:600;font-size:0.8rem;color:var(--c-text-muted)">#087</td><td class="admin-table__cell--name">Eva Součková</td><td style="font-size:0.8125rem">Vegetariánské + polévka</td><td style="font-size:0.8125rem">Holčovice 78</td><td style="font-size:0.8125rem">+420 601 333 333</td><td style="font-size:0.8125rem">11:12</td><td class="admin-table__cell--price">194 Kč</td><td><span class="status status--pending">Přijato</span></td><td><div class="admin-table__cell--actions"><button class="admin-table__action admin-table__action--success" onclick="changeStatus('o3','preparing')"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg></button><button class="admin-table__action admin-table__action--danger" onclick="changeStatus('o3','rejected')"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6L6 18M6 6l12 12"/></svg></button></div></td></tr>
+            <tr data-id="o4" data-filter-row="orders" data-filter-value="delivered"><td style="font-weight:600;font-size:0.8rem;color:var(--c-text-muted)">#083</td><td class="admin-table__cell--name">Renáta Svobodová</td><td style="font-size:0.8125rem">Vepřová pečeně + polévka</td><td style="font-size:0.8125rem">Holčovice 33</td><td style="font-size:0.8125rem">+420 775 444 444</td><td style="font-size:0.8125rem">10:45</td><td class="admin-table__cell--price">198 Kč</td><td><span class="status status--delivered">Doručeno</span></td><td><div class="admin-table__cell--actions"></div></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="pagination">
+        <span class="pagination__info">Zobrazeno 1–4 z 23 objednávek</span>
+        <div class="pagination__buttons"><button class="pagination__btn" disabled>‹</button><button class="pagination__btn active">1</button><button class="pagination__btn">2</button><button class="pagination__btn">3</button><button class="pagination__btn">›</button></div>
+      </div>
+    </div>
+  </main>
+</div>
+</div>
+<div class="toast-container"></div>
+<script src="../js/admin.js"></script>
+</body>
+</html>

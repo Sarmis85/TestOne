@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registrace – Obecní dům Holčovice</title>
+  <link rel="stylesheet" href="../css/main.css">
+</head>
+<body style="background:var(--c-cream-100)">
+
+<nav class="nav nav--scrolled" style="position:fixed" id="main-nav">
+  <div class="container nav__inner">
+    <a href="../index.html" class="nav__logo"><div class="nav__logo-mark"><span>OD</span></div><div class="nav__logo-text"><span class="nav__logo-name">Obecní dům</span><span class="nav__logo-sub">Holčovice</span></div></a>
+    <div style="flex:1"></div>
+    <a href="login.html" class="btn btn--ghost btn--sm">Již mám účet</a>
+  </div>
+</nav>
+
+<main class="auth-page" style="align-items:flex-start;padding-top:calc(var(--nav-h)+2rem)">
+  <div class="auth-card" style="max-width:520px">
+    <div class="auth-logo">
+      <div class="auth-logo__mark"><span>OD</span></div>
+      <h1 class="auth-title">Vytvořit účet</h1>
+      <p class="auth-subtitle">Registrací získáte přístup k rozvozu obědů, historii objednávek a snadné rezervaci.</p>
+    </div>
+
+    <!-- Benefits -->
+    <div style="background:var(--c-green-50);border-radius:var(--r-lg);padding:1rem 1.25rem;margin-bottom:1.5rem;display:flex;flex-direction:column;gap:0.5rem">
+      <div style="font-size:0.8125rem;font-weight:700;color:var(--c-green-700);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:0.25rem">Výhody registrace</div>
+      <div style="font-size:0.875rem;color:var(--c-green-700);display:flex;align-items:center;gap:0.5rem">✓ Objednávání rozvozu obědů (Holčovice & Heřmanovice)</div>
+      <div style="font-size:0.875rem;color:var(--c-green-700);display:flex;align-items:center;gap:0.5rem">✓ Historie objednávek a oblíbená jídla</div>
+      <div style="font-size:0.875rem;color:var(--c-green-700);display:flex;align-items:center;gap:0.5rem">✓ Rychlejší rezervace stolu</div>
+    </div>
+
+    <form class="auth-form" data-validate onsubmit="event.preventDefault();Toast.show({title:'Registrace úspěšná!',message:'Vítejte v Obecním domě Holčovice.',type:'success'});setTimeout(()=>window.location.href='profile.html',1500)">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem">
+        <div class="form-group">
+          <label class="form-label form-label--req" for="first-name">Jméno</label>
+          <input type="text" id="first-name" class="form-input" placeholder="Jan" required autocomplete="given-name">
+        </div>
+        <div class="form-group">
+          <label class="form-label form-label--req" for="last-name">Příjmení</label>
+          <input type="text" id="last-name" class="form-input" placeholder="Novák" required autocomplete="family-name">
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label form-label--req" for="reg-email">E-mail</label>
+        <input type="email" id="reg-email" class="form-input" placeholder="jan@example.cz" required autocomplete="email">
+      </div>
+      <div class="form-group">
+        <label class="form-label form-label--req" for="reg-phone">Telefon</label>
+        <input type="tel" id="reg-phone" class="form-input" placeholder="+420 000 000 000" required autocomplete="tel">
+        <span class="form-hint">Telefon použijeme pouze pro potvrzení doručení objednávky.</span>
+      </div>
+      <div class="form-group">
+        <label class="form-label form-label--req" for="reg-street">Ulice a číslo popisné</label>
+        <input type="text" id="reg-street" class="form-input" placeholder="Jesenická 42" required autocomplete="street-address">
+      </div>
+      <div style="display:grid;grid-template-columns:2fr 1fr;gap:0.75rem">
+        <div class="form-group">
+          <label class="form-label form-label--req" for="reg-city">Obec</label>
+          <select id="reg-city" class="form-select" required>
+            <option value="">Vyberte obec</option>
+            <option value="holcovice">Holčovice</option>
+            <option value="hermannovice">Heřmanovice</option>
+          </select>
+          <span class="form-hint">Rozvoz dostupný jen do těchto obcí.</span>
+        </div>
+        <div class="form-group">
+          <label class="form-label form-label--req" for="reg-zip">PSČ</label>
+          <input type="text" id="reg-zip" class="form-input" placeholder="793 71" required>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="form-label form-label--req" for="reg-password">Heslo</label>
+        <input type="password" id="reg-password" class="form-input" placeholder="Min. 8 znaků" required autocomplete="new-password" minlength="8">
+      </div>
+      <div class="form-group">
+        <label class="form-label form-label--req" for="reg-password2">Heslo znovu</label>
+        <input type="password" id="reg-password2" class="form-input" placeholder="Zopakujte heslo" required autocomplete="new-password">
+      </div>
+      <label class="form-check">
+        <input type="checkbox" required>
+        <span style="font-size:0.875rem;color:var(--c-text-sec)">Souhlasím s <a href="#" style="color:var(--c-green-700)">obchodními podmínkami</a> a <a href="#" style="color:var(--c-green-700)">ochranou osobních údajů</a>.</span>
+      </label>
+      <button type="submit" class="btn btn--primary btn--lg btn--full">Vytvořit účet</button>
+    </form>
+
+    <div class="auth-footer">
+      Již máte účet? <a href="login.html">Přihlásit se</a>
+    </div>
+  </div>
+</main>
+
+<div class="toast-container"></div>
+<script src="../js/main.js"></script>
+</body>
+</html>

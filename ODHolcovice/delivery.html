@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rozvoz obědů – Obecní dům Holčovice</title>
+  <meta name="description" content="Objednávka rozvozu obědů do Holčovic a Heřmanovic. Pouze pro registrované zákazníky.">
+  <link rel="stylesheet" href="css/main.css">
+</head>
+<body style="background:var(--c-cream-50)">
+
+<nav class="nav nav--scrolled" id="main-nav">
+  <div class="container nav__inner">
+    <a href="index.html" class="nav__logo"><div class="nav__logo-mark"><span>OD</span></div><div class="nav__logo-text"><span class="nav__logo-name">Obecní dům</span><span class="nav__logo-sub">Holčovice</span></div></a>
+    <ul class="nav__links">
+      <li><a href="menu.html" class="nav__link">Jídelní lístek</a></li>
+      <li><a href="events.html" class="nav__link">Akce & Události</a></li>
+      <li><a href="delivery.html" class="nav__link nav__link--active">Rozvoz</a></li>
+      <li><a href="contact.html" class="nav__link">Kontakt</a></li>
+    </ul>
+    <div class="nav__actions">
+      <a href="account/profile.html" class="nav__user-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> Jan Novák</a>
+      <button class="nav__hamburger"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</nav>
+
+<!-- Info Banner -->
+<div style="background:var(--c-green-700);color:rgba(255,255,255,0.9);text-align:center;padding:0.875rem 1rem;font-size:0.875rem;margin-top:var(--nav-h-scroll)">
+  🚴 Rozvoz obědů dnes: <strong>11:00 – 13:30</strong> · Objednávky přijímáme do <strong>10:30</strong> · Doručení: Holčovice & Heřmanovice · Platba při doručení
+</div>
+
+<main style="padding-block:var(--section-y-sm)">
+  <div class="container">
+    <div style="display:grid;grid-template-columns:1fr 360px;gap:2rem;align-items:start">
+
+      <!-- Menu for Delivery -->
+      <div>
+        <div style="margin-bottom:1.5rem">
+          <p class="section-eyebrow">Týdenní menu – 9.–13. 6. 2025</p>
+          <h1 style="font-family:var(--font-serif);font-size:2rem;font-weight:600;color:var(--c-text)">Objednat oběd</h1>
+        </div>
+
+        <!-- Day Selector -->
+        <div class="menu-day-selector" style="margin-bottom:1.5rem">
+          <button class="tag" data-day="po-d">Pondělí 9.6.</button>
+          <button class="tag" data-day="ut-d">Úterý 10.6.</button>
+          <button class="tag" data-day="st-d">Středa 11.6.</button>
+          <button class="tag" data-day="ct-d">Čtvrtek 12.6.</button>
+          <button class="tag" data-day="pa-d">Pátek 13.6.</button>
+        </div>
+
+        <!-- Today's Delivery Menu -->
+        <div data-day-panel="po-d" style="display:flex;flex-direction:column;gap:0.75rem">
+          <!-- Soup -->
+          <div style="background:var(--c-white);border-radius:var(--r-xl);padding:1.25rem 1.5rem;box-shadow:var(--shadow-card);display:flex;align-items:center;gap:1rem;border-left:3px solid var(--c-brown-300)">
+            <div style="flex:1">
+              <div style="font-size:0.75rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--c-brown-400);margin-bottom:0.25rem">Polévka</div>
+              <div style="font-family:var(--font-serif);font-size:1.125rem;font-weight:500;margin-bottom:0.125rem">Hovězí vývar s nudlemi</div>
+              <div style="font-size:0.8125rem;color:var(--c-text-muted)">Al: 1, 3</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:1rem;flex-shrink:0">
+              <span style="font-family:var(--font-serif);font-size:1.25rem;font-weight:600;color:var(--c-green-700)">65 Kč</span>
+              <button class="btn btn--primary btn--sm" onclick="Cart.add('soup-mon','Hovězí vývar s nudlemi',65)">+ Přidat</button>
+            </div>
+          </div>
+
+          <!-- Main 1 -->
+          <div style="background:var(--c-white);border-radius:var(--r-xl);padding:1.25rem 1.5rem;box-shadow:var(--shadow-card);display:flex;align-items:center;gap:1rem;border-left:3px solid var(--c-green-400)">
+            <div style="flex:1">
+              <div style="font-size:0.75rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--c-green-600);margin-bottom:0.25rem">Hlavní 1</div>
+              <div style="font-family:var(--font-serif);font-size:1.125rem;font-weight:500;margin-bottom:0.125rem">Vepřová pečeně, knedlík, zelí</div>
+              <div style="font-size:0.8125rem;color:var(--c-text-muted)">Al: 1, 3, 7 · Doporučujeme!</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:1rem;flex-shrink:0">
+              <span style="font-family:var(--font-serif);font-size:1.25rem;font-weight:600;color:var(--c-green-700)">159 Kč</span>
+              <button class="btn btn--primary btn--sm" onclick="Cart.add('main1-mon','Vepřová pečeně, knedlík, zelí',159)">+ Přidat</button>
+            </div>
+          </div>
+
+          <!-- Main 2 -->
+          <div style="background:var(--c-white);border-radius:var(--r-xl);padding:1.25rem 1.5rem;box-shadow:var(--shadow-card);display:flex;align-items:center;gap:1rem;border-left:3px solid var(--c-gold)">
+            <div style="flex:1">
+              <div style="font-size:0.75rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--c-gold-dark);margin-bottom:0.25rem">Hlavní 2</div>
+              <div style="font-family:var(--font-serif);font-size:1.125rem;font-weight:500;margin-bottom:0.125rem">Kuřecí řízek, bramborový salát</div>
+              <div style="font-size:0.8125rem;color:var(--c-text-muted)">Al: 1, 3, 7, 10</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:1rem;flex-shrink:0">
+              <span style="font-family:var(--font-serif);font-size:1.25rem;font-weight:600;color:var(--c-green-700)">169 Kč</span>
+              <button class="btn btn--primary btn--sm" onclick="Cart.add('main2-mon','Kuřecí řízek, bramborový salát',169)">+ Přidat</button>
+            </div>
+          </div>
+
+          <!-- Vegetarian -->
+          <div style="background:var(--c-white);border-radius:var(--r-xl);padding:1.25rem 1.5rem;box-shadow:var(--shadow-card);display:flex;align-items:center;gap:1rem;border-left:3px solid var(--c-green-300)">
+            <div style="flex:1">
+              <div style="font-size:0.75rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--c-green-500);margin-bottom:0.25rem">🌿 Vegetariánské</div>
+              <div style="font-family:var(--font-serif);font-size:1.125rem;font-weight:500;margin-bottom:0.125rem">Zapečené brambory s nivou</div>
+              <div style="font-size:0.8125rem;color:var(--c-text-muted)">Al: 7</div>
+            </div>
+            <div style="display:flex;align-items:center;gap:1rem;flex-shrink:0">
+              <span style="font-family:var(--font-serif);font-size:1.25rem;font-weight:600;color:var(--c-green-700)">129 Kč</span>
+              <button class="btn btn--primary btn--sm" onclick="Cart.add('veg-mon','Zapečené brambory s nivou',129)">+ Přidat</button>
+            </div>
+          </div>
+
+          <div style="background:var(--c-cream-100);border-radius:var(--r-xl);padding:1rem 1.25rem;margin-top:0.5rem">
+            <p style="font-size:0.8125rem;color:var(--c-text-muted);line-height:1.6">💡 <strong>Tip:</strong> Polévka + hlavní jídlo = kompletní oběd. Objednávky přijímáme do 10:30. Platba hotově při doručení.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Cart Sidebar -->
+      <div class="cart-sidebar">
+        <h3 style="font-family:var(--font-serif);font-size:1.25rem;margin-bottom:0.5rem;display:flex;align-items:center;justify-content:space-between">
+          Košík
+          <span class="badge badge--green cart-count">0</span>
+        </h3>
+        <div style="margin-bottom:1rem">
+          <div style="font-size:0.8125rem;color:var(--c-text-muted);display:flex;align-items:center;gap:0.5rem">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            Holčovice 42 (výchozí adresa)
+          </div>
+        </div>
+        <div class="cart-items"></div>
+        <div style="border-top:1px solid var(--c-border-light);margin-top:1rem;padding-top:1rem">
+          <div style="display:flex;justify-content:space-between;font-size:0.875rem;color:var(--c-text-muted);margin-bottom:0.5rem"><span>Mezisoučet</span><span class="cart-total">0 Kč</span></div>
+          <div style="display:flex;justify-content:space-between;font-size:0.875rem;color:var(--c-text-muted);margin-bottom:1rem"><span>Doručení</span><span style="color:var(--c-success);font-weight:600">Zdarma</span></div>
+          <div style="display:flex;justify-content:space-between;font-family:var(--font-serif);font-size:1.25rem;font-weight:700;color:var(--c-green-700);margin-bottom:1.25rem"><span>Celkem</span><span class="cart-total">0 Kč</span></div>
+          <button class="btn btn--accent btn--lg btn--full" onclick="submitOrder()">Odeslat objednávku</button>
+          <p style="font-size:0.75rem;color:var(--c-text-muted);text-align:center;margin-top:0.75rem">Platba hotově při doručení · Rozvoz po 11:00</p>
+        </div>
+
+        <!-- Delivery Info -->
+        <div style="margin-top:1.5rem;padding-top:1.5rem;border-top:1px solid var(--c-border-light)">
+          <h4 style="font-size:0.875rem;font-weight:600;margin-bottom:0.75rem">Informace o rozvozu</h4>
+          <div style="display:flex;flex-direction:column;gap:0.5rem;font-size:0.8125rem;color:var(--c-text-sec)">
+            <div style="display:flex;gap:0.5rem"><span>📍</span><span>Holčovice & Heřmanovice</span></div>
+            <div style="display:flex;gap:0.5rem"><span>⏱</span><span>Doručení 11:00 – 13:30</span></div>
+            <div style="display:flex;gap:0.5rem"><span>🕙</span><span>Objednávky do 10:30</span></div>
+            <div style="display:flex;gap:0.5rem"><span>💳</span><span>Platba hotově při převzetí</span></div>
+            <div style="display:flex;gap:0.5rem"><span>📞</span><span>Dotazy: +420 123 456 789</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer class="footer">
+  <div class="container"><div class="footer__bottom" style="padding-block:1.5rem"><p class="footer__copy">© 2025 Obecní dům Holčovice</p><nav class="footer__bottom-links"><a href="index.html" class="footer__bottom-link">Domů</a><a href="menu.html" class="footer__bottom-link">Jídelní lístek</a><a href="contact.html" class="footer__bottom-link">Kontakt</a></nav></div></div>
+</footer>
+<div class="toast-container"></div>
+<script src="js/main.js"></script>
+<script>
+function submitOrder() {
+  if (Cart.total() === 0) {
+    Toast.show({ title: 'Košík je prázdný', message: 'Přidejte alespoň jednu položku.', type: 'warning' });
+    return;
+  }
+  Toast.show({ title: 'Objednávka odeslána!', message: 'Potvrdíme vám ji do 15 minut. Doručení po 11:00.', type: 'success' });
+  localStorage.removeItem('od_cart');
+  Cart.init();
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Můj profil – Obecní dům Holčovice</title>
+  <link rel="stylesheet" href="../css/main.css">
+</head>
+<body style="background:var(--c-cream-50)">
+
+<nav class="nav nav--scrolled" style="position:fixed" id="main-nav">
+  <div class="container nav__inner">
+    <a href="../index.html" class="nav__logo"><div class="nav__logo-mark"><span>OD</span></div><div class="nav__logo-text"><span class="nav__logo-name">Obecní dům</span><span class="nav__logo-sub">Holčovice</span></div></a>
+    <ul class="nav__links">
+      <li><a href="../menu.html" class="nav__link">Jídelní lístek</a></li>
+      <li><a href="../delivery.html" class="nav__link">Rozvoz</a></li>
+    </ul>
+    <div class="nav__actions">
+      <div class="nav__user-btn" style="background:var(--c-cream-100);color:var(--c-text-sec)">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        Jan Novák
+      </div>
+      <a href="login.html" class="btn btn--ghost btn--sm">Odhlásit se</a>
+      <button class="nav__hamburger"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</nav>
+
+<main class="container profile-layout">
+  <!-- Sidebar -->
+  <aside class="profile-sidebar">
+    <div class="profile-avatar">
+      <div class="profile-avatar__img">JN</div>
+      <div class="profile-avatar__name">Jan Novák</div>
+      <div class="profile-avatar__email">jan@example.cz</div>
+    </div>
+    <nav class="profile-nav" aria-label="Navigace profilu">
+      <a href="#orders" class="profile-nav__item active" onclick="switchTab('orders',this)">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
+        Historie objednávek
+      </a>
+      <a href="#addresses" class="profile-nav__item" onclick="switchTab('addresses',this)">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        Doručovací adresy
+      </a>
+      <a href="#settings" class="profile-nav__item" onclick="switchTab('settings',this)">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+        Nastavení účtu
+      </a>
+      <a href="login.html" class="profile-nav__item" style="color:var(--c-error)">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4M16 17l5-5-5-5M21 12H9"/></svg>
+        Odhlásit se
+      </a>
+    </nav>
+  </aside>
+
+  <!-- Content -->
+  <div class="profile-content">
+
+    <!-- Orders Tab -->
+    <div id="tab-orders">
+      <div class="profile-card">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;padding-bottom:1rem;border-bottom:1px solid var(--c-border-light)">
+          <h2 class="profile-card__title" style="margin:0;padding:0;border:none;font-family:var(--font-serif);font-size:1.25rem">Historie objednávek</h2>
+          <a href="../delivery.html" class="btn btn--accent btn--sm">Nová objednávka</a>
+        </div>
+
+        <!-- Stats -->
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-bottom:2rem">
+          <div style="text-align:center;padding:1rem;background:var(--c-cream-50);border-radius:var(--r-lg)">
+            <div style="font-family:var(--font-serif);font-size:2rem;font-weight:700;color:var(--c-green-700)">12</div>
+            <div style="font-size:0.8125rem;color:var(--c-text-muted)">Objednávek celkem</div>
+          </div>
+          <div style="text-align:center;padding:1rem;background:var(--c-cream-50);border-radius:var(--r-lg)">
+            <div style="font-family:var(--font-serif);font-size:2rem;font-weight:700;color:var(--c-green-700)">1 980 Kč</div>
+            <div style="font-size:0.8125rem;color:var(--c-text-muted)">Utraceno celkem</div>
+          </div>
+          <div style="text-align:center;padding:1rem;background:var(--c-cream-50);border-radius:var(--r-lg)">
+            <div style="font-family:var(--font-serif);font-size:2rem;font-weight:700;color:var(--c-green-700)">4.9 ★</div>
+            <div style="font-size:0.8125rem;color:var(--c-text-muted)">Průměrné hodnocení</div>
+          </div>
+        </div>
+
+        <div style="display:flex;flex-direction:column">
+          <div class="order-item">
+            <div class="order-item__info">
+              <div class="order-item__num">#OBJ-2025-0089</div>
+              <div class="order-item__date">4. 6. 2025 · 12:00</div>
+              <div class="order-item__items">Hovězí vývar, Svíčková na smetaně · 1 ks</div>
+            </div>
+            <span class="status status--delivered">Doručeno</span>
+            <div class="order-item__total">224 Kč</div>
+          </div>
+          <div class="order-item">
+            <div class="order-item__info">
+              <div class="order-item__num">#OBJ-2025-0074</div>
+              <div class="order-item__date">28. 5. 2025 · 11:45</div>
+              <div class="order-item__items">Polévka + Vepřová pečeně, Kuřecí řízek · 2 ks</div>
+            </div>
+            <span class="status status--delivered">Doručeno</span>
+            <div class="order-item__total">328 Kč</div>
+          </div>
+          <div class="order-item">
+            <div class="order-item__info">
+              <div class="order-item__num">#OBJ-2025-0061</div>
+              <div class="order-item__date">21. 5. 2025 · 12:15</div>
+              <div class="order-item__items">Hovězí vývar, Gulášek s houskovým knedlíkem · 1 ks</div>
+            </div>
+            <span class="status status--delivered">Doručeno</span>
+            <div class="order-item__total">198 Kč</div>
+          </div>
+          <div class="order-item">
+            <div class="order-item__info">
+              <div class="order-item__num">#OBJ-2025-0055</div>
+              <div class="order-item__date">14. 5. 2025 · 11:30</div>
+              <div class="order-item__items">Zapečená těstoviny, Ledový čaj · 1 ks</div>
+            </div>
+            <span class="status status--delivered">Doručeno</span>
+            <div class="order-item__total">179 Kč</div>
+          </div>
+        </div>
+
+        <div style="text-align:center;margin-top:1.5rem">
+          <button class="btn btn--ghost btn--sm">Načíst starší objednávky</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Addresses Tab -->
+    <div id="tab-addresses" hidden>
+      <div class="profile-card">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;padding-bottom:1rem;border-bottom:1px solid var(--c-border-light)">
+          <h2 style="font-family:var(--font-serif);font-size:1.25rem">Doručovací adresy</h2>
+          <button class="btn btn--primary btn--sm" onclick="Toast.show({title:'Funkce bude brzy dostupná',type:'info'})">+ Přidat adresu</button>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:1rem">
+          <div style="border:2px solid var(--c-green-200);border-radius:var(--r-xl);padding:1.5rem;position:relative">
+            <span class="badge badge--green" style="position:absolute;top:1rem;right:1rem">Výchozí</span>
+            <div style="font-weight:600;margin-bottom:0.25rem">Domov</div>
+            <div style="color:var(--c-text-sec);font-size:0.9375rem">Holčovice 42<br>793 71 Holčovice</div>
+            <div style="display:flex;gap:0.5rem;margin-top:1rem">
+              <button class="btn btn--ghost btn--sm" onclick="Toast.show({title:'Upravit adresu',type:'info'})">Upravit</button>
+            </div>
+          </div>
+          <div style="border:1px solid var(--c-border-light);border-radius:var(--r-xl);padding:1.5rem">
+            <div style="font-weight:600;margin-bottom:0.25rem">Práce</div>
+            <div style="color:var(--c-text-sec);font-size:0.9375rem">Heřmanovice 15<br>793 74 Heřmanovice</div>
+            <div style="display:flex;gap:0.5rem;margin-top:1rem">
+              <button class="btn btn--ghost btn--sm">Upravit</button>
+              <button class="btn btn--ghost btn--sm" style="color:var(--c-error)">Smazat</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Settings Tab -->
+    <div id="tab-settings" hidden>
+      <div class="profile-card">
+        <h2 style="font-family:var(--font-serif);font-size:1.25rem;margin-bottom:1.5rem;padding-bottom:1rem;border-bottom:1px solid var(--c-border-light)">Nastavení účtu</h2>
+        <form data-validate onsubmit="event.preventDefault();Toast.show({title:'Změny uloženy',type:'success'})">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem">
+            <div class="form-group"><label class="form-label">Jméno</label><input type="text" class="form-input" value="Jan"></div>
+            <div class="form-group"><label class="form-label">Příjmení</label><input type="text" class="form-input" value="Novák"></div>
+          </div>
+          <div class="form-group" style="margin-bottom:1rem"><label class="form-label">E-mail</label><input type="email" class="form-input" value="jan@example.cz"></div>
+          <div class="form-group" style="margin-bottom:1.5rem"><label class="form-label">Telefon</label><input type="tel" class="form-input" value="+420 123 456 789"></div>
+          <hr class="sep">
+          <h3 style="font-family:var(--font-serif);font-size:1rem;margin-bottom:1rem">Změna hesla</h3>
+          <div class="form-group" style="margin-bottom:1rem"><label class="form-label">Aktuální heslo</label><input type="password" class="form-input" placeholder="••••••••"></div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.5rem">
+            <div class="form-group"><label class="form-label">Nové heslo</label><input type="password" class="form-input" placeholder="Min. 8 znaků"></div>
+            <div class="form-group"><label class="form-label">Nové heslo znovu</label><input type="password" class="form-input" placeholder="Zopakujte"></div>
+          </div>
+          <div style="display:flex;gap:1rem;flex-wrap:wrap">
+            <button type="submit" class="btn btn--primary">Uložit změny</button>
+            <button type="button" class="btn btn--ghost" style="color:var(--c-error)" onclick="Toast.show({title:'Účet nelze smazat online',message:'Kontaktujte nás na info@obecnidumholcovice.cz',type:'warning'})">Smazat účet</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<div class="toast-container"></div>
+<script src="../js/main.js"></script>
+<script>
+function switchTab(tab, link) {
+  document.querySelectorAll('.profile-nav__item').forEach(i => i.classList.remove('active'));
+  link.classList.add('active');
+  ['orders','addresses','settings'].forEach(t => {
+    const el = document.getElementById('tab-'+t);
+    if (el) el.hidden = t !== tab;
+  });
+}
+</script>
+</body>
+</html>
