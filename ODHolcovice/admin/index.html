@@ -9,288 +9,356 @@
 <body>
 <div class="admin-root">
 
-<!-- Sidebar -->
+<!-- ── Sidebar ─────────────────────────────────────── -->
 <aside class="admin-sidebar" id="admin-sidebar">
   <div class="admin-sidebar__header">
     <div class="admin-sidebar__brand">
-      <img src="../img/OD_Logo_průhledné.png" class="admin-sidebar__logo-img" alt="OD Holčovice">
+      <img src="../img/OD_Logo_průhledné.png" class="admin-sidebar__logo-img" alt="OD">
       <div>
         <div class="admin-sidebar__name">Obecní dům</div>
-        <div class="admin-sidebar__sub">Holčovice · Admin</div>
+        <div class="admin-sidebar__sub" id="sidebar-role-label">Super Admin</div>
       </div>
     </div>
-    <button class="admin-sidebar__toggle" aria-label="Sbalit panel">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 19l-7-7 7-7M18 19l-7-7 7-7"/></svg>
-    </button>
+    <button class="admin-sidebar__toggle" aria-label="Sbalit"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 19l-7-7 7-7M18 19l-7-7 7-7"/></svg></button>
   </div>
 
-  <nav class="admin-sidebar__nav" aria-label="Admin navigace">
-    <div class="admin-sidebar__section-title">Přehled</div>
-    <a href="index.html" class="admin-nav-item active">
-      <svg class="admin-nav-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
-      <span class="admin-nav-item__label">Dashboard</span>
-    </a>
-
-    <div class="admin-sidebar__section-title">Restaurace</div>
-    <a href="menu.html" class="admin-nav-item">
-      <svg class="admin-nav-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 2h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 4M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
-      <span class="admin-nav-item__label">Jídelní lístek</span>
-    </a>
-    <a href="reservations.html" class="admin-nav-item">
-      <svg class="admin-nav-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-      <span class="admin-nav-item__label">Rezervace</span>
-      <span class="admin-nav-item__badge">3</span>
-    </a>
-    <a href="orders.html" class="admin-nav-item">
-      <svg class="admin-nav-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-      <span class="admin-nav-item__label">Objednávky</span>
-      <span class="admin-nav-item__badge">7</span>
-    </a>
-
-    <div class="admin-sidebar__section-title">Obsah</div>
-    <a href="events.html" class="admin-nav-item">
-      <svg class="admin-nav-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18V5l12-2v13M9 9l12-2"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
-      <span class="admin-nav-item__label">Akce & Události</span>
-    </a>
-    <a href="content.html" class="admin-nav-item">
-      <svg class="admin-nav-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
-      <span class="admin-nav-item__label">Správa obsahu</span>
-    </a>
-
-    <div class="admin-sidebar__section-title">Systém</div>
-    <a href="users.html" class="admin-nav-item">
-      <svg class="admin-nav-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
-      <span class="admin-nav-item__label">Uživatelé</span>
-    </a>
-    <a href="../index.html" class="admin-nav-item" target="_blank">
-      <svg class="admin-nav-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg>
-      <span class="admin-nav-item__label">Zobrazit web</span>
-    </a>
+  <nav class="admin-sidebar__nav" id="sidebar-nav" aria-label="Admin navigace">
+    <!-- Vygenerováno JS podle role -->
   </nav>
 
   <div class="admin-sidebar__footer">
-    <div class="admin-user-mini">
-      <div class="admin-user-mini__avatar">SA</div>
+    <div class="admin-user-mini" id="sidebar-user">
+      <div class="admin-user-mini__avatar" id="sidebar-avatar">SA</div>
       <div class="admin-user-mini__info">
-        <div class="admin-user-mini__name">Super Admin</div>
-        <div class="admin-user-mini__role">Super administrátor</div>
+        <div class="admin-user-mini__name" id="sidebar-name">Super Admin</div>
+        <div class="admin-user-mini__role" id="sidebar-role">Správce systému</div>
       </div>
     </div>
   </div>
 </aside>
 
-<!-- Main -->
+<!-- ── Main ────────────────────────────────────────── -->
 <div class="admin-main">
-  <!-- Topbar -->
   <header class="admin-topbar">
-    <button class="admin-mobile-toggle" aria-label="Menu" style="display:none;width:36px;height:36px;border-radius:var(--r-md);background:var(--c-cream-100);align-items:center;justify-content:center;cursor:pointer">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
-    </button>
-    <h1 class="admin-topbar__title">Dashboard</h1>
+    <h1 class="admin-topbar__title" id="page-title">Dashboard</h1>
     <div class="admin-topbar__actions">
-      <div class="admin-topbar__search">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
-        <input type="text" placeholder="Hledat rezervace, objednávky...">
+      <!-- Role switcher (demo) -->
+      <div style="display:flex;align-items:center;gap:0.5rem;background:var(--c-cream-100);border:1px solid var(--c-border-light);border-radius:var(--r-full);padding:0.3rem 0.75rem;font-size:0.8125rem">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--c-text-muted)" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+        <select id="role-switcher" style="background:none;border:none;font-size:0.8125rem;color:var(--c-text-sec);cursor:pointer;outline:none" onchange="applyRole(this.value)">
+          <option value="super">Super Admin</option>
+          <option value="vedouci">Vedoucí</option>
+          <option value="obsluha">Obsluha</option>
+          <option value="kuchyn">Kuchyně</option>
+          <option value="rozvoz">Rozvoz</option>
+          <option value="obec">Obec</option>
+        </select>
       </div>
-      <button class="admin-topbar__icon-btn" aria-label="Oznámení" onclick="Toast.show({title:'Nová rezervace',message:'Jan Novák – zítra 18:00, 4 osoby',type:'info'})">
+      <div class="admin-topbar__search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg><input type="text" placeholder="Hledat..."></div>
+      <button class="admin-topbar__icon-btn" onclick="Toast.show({title:'Nová rezervace',message:'Jan Novák – zítra 18:00',type:'info'})">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 01-3.46 0"/></svg>
         <span class="admin-topbar__notif-dot"></span>
       </button>
-      <div class="nav__user-btn" style="background:var(--c-cream-100);color:var(--c-text-sec);cursor:default">
-        <div style="width:22px;height:22px;border-radius:50%;background:var(--c-green-700);display:flex;align-items:center;justify-content:center;color:white;font-size:0.7rem;font-weight:700">SA</div>
-        Super Admin
-      </div>
     </div>
   </header>
 
-  <!-- Content -->
-  <main class="admin-content">
-    <div class="admin-page-header">
-      <div>
-        <h2 class="admin-page-title">Dobrý den, Správče 👋</h2>
-        <p class="admin-page-subtitle">Pondělí 9. 6. 2025 · Obecní dům Holčovice</p>
-      </div>
-      <div class="admin-page-actions">
-        <a href="reservations.html" class="btn btn--outline btn--sm">Rezervace</a>
-        <a href="orders.html" class="btn btn--primary btn--sm">Objednávky</a>
-      </div>
-    </div>
-
-    <!-- KPIs -->
-    <div class="kpi-grid">
-      <div class="kpi-card kpi-card--green">
-        <div class="kpi-card__header">
-          <div class="kpi-card__icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div>
-          <span class="kpi-card__change kpi-card__change--up">+2 dnes</span>
-        </div>
-        <div class="kpi-card__value">8</div>
-        <div class="kpi-card__label">Rezervace dnes</div>
-      </div>
-      <div class="kpi-card kpi-card--gold">
-        <div class="kpi-card__header">
-          <div class="kpi-card__icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/></svg></div>
-          <span class="kpi-card__change kpi-card__change--up">+3 čekají</span>
-        </div>
-        <div class="kpi-card__value">23</div>
-        <div class="kpi-card__label">Objednávky dnes</div>
-      </div>
-      <div class="kpi-card kpi-card--brown">
-        <div class="kpi-card__header">
-          <div class="kpi-card__icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 100 7h5a3.5 3.5 0 110 7H6"/></svg></div>
-          <span class="kpi-card__change kpi-card__change--up">+12%</span>
-        </div>
-        <div class="kpi-card__value">4 820</div>
-        <div class="kpi-card__label">Tržby dnes (Kč)</div>
-      </div>
-      <div class="kpi-card kpi-card--blue">
-        <div class="kpi-card__header">
-          <div class="kpi-card__icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg></div>
-          <span class="kpi-card__change kpi-card__change--up">+5</span>
-        </div>
-        <div class="kpi-card__value">147</div>
-        <div class="kpi-card__label">Registrovaní uživatelé</div>
-      </div>
-    </div>
-
-    <!-- Charts + Quick Tables -->
-    <div style="display:grid;grid-template-columns:2fr 1fr;gap:1.5rem;margin-bottom:1.5rem">
-      <!-- Revenue Chart -->
-      <div class="chart-card">
-        <div class="chart-card__header">
-          <h3 class="chart-card__title">Tržby tento týden</h3>
-          <div style="display:flex;gap:0.5rem">
-            <button class="btn btn--ghost btn--sm">Den</button>
-            <button class="btn btn--ghost btn--sm tag--active" style="background:var(--c-green-50);color:var(--c-green-700)">Týden</button>
-            <button class="btn btn--ghost btn--sm">Měsíc</button>
-          </div>
-        </div>
-        <div class="chart-placeholder" data-chart='[{"label":"Po","value":3200},{"label":"Út","value":2800},{"label":"St","value":4100},{"label":"Čt","value":3600},{"label":"Pá","value":5200,"accent":true},{"label":"So","value":6800,"accent":true},{"label":"Ne","value":4200}]'></div>
-        <div style="display:flex;justify-content:center;gap:1.5rem;margin-top:1rem;font-size:0.8125rem;color:var(--c-text-muted)">
-          <span style="display:flex;align-items:center;gap:0.4rem"><span style="width:10px;height:10px;border-radius:2px;background:var(--c-green-200);display:inline-block"></span>Tržby</span>
-          <span style="display:flex;align-items:center;gap:0.4rem"><span style="width:10px;height:10px;border-radius:2px;background:rgba(196,154,60,0.4);display:inline-block"></span>Víkend</span>
-        </div>
-      </div>
-
-      <!-- Today's Summary -->
-      <div class="chart-card">
-        <div class="chart-card__header"><h3 class="chart-card__title">Dnešní přehled</h3></div>
-        <div style="display:flex;flex-direction:column;gap:1rem">
-          <div style="display:flex;justify-content:space-between;align-items:center;padding:0.75rem;background:var(--c-green-50);border-radius:var(--r-lg)">
-            <div style="font-size:0.875rem;color:var(--c-green-700)">🍽 Čekající rezervace</div>
-            <span class="badge badge--green" style="font-size:1rem;padding:0.3rem 0.75rem">3</span>
-          </div>
-          <div style="display:flex;justify-content:space-between;align-items:center;padding:0.75rem;background:rgba(196,154,60,0.08);border-radius:var(--r-lg)">
-            <div style="font-size:0.875rem;color:var(--c-gold-deeper)">📦 Objednávky ke zpracování</div>
-            <span class="badge badge--gold" style="font-size:1rem;padding:0.3rem 0.75rem">7</span>
-          </div>
-          <div style="display:flex;justify-content:space-between;align-items:center;padding:0.75rem;background:var(--c-info-bg);border-radius:var(--r-lg)">
-            <div style="font-size:0.875rem;color:var(--c-info)">🚴 Rozvoz – na cestě</div>
-            <span class="badge" style="background:var(--c-info-bg);color:var(--c-info);font-size:1rem;padding:0.3rem 0.75rem">2</span>
-          </div>
-          <div style="display:flex;justify-content:space-between;align-items:center;padding:0.75rem;background:var(--c-cream-100);border-radius:var(--r-lg)">
-            <div style="font-size:0.875rem;color:var(--c-text-sec)">📅 Události tento týden</div>
-            <span style="font-size:1rem;font-weight:700;color:var(--c-text)">2</span>
-          </div>
-          <div style="margin-top:0.5rem;padding-top:0.75rem;border-top:1px solid var(--c-border-light)">
-            <div style="display:flex;justify-content:space-between;font-size:0.875rem"><span style="color:var(--c-text-muted)">Tržby dnes</span><strong style="color:var(--c-green-700);font-family:var(--font-serif)">4 820 Kč</strong></div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Pending Reservations -->
-    <div class="admin-table-card" style="margin-bottom:1.5rem">
-      <div class="admin-table-card__header">
-        <h3 class="admin-table-card__title">Čekající rezervace</h3>
-        <div class="admin-table-card__actions">
-          <a href="reservations.html" class="btn btn--ghost btn--sm">Zobrazit vše</a>
-        </div>
-      </div>
-      <div class="admin-table-wrap">
-        <table class="admin-table">
-          <thead>
-            <tr>
-              <th data-sort="name">Jméno</th>
-              <th>Datum & čas</th>
-              <th>Počet os.</th>
-              <th>Poznámka</th>
-              <th>Stav</th>
-              <th style="text-align:right">Akce</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr data-id="r1" data-filter-row="reservations">
-              <td class="admin-table__cell--name" data-col="name">Jan Novák</td>
-              <td data-col="date">Út 10. 6. · 18:00</td>
-              <td>4 osoby</td>
-              <td>Výročí — prosím svíčku</td>
-              <td><span class="status status--pending">Čekající</span></td>
-              <td><div class="admin-table__cell--actions">
-                <button class="admin-table__action admin-table__action--success" title="Potvrdit" onclick="changeStatus('r1','confirmed')"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg></button>
-                <button class="admin-table__action admin-table__action--danger" title="Zamítnout" onclick="changeStatus('r1','rejected')"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6L6 18M6 6l12 12"/></svg></button>
-              </div></td>
-            </tr>
-            <tr data-id="r2" data-filter-row="reservations">
-              <td class="admin-table__cell--name" data-col="name">Marie Horáková</td>
-              <td>Pá 13. 6. · 19:30</td>
-              <td>6 osob</td>
-              <td>Narozeniny dcery</td>
-              <td><span class="status status--pending">Čekající</span></td>
-              <td><div class="admin-table__cell--actions">
-                <button class="admin-table__action admin-table__action--success" title="Potvrdit" onclick="changeStatus('r2','confirmed')"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg></button>
-                <button class="admin-table__action admin-table__action--danger" title="Zamítnout" onclick="changeStatus('r2','rejected')"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6L6 18M6 6l12 12"/></svg></button>
-              </div></td>
-            </tr>
-            <tr data-id="r3" data-filter-row="reservations">
-              <td class="admin-table__cell--name" data-col="name">Tomáš Beneš</td>
-              <td>So 14. 6. · 12:00</td>
-              <td>2 osoby</td>
-              <td>—</td>
-              <td><span class="status status--pending">Čekající</span></td>
-              <td><div class="admin-table__cell--actions">
-                <button class="admin-table__action admin-table__action--success" title="Potvrdit" onclick="changeStatus('r3','confirmed')"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg></button>
-                <button class="admin-table__action admin-table__action--danger" title="Zamítnout" onclick="changeStatus('r3','rejected')"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6L6 18M6 6l12 12"/></svg></button>
-              </div></td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
-
-    <!-- Recent Orders -->
-    <div class="admin-table-card">
-      <div class="admin-table-card__header">
-        <h3 class="admin-table-card__title">Dnešní objednávky rozvozu</h3>
-        <div class="admin-table-card__actions">
-          <a href="orders.html" class="btn btn--ghost btn--sm">Správa objednávek</a>
-        </div>
-      </div>
-      <div class="admin-table-wrap">
-        <table class="admin-table">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Zákazník</th>
-              <th>Jídla</th>
-              <th>Adresa</th>
-              <th>Cena</th>
-              <th>Stav</th>
-              <th style="text-align:right">Akce</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr data-id="o1"><td style="font-weight:600;font-size:0.8rem;color:var(--c-text-muted)">#089</td><td class="admin-table__cell--name">Jana Dvořáčková</td><td>Svíčková + polévka</td><td>Holčovice 42</td><td class="admin-table__cell--price">224 Kč</td><td><span class="status status--preparing">Připravuje se</span></td><td><div class="admin-table__cell--actions"><button class="admin-table__action" title="Předat kurýrovi" onclick="changeStatus('o1','ready')"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></button></div></td></tr>
-            <tr data-id="o2"><td style="font-weight:600;font-size:0.8rem;color:var(--c-text-muted)">#088</td><td class="admin-table__cell--name">Petr Kratochvíl</td><td>Kuřecí řízek + polévka</td><td>Heřmanovice 15</td><td class="admin-table__cell--price">228 Kč</td><td><span class="status status--ready">Připraveno</span></td><td><div class="admin-table__cell--actions"><button class="admin-table__action" title="Předáno" onclick="changeStatus('o2','delivered')"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg></button></div></td></tr>
-            <tr data-id="o3"><td style="font-weight:600;font-size:0.8rem;color:var(--c-text-muted)">#087</td><td class="admin-table__cell--name">Eva Součková</td><td>Vegetariánské + polévka</td><td>Holčovice 78</td><td class="admin-table__cell--price">194 Kč</td><td><span class="status status--pending">Přijato</span></td><td><div class="admin-table__cell--actions"><button class="admin-table__action admin-table__action--success" title="Potvrdit" onclick="changeStatus('o3','preparing')"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg></button><button class="admin-table__action admin-table__action--danger" title="Zamítnout" onclick="changeStatus('o3','rejected')"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6L6 18M6 6l12 12"/></svg></button></div></td></tr>
-          </tbody>
-        </table>
-      </div>
-    </div>
+  <main class="admin-content" id="dashboard-content">
+    <!-- Vygenerováno JS podle role -->
   </main>
 </div>
 </div>
 
 <div class="toast-container"></div>
 <script src="../js/admin.js"></script>
+<script>
+/* ═══ ROLE DEFINITIONS ══════════════════════════════════════════ */
+const ROLES = {
+  super: {
+    label: 'Super Admin', avatar: 'SA', roleText: 'Správce systému',
+    nav: ['vedouci', 'restaurace', 'obec', 'system']
+  },
+  vedouci: {
+    label: 'Jana Veselá', avatar: 'JV', roleText: 'Vedoucí restaurace',
+    nav: ['vedouci', 'restaurace', 'obec']
+  },
+  obsluha: {
+    label: 'Tomáš Novotný', avatar: 'TN', roleText: 'Obsluha',
+    nav: ['restaurace']
+  },
+  kuchyn: {
+    label: 'Pavel Král', avatar: 'PK', roleText: 'Kuchyně',
+    nav: ['restaurace_kuchyn']
+  },
+  rozvoz: {
+    label: 'Martin Horák', avatar: 'MH', roleText: 'Rozvoz',
+    nav: ['rozvoz']
+  },
+  obec: {
+    label: 'Eva Fišerová', avatar: 'EF', roleText: 'Editor Obec',
+    nav: ['obec']
+  }
+};
+
+const NAV_SECTIONS = {
+  vedouci: {
+    title: 'Vedoucí',
+    items: [
+      { href: 'menu.html',  icon: 'utensils', label: 'Jídelní lístek' },
+      { href: 'foods.html', icon: 'list',     label: 'Seznamy jídel' },
+    ]
+  },
+  restaurace: {
+    title: 'Restaurace',
+    items: [
+      { href: 'orders.html',       icon: 'package',   label: 'Objednávky', badge: '7' },
+      { href: 'reservations.html', icon: 'calendar',  label: 'Rezervace',  badge: '3' },
+    ]
+  },
+  restaurace_kuchyn: {
+    title: 'Kuchyně',
+    items: [
+      { href: 'orders.html', icon: 'package', label: 'Objednávky', badge: '7' },
+    ]
+  },
+  rozvoz: {
+    title: 'Rozvoz',
+    items: [
+      { href: 'orders.html', icon: 'package', label: 'Doručovací objednávky', badge: '2' },
+    ]
+  },
+  obec: {
+    title: 'Obec',
+    items: [
+      { href: 'events.html',  icon: 'calendar', label: 'Akce & Události' },
+      { href: 'content.html', icon: 'edit',     label: 'Články' },
+    ]
+  },
+  system: {
+    title: 'Systém',
+    items: [
+      { href: 'users.html',      icon: 'users',     label: 'Uživatelé' },
+      { href: '../index.html',   icon: 'external',  label: 'Zobrazit web', target: '_blank' },
+    ]
+  }
+};
+
+const ICONS = {
+  utensils: `<svg class="admin-nav-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 2h2l.4 2M7 13h10l4-8H5.4"/></svg>`,
+  list:     `<svg class="admin-nav-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>`,
+  package:  `<svg class="admin-nav-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>`,
+  calendar: `<svg class="admin-nav-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>`,
+  users:    `<svg class="admin-nav-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>`,
+  edit:     `<svg class="admin-nav-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>`,
+  external: `<svg class="admin-nav-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/></svg>`,
+  home:     `<svg class="admin-nav-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>`,
+};
+
+function buildSidebar(role) {
+  const cfg = ROLES[role];
+  const nav = document.getElementById('sidebar-nav');
+  document.getElementById('sidebar-avatar').textContent = cfg.avatar;
+  document.getElementById('sidebar-name').textContent = cfg.label;
+  document.getElementById('sidebar-role').textContent = cfg.roleText;
+  document.getElementById('sidebar-role-label').textContent = cfg.roleText;
+
+  let html = `<div class="admin-sidebar__section-title">Přehled</div>
+    <a href="index.html" class="admin-nav-item active">${ICONS.home}<span class="admin-nav-item__label">Dashboard</span></a>`;
+
+  cfg.nav.forEach(sectionKey => {
+    const sec = NAV_SECTIONS[sectionKey];
+    if (!sec) return;
+    html += `<div class="admin-sidebar__section-title">${sec.title}</div>`;
+    sec.items.forEach(item => {
+      const badge = item.badge ? `<span class="admin-nav-item__badge">${item.badge}</span>` : '';
+      const target = item.target ? `target="${item.target}"` : '';
+      html += `<a href="${item.href}" class="admin-nav-item" ${target}>${ICONS[item.icon]}<span class="admin-nav-item__label">${item.label}</span>${badge}</a>`;
+    });
+  });
+
+  nav.innerHTML = html;
+}
+
+/* ═══ DASHBOARD CONTENT per role ═══════════════════════════════ */
+const DASHBOARDS = {
+  super: () => `
+    <div class="admin-page-header">
+      <div><h2 class="admin-page-title">Dobrý den, Správče 👋</h2><p class="admin-page-subtitle">Pondělí 9. 6. 2025</p></div>
+      <div class="admin-page-actions"><a href="reservations.html" class="btn btn--outline btn--sm">Rezervace</a><a href="orders.html" class="btn btn--primary btn--sm">Objednávky</a></div>
+    </div>
+    <div class="kpi-grid">
+      <div class="kpi-card kpi-card--green"><div class="kpi-card__header"><div class="kpi-card__icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div><span class="kpi-card__change kpi-card__change--up">+2</span></div><div class="kpi-card__value">8</div><div class="kpi-card__label">Rezervace dnes</div></div>
+      <div class="kpi-card kpi-card--gold"><div class="kpi-card__header"><div class="kpi-card__icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 002 1.61h9.72a2 2 0 002-1.61L23 6H6"/></svg></div><span class="kpi-card__change kpi-card__change--up">+3</span></div><div class="kpi-card__value">23</div><div class="kpi-card__label">Objednávky dnes</div></div>
+      <div class="kpi-card kpi-card--blue"><div class="kpi-card__header"><div class="kpi-card__icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></div><span class="kpi-card__change kpi-card__change--up">+5</span></div><div class="kpi-card__value">147</div><div class="kpi-card__label">Uživatelé</div></div>
+      <div class="kpi-card kpi-card--brown"><div class="kpi-card__header"><div class="kpi-card__icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18V5l12-2v13"/></svg></div></div><div class="kpi-card__value">2</div><div class="kpi-card__label">Akce tento týden</div></div>
+    </div>
+    ${foodListWidget()}
+    ${pendingReservations()}`,
+
+  vedouci: () => `
+    <div class="admin-page-header"><div><h2 class="admin-page-title">Dobrý den, Jano 👋</h2><p class="admin-page-subtitle">Vedoucí restaurace</p></div></div>
+    <div class="kpi-grid">
+      <div class="kpi-card kpi-card--green"><div class="kpi-card__header"><div class="kpi-card__icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div><span class="kpi-card__change kpi-card__change--up">3 čekají</span></div><div class="kpi-card__value">8</div><div class="kpi-card__label">Rezervace dnes</div></div>
+      <div class="kpi-card kpi-card--gold"><div class="kpi-card__header"><div class="kpi-card__icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div><span class="kpi-card__change kpi-card__change--up">7 nových</span></div><div class="kpi-card__value">23</div><div class="kpi-card__label">Objednávky</div></div>
+    </div>
+    ${foodListWidget()}
+    ${pendingReservations()}`,
+
+  obsluha: () => `
+    <div class="admin-page-header"><div><h2 class="admin-page-title">Dobrý den, Tomáši 👋</h2><p class="admin-page-subtitle">Obsluha</p></div></div>
+    <div class="kpi-grid" style="grid-template-columns:repeat(2,1fr)">
+      <div class="kpi-card kpi-card--gold"><div class="kpi-card__header"><div class="kpi-card__icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/></svg></div><span class="kpi-card__change kpi-card__change--up">7 aktivních</span></div><div class="kpi-card__value">23</div><div class="kpi-card__label">Objednávky dnes</div></div>
+      <div class="kpi-card kpi-card--green"><div class="kpi-card__header"><div class="kpi-card__icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div><span class="kpi-card__change kpi-card__change--up">3 čekají</span></div><div class="kpi-card__value">8</div><div class="kpi-card__label">Rezervace dnes</div></div>
+    </div>
+    ${pendingReservations()}`,
+
+  kuchyn: () => `
+    <div class="admin-page-header"><div><h2 class="admin-page-title">Dobrý den, Pavle 👋</h2><p class="admin-page-subtitle">Kuchyně — ${new Date().toLocaleTimeString('cs', {hour:'2-digit',minute:'2-digit'})}</p></div></div>
+    <div class="kpi-grid" style="grid-template-columns:repeat(3,1fr)">
+      <div class="kpi-card kpi-card--gold"><div class="kpi-card__header"><div class="kpi-card__icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div></div><div class="kpi-card__value">3</div><div class="kpi-card__label">Čeká na přípravu</div></div>
+      <div class="kpi-card kpi-card--blue"><div class="kpi-card__header"><div class="kpi-card__icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></div></div><div class="kpi-card__value">2</div><div class="kpi-card__label">Připravuje se</div></div>
+      <div class="kpi-card kpi-card--green"><div class="kpi-card__header"><div class="kpi-card__icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg></div></div><div class="kpi-card__value">17</div><div class="kpi-card__label">Vydáno dnes</div></div>
+    </div>
+    <div class="admin-table-card">
+      <div class="admin-table-card__header"><h3 class="admin-table-card__title">Fronta objednávek</h3><a href="orders.html" class="btn btn--primary btn--sm">Celá fronta →</a></div>
+      <div class="admin-table-wrap"><table class="admin-table"><thead><tr><th>#</th><th>Položky</th><th>Adresa</th><th>Stav</th><th style="text-align:right">Akce</th></tr></thead><tbody>
+        <tr data-id="o1"><td style="font-weight:600;color:var(--c-text-muted)">#089</td><td>Svíčková + polévka</td><td>Holčovice 42</td><td><span class="status status--preparing">Připravuje se</span></td><td><div class="admin-table__cell--actions"><button class="btn btn--primary btn--sm" onclick="changeStatus('o1','ready')">Připraveno ✓</button></div></td></tr>
+        <tr data-id="o2"><td style="font-weight:600;color:var(--c-text-muted)">#087</td><td>Vegetariánské + polévka</td><td>Holčovice 78</td><td><span class="status status--pending">Přijato</span></td><td><div class="admin-table__cell--actions"><button class="btn btn--primary btn--sm" onclick="changeStatus('o2','preparing')">Začít →</button></div></td></tr>
+      </tbody></table></div>
+    </div>`,
+
+  rozvoz: () => `
+    <div class="admin-page-header"><div><h2 class="admin-page-title">Dobrý den, Martine 👋</h2><p class="admin-page-subtitle">Rozvoz — ${new Date().toLocaleTimeString('cs', {hour:'2-digit',minute:'2-digit'})}</p></div></div>
+    <div class="kpi-grid" style="grid-template-columns:repeat(3,1fr)">
+      <div class="kpi-card kpi-card--green"><div class="kpi-card__header"><div class="kpi-card__icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg></div></div><div class="kpi-card__value">1</div><div class="kpi-card__label">Připraveno k vyzvednutí</div></div>
+      <div class="kpi-card kpi-card--blue"><div class="kpi-card__header"><div class="kpi-card__icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/></svg></div></div><div class="kpi-card__value">2</div><div class="kpi-card__label">Na cestě</div></div>
+      <div class="kpi-card kpi-card--brown"><div class="kpi-card__header"><div class="kpi-card__icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12l2 2 4-4"/></svg></div></div><div class="kpi-card__value">15</div><div class="kpi-card__label">Doručeno dnes</div></div>
+    </div>
+    <div class="admin-table-card">
+      <div class="admin-table-card__header"><h3 class="admin-table-card__title">Moje doručení dnes</h3></div>
+      <div class="admin-table-wrap"><table class="admin-table"><thead><tr><th>#</th><th>Zákazník</th><th>Adresa</th><th>Cena</th><th>Stav</th><th style="text-align:right">Akce</th></tr></thead><tbody>
+        <tr data-id="d1"><td>#084</td><td>Lucie Marková</td><td>Holčovice 55</td><td class="admin-table__cell--price">169 Kč</td><td><span class="status status--ready">Připraveno</span></td><td><div class="admin-table__cell--actions"><button class="btn btn--primary btn--sm" onclick="changeStatus('d1','delivered')">Doručeno ✓</button></div></td></tr>
+        <tr data-id="d2"><td>#082</td><td>Jan Procházka</td><td>Heřmanovice 12</td><td class="admin-table__cell--price">224 Kč</td><td><span class="status status--delivered">Doručeno</span></td><td></td></tr>
+      </tbody></table></div>
+    </div>`,
+
+  obec: () => `
+    <div class="admin-page-header"><div><h2 class="admin-page-title">Dobrý den, Evo 👋</h2><p class="admin-page-subtitle">Editor obsahu Obec</p></div><div class="admin-page-actions"><a href="events.html" class="btn btn--primary btn--sm">+ Nová akce</a><a href="content.html" class="btn btn--outline btn--sm">+ Nový článek</a></div></div>
+    <div class="kpi-grid" style="grid-template-columns:repeat(2,1fr)">
+      <div class="kpi-card kpi-card--green"><div class="kpi-card__header"><div class="kpi-card__icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18V5l12-2v13"/></svg></div></div><div class="kpi-card__value">3</div><div class="kpi-card__label">Připravované akce</div></div>
+      <div class="kpi-card kpi-card--gold"><div class="kpi-card__header"><div class="kpi-card__icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></div></div><div class="kpi-card__value">1</div><div class="kpi-card__label">Koncepty článků</div></div>
+    </div>
+    <div class="admin-table-card">
+      <div class="admin-table-card__header"><h3 class="admin-table-card__title">Připravované akce</h3><a href="events.html" class="btn btn--ghost btn--sm">Správa</a></div>
+      <div class="admin-table-wrap"><table class="admin-table"><thead><tr><th>Akce</th><th>Datum</th><th>Propagovat</th><th>Stav</th><th style="text-align:right">Akce</th></tr></thead><tbody>
+        <tr><td class="admin-table__cell--name">Letní hudební večer</td><td>Pá 14. 6. · 18:00</td><td><label style="display:flex;align-items:center;gap:0.4rem;cursor:pointer"><input type="checkbox" checked onchange="Toast.show({title:this.checked?'Propagace zapnuta':'Propagace vypnuta',type:'success'})"><span style="font-size:0.8rem">Promovat</span></label></td><td><span class="status status--published">Publikováno</span></td><td><div class="admin-table__cell--actions"><a href="events.html" class="admin-table__action"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/></svg></a></div></td></tr>
+        <tr><td class="admin-table__cell--name">Zasedání zastupitelstva</td><td>Pá 21. 6. · 17:00</td><td><label style="display:flex;align-items:center;gap:0.4rem;cursor:pointer"><input type="checkbox" onchange="Toast.show({title:this.checked?'Propagace zapnuta':'Propagace vypnuta',type:'success'})"><span style="font-size:0.8rem">Promovat</span></label></td><td><span class="status status--published">Publikováno</span></td><td><div class="admin-table__cell--actions"><a href="events.html" class="admin-table__action"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/></svg></a></div></td></tr>
+      </tbody></table></div>
+    </div>`
+};
+
+/* ═══ FOOD LIST WIDGET ══════════════════════════════════════════ */
+function foodListWidget() {
+  const foods = [
+    {id:'f1', name:'Hovězí vývar s nudlemi', cat:'Polévka', price:65, allergens:'1,3', active:true},
+    {id:'f2', name:'Česneková polévka se sýrem', cat:'Polévka', price:75, allergens:'1,7', active:true},
+    {id:'f3', name:'Vepřová pečeně, knedlík, zelí', cat:'Hlavní', price:159, allergens:'1,3,7', active:true},
+    {id:'f4', name:'Kuřecí řízek, bramborový salát', cat:'Hlavní', price:169, allergens:'1,3,7,10', active:true},
+    {id:'f5', name:'Svíčková na smetaně', cat:'Hlavní', price:259, allergens:'1,3,7', active:true},
+    {id:'f6', name:'Zapečené brambory se sýrem', cat:'Vegetariánské', price:129, allergens:'7', active:true},
+    {id:'f7', name:'Čočkový dhal s rýží', cat:'Vegetariánské', price:165, allergens:'', active:false},
+  ];
+
+  const rows = foods.map(f => `
+    <tr data-id="${f.id}" contenteditable-row>
+      <td><span class="admin-table__cell--name" contenteditable="true" onblur="Toast.show({title:'Uloženo',type:'success'})" style="outline:none;border-bottom:1px dashed transparent" onfocus="this.style.borderBottomColor='var(--c-gold)'" onblur="this.style.borderBottomColor='transparent';Toast.show({title:'Uloženo',type:'success'})">${f.name}</span></td>
+      <td><span class="badge badge--${f.cat==='Polévka'?'brown':f.cat==='Vegetariánské'?'green':'gold'}">${f.cat}</span></td>
+      <td class="admin-table__cell--price" contenteditable="true" style="outline:none" onfocus="this.style.background='rgba(196,154,60,0.06)'" onblur="this.style.background='';Toast.show({title:'Cena aktualizována',type:'success'})">${f.price} Kč</td>
+      <td style="font-size:0.8rem;color:var(--c-text-muted)">${f.allergens||'—'}</td>
+      <td><label class="form-check" style="justify-content:center"><input type="checkbox" ${f.active?'checked':''} onchange="Toast.show({title:this.checked?'Jídlo aktivováno':'Jídlo skryto',type:'success'})"></label></td>
+      <td><div class="admin-table__cell--actions">
+        <button class="admin-table__action" title="Přidat do denního menu" onclick="Toast.show({title:'Přidáno do dnešního menu',type:'success'})"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></button>
+        <button class="admin-table__action admin-table__action--danger" title="Smazat" onclick="deleteRow('${f.id}')"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/></svg></button>
+      </div></td>
+    </tr>`).join('');
+
+  return `
+  <div class="admin-table-card" style="margin-bottom:1.5rem">
+    <div class="admin-table-card__header">
+      <h3 class="admin-table-card__title">📋 Seznam jídel <span style="font-size:0.75rem;font-weight:400;color:var(--c-text-muted);margin-left:0.5rem">— kliknutím na buňku editujte</span></h3>
+      <div class="admin-table-card__actions">
+        <input type="text" class="form-input" style="width:200px;padding:0.45rem 0.75rem;font-size:0.875rem" placeholder="Hledat jídlo..." data-filter-input="foods">
+        <select class="form-select" style="width:auto" data-filter-select="foods">
+          <option value="">Vše</option><option>Polévka</option><option>Hlavní</option><option>Vegetariánské</option>
+        </select>
+        <button class="btn btn--primary btn--sm" data-modal-open="modal-new-food">+ Přidat jídlo</button>
+        <a href="foods.html" class="btn btn--ghost btn--sm">Celý seznam →</a>
+      </div>
+    </div>
+    <div class="admin-table-wrap">
+      <table class="admin-table">
+        <thead><tr>
+          <th data-sort="name">Název jídla</th>
+          <th>Kategorie</th>
+          <th data-sort="price">Cena</th>
+          <th>Alergeny</th>
+          <th>Aktivní</th>
+          <th style="text-align:right">Akce</th>
+        </tr></thead>
+        <tbody id="foods-table">${rows}</tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Modal: nové jídlo -->
+  <div class="modal-backdrop" id="modal-new-food">
+    <div class="modal modal--sm">
+      <div class="modal__header"><h3 class="modal__title">Nové jídlo</h3><button class="modal__close" data-modal-close="modal-new-food"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6L6 18M6 6l12 12"/></svg></button></div>
+      <div class="modal__body" style="display:flex;flex-direction:column;gap:1rem">
+        <div class="form-group"><label class="form-label form-label--req">Název jídla</label><input type="text" class="form-input" required placeholder="Např. Svíčková na smetaně"></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem">
+          <div class="form-group"><label class="form-label form-label--req">Kategorie</label><select class="form-select" required><option>Polévka</option><option>Předkrm</option><option>Hlavní</option><option>Vegetariánské</option><option>Dezert</option><option>Nápoj</option></select></div>
+          <div class="form-group"><label class="form-label form-label--req">Cena (Kč)</label><input type="number" class="form-input" required min="0" placeholder="159"></div>
+        </div>
+        <div class="form-group"><label class="form-label">Alergeny (čísla)</label><input type="text" class="form-input" placeholder="1, 3, 7"></div>
+        <div class="form-group"><label class="form-label">Popis</label><textarea class="form-textarea" rows="2" placeholder="Krátký popis..."></textarea></div>
+        <label class="form-check"><input type="checkbox" checked><span>Aktivní (viditelné v menu)</span></label>
+      </div>
+      <div class="modal__footer"><button class="btn btn--ghost" data-modal-close="modal-new-food">Zrušit</button><button class="btn btn--primary" onclick="Toast.show({title:'Jídlo přidáno',type:'success'});Modal.close('modal-new-food')">Přidat</button></div>
+    </div>
+  </div>`;
+}
+
+function pendingReservations() {
+  return `
+  <div class="admin-table-card">
+    <div class="admin-table-card__header"><h3 class="admin-table-card__title">Čekající rezervace</h3><a href="reservations.html" class="btn btn--ghost btn--sm">Všechny</a></div>
+    <div class="admin-table-wrap"><table class="admin-table">
+      <thead><tr><th>Jméno</th><th>Datum & čas</th><th>Hostů</th><th>Přání</th><th>Stav</th><th style="text-align:right">Akce</th></tr></thead>
+      <tbody>
+        <tr data-id="r1"><td class="admin-table__cell--name">Jan Novák</td><td>Út 10. 6. · 18:00</td><td>4</td><td>Výročí — svíčka</td><td><span class="status status--pending">Čekající</span></td><td><div class="admin-table__cell--actions"><button class="admin-table__action admin-table__action--success" onclick="changeStatus('r1','confirmed')"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg></button><button class="admin-table__action admin-table__action--danger" onclick="changeStatus('r1','rejected')"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6L6 18M6 6l12 12"/></svg></button></div></td></tr>
+        <tr data-id="r2"><td class="admin-table__cell--name">Marie Horáková</td><td>Pá 13. 6. · 19:30</td><td>6</td><td>Narozeniny dcery</td><td><span class="status status--pending">Čekající</span></td><td><div class="admin-table__cell--actions"><button class="admin-table__action admin-table__action--success" onclick="changeStatus('r2','confirmed')"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg></button><button class="admin-table__action admin-table__action--danger" onclick="changeStatus('r2','rejected')"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6L6 18M6 6l12 12"/></svg></button></div></td></tr>
+      </tbody>
+    </table></div>
+  </div>`;
+}
+
+/* ═══ APPLY ROLE ════════════════════════════════════════════════ */
+function applyRole(role) {
+  buildSidebar(role);
+  const content = document.getElementById('dashboard-content');
+  const fn = DASHBOARDS[role];
+  content.innerHTML = fn ? fn() : '<p>Dashboard pro tuto roli není k dispozici.</p>';
+  // Re-init admin scripts
+  DataTable.init();
+  Modal.init();
+  initFilters();
+}
+
+// Init with super admin
+document.addEventListener('DOMContentLoaded', () => {
+  applyRole('super');
+  AdminSidebar.init();
+});
+</script>
 </body>
 </html>

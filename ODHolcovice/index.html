@@ -12,7 +12,7 @@
   <link rel="stylesheet" href="css/main.css">
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='50' fill='%231A3129'/><text y='.9em' font-size='60' x='50%' text-anchor='middle' font-family='Georgia' fill='%23C49A3C' font-weight='bold'>OD</text></svg>">
 </head>
-<body>
+<body class="page-home">
 
 <!-- ══════════════════════════════════════════════
      NAVIGATION
@@ -103,28 +103,6 @@
     </div>
   </div>
 
-  <!-- Quick Stats Bar -->
-  <div class="hero__stats" aria-label="Rychlé informace">
-    <div class="container hero__stats-inner">
-      <a href="menu.html" class="hero__stat">
-        <span class="hero__stat-label">Dnešní polévka</span>
-        <span class="hero__stat-value">Hovězí vývar <span>65 Kč</span></span>
-      </a>
-      <a href="events.html" class="hero__stat">
-        <span class="hero__stat-label">Příští akce</span>
-        <span class="hero__stat-value">Hudební večer <span>14.6.</span></span>
-      </a>
-      <a href="contact.html#reservation" class="hero__stat">
-        <span class="hero__stat-label">Dnešní otevírací doba</span>
-        <span class="hero__stat-value">Po–Pá <span>11:00–21:00</span></span>
-      </a>
-      <a href="contact.html" class="hero__stat">
-        <span class="hero__stat-label">Kontakt</span>
-        <span class="hero__stat-value">info@obecnidumholcovice.cz</span>
-      </a>
-    </div>
-  </div>
-
   <button class="hero__scroll-hint" aria-label="Scrollovat dolů">
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
     <span>Objevit</span>
@@ -144,15 +122,24 @@
         <h2 class="section-title" id="menu-preview-title" style="margin-bottom:var(--s-4)" data-reveal="up" data-delay="1">Dnešní<br>nabídka</h2>
         <p style="color:var(--c-text-sec);font-size:var(--text-md);line-height:var(--lh-relaxed);margin-bottom:var(--s-6)" data-reveal="up" data-delay="2">Čerstvé suroviny, domácí recepty a láska k vaření. Denní menu se mění každý den.</p>
 
-        <div class="menu-day-selector" role="tablist" aria-label="Výběr dne" style="margin-bottom:var(--s-8)" data-reveal="up" data-delay="3">
+        <div class="menu-day-selector" role="tablist" aria-label="Výběr dne" style="margin-bottom:var(--s-3)" data-reveal="up" data-delay="3">
           <button class="tag" data-day="po" role="tab">Po</button>
           <button class="tag" data-day="ut" role="tab">Út</button>
           <button class="tag" data-day="st" role="tab">St</button>
           <button class="tag" data-day="ct" role="tab">Čt</button>
           <button class="tag" data-day="pa" role="tab">Pá</button>
+          <button class="tag tag--weekend" data-day="vikend" role="tab" id="weekend-tab">So–Ne</button>
+        </div>
+        <div class="weekend-note" id="weekend-note" style="display:none;margin-bottom:var(--s-6)">
+          🕑 Dostupné od pátku 14:00
+        </div>
+        <div style="margin-bottom:var(--s-6)"><!-- spacer when note hidden --></div>
+
+        <div style="background:var(--c-cream-50);border-radius:var(--r-lg);padding:var(--s-3) var(--s-4);font-size:var(--text-sm);color:var(--c-text-sec);margin-bottom:var(--s-6);line-height:1.6" data-reveal="up" data-delay="4">
+          🍲 <strong>Sleva na polévku:</strong> V kombinaci s hlavním jídlem jen <strong>30 Kč</strong> (jinak 65 Kč)
         </div>
 
-        <a href="menu.html" class="btn btn--primary btn--lg" data-reveal="up" data-delay="4">Celý jídelní lístek →</a>
+        <a href="menu.html" class="btn btn--primary btn--lg" data-reveal="up" data-delay="5">Celý jídelní lístek →</a>
       </div>
 
       <!-- PRAVÝ SLOUPEC: kompaktní řádky položek -->
@@ -190,9 +177,41 @@
             </div>
             <span class="menu-item-row__price">129 Kč</span>
           </div>
-          <div style="margin-top:var(--s-5);padding-top:var(--s-4);border-top:1px solid var(--c-border-light);display:flex;justify-content:space-between;align-items:center">
+          <div style="margin-top:var(--s-4);padding-top:var(--s-4);border-top:1px solid var(--c-border-light);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.5rem">
             <span style="font-size:var(--text-sm);color:var(--c-text-muted)">Polévka + hlavní = kompletní oběd</span>
             <span style="font-size:var(--text-xs);color:var(--c-text-faint)">Po–Pá 11:00–14:00</span>
+          </div>
+        </div>
+
+        <!-- Víkendové menu (od pátku 14:00) -->
+        <div data-day-panel="vikend" hidden>
+          <div style="background:rgba(196,154,60,0.06);border:1px solid rgba(196,154,60,0.2);border-radius:var(--r-xl);padding:var(--s-4) var(--s-5);margin-bottom:var(--s-4)">
+            <div style="font-size:var(--text-sm);font-weight:var(--fw-semibold);color:var(--c-gold-dark);margin-bottom:var(--s-1)">🍽 Víkendové menu</div>
+            <div style="font-size:var(--text-sm);color:var(--c-text-muted)">Dostupné So–Ne, objednávky od pátku 14:00</div>
+          </div>
+          <div class="menu-item-row">
+            <span class="menu-item-row__cat">Polévka</span>
+            <div class="menu-item-row__body"><div class="menu-item-row__name">Gulášová polévka</div><div class="menu-item-row__meta">Al: 1</div></div>
+            <span class="menu-item-row__price">75 Kč</span>
+          </div>
+          <div class="menu-item-row">
+            <span class="menu-item-row__cat">Hlavní 1</span>
+            <div class="menu-item-row__body"><div class="menu-item-row__name">Svíčková na smetaně, knedlík</div><div class="menu-item-row__meta">Klasika v plné verzi · Al: 1, 3, 7</div></div>
+            <span class="menu-item-row__price">269 Kč</span>
+          </div>
+          <div class="menu-item-row">
+            <span class="menu-item-row__cat">Hlavní 2</span>
+            <div class="menu-item-row__body"><div class="menu-item-row__name">Pstruh na bylinkách, brambory</div><div class="menu-item-row__meta">Čerstvý pstruh · Al: 4, 7</div></div>
+            <span class="menu-item-row__price">259 Kč</span>
+          </div>
+          <div class="menu-item-row">
+            <span class="menu-item-row__cat" style="color:var(--c-green-500)">🌿 Vege</span>
+            <div class="menu-item-row__body"><div class="menu-item-row__name">Rizoto s lesními houbami</div><div class="menu-item-row__meta">Lišky, hříbky, parmazán · Al: 7</div></div>
+            <span class="menu-item-row__price">199 Kč</span>
+          </div>
+          <div style="margin-top:var(--s-4);padding-top:var(--s-4);border-top:1px solid var(--c-border-light);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.5rem">
+            <span style="font-size:var(--text-sm);color:var(--c-text-muted)">Víkendové menu bez slev na polévku</span>
+            <span style="font-size:var(--text-xs);color:var(--c-text-faint)">So–Ne 11:00–14:30</span>
           </div>
         </div>
       </div>
@@ -201,66 +220,111 @@
 </section>
 
 <!-- ══════════════════════════════════════════════
-     CELEBRATIONS & RENTALS
+     PROMO EVENT (kolabsovatelná, jen pokud je akce označena)
 ════════════════════════════════════════════════ -->
-<section class="section celebrations" id="celebrations" aria-labelledby="celebrations-title">
+<section class="promo-event" id="promo-event" aria-label="Připravovaná akce">
   <div class="container">
-    <div class="section-header section-header--center">
-      <p class="section-eyebrow" data-reveal="fade">Oslavy & Pronájmy</p>
-      <h2 class="section-title" id="celebrations-title" data-reveal="up" data-delay="1">Váš výjimečný den<br>v dokonalém prostředí</h2>
-      <p class="section-desc" style="margin-inline:auto">Od rodinných oslav přes firemní akce až po výjimečné okamžiky – náš tým se postará o vše potřebné.</p>
-    </div>
-
-    <!-- OD Dekorativní oddělovač -->
-    <div class="od-divider" data-reveal="fade" data-delay="2" style="margin-bottom:2.5rem">
-      <div class="od-divider__line od-divider__line--left"></div>
-      <img src="img/OD_Logo_průhledné.png" class="od-divider__mark" alt="">
-      <div class="od-divider__line od-divider__line--right"></div>
-    </div>
-
-    <div class="celebrations__grid">
-      <div class="celebration-card celebration-card--tall" data-reveal="left" data-delay="1">
-        <img src="img/20230301_101930.jpg" class="celebration-card__img" alt="Velký sál Obecního domu">
-        <div class="celebration-card__overlay">
-          <div class="celebration-card__icon">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
-          </div>
-          <h3 class="celebration-card__title">Rodinné oslavy</h3>
-          <p class="celebration-card__desc">Narozeniny, výročí, křtiny nebo zásnuby – každá rodinná oslava si zaslouží výjimečné prostředí a péči.</p>
-          <a href="celebrations.html" class="celebration-card__link">
-            Zjistit více
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-          </a>
-        </div>
+    <!-- Bar (vždy viditelný) -->
+    <div class="promo-event__bar" onclick="document.getElementById('promo-event').classList.toggle('promo-event--collapsed')" role="button" aria-expanded="true">
+      <span class="promo-event__pill">Připravovaná akce</span>
+      <div class="promo-event__summary">
+        <span class="promo-event__date-badge">14<sup>. 6.</sup></span>
+        <strong class="promo-event__name">Letní hudební večer</strong>
+        <span class="promo-event__meta-inline hide-mobile">Pá 18:00 · Terasa OD · Vstup zdarma</span>
       </div>
-
-      <div class="celebration-card" data-reveal="up" data-delay="2">
-        <img src="img/20230301_102124.jpg" class="celebration-card__img" alt="Restaurace a bar">
-        <div class="celebration-card__overlay">
-          <div class="celebration-card__icon">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
-          </div>
-          <h3 class="celebration-card__title">Firemní akce</h3>
-          <p class="celebration-card__desc">Teambuildingové výjezdy, prezentace a pracovní setkání s cateringem.</p>
-          <a href="celebrations.html" class="celebration-card__link">Zjistit více <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
-        </div>
+      <div style="display:flex;align-items:center;gap:var(--s-3)">
+        <a href="events.html" class="btn btn--accent btn--sm" onclick="event.stopPropagation()">Více info</a>
+        <button class="promo-event__toggle" aria-label="Sbalit akci">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 15l-6-6-6 6"/></svg>
+        </button>
       </div>
-
-      <div class="celebration-card" data-reveal="right" data-delay="3">
-        <img src="img/20230302_151109.jpg" class="celebration-card__img" alt="Exteriér Obecního domu">
-        <div class="celebration-card__overlay">
-          <div class="celebration-card__icon">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+    </div>
+    <!-- Rozbalitelný obsah -->
+    <div class="promo-event__body">
+      <div style="display:grid;grid-template-columns:1fr auto;gap:var(--s-8);align-items:center">
+        <div>
+          <p class="promo-event__desc">Živá hudba, dobré pivo a pohoda pod hvězdami. Přijďte si užít letní večer s kapelou Jesenická Hvězda. Ideální pro rodiny i přátele – přivítáme vás od 18:00 na terase Obecního domu.</p>
+          <div class="promo-event__ctas">
+            <a href="contact.html#reservation" class="btn btn--outline-light btn--sm">Rezervovat místo</a>
+            <a href="events.html" class="btn btn--ghost btn--sm" style="color:rgba(255,255,255,0.7)">Všechny akce</a>
           </div>
-          <h3 class="celebration-card__title">Spolkové a kulturní akce</h3>
-          <p class="celebration-card__desc">Pronajměte sál pro spolkové schůze, divadelní představení nebo kulturní programy.</p>
-          <a href="celebrations.html" class="celebration-card__link">Zjistit více <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+        </div>
+        <div style="text-align:center;padding:var(--s-5) var(--s-6);background:rgba(255,255,255,0.08);border-radius:var(--r-xl);flex-shrink:0" class="hide-mobile">
+          <div style="font-family:var(--font-serif);font-size:3rem;font-weight:700;color:var(--c-gold-light);line-height:1">14</div>
+          <div style="font-size:var(--text-sm);color:rgba(255,255,255,0.6);text-transform:uppercase;letter-spacing:0.1em">Června</div>
+          <div style="font-size:var(--text-xs);color:rgba(255,255,255,0.45);margin-top:var(--s-1)">Pátek</div>
         </div>
       </div>
     </div>
+  </div>
+</section>
 
-    <div style="text-align:center;margin-top:2.5rem">
-      <a href="celebrations.html" class="btn btn--primary btn--lg">Prohlédnout možnosti pronájmu</a>
+<!-- ══════════════════════════════════════════════
+     PRONÁJEM & CATERING — 2-sloupce
+════════════════════════════════════════════════ -->
+<section class="section celebrations" id="celebrations" aria-labelledby="celebrations-title" style="background:var(--c-cream-50)">
+  <div class="container">
+    <div class="menu-preview__layout">
+
+      <!-- LEVÝ SLOUPEC -->
+      <div class="menu-preview__left">
+        <p class="section-eyebrow" data-reveal="up">Pronájem & Catering</p>
+        <h2 class="section-title" id="celebrations-title" style="margin-bottom:var(--s-4)" data-reveal="up" data-delay="1">Prostory<br>pro každou<br>příležitost</h2>
+        <p style="color:var(--c-text-sec);font-size:var(--text-md);line-height:var(--lh-relaxed);margin-bottom:var(--s-6)" data-reveal="up" data-delay="2">Nabízíme prostory s plným cateringem pro oslavy, firemní akce i kulturní události. Vše zajistíme od výzdoby po hudbu.</p>
+        <div style="display:flex;flex-direction:column;gap:var(--s-3)" data-reveal="up" data-delay="3">
+          <a href="celebrations.html" class="btn btn--primary btn--lg">Prozkoumat nabídku</a>
+          <a href="celebrations.html#poptavka" class="btn btn--outline">Nezávazná poptávka</a>
+        </div>
+      </div>
+
+      <!-- PRAVÝ SLOUPEC: venue cards -->
+      <div data-reveal="right" data-delay="2">
+        <div class="venue-cards-grid">
+          <div class="venue-card">
+            <div class="venue-card__header">
+              <h3 class="venue-card__name">Velký sál</h3>
+              <span class="venue-card__price">od 8 000 Kč</span>
+            </div>
+            <div class="venue-card__meta">
+              <span>👥 až 120 os.</span>
+              <span>📐 180 m²</span>
+            </div>
+            <p class="venue-card__desc">Ples, konference, svatba. Parketový sál s plnou technikou, barem a cateringem.</p>
+            <div style="display:flex;flex-wrap:wrap;gap:var(--s-1);margin-top:auto">
+              <span class="badge badge--green">Parket</span>
+              <span class="badge badge--green">Ozvučení</span>
+              <span class="badge badge--green">Klimatizace</span>
+            </div>
+          </div>
+          <div class="venue-card">
+            <div class="venue-card__header">
+              <h3 class="venue-card__name">Salónek</h3>
+              <span class="venue-card__price">od 3 500 Kč</span>
+            </div>
+            <div class="venue-card__meta">
+              <span>👥 až 40 os.</span>
+              <span>📐 65 m²</span>
+            </div>
+            <p class="venue-card__desc">Intímní oslavy, pracovní schůzky, kulaté stoly. Krb, útulná atmosféra.</p>
+            <div style="display:flex;flex-wrap:wrap;gap:var(--s-1);margin-top:auto">
+              <span class="badge badge--gold">Krb</span>
+              <span class="badge badge--gold">Projektor</span>
+            </div>
+          </div>
+          <div class="venue-card" style="grid-column:span 2;background:var(--c-green-50);border-left-color:var(--c-green-400)">
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:var(--s-4);flex-wrap:wrap">
+              <div>
+                <div class="venue-card__header" style="margin-bottom:var(--s-2)">
+                  <h3 class="venue-card__name">Catering</h3>
+                  <span class="venue-card__price">dle počtu osob</span>
+                </div>
+                <p style="font-size:var(--text-sm);color:var(--c-text-sec)">Kompletní catering pro oslavy mimo prostory — dodávka jídla, obsluha, výzdoba.</p>
+              </div>
+              <a href="celebrations.html" class="btn btn--primary btn--sm" style="flex-shrink:0">Poptávka →</a>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -358,69 +422,73 @@
   <div class="container">
     <div class="footer__top">
 
-      <!-- Brand + Logo -->
+      <!-- 1. Brand + Logo -->
       <div class="footer__brand">
         <div class="footer__brand-logo">
-          <img src="img/OD1_Full_průhledné.png" class="footer__brand-img" alt="Obecní dům Holčovice – Pivnice a Restaurace">
+          <img src="img/OD1_Full_průhledné.png" class="footer__brand-img" alt="Obecní dům Holčovice">
         </div>
-        <p class="footer__brand-desc">Srdce obce na kraji Jeseníků. Restaurace, komunitní centrum, kulturní sál a turistická brána do jednoho z nejkrásnějších koutů České republiky.</p>
-        <div style="margin-top:0.5rem">
-          <a href="obecnidumholcovice.cz" style="font-size:0.75rem;color:rgba(255,255,255,0.35);letter-spacing:0.05em">obecnidumholcovice.cz</a>
+        <p class="footer__brand-desc">Srdce obce na kraji Jeseníků – restaurace, kulturní centrum a turistická brána do Jeseníků.</p>
+        <div class="footer__social" style="margin-top:var(--s-5)">
+          <a href="#" class="footer__social-btn" aria-label="Facebook"><svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg></a>
+          <a href="#" class="footer__social-btn" aria-label="Instagram"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></a>
         </div>
-      </div>
-
-      <!-- Otevírací doba — výrazná -->
-      <div class="footer__col">
-        <h3 class="footer__col-title">Otevírací doba</h3>
-        <div class="footer__hours-card">
-          <div class="footer__hours-title">Kdy nás najdete</div>
-          <div class="footer__hours">
-            <div class="footer__hours-row footer__hours-row--today">
-              <span>Po – Pá</span>
-              <span class="footer__hours-time footer__hours-time--today">11:00 – 21:00</span>
-            </div>
-            <div class="footer__hours-row">
-              <span>Sobota</span>
-              <span class="footer__hours-time">10:00 – 22:00</span>
-            </div>
-            <div class="footer__hours-row">
-              <span>Neděle</span>
-              <span class="footer__hours-time">10:00 – 20:00</span>
-            </div>
-          </div>
-          <span class="footer__hours-open">Dnes otevřeno do 21:00</span>
-        </div>
-        <div style="display:flex;flex-direction:column;gap:0.5rem">
-          <a href="menu.html" class="footer__link">→ Jídelní lístek</a>
-          <a href="celebrations.html" class="footer__link">→ Pronájem prostor</a>
-          <a href="discover.html" class="footer__link">→ Turistické informace</a>
-          <a href="contact.html#reservation" class="footer__link">→ Rezervace stolu</a>
+        <div style="margin-top:var(--s-4)">
+          <a href="https://obecnidumholcovice.cz" style="font-size:0.75rem;color:rgba(255,255,255,0.3);letter-spacing:0.05em">obecnidumholcovice.cz</a>
         </div>
       </div>
 
-      <!-- Kontakt -->
+      <!-- 2. Kontakt (střed) -->
       <div class="footer__col">
         <h3 class="footer__col-title">Kontakt</h3>
         <div class="footer__links">
-          <div class="footer__link" style="line-height:1.8;font-size:var(--text-md);color:rgba(255,255,255,0.75)">
+          <div class="footer__link" style="line-height:1.9;color:rgba(255,255,255,0.72)">
             Holčovice 123<br>793 71 Holčovice
           </div>
-          <a href="tel:+420123456789" class="footer__link" style="font-size:var(--text-md);font-weight:600;color:rgba(255,255,255,0.85)">+420 123 456 789</a>
+          <a href="tel:+420123456789" class="footer__link" style="font-size:var(--text-md);font-weight:var(--fw-semibold);color:rgba(255,255,255,0.88)">+420 123 456 789</a>
           <a href="mailto:info@obecnidumholcovice.cz" class="footer__link">info@obecnidumholcovice.cz</a>
-          <a href="https://maps.google.com" target="_blank" rel="noopener" class="footer__link" style="margin-top:0.75rem;display:inline-flex;align-items:center;gap:0.4rem">
+          <a href="https://maps.google.com" target="_blank" rel="noopener" class="footer__link" style="margin-top:var(--s-3);display:inline-flex;align-items:center;gap:0.4rem">
             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
             Zobrazit na mapě
           </a>
-          <div style="margin-top:1rem;padding-top:0.75rem;border-top:1px solid rgba(255,255,255,0.08)">
-            <div class="footer__social">
-              <a href="#" class="footer__social-btn" aria-label="Facebook">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
-              </a>
-              <a href="#" class="footer__social-btn" aria-label="Instagram">
-                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
-              </a>
+          <a href="contact.html#reservation" class="footer__link" style="margin-top:var(--s-4)">→ Rezervace stolu</a>
+        </div>
+      </div>
+
+      <!-- 3. Otevírací doba — Pivnice + Kuchyně (vpravo) -->
+      <div class="footer__col">
+        <h3 class="footer__col-title">Otevírací doba</h3>
+        <div class="footer__hours-split">
+
+          <!-- Pivnice -->
+          <div>
+            <div class="footer__hours-section-title">Pivnice</div>
+            <div class="footer__hours-compact">
+              <div class="footer__hours-compact-row footer__hours-compact-row--today">
+                <span>Po – Pá</span><span class="footer__hours-compact-time">11:00 – 21:00</span>
+              </div>
+              <div class="footer__hours-compact-row">
+                <span>Sobota</span><span class="footer__hours-compact-time">10:00 – 22:00</span>
+              </div>
+              <div class="footer__hours-compact-row">
+                <span>Neděle</span><span class="footer__hours-compact-time">10:00 – 20:00</span>
+              </div>
             </div>
           </div>
+
+          <!-- Kuchyně -->
+          <div>
+            <div class="footer__hours-section-title">Kuchyně</div>
+            <div class="footer__hours-compact">
+              <div class="footer__hours-compact-row footer__hours-compact-row--today">
+                <span>Po – Pá</span><span class="footer__hours-compact-time">11–14, 17–20:30</span>
+              </div>
+              <div class="footer__hours-compact-row">
+                <span>So – Ne</span><span class="footer__hours-compact-time">11:00 – 14:30</span>
+              </div>
+            </div>
+          </div>
+
+          <span class="footer__hours-open">Dnes otevřeno do 21:00</span>
         </div>
       </div>
     </div>

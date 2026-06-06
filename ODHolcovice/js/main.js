@@ -515,18 +515,39 @@ function initScrollProgress() {
   }, { passive: true });
 }
 
-/* ─── Hero Stats — Number Reveal ────────────────────────────────── */
-function initHeroStats() {
-  // Přidá třídu stats-ready po načtení, aby se zobrazily
-  const stats = document.querySelector('.hero__stats');
-  if (!stats) return;
-  // Stats jsou viditelné přes CSS animaci, žádná extra logika
+/* ─── Promo Event Collapse ───────────────────────────────────────── */
+function initPromoEvent() {
+  const section = document.getElementById('promo-event');
+  if (!section) return;
+  if (localStorage.getItem('od_promo_collapsed') === 'true') {
+    section.classList.add('promo-event--collapsed');
+  }
+  section.querySelector('.promo-event__bar')?.addEventListener('click', () => {
+    const collapsed = section.classList.contains('promo-event--collapsed');
+    localStorage.setItem('od_promo_collapsed', String(!collapsed));
+  });
+}
+
+/* ─── Weekend Menu ───────────────────────────────────────────────── */
+function initWeekendMenu() {
+  const weekendTab = document.getElementById('weekend-tab');
+  const weekendNote = document.getElementById('weekend-note');
+  if (!weekendTab) return;
+  const d = new Date(); const day = d.getDay(); const h = d.getHours();
+  const available = (day === 5 && h >= 14) || day === 6 || day === 0;
+  if (!available) {
+    weekendTab.style.opacity = '0.45';
+    weekendTab.setAttribute('title', 'Dostupné od pátku 14:00');
+  }
+  weekendTab.addEventListener('click', () => {
+    if (weekendNote) weekendNote.style.display = available ? 'none' : 'inline-flex';
+  });
 }
 
 /* ─── Initialize All ─────────────────────────────────────────────── */
 document.addEventListener('DOMContentLoaded', () => {
   Nav.init();
-  ScrollReveal.init();   // nový systém místo ScrollAnimate
+  ScrollReveal.init();
   MenuTabs.init();
   DaySelector.init();
   Lightbox.init();
@@ -539,7 +560,8 @@ document.addEventListener('DOMContentLoaded', () => {
   initHeroWordAnimation();
   initHeroParallax();
   initScrollProgress();
-  initHeroStats();
+  initPromoEvent();
+  initWeekendMenu();
 });
 
 /* Expose to global for inline handlers */
