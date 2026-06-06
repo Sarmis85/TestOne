@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="cs">
 <head>
   <meta charset="UTF-8">
@@ -20,11 +20,7 @@
 <nav class="nav nav--transparent" id="main-nav">
   <div class="container nav__inner">
     <a href="index.html" class="nav__logo" aria-label="Obecní dům Holčovice – domovská stránka">
-      <div class="nav__logo-mark"><span>OD</span></div>
-      <div class="nav__logo-text">
-        <span class="nav__logo-name">Obecní dům</span>
-        <span class="nav__logo-sub">Holčovice</span>
-      </div>
+      <img src="img/OD1_Logo_Small_průhledné.png" class="nav__logo-img" alt="Obecní dům Holčovice">
     </a>
 
     <ul class="nav__links" role="navigation" aria-label="Hlavní navigace">
@@ -84,6 +80,8 @@
     <!-- <video class="hero__video" autoplay muted loop playsinline poster="assets/img/hero-poster.jpg">
       <source src="assets/video/holcovice-drone.mp4" type="video/mp4">
     </video> -->
+    <!-- Real aerial photo of Holčovice -->
+    <img src="img/cover_ho3(1701x633).jpg" class="hero__video" alt="Letecký pohled na Holčovice" aria-hidden="true">
     <div class="hero__fallback" aria-hidden="true"></div>
     <div class="hero__landscape" aria-hidden="true"></div>
   </div>
@@ -278,37 +276,186 @@
         </div>
       </article>
 
-      <!-- Event 3 -->
-      <article class="event-card">
-        <div class="event-card__img-wrap">
-          <div style="width:100%;height:100%;background:linear-gradient(135deg,#C49A3C 0%,#9B7A2E 100%);display:flex;align-items:center;justify-content:center">
-            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="1.5"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
-          </div>
-          <div class="event-card__date-badge">
-            <div class="event-card__date-day">5</div>
-            <div class="event-card__date-month">Čvc</div>
-          </div>
-        </div>
-        <div class="event-card__body">
-          <div class="event-card__cat">Turistika & Příroda</div>
-          <h3 class="event-card__title">Komentovaný výlet – Pradědova stezka</h3>
-          <div class="event-card__meta">
-            <span>📅 Sobota 5. 7. 2025</span>
-            <span>🕗 7:30 – 16:00</span>
-          </div>
-          <p class="event-card__desc">Průvodce vás provede historickou stezkou k Pradědu s výklady o přírodě a historii Jeseníků.</p>
-          <div class="event-card__footer">
-            <span class="event-card__price">250 Kč / os.</span>
-            <a href="events.html" class="btn btn--primary btn--sm">Přihlásit se</a>
-          </div>
-        </div>
-      </article>
+    </div>
+
+    <div style="text-align:center;margin-top:2rem">
+      <a href="events.html" class="btn btn--primary btn--lg">Všechny akce & události</a>
     </div>
   </div>
 </section>
 
 <!-- ══════════════════════════════════════════════
-     RESERVATION CTA
+     CELEBRATIONS & RENTALS
+════════════════════════════════════════════════ -->
+<section class="section celebrations" id="celebrations" aria-labelledby="celebrations-title">
+  <div class="container">
+    <div class="section-header section-header--center">
+      <p class="section-eyebrow">Oslavy & Pronájmy</p>
+      <h2 class="section-title" id="celebrations-title">Váš výjimečný den<br>v dokonalém prostředí</h2>
+      <p class="section-desc" style="margin-inline:auto">Od rodinných oslav přes firemní akce až po výjimečné okamžiky – náš tým se postará o vše potřebné.</p>
+    </div>
+
+    <div class="celebrations__grid">
+      <div class="celebration-card celebration-card--tall">
+        <img src="img/20230301_101930.jpg" class="celebration-card__img" alt="Velký sál Obecního domu">
+        <div class="celebration-card__overlay">
+          <div class="celebration-card__icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+          </div>
+          <h3 class="celebration-card__title">Rodinné oslavy</h3>
+          <p class="celebration-card__desc">Narozeniny, výročí, křtiny nebo zásnuby – každá rodinná oslava si zaslouží výjimečné prostředí a péči.</p>
+          <a href="celebrations.html" class="celebration-card__link">
+            Zjistit více
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <div class="celebration-card">
+        <img src="img/20230301_102124.jpg" class="celebration-card__img" alt="Restaurace a bar">
+        <div class="celebration-card__overlay">
+          <div class="celebration-card__icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+          </div>
+          <h3 class="celebration-card__title">Firemní akce</h3>
+          <p class="celebration-card__desc">Teambuildingové výjezdy, prezentace a pracovní setkání s cateringem.</p>
+          <a href="celebrations.html" class="celebration-card__link">Zjistit více <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+        </div>
+      </div>
+
+      <div class="celebration-card">
+        <img src="img/20230302_151109.jpg" class="celebration-card__img" alt="Exteriér Obecního domu">
+        <div class="celebration-card__overlay">
+          <div class="celebration-card__icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+          </div>
+          <h3 class="celebration-card__title">Spolkové a kulturní akce</h3>
+          <p class="celebration-card__desc">Pronajměte sál pro spolkové schůze, divadelní představení nebo kulturní programy.</p>
+          <a href="celebrations.html" class="celebration-card__link">Zjistit více <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+        </div>
+      </div>
+    </div>
+
+    <div style="text-align:center;margin-top:2.5rem">
+      <a href="celebrations.html" class="btn btn--primary btn--lg">Prohlédnout možnosti pronájmu</a>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     TOURISM HIGHLIGHTS
+════════════════════════════════════════════════ -->
+<section class="section tourism" id="tourism" aria-labelledby="tourism-title">
+  <div class="container">
+    <div class="section-header section-header--center">
+      <p class="section-eyebrow">Turistika & Příroda</p>
+      <h2 class="section-title" id="tourism-title">Objevte krásy Jeseníků</h2>
+      <p class="section-desc" style="margin-inline:auto">Holčovice jsou ideálním výchozím bodem pro výlety do divokých Jeseníků. Připravili jsme pro vás výběr nejkrásnějších tras a míst.</p>
+    </div>
+
+    <div class="tourism__grid" style="grid-template-columns:repeat(2,1fr)">
+      <article class="tourism-card">
+        <div class="tourism-card__img-wrap">
+          <div style="width:100%;height:100%;background:linear-gradient(135deg,#1A3129,#3D6B56)"></div>
+          <span class="tourism-card__difficulty">Střední</span>
+        </div>
+        <div class="tourism-card__body">
+          <div class="tourism-card__type">🥾 Pěší trasa</div>
+          <h3 class="tourism-card__title">Stezka k Pradědu</h3>
+          <div class="tourism-card__meta">
+            <span>📏 18 km</span>
+            <span>⏱ 5–6 hod</span>
+            <span>📈 620 m</span>
+          </div>
+          <p class="tourism-card__desc">Klasická trasa na nejvyšší horu Moravy s úchvatnými výhledy na celé Jeseníky.</p>
+        </div>
+      </article>
+
+      <article class="tourism-card">
+        <div class="tourism-card__img-wrap">
+          <div style="width:100%;height:100%;background:linear-gradient(135deg,#4A3020,#8B6B47)"></div>
+          <span class="tourism-card__difficulty">Snadná</span>
+        </div>
+        <div class="tourism-card__body">
+          <div class="tourism-card__type">🚴 Cyklotrasa</div>
+          <h3 class="tourism-card__title">Holčovický okruh</h3>
+          <div class="tourism-card__meta">
+            <span>📏 32 km</span>
+            <span>⏱ 2–3 hod</span>
+            <span>📈 180 m</span>
+          </div>
+          <p class="tourism-card__desc">Pohodová cyklotrasa přes malebné vesnice a lesy na hraně Jesenicka.</p>
+        </div>
+      </article>
+
+    </div>
+
+    <div style="text-align:center;margin-top:2.5rem">
+      <a href="discover.html" class="btn btn--primary btn--lg">Prozkoumat všechna místa</a>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════════════════════════
+     GALLERY PREVIEW
+════════════════════════════════════════════════ -->
+<section class="section gallery-preview" id="gallery-preview" aria-labelledby="gallery-preview-title">
+  <div class="container">
+    <div class="section-header section-header--center">
+      <p class="section-eyebrow">Fotogalerie</p>
+      <h2 class="section-title" id="gallery-preview-title">Nahlédněte k nám</h2>
+    </div>
+
+    <div class="gallery-grid">
+      <div class="gallery-item gallery-item--wide">
+        <img src="img/20230301_101725.jpg" class="gallery-item__img" alt="Restaurace – hlavní sál">
+        <div class="gallery-item__overlay"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div>
+      </div>
+      <div class="gallery-item">
+        <img src="img/20230301_102011.jpg" class="gallery-item__img" alt="Prostřený stůl – detail">
+        <div class="gallery-item__overlay"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div>
+      </div>
+      <div class="gallery-item gallery-item--tall">
+        <img src="img/20230301_101930.jpg" class="gallery-item__img" alt="Velký sál a taneční parket">
+        <div class="gallery-item__overlay"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div>
+      </div>
+      <div class="gallery-item">
+        <img src="img/20230301_101818.jpg" class="gallery-item__img" alt="Salónek restaurace">
+        <div class="gallery-item__overlay"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div>
+      </div>
+      <div class="gallery-item">
+        <img src="img/20230301_102124.jpg" class="gallery-item__img" alt="Bar a vstup">
+        <div class="gallery-item__overlay"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div>
+      </div>
+      <div class="gallery-item gallery-item--wide">
+        <img src="img/20230302_151109.jpg" class="gallery-item__img" alt="Exteriér Obecního domu">
+        <div class="gallery-item__overlay"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div>
+      </div>
+    </div>
+
+    <div style="text-align:center;margin-top:2rem">
+      <a href="gallery.html" class="btn btn--primary btn--lg">Zobrazit celou galerii</a>
+    </div>
+  </div>
+
+  <!-- Lightbox -->
+  <div class="lightbox" role="dialog" aria-label="Prohlížeč fotek">
+    <button class="lightbox__close" aria-label="Zavřít">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6L6 18M6 6l12 12"/></svg>
+    </button>
+    <button class="lightbox__nav lightbox__prev" aria-label="Předchozí">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 18l-6-6 6-6"/></svg>
+    </button>
+    <img class="lightbox__img" src="" alt="">
+    <button class="lightbox__nav lightbox__next" aria-label="Další">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg>
+    </button>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     RESERVATION CTA  (na konci stránky)
 ════════════════════════════════════════════════ -->
 <section class="section--sm reservation-cta" id="reservation" aria-labelledby="reservation-title">
   <div class="container">
@@ -328,7 +475,6 @@
           </div>
         </div>
       </div>
-
       <div class="reservation-cta__form">
         <h3 class="reservation-cta__form-title">Poptávka rezervace</h3>
         <form action="#" method="POST" data-reservation-form data-validate style="display:flex;flex-direction:column;gap:1rem">
@@ -379,297 +525,19 @@
 </section>
 
 <!-- ══════════════════════════════════════════════
-     CELEBRATIONS & RENTALS
-════════════════════════════════════════════════ -->
-<section class="section celebrations" id="celebrations" aria-labelledby="celebrations-title">
-  <div class="container">
-    <div class="section-header section-header--center">
-      <p class="section-eyebrow">Oslavy & Pronájmy</p>
-      <h2 class="section-title" id="celebrations-title">Váš výjimečný den<br>v dokonalém prostředí</h2>
-      <p class="section-desc" style="margin-inline:auto">Od rodinných oslav přes firemní akce až po výjimečné okamžiky – náš tým se postará o vše potřebné.</p>
-    </div>
-
-    <div class="celebrations__grid">
-      <div class="celebration-card celebration-card--tall">
-        <div style="width:100%;height:100%;background:linear-gradient(160deg,#1A3129,#4A7C65)" class="celebration-card__img"></div>
-        <div class="celebration-card__overlay">
-          <div class="celebration-card__icon">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
-          </div>
-          <h3 class="celebration-card__title">Rodinné oslavy</h3>
-          <p class="celebration-card__desc">Narozeniny, výročí, křtiny nebo zásnuby – každá rodinná oslava si zaslouží výjimečné prostředí a péči.</p>
-          <a href="celebrations.html" class="celebration-card__link">
-            Zjistit více
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-          </a>
-        </div>
-      </div>
-
-      <div class="celebration-card">
-        <div style="width:100%;height:100%;background:linear-gradient(135deg,#8B6B47,#C49A6C)" class="celebration-card__img"></div>
-        <div class="celebration-card__overlay">
-          <div class="celebration-card__icon">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
-          </div>
-          <h3 class="celebration-card__title">Firemní akce</h3>
-          <p class="celebration-card__desc">Teambuildingové výjezdy, prezentace a pracovní setkání s cateringem.</p>
-          <a href="celebrations.html" class="celebration-card__link">Zjistit více <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
-        </div>
-      </div>
-
-      <div class="celebration-card">
-        <div style="width:100%;height:100%;background:linear-gradient(135deg,#C49A3C,#7A5E20)" class="celebration-card__img"></div>
-        <div class="celebration-card__overlay">
-          <div class="celebration-card__icon">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
-          </div>
-          <h3 class="celebration-card__title">Spolkové a kulturní akce</h3>
-          <p class="celebration-card__desc">Pronajměte sál pro spolkové schůze, divadelní představení nebo kulturní programy.</p>
-          <a href="celebrations.html" class="celebration-card__link">Zjistit více <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
-        </div>
-      </div>
-    </div>
-
-    <div style="text-align:center;margin-top:2.5rem">
-      <a href="celebrations.html" class="btn btn--primary btn--lg">Prohlédnout možnosti pronájmu</a>
-    </div>
-  </div>
-</section>
-
-<!-- ══════════════════════════════════════════════
-     TOURISM HIGHLIGHTS
-════════════════════════════════════════════════ -->
-<section class="section tourism" id="tourism" aria-labelledby="tourism-title">
-  <div class="container">
-    <div class="section-header section-header--center">
-      <p class="section-eyebrow">Turistika & Příroda</p>
-      <h2 class="section-title" id="tourism-title">Objevte krásy Jeseníků</h2>
-      <p class="section-desc" style="margin-inline:auto">Holčovice jsou ideálním výchozím bodem pro výlety do divokých Jeseníků. Připravili jsme pro vás výběr nejkrásnějších tras a míst.</p>
-    </div>
-
-    <div class="tourism__grid">
-      <article class="tourism-card">
-        <div class="tourism-card__img-wrap">
-          <div style="width:100%;height:100%;background:linear-gradient(135deg,#1A3129,#3D6B56)"></div>
-          <span class="tourism-card__difficulty">Střední</span>
-        </div>
-        <div class="tourism-card__body">
-          <div class="tourism-card__type">🥾 Pěší trasa</div>
-          <h3 class="tourism-card__title">Stezka k Pradědu</h3>
-          <div class="tourism-card__meta">
-            <span>📏 18 km</span>
-            <span>⏱ 5–6 hod</span>
-            <span>📈 620 m</span>
-          </div>
-          <p class="tourism-card__desc">Klasická trasa na nejvyšší horu Moravy s úchvatnými výhledy na celé Jeseníky.</p>
-        </div>
-      </article>
-
-      <article class="tourism-card">
-        <div class="tourism-card__img-wrap">
-          <div style="width:100%;height:100%;background:linear-gradient(135deg,#4A3020,#8B6B47)"></div>
-          <span class="tourism-card__difficulty">Snadná</span>
-        </div>
-        <div class="tourism-card__body">
-          <div class="tourism-card__type">🚴 Cyklotrasa</div>
-          <h3 class="tourism-card__title">Holčovický okruh</h3>
-          <div class="tourism-card__meta">
-            <span>📏 32 km</span>
-            <span>⏱ 2–3 hod</span>
-            <span>📈 180 m</span>
-          </div>
-          <p class="tourism-card__desc">Pohodová cyklotrasa přes malebné vesnice a lesy na hraně Jesenicka.</p>
-        </div>
-      </article>
-
-      <article class="tourism-card">
-        <div class="tourism-card__img-wrap">
-          <div style="width:100%;height:100%;background:linear-gradient(135deg,#2C4A3B,#5A9A7A)"></div>
-          <span class="tourism-card__difficulty">Snadná</span>
-        </div>
-        <div class="tourism-card__body">
-          <div class="tourism-card__type">📚 Naučná stezka</div>
-          <h3 class="tourism-card__title">Holčovická naučná stezka</h3>
-          <div class="tourism-card__meta">
-            <span>📏 6 km</span>
-            <span>⏱ 1,5 hod</span>
-            <span>👨‍👩‍👧 Pro rodiny</span>
-          </div>
-          <p class="tourism-card__desc">Vzdělávací procházka s 12 zastávkami zaměřenými na přírodu a historii oblasti.</p>
-        </div>
-      </article>
-    </div>
-
-    <div style="text-align:center;margin-top:2.5rem">
-      <a href="discover.html" class="btn btn--primary btn--lg">Prozkoumat všechna místa</a>
-    </div>
-  </div>
-</section>
-
-<!-- ══════════════════════════════════════════════
-     COMMUNITY SECTION
-════════════════════════════════════════════════ -->
-<section class="section community" id="community" aria-labelledby="community-title">
-  <div class="container">
-    <div class="section-header">
-      <p class="section-eyebrow">Komunitní centrum</p>
-      <h2 class="section-title" id="community-title">Dění v obci</h2>
-    </div>
-
-    <div class="community__grid">
-      <div>
-        <div class="community-news">
-          <article class="community-news-item">
-            <div class="community-news-item__date">
-              <div class="community-news-item__day">3</div>
-              <div class="community-news-item__month">Čvn</div>
-            </div>
-            <div class="community-news-item__body">
-              <div class="community-news-item__cat">Obec</div>
-              <h3 class="community-news-item__title">Oprava místní komunikace – uzavírka od 10. 6.</h3>
-              <p class="community-news-item__desc">Informujeme občany o plánované opravě vozovky v ulici Jesenická. Práce budou probíhat 10.–20. 6. 2025.</p>
-            </div>
-          </article>
-
-          <article class="community-news-item">
-            <div class="community-news-item__date">
-              <div class="community-news-item__day">28</div>
-              <div class="community-news-item__month">Kvě</div>
-            </div>
-            <div class="community-news-item__body">
-              <div class="community-news-item__cat">Kultura</div>
-              <h3 class="community-news-item__title">Výstava fotografií – Holčovice ve čtyřech ročních dobách</h3>
-              <p class="community-news-item__desc">Zahájení výstavy místních fotografů v prostorách Obecního domu. Vernisáž 5. 6. v 17:00.</p>
-            </div>
-          </article>
-
-          <article class="community-news-item">
-            <div class="community-news-item__date">
-              <div class="community-news-item__day">20</div>
-              <div class="community-news-item__month">Kvě</div>
-            </div>
-            <div class="community-news-item__body">
-              <div class="community-news-item__cat">Sport</div>
-              <h3 class="community-news-item__title">Turnaj v kuželkách – přihlášky do 7. června</h3>
-              <p class="community-news-item__desc">Tradiční kuželkářský turnaj pro všechny věkové kategorie. Přihlaste svůj tým u obsluhy OD.</p>
-            </div>
-          </article>
-        </div>
-      </div>
-
-      <div class="community-sidebar">
-        <!-- Opening Hours -->
-        <div class="community-widget">
-          <h3 class="community-widget__title">Otevírací doba</h3>
-          <div class="community-hours">
-            <div class="community-hours__row community-hours__row--today">
-              <span class="community-hours__day" style="font-weight:600;color:var(--c-green-700)">Pondělí – Pátek</span>
-              <span class="community-hours__time">11:00 – 21:00</span>
-            </div>
-            <div class="community-hours__row">
-              <span class="community-hours__day">Sobota</span>
-              <span class="community-hours__time">10:00 – 22:00</span>
-            </div>
-            <div class="community-hours__row">
-              <span class="community-hours__day">Neděle</span>
-              <span class="community-hours__time">10:00 – 20:00</span>
-            </div>
-          </div>
-          <div style="margin-top:1rem;padding-top:1rem;border-top:1px solid var(--c-border-light)">
-            <div style="display:flex;align-items:center;gap:0.5rem;font-size:0.875rem;color:var(--c-green-700);font-weight:600">
-              <div style="width:8px;height:8px;border-radius:50%;background:var(--c-success);animation:pulse 2s infinite"></div>
-              Dnes otevřeno do 21:00
-            </div>
-          </div>
-        </div>
-
-        <!-- Contact Quick -->
-        <div class="community-widget">
-          <h3 class="community-widget__title">Rychlý kontakt</h3>
-          <div style="display:flex;flex-direction:column;gap:0.75rem">
-            <a href="tel:+420123456789" style="display:flex;align-items:center;gap:0.75rem;color:var(--c-text-sec);font-size:0.875rem;transition:color var(--tr-fast)" onmouseover="this.style.color='var(--c-green-700)'" onmouseout="this.style.color='var(--c-text-sec)'">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.67A2 2 0 012 1h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 8.09a16 16 0 006 6l.36-.36a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
-              +420 123 456 789
-            </a>
-            <a href="mailto:info@obecnidumholcovice.cz" style="display:flex;align-items:center;gap:0.75rem;color:var(--c-text-sec);font-size:0.875rem;transition:color var(--tr-fast)" onmouseover="this.style.color='var(--c-green-700)'" onmouseout="this.style.color='var(--c-text-sec)'">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-              info@obecnidumholcovice.cz
-            </a>
-            <a href="https://maps.google.com" target="_blank" rel="noopener" style="display:flex;align-items:center;gap:0.75rem;color:var(--c-text-sec);font-size:0.875rem;transition:color var(--tr-fast)" onmouseover="this.style.color='var(--c-green-700)'" onmouseout="this.style.color='var(--c-text-sec)'">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
-              Holčovice 123, 793 71
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ══════════════════════════════════════════════
-     GALLERY PREVIEW
-════════════════════════════════════════════════ -->
-<section class="section gallery-preview" id="gallery-preview" aria-labelledby="gallery-preview-title">
-  <div class="container">
-    <div class="section-header section-header--center">
-      <p class="section-eyebrow">Fotogalerie</p>
-      <h2 class="section-title" id="gallery-preview-title">Nahlédněte k nám</h2>
-    </div>
-
-    <div class="gallery-grid">
-      <div class="gallery-item gallery-item--wide" style="background:linear-gradient(135deg,#1A3129,#3D6B56)">
-        <div class="gallery-item__overlay"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 6l4-4 14 14-4 4zM20 2l2 2-2 2M10 10l-2 2"/><circle cx="15" cy="9" r="3"/></svg></div>
-      </div>
-      <div class="gallery-item" style="background:linear-gradient(135deg,#4A3020,#8B6B47)">
-        <div class="gallery-item__overlay"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></div>
-      </div>
-      <div class="gallery-item gallery-item--tall" style="background:linear-gradient(160deg,#C49A3C,#7A5E20)">
-        <div class="gallery-item__overlay"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></div>
-      </div>
-      <div class="gallery-item" style="background:linear-gradient(135deg,#2C4A3B,#5A9A7A)">
-        <div class="gallery-item__overlay"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/></svg></div>
-      </div>
-      <div class="gallery-item" style="background:linear-gradient(135deg,#8B6B47,#C49A6C)">
-        <div class="gallery-item__overlay"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/></svg></div>
-      </div>
-      <div class="gallery-item gallery-item--wide" style="background:linear-gradient(135deg,#3D6B56,#1A3129)">
-        <div class="gallery-item__overlay"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/></svg></div>
-      </div>
-    </div>
-
-    <div style="text-align:center;margin-top:2rem">
-      <a href="gallery.html" class="btn btn--primary btn--lg">Zobrazit celou galerii</a>
-    </div>
-  </div>
-
-  <!-- Lightbox -->
-  <div class="lightbox" role="dialog" aria-label="Prohlížeč fotek">
-    <button class="lightbox__close" aria-label="Zavřít">
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6L6 18M6 6l12 12"/></svg>
-    </button>
-    <button class="lightbox__nav lightbox__prev" aria-label="Předchozí">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 18l-6-6 6-6"/></svg>
-    </button>
-    <img class="lightbox__img" src="" alt="">
-    <button class="lightbox__nav lightbox__next" aria-label="Další">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 18l6-6-6-6"/></svg>
-    </button>
-  </div>
-</section>
-
-<!-- ══════════════════════════════════════════════
      FOOTER
 ════════════════════════════════════════════════ -->
 <footer class="footer" role="contentinfo">
   <div class="container">
     <div class="footer__top">
+
+      <!-- Brand + Logo -->
       <div class="footer__brand">
         <div class="footer__brand-logo">
-          <div class="nav__logo-mark"><span>OD</span></div>
-          <div class="footer__brand-name">Obecní dům<br>Holčovice</div>
+          <img src="img/OD1_Full_průhledné.png" class="footer__brand-img" alt="Obecní dům Holčovice – Pivnice a Restaurace">
         </div>
         <p class="footer__brand-desc">Srdce obce na kraji Jeseníků. Restaurace, komunitní centrum, kulturní sál a turistická brána do jednoho z nejkrásnějších koutů České republiky.</p>
-        <div class="footer__social">
+        <div class="footer__social" style="margin-top:1rem">
           <a href="#" class="footer__social-btn" aria-label="Facebook">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
           </a>
@@ -682,42 +550,49 @@
         </div>
       </div>
 
+      <!-- Otevírací doba -->
       <div class="footer__col">
-        <h3 class="footer__col-title">Navigace</h3>
-        <nav class="footer__links" aria-label="Patičková navigace">
-          <a href="index.html" class="footer__link">Domů</a>
+        <h3 class="footer__col-title">Otevírací doba</h3>
+        <div class="footer__hours">
+          <div class="footer__hours-row footer__hours-row--today">
+            <span>Pondělí – Pátek</span>
+            <span>11:00 – 21:00</span>
+          </div>
+          <div class="footer__hours-row">
+            <span>Sobota</span>
+            <span>10:00 – 22:00</span>
+          </div>
+          <div class="footer__hours-row">
+            <span>Neděle</span>
+            <span>10:00 – 20:00</span>
+          </div>
+        </div>
+        <span class="footer__hours-open">Dnes otevřeno do 21:00</span>
+        <div style="margin-top:1.5rem;display:flex;flex-direction:column;gap:0.5rem">
           <a href="menu.html" class="footer__link">Jídelní lístek</a>
-          <a href="events.html" class="footer__link">Akce & Události</a>
-          <a href="celebrations.html" class="footer__link">Oslavy & Pronájmy</a>
-          <a href="discover.html" class="footer__link">Objevte Holčovice</a>
-          <a href="gallery.html" class="footer__link">Galerie</a>
-          <a href="contact.html" class="footer__link">Kontakt</a>
-        </nav>
-      </div>
-
-      <div class="footer__col">
-        <h3 class="footer__col-title">Služby</h3>
-        <nav class="footer__links">
-          <a href="contact.html#reservation" class="footer__link">Rezervace stolu</a>
           <a href="delivery.html" class="footer__link">Rozvoz obědů</a>
-          <a href="celebrations.html" class="footer__link">Pronájem sálu</a>
-          <a href="celebrations.html" class="footer__link">Catering</a>
+          <a href="celebrations.html" class="footer__link">Pronájem prostor</a>
           <a href="discover.html" class="footer__link">Turistické informace</a>
-        </nav>
+        </div>
       </div>
 
+      <!-- Kontakt -->
       <div class="footer__col">
-        <h3 class="footer__col-title">Kontakt</h3>
+        <h3 class="footer__col-title">Kontakt & Adresa</h3>
         <div class="footer__links">
-          <div class="footer__link">Holčovice 123<br>793 71 Holčovice</div>
+          <div class="footer__link" style="line-height:1.7">
+            Holčovice 123<br>
+            793 71 Holčovice
+          </div>
           <a href="tel:+420123456789" class="footer__link">+420 123 456 789</a>
           <a href="mailto:info@obecnidumholcovice.cz" class="footer__link">info@obecnidumholcovice.cz</a>
-          <div class="footer__link" style="margin-top:0.5rem">
-            <strong style="color:rgba(255,255,255,0.65);font-size:0.75rem;letter-spacing:0.1em;text-transform:uppercase">Otevřeno</strong><br>
-            Po–Pá: 11:00–21:00<br>
-            So: 10:00–22:00<br>
-            Ne: 10:00–20:00
-          </div>
+          <a href="https://maps.google.com" target="_blank" rel="noopener" class="footer__link" style="margin-top:0.5rem">
+            <span style="display:inline-flex;align-items:center;gap:0.4rem">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              Zobrazit na mapě
+            </span>
+          </a>
+          <a href="contact.html" class="footer__link" style="margin-top:0.5rem">Kontaktní formulář →</a>
         </div>
       </div>
     </div>

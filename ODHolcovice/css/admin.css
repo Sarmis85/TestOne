@@ -47,18 +47,18 @@
   overflow: hidden;
 }
 .admin-sidebar__logo {
-  width: 36px; height: 36px;
-  background: var(--c-green-700);
-  border-radius: var(--r-full);
-  border: 2px solid var(--c-gold);
+  width: 38px; height: 38px;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  color: var(--c-white);
-  font-family: var(--font-serif);
-  font-size: var(--text-sm);
-  font-weight: var(--fw-bold);
+}
+.admin-sidebar__logo-img {
+  width: 38px;
+  height: 38px;
+  object-fit: contain;
+  filter: brightness(0) invert(1);
+  opacity: 0.92;
 }
 .admin-sidebar__name {
   font-family: var(--font-serif);
