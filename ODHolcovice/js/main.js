@@ -378,10 +378,155 @@ function initCookieBanner() {
   document.body.appendChild(banner);
 }
 
+/* ─── Scroll Reveal (nový systém s data-reveal) ──────────────────── */
+const ScrollReveal = (() => {
+  let observer;
+
+  function init() {
+    if (!('IntersectionObserver' in window)) {
+      // Fallback: vše zobrazit okamžitě
+      document.querySelectorAll('[data-reveal]').forEach(el => el.classList.add('is-visible'));
+      return;
+    }
+
+    observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, {
+      threshold: 0.12,
+      rootMargin: '0px 0px -48px 0px'
+    });
+
+    document.querySelectorAll('[data-reveal]').forEach(el => {
+      observer.observe(el);
+    });
+  }
+
+  return { init };
+})();
+
+/* ─── Hero Title — Word Cascade ──────────────────────────────────── */
+function initHeroWordAnimation() {
+  const title = document.querySelector('.hero__title');
+  if (!title) return;
+
+  // Rekurzivně zpracuj textové uzly a zachovej HTML tagy (em, br)
+  function wrapWords(node, baseDelay = 0) {
+    let wordIndex = baseDelay;
+    const children = Array.from(node.childNodes);
+    node.innerHTML = '';
+
+    children.forEach(child => {
+      if (child.nodeType === Node.TEXT_NODE) {
+        const words = child.textContent.split(/(\s+)/);
+        words.forEach(part => {
+          if (/^\s+$/.test(part)) {
+            node.appendChild(document.createTextNode(part));
+          } else if (part.length > 0) {
+            const span = document.createElement('span');
+            span.className = 'hero__word';
+            const inner = document.createElement('span');
+            inner.className = 'hero__word-inner';
+            inner.textContent = part;
+            inner.style.transitionDelay = `${wordIndex * 0.12 + 0.3}s`;
+            span.appendChild(inner);
+            node.appendChild(span);
+            wordIndex++;
+          }
+        });
+      } else if (child.nodeType === Node.ELEMENT_NODE) {
+        if (child.tagName === 'EM') {
+          const span = document.createElement('span');
+          span.className = 'hero__word';
+          const inner = document.createElement('span');
+          inner.className = 'hero__word-inner';
+          inner.innerHTML = `<em>${child.textContent}</em>`;
+          inner.style.transitionDelay = `${wordIndex * 0.12 + 0.3}s`;
+          span.appendChild(inner);
+          node.appendChild(span);
+          wordIndex++;
+        } else if (child.tagName === 'BR') {
+          node.appendChild(document.createElement('br'));
+        } else {
+          node.appendChild(child.cloneNode(true));
+        }
+      }
+    });
+  }
+
+  wrapWords(title, 0);
+
+  // Spustit animaci s malým zpožděním
+  requestAnimationFrame(() => {
+    setTimeout(() => {
+      title.querySelectorAll('.hero__word').forEach(w => w.classList.add('word-ready'));
+    }, 100);
+  });
+}
+
+/* ─── Parallax na Hero Foto ──────────────────────────────────────── */
+function initHeroParallax() {
+  const videoWrap = document.querySelector('.hero__video-wrap');
+  const hero = document.querySelector('.hero');
+  if (!videoWrap || !hero) return;
+
+  let ticking = false;
+
+  function updateParallax() {
+    const scrollY = window.scrollY;
+    const heroH = hero.offsetHeight;
+    // Parallax jen pokud jsme v zobrazení hera
+    if (scrollY < heroH) {
+      const offset = scrollY * 0.38;
+      videoWrap.style.transform = `translateY(${offset}px)`;
+    }
+    ticking = false;
+  }
+
+  window.addEventListener('scroll', () => {
+    if (!ticking) {
+      requestAnimationFrame(updateParallax);
+      ticking = true;
+    }
+  }, { passive: true });
+}
+
+/* ─── Scroll Progress Bar ────────────────────────────────────────── */
+function initScrollProgress() {
+  const bar = document.createElement('div');
+  bar.className = 'scroll-progress';
+  document.body.prepend(bar);
+
+  let ticking = false;
+  window.addEventListener('scroll', () => {
+    if (!ticking) {
+      requestAnimationFrame(() => {
+        const total = document.documentElement.scrollHeight - window.innerHeight;
+        const pct = total > 0 ? (window.scrollY / total) * 100 : 0;
+        bar.style.width = pct + '%';
+        ticking = false;
+      });
+      ticking = true;
+    }
+  }, { passive: true });
+}
+
+/* ─── Hero Stats — Number Reveal ────────────────────────────────── */
+function initHeroStats() {
+  // Přidá třídu stats-ready po načtení, aby se zobrazily
+  const stats = document.querySelector('.hero__stats');
+  if (!stats) return;
+  // Stats jsou viditelné přes CSS animaci, žádná extra logika
+}
+
 /* ─── Initialize All ─────────────────────────────────────────────── */
 document.addEventListener('DOMContentLoaded', () => {
   Nav.init();
-  ScrollAnimate.init();
+  ScrollReveal.init();   // nový systém místo ScrollAnimate
   MenuTabs.init();
   DaySelector.init();
   Lightbox.init();
@@ -391,6 +536,10 @@ document.addEventListener('DOMContentLoaded', () => {
   initHeroScroll();
   initFormValidation();
   initCookieBanner();
+  initHeroWordAnimation();
+  initHeroParallax();
+  initScrollProgress();
+  initHeroStats();
 });
 
 /* Expose to global for inline handlers */

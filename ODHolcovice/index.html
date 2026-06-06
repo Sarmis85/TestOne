@@ -140,11 +140,11 @@
 
       <!-- LEVÝ SLOUPEC: popis + výběr dne + CTA -->
       <div class="menu-preview__left">
-        <p class="section-eyebrow">Stravování · Po–Pá</p>
-        <h2 class="section-title" id="menu-preview-title" style="margin-bottom:var(--s-4)">Dnešní<br>nabídka</h2>
-        <p style="color:var(--c-text-sec);font-size:var(--text-md);line-height:var(--lh-relaxed);margin-bottom:var(--s-6)">Čerstvé suroviny, domácí recepty a láska k vaření. Denní menu se mění každý den.</p>
+        <p class="section-eyebrow" data-reveal="up">Stravování · Po–Pá</p>
+        <h2 class="section-title" id="menu-preview-title" style="margin-bottom:var(--s-4)" data-reveal="up" data-delay="1">Dnešní<br>nabídka</h2>
+        <p style="color:var(--c-text-sec);font-size:var(--text-md);line-height:var(--lh-relaxed);margin-bottom:var(--s-6)" data-reveal="up" data-delay="2">Čerstvé suroviny, domácí recepty a láska k vaření. Denní menu se mění každý den.</p>
 
-        <div class="menu-day-selector" role="tablist" aria-label="Výběr dne" style="margin-bottom:var(--s-8)">
+        <div class="menu-day-selector" role="tablist" aria-label="Výběr dne" style="margin-bottom:var(--s-8)" data-reveal="up" data-delay="3">
           <button class="tag" data-day="po" role="tab">Po</button>
           <button class="tag" data-day="ut" role="tab">Út</button>
           <button class="tag" data-day="st" role="tab">St</button>
@@ -152,11 +152,11 @@
           <button class="tag" data-day="pa" role="tab">Pá</button>
         </div>
 
-        <a href="menu.html" class="btn btn--primary btn--lg">Celý jídelní lístek →</a>
+        <a href="menu.html" class="btn btn--primary btn--lg" data-reveal="up" data-delay="4">Celý jídelní lístek →</a>
       </div>
 
       <!-- PRAVÝ SLOUPEC: kompaktní řádky položek -->
-      <div>
+      <div data-reveal="right" data-delay="2">
         <div data-day-panel="po">
           <div class="menu-item-row">
             <span class="menu-item-row__cat">Polévka</span>
@@ -206,13 +206,20 @@
 <section class="section celebrations" id="celebrations" aria-labelledby="celebrations-title">
   <div class="container">
     <div class="section-header section-header--center">
-      <p class="section-eyebrow">Oslavy & Pronájmy</p>
-      <h2 class="section-title" id="celebrations-title">Váš výjimečný den<br>v dokonalém prostředí</h2>
+      <p class="section-eyebrow" data-reveal="fade">Oslavy & Pronájmy</p>
+      <h2 class="section-title" id="celebrations-title" data-reveal="up" data-delay="1">Váš výjimečný den<br>v dokonalém prostředí</h2>
       <p class="section-desc" style="margin-inline:auto">Od rodinných oslav přes firemní akce až po výjimečné okamžiky – náš tým se postará o vše potřebné.</p>
     </div>
 
+    <!-- OD Dekorativní oddělovač -->
+    <div class="od-divider" data-reveal="fade" data-delay="2" style="margin-bottom:2.5rem">
+      <div class="od-divider__line od-divider__line--left"></div>
+      <img src="img/OD_Logo_průhledné.png" class="od-divider__mark" alt="">
+      <div class="od-divider__line od-divider__line--right"></div>
+    </div>
+
     <div class="celebrations__grid">
-      <div class="celebration-card celebration-card--tall">
+      <div class="celebration-card celebration-card--tall" data-reveal="left" data-delay="1">
         <img src="img/20230301_101930.jpg" class="celebration-card__img" alt="Velký sál Obecního domu">
         <div class="celebration-card__overlay">
           <div class="celebration-card__icon">
@@ -227,7 +234,7 @@
         </div>
       </div>
 
-      <div class="celebration-card">
+      <div class="celebration-card" data-reveal="up" data-delay="2">
         <img src="img/20230301_102124.jpg" class="celebration-card__img" alt="Restaurace a bar">
         <div class="celebration-card__overlay">
           <div class="celebration-card__icon">
@@ -239,7 +246,7 @@
         </div>
       </div>
 
-      <div class="celebration-card">
+      <div class="celebration-card" data-reveal="right" data-delay="3">
         <img src="img/20230302_151109.jpg" class="celebration-card__img" alt="Exteriér Obecního domu">
         <div class="celebration-card__overlay">
           <div class="celebration-card__icon">
@@ -264,7 +271,7 @@
 <section class="section--sm reservation-cta" id="reservation" aria-labelledby="reservation-title">
   <div class="container">
     <div class="reservation-cta__inner">
-      <div class="reservation-cta__text">
+      <div class="reservation-cta__text" data-reveal="left">
         <p class="section-eyebrow section-eyebrow--inv">Rezervace stolu</p>
         <h2 id="reservation-title">Zajistěte si<br>své místo</h2>
         <p>Rezervujte stůl pro jakoukoli příležitost. Naši pracovníci potvrdí rezervaci do 24 hodin.</p>
@@ -279,7 +286,7 @@
           </div>
         </div>
       </div>
-      <div class="reservation-cta__form">
+      <div class="reservation-cta__form" data-reveal="right" data-delay="2">
         <h3 class="reservation-cta__form-title">Poptávka rezervace</h3>
         <form action="#" method="POST" data-reservation-form data-validate style="display:flex;flex-direction:column;gap:0.75rem">
           <!-- Řádek 1: Jméno + Telefon -->
