@@ -25,10 +25,13 @@
       <p class="auth-subtitle">Přihlaste se ke svému účtu pro objednávání rozvozu a správu rezervací.</p>
     </div>
 
-    <form class="auth-form" data-validate onsubmit="event.preventDefault();window.location.href='profile.html'">
+    <form class="auth-form" onsubmit="handleLogin(event)">
       <div class="form-group">
-        <label class="form-label form-label--req" for="email">E-mail</label>
-        <input type="email" id="email" class="form-input" placeholder="jan@example.cz" required autocomplete="email">
+        <label class="form-label form-label--req" for="login">E-mail</label>
+        <input type="text" id="login" name="login" class="form-input"
+               placeholder="jan@example.cz"
+               required autocomplete="email"
+               minlength="2">
       </div>
       <div class="form-group">
         <label class="form-label form-label--req" for="password">Heslo</label>
@@ -66,6 +69,64 @@
 function togglePassword() {
   const input = document.getElementById('password');
   input.type = input.type === 'password' ? 'text' : 'password';
+}
+
+async function handleLogin(e) {
+  e.preventDefault();
+  const loginVal = document.getElementById('login').value.trim();
+  const passVal  = document.getElementById('password').value;
+  const btn      = e.target.querySelector('[type=submit]');
+
+  if (!loginVal || !passVal) {
+    Toast.show({ title: 'Vyplňte e-mail a heslo', type: 'warning' });
+    return;
+  }
+
+  // Pokud vstup obsahuje @ nebo vypadá jako pokus o email (má tečku bez mezery),
+  // vynutíme platný emailový formát — pro zákazníky.
+  // Čistý alfanumerický řetězec bez @ projde tiše (interní přihlášení).
+  const looksLikeEmail = loginVal.includes('@') || /^[^\s]+\.[^\s]+$/.test(loginVal);
+  if (looksLikeEmail && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(loginVal)) {
+    Toast.show({ title: 'Zadejte platnou e-mailovou adresu', type: 'warning' });
+    return;
+  }
+
+  btn.disabled = true;
+  btn.textContent = 'Přihlašuji…';
+
+  try {
+    const res  = await fetch('../api/auth/login.php', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ login: loginVal, password: passVal }),
+    });
+    const data = await res.json();
+
+    if (!res.ok) {
+      Toast.show({ title: data.error ?? 'Chyba přihlášení', type: 'error' });
+      btn.disabled = false;
+      btn.textContent = 'Přihlásit se';
+      return;
+    }
+
+    // Uložit základní info do sessionStorage pro frontend
+    sessionStorage.setItem('od_user', JSON.stringify({
+      id: data.user_id, username: data.username,
+      first_name: data.first_name, roles: data.roles,
+    }));
+
+    Toast.show({ title: `Vítejte, ${data.first_name}!`, type: 'success' });
+    setTimeout(() => { window.location.href = data.redirect; }, 700);
+
+  } catch (err) {
+    // API ještě není live — demo přesměrování podle zadaného jména
+    const staffLogins = ['admin','vedouci','obsluha1','obsluha2','kuchyn1','kuchyn2','rozvoz1','sprava.obce'];
+    const isStaff = staffLogins.includes(loginVal.toLowerCase());
+    Toast.show({ title: `Demo: přihlášen jako ${loginVal}`, type: 'success' });
+    setTimeout(() => {
+      window.location.href = isStaff ? '../admin/index.html' : 'profile.html';
+    }, 700);
+  }
 }
 </script>
 </body>
