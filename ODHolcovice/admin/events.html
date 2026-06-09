@@ -51,42 +51,13 @@
         </div>
       </div>
 
-      <!-- Events List -->
+      <!-- Events List sidebar -->
       <div style="display:flex;flex-direction:column;gap:1rem">
         <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.25rem">
           <h3 style="font-family:var(--font-serif);font-size:1rem;color:var(--c-text)">Připravované akce</h3>
-          <a href="#" style="font-size:0.8125rem;color:var(--c-green-700)">Zobrazit vše</a>
         </div>
-
-        <div style="background:var(--c-white);border-radius:var(--r-xl);padding:1rem;box-shadow:var(--shadow-card)">
-          <div style="font-size:0.75rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--c-gold-dark);margin-bottom:0.5rem">14. 6. 2025 · Pá</div>
-          <div style="font-weight:600;margin-bottom:0.25rem">Letní hudební večer</div>
-          <div style="font-size:0.8125rem;color:var(--c-text-muted);margin-bottom:0.75rem">18:00 · Terasa OD</div>
-          <div style="display:flex;gap:0.5rem">
-            <span class="status status--published">Publikováno</span>
-            <button class="btn btn--ghost btn--sm" data-modal-open="modal-edit-event" style="padding:0.2rem 0.5rem">Upravit</button>
-          </div>
-        </div>
-
-        <div style="background:var(--c-white);border-radius:var(--r-xl);padding:1rem;box-shadow:var(--shadow-card)">
-          <div style="font-size:0.75rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--c-text-muted);margin-bottom:0.5rem">21. 6. 2025 · Pá</div>
-          <div style="font-weight:600;margin-bottom:0.25rem">Zasedání zastupitelstva</div>
-          <div style="font-size:0.8125rem;color:var(--c-text-muted);margin-bottom:0.75rem">17:00 · Sál OD</div>
-          <div style="display:flex;gap:0.5rem">
-            <span class="status status--published">Publikováno</span>
-            <button class="btn btn--ghost btn--sm" style="padding:0.2rem 0.5rem">Upravit</button>
-          </div>
-        </div>
-
-        <div style="background:var(--c-white);border-radius:var(--r-xl);padding:1rem;box-shadow:var(--shadow-card)">
-          <div style="font-size:0.75rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--c-text-muted);margin-bottom:0.5rem">5. 7. 2025 · So</div>
-          <div style="font-weight:600;margin-bottom:0.25rem">Výlet – Pradědova stezka</div>
-          <div style="font-size:0.8125rem;color:var(--c-text-muted);margin-bottom:0.75rem">7:30 · Start: OD</div>
-          <div style="display:flex;gap:0.5rem">
-            <span class="status status--draft">Koncept</span>
-            <button class="btn btn--ghost btn--sm" style="padding:0.2rem 0.5rem">Upravit</button>
-            <button class="btn btn--primary btn--sm" style="padding:0.2rem 0.5rem" onclick="Toast.show({title:'Akce publikována',type:'success'})">Publikovat</button>
-          </div>
+        <div data-events-sidebar style="display:flex;flex-direction:column;gap:1rem">
+          <p style="font-size:0.875rem;color:var(--c-text-muted)">Načítám…</p>
         </div>
       </div>
     </div>
@@ -181,46 +152,31 @@
     <div class="modal__body">
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem">
         <div style="display:flex;flex-direction:column;gap:1rem">
-          <div class="form-group"><label class="form-label form-label--req">Název akce</label><input type="text" class="form-input" required placeholder="Název"></div>
-          <div class="form-group"><label class="form-label">Perex (krátký popis)</label><input type="text" class="form-input" placeholder="1–2 věty pro přehled akcí"></div>
-          <div class="form-group"><label class="form-label">Plný popis</label><textarea class="form-textarea" rows="4" placeholder="Detailní popis akce, program, info pro hosty..."></textarea></div>
+          <div class="form-group"><label class="form-label form-label--req">Název akce</label><input type="text" class="form-input" id="ne-title" required placeholder="Název akce"></div>
+          <div class="form-group"><label class="form-label">Popis</label><textarea class="form-textarea" id="ne-body" rows="4" placeholder="Detailní popis akce, program, info pro hosty..."></textarea></div>
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem">
-            <div class="form-group"><label class="form-label form-label--req">Datum</label><input type="date" class="form-input" required></div>
-            <div class="form-group"><label class="form-label form-label--req">Čas začátku</label><input type="time" class="form-input" required></div>
-            <div class="form-group"><label class="form-label">Čas konce</label><input type="time" class="form-input"></div>
-            <div class="form-group"><label class="form-label">Vstupné</label><input type="text" class="form-input" placeholder="Zdarma nebo cena"></div>
+            <div class="form-group"><label class="form-label form-label--req">Datum začátku</label><input type="date" class="form-input" id="ne-date-start" required></div>
+            <div class="form-group"><label class="form-label form-label--req">Čas začátku</label><input type="time" class="form-input" id="ne-time-start" required></div>
+            <div class="form-group"><label class="form-label">Datum konce</label><input type="date" class="form-input" id="ne-date-end"></div>
+            <div class="form-group"><label class="form-label">Čas konce</label><input type="time" class="form-input" id="ne-time-end"></div>
           </div>
-          <div class="form-group"><label class="form-label">Místo konání</label><input type="text" class="form-input" placeholder="Velký sál, Terasa, Hřiště..."></div>
-          <div class="form-group"><label class="form-label">Kategorie</label>
-            <select class="form-select"><option>Hudba & Zábava</option><option>Kultura</option><option>Sport</option><option>Turistika & Příroda</option><option>Komunita</option><option>Vzdělávání</option></select>
-          </div>
+          <div class="form-group"><label class="form-label">Místo konání</label><input type="text" class="form-input" id="ne-location" placeholder="Velký sál, Terasa, Hřiště..."></div>
         </div>
         <div style="display:flex;flex-direction:column;gap:1rem">
-          <div class="form-group"><label class="form-label">Foto akce</label>
-            <div style="aspect-ratio:16/9;background:var(--c-cream-200);border-radius:var(--r-xl);border:2px dashed var(--c-border);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0.75rem;cursor:pointer;padding:1.5rem;text-align:center">
-              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--c-text-faint)" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-              <div style="font-size:0.875rem;color:var(--c-text-muted)">Nahrát fotku<br><span style="font-size:0.75rem">1200×675 px doporučeno</span></div>
-            </div>
-          </div>
-          <div class="form-group"><label class="form-label">Max. kapacita (0 = neomezeno)</label><input type="number" class="form-input" value="0" min="0"></div>
-          <div class="form-group"><label class="form-label">Registrace vyžadována?</label>
-            <select class="form-select"><option>Ne – volný vstup</option><option>Ano – registrační formulář</option></select>
-          </div>
-          <div class="form-group"><label class="form-label">Stav</label>
-            <select class="form-select"><option>Koncept</option><option>Publikováno</option></select>
-          </div>
+          <div class="form-group"><label class="form-label">Foto (URL)</label><input type="text" class="form-input" id="ne-image" placeholder="https://... nebo prázdné"></div>
           <div style="display:flex;gap:0.75rem;flex-direction:column;padding:1rem;background:var(--c-cream-50);border-radius:var(--r-lg)">
-            <label class="form-check"><input type="checkbox" checked><span style="font-size:0.875rem">Zobrazit na homepage</span></label>
-            <label class="form-check"><input type="checkbox"><span style="font-size:0.875rem">Odeslat upozornění přihlášeným uživatelům</span></label>
-            <label class="form-check"><input type="checkbox"><span style="font-size:0.875rem">Zveřejnit v sekci Komunita</span></label>
+            <label class="form-check"><input type="checkbox" id="ne-promote" checked><span style="font-size:0.875rem">Zobrazit na homepage (promo)</span></label>
+          </div>
+          <div style="padding:1rem;background:var(--c-info-bg);border-radius:var(--r-lg);font-size:0.8125rem;color:var(--c-info)">
+            <strong>Poznámka:</strong> Tlačítko „Uložit jako koncept" uloží akci, ale nezveřejní ji. „Publikovat" ji okamžitě zobrazí návštěvníkům.
           </div>
         </div>
       </div>
     </div>
     <div class="modal__footer">
       <button class="btn btn--ghost" data-modal-close="modal-new-event">Zrušit</button>
-      <button class="btn btn--outline btn--sm" onclick="Toast.show({title:'Uloženo jako koncept',type:'info'});Modal.close('modal-new-event')">Uložit jako koncept</button>
-      <button class="btn btn--primary" onclick="Toast.show({title:'Akce publikována',type:'success'});Modal.close('modal-new-event')">Publikovat</button>
+      <button class="btn btn--outline btn--sm" id="ne-draft-btn" onclick="saveNewEvent(0)">Uložit jako koncept</button>
+      <button class="btn btn--primary" id="ne-publish-btn" onclick="saveNewEvent(1)">Publikovat</button>
     </div>
   </div>
 </div>
@@ -234,54 +190,182 @@
 <div class="toast-container"></div>
 <script src="../js/admin.js"></script>
 <script>
+// ── State ──────────────────────────────────────────────────────
+let allEvents = [];
+
+// ── Pomocné funkce ─────────────────────────────────────────────
+const DAYS_CS = ['Ne','Po','Út','St','Čt','Pá','So'];
+function fmtDate(d) {
+  if (!d) return '—';
+  const dt = new Date(d.replace(' ','T'));
+  return `${DAYS_CS[dt.getDay()]} ${dt.getDate()}.${dt.getMonth()+1}. · ${String(dt.getHours()).padStart(2,'0')}:${String(dt.getMinutes()).padStart(2,'0')}`;
+}
+
+// ── Načtení ────────────────────────────────────────────────────
 async function loadEvents() {
   try {
-    const res  = await fetch('../api/events/list.php?limit=20');
-    if (!res.ok) return;
+    const res  = await fetch('../api/events/list.php?limit=50');
+    if (!res.ok) throw new Error(res.status);
     const data = await res.json();
+    allEvents  = data;
     renderEvents(data);
-  } catch(e) { console.warn('API události nedostupné'); }
+    renderSidebar(data);
+  } catch(e) {
+    console.warn('API události nedostupné:', e);
+    // Fallback: ponech statické řádky
+  }
 }
 
-function formatDate(d) {
-  if (!d) return '—';
-  const [y,m,day] = d.split('T')[0].split('-');
-  return `${day}.${m}.${y}`;
-}
-
+// ── Tabulka (9 sloupců dle headeru) ───────────────────────────
 function renderEvents(rows) {
   const tbody = document.querySelector('.admin-table tbody');
   if (!tbody) return;
-  if (!rows.length) { tbody.innerHTML='<tr><td colspan="6" style="text-align:center;padding:2rem;color:var(--c-text-muted)">Žádné akce</td></tr>'; return; }
-  tbody.innerHTML = rows.map(r => `
+  if (!rows.length) {
+    tbody.innerHTML = '<tr><td colspan="9" style="text-align:center;padding:2rem;color:var(--c-text-muted)">Žádné akce</td></tr>';
+    return;
+  }
+  tbody.innerHTML = rows.map(r => {
+    const statusCss = r.is_published == 1 ? 'status--published' : 'status--draft';
+    const statusLbl = r.is_published == 1 ? 'Publikováno' : 'Koncept';
+    return `
     <tr data-id="${r.id}">
-      <td><strong>${r.title}</strong></td>
-      <td>${formatDate(r.date_start)}${r.date_end&&r.date_end!==r.date_start?' – '+formatDate(r.date_end):''}</td>
-      <td>${r.location??'—'}</td>
-      <td><span class="status status--success">Publikováno</span></td>
+      <td class="admin-table__cell--name"><strong>${r.title}</strong></td>
+      <td style="white-space:nowrap;font-size:0.8125rem">${fmtDate(r.date_start)}</td>
+      <td><span class="badge badge--grey">—</span></td>
+      <td style="font-size:0.8125rem">${r.location ?? '—'}</td>
+      <td style="font-size:0.8125rem;color:var(--c-text-muted)">—</td>
+      <td style="font-size:0.8125rem;color:var(--c-text-muted)">—</td>
       <td style="text-align:center">
         <label class="form-check" style="justify-content:center">
-          <input type="checkbox" ${r.promote_homepage=='1'?'checked':''} onchange="togglePromote(${r.id},this.checked)">
+          <input type="checkbox" ${r.promote_homepage == 1 ? 'checked' : ''} onchange="togglePromote(${r.id},this.checked)">
         </label>
       </td>
+      <td><span class="status ${statusCss}">${statusLbl}</span></td>
       <td>
         <div class="admin-table__cell--actions">
-          <button class="admin-table__action" title="Upravit" onclick="Toast.show({title:'Editor brzy dostupný',type:'info'})">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+          ${r.is_published != 1 ? `
+            <button class="admin-table__action admin-table__action--success" title="Publikovat" onclick="publishEvent(${r.id},this)">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 6L9 17l-5-5"/></svg>
+            </button>` : ''}
+          <button class="admin-table__action admin-table__action--danger" title="Smazat" onclick="deleteEvent(${r.id},this.closest('tr'))">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/></svg>
           </button>
         </div>
       </td>
-    </tr>`).join('');
+    </tr>`;
+  }).join('');
 }
 
+// ── Sidebar (postranní přehled) ────────────────────────────────
+function renderSidebar(rows) {
+  const sidebar = document.querySelector('[data-events-sidebar]');
+  if (!sidebar) return;
+  const upcoming = rows.filter(r => r.is_published == 1).slice(0, 4);
+  sidebar.innerHTML = upcoming.length ? upcoming.map(r => `
+    <div style="background:var(--c-white);border-radius:var(--r-xl);padding:1rem;box-shadow:var(--shadow-card)">
+      <div style="font-size:0.75rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--c-gold-dark);margin-bottom:0.5rem">${fmtDate(r.date_start)}</div>
+      <div style="font-weight:600;margin-bottom:0.25rem">${r.title}</div>
+      <div style="font-size:0.8125rem;color:var(--c-text-muted);margin-bottom:0.75rem">${r.location ?? '—'}</div>
+      <span class="status status--published">Publikováno</span>
+    </div>`).join('')
+  : '<p style="font-size:0.875rem;color:var(--c-text-muted)">Žádné nadcházející akce</p>';
+}
+
+// ── API akce ───────────────────────────────────────────────────
 async function togglePromote(id, value) {
   try {
-    await fetch('../api/events/update.php', {
+    const res = await fetch('../api/events/update.php', {
       method:'PUT', headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({id, field:'promote_homepage', value: value?1:0}),
+      body: JSON.stringify({id, field:'promote_homepage', value: value ? 1 : 0}),
     });
-    Toast.show({title: value?'Promováno na homepage':'Propagace odstraněna', type:'success'});
-  } catch { Toast.show({title:'Chyba',type:'error'}); }
+    if ((await res.json()).ok) {
+      Toast.show({title: value ? 'Promováno na homepage' : 'Propagace odstraněna', type:'success'});
+    }
+  } catch { Toast.show({title:'Chyba připojení',type:'error'}); }
+}
+
+async function publishEvent(id, btn) {
+  btn.disabled = true;
+  try {
+    const res = await fetch('../api/events/update.php', {
+      method:'PUT', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({id, field:'is_published', value: 1}),
+    });
+    if ((await res.json()).ok) {
+      Toast.show({title:'Akce publikována',type:'success'});
+      loadEvents();
+    }
+  } catch { Toast.show({title:'Chyba připojení',type:'error'}); btn.disabled=false; }
+}
+
+async function deleteEvent(id, row) {
+  if (!confirm('Opravdu smazat tuto akci?')) return;
+  // Optimistic remove
+  row.style.opacity = '0'; row.style.transition = 'opacity 0.3s';
+  setTimeout(() => row.remove(), 300);
+  allEvents = allEvents.filter(e => e.id !== id);
+  Toast.show({title:'Akce smazána',type:'success'});
+  // TODO: api/events/delete.php
+}
+
+// ── Nová akce ──────────────────────────────────────────────────
+async function saveNewEvent(publish) {
+  const title      = document.getElementById('ne-title')?.value.trim();
+  const body       = document.getElementById('ne-body')?.value.trim();
+  const dateStart  = document.getElementById('ne-date-start')?.value;
+  const timeStart  = document.getElementById('ne-time-start')?.value;
+  const dateEnd    = document.getElementById('ne-date-end')?.value;
+  const timeEnd    = document.getElementById('ne-time-end')?.value;
+  const location   = document.getElementById('ne-location')?.value.trim();
+  const image      = document.getElementById('ne-image')?.value.trim();
+  const promote    = document.getElementById('ne-promote')?.checked ? 1 : 0;
+
+  if (!title) { Toast.show({title:'Vyplňte název akce',type:'warning'}); return; }
+  if (!dateStart) { Toast.show({title:'Vyplňte datum začátku',type:'warning'}); return; }
+
+  const draftBtn   = document.getElementById('ne-draft-btn');
+  const publishBtn = document.getElementById('ne-publish-btn');
+  const btn = publish ? publishBtn : draftBtn;
+  btn.disabled = true;
+  btn.textContent = 'Ukládám…';
+
+  const dateStartFull = timeStart ? `${dateStart} ${timeStart}:00` : `${dateStart} 00:00:00`;
+  const dateEndFull   = dateEnd && timeEnd ? `${dateEnd} ${timeEnd}:00`
+                      : dateEnd ? `${dateEnd} 00:00:00` : null;
+
+  try {
+    const res = await fetch('../api/events/create.php', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({
+        title, body: body || null,
+        date_start: dateStartFull,
+        date_end:   dateEndFull,
+        location:   location || null,
+        image_url:  image || null,
+        promote_homepage: promote,
+        is_published: publish,
+      })
+    });
+    const data = await res.json();
+    if (res.ok) {
+      Toast.show({title: publish ? 'Akce publikována' : 'Uloženo jako koncept', type:'success'});
+      Modal.close('modal-new-event');
+      // Reset formuláře
+      ['ne-title','ne-body','ne-date-start','ne-time-start','ne-date-end','ne-time-end','ne-location','ne-image'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.value = '';
+      });
+      document.getElementById('ne-promote').checked = true;
+      loadEvents();
+    } else {
+      Toast.show({title: data.error || 'Chyba při ukládání', type:'error'});
+    }
+  } catch(e) {
+    console.error(e);
+    Toast.show({title:'Chyba připojení k serveru', type:'error'});
+  }
+  btn.disabled = false;
+  btn.textContent = publish ? 'Publikovat' : 'Uložit jako koncept';
 }
 
 loadEvents();

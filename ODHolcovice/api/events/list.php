@@ -11,8 +11,8 @@ $where = ['is_published = 1', 'date_start >= CURDATE()']; $params = [];
 if (!empty($_GET['promote'])) { $where[] = 'promote_homepage = 1'; }
 $limit = min((int)($_GET['limit'] ?? 20), 100);
 
-$stmt = db()->prepare('SELECT id, title, slug, perex, date_start, date_end,
-        location, image_url, promote_homepage
+$stmt = db()->prepare('SELECT id, title, slug, body, date_start, date_end,
+        location, image_url, promote_homepage, is_published
     FROM portal_events WHERE ' . implode(' AND ', $where)
     . ' ORDER BY date_start ASC LIMIT ' . $limit);
 $stmt->execute($params);

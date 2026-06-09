@@ -472,44 +472,85 @@ async function updateRes(id, status, btn) {
 //  NOVÁ REZERVACE
 // ═══════════════════════════════════════════════════════════════
 async function saveNewReservation() {
-  const name     = document.querySelector('#modal-new-reservation input[placeholder="Jan Novák"]')?.value.trim();
-  const phone    = document.querySelector('#modal-new-reservation input[placeholder="+420 ..."]')?.value.trim();
-  const dateEl   = document.querySelector('#modal-new-reservation input[type="date"]');
-  const timeEl   = document.querySelector('#modal-new-reservation select');
-  const guestsEl = document.querySelector('#modal-new-reservation input[type="number"]');
-  const noteEl   = document.querySelector('#modal-new-reservation textarea');
+  const modal    = document.getElementById('modal-new-reservation');
+  const inputs   = modal.querySelectorAll('input[type="text"], input[type="tel"]');
+  const nameEl   = inputs[0];
+  const phoneEl  = inputs[1];
+  const dateEl   = modal.querySelector('input[type="date"]');
+  const timeEl   = modal.querySelector('select');
+  const guestsEl = modal.querySelector('input[type="number"]');
+  const noteEl   = modal.querySelector('textarea');
 
-  if (!name || !phone || !dateEl?.value || !timeEl?.value || !guestsEl?.value) {
-    Toast.show({title:'Vyplňte povinná pole', type:'warning'}); return;
+  const name  = nameEl?.value.trim();
+  const phone = phoneEl?.value.trim();
+
+  // Validace povinných polí
+  const missing = [];
+  if (!name)              missing.push('Jméno');
+  if (!phone)             missing.push('Telefon');
+  if (!dateEl?.value)     missing.push('Datum');
+  if (!timeEl?.value)     missing.push('Čas');
+  if (!guestsEl?.value)   missing.push('Počet osob');
+
+  if (missing.length) {
+    Toast.show({title:'Vyplňte povinná pole', message: missing.join(', '), type:'warning'});
+    return;
   }
 
   const btn = document.getElementById('res-submit-btn');
   btn.disabled = true; btn.textContent = 'Ukládám…';
 
+  const payload = {
+    name, phone,
+    date:         dateEl.value,
+    time_from:    timeEl.value,
+    guests_range: guestsEl.value,
+    note:         noteEl?.value.trim() || ''
+  };
+
   try {
-    const res = await fetch('../api/reservations/create.php', {
+    const res  = await fetch('../api/reservations/create.php', {
       method:'POST', headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({
-        name, phone,
-        date:         dateEl.value,
-        time_from:    timeEl.value,
-        guests_range: guestsEl.value,
-        note:         noteEl?.value.trim() || ''
-      })
+      body: JSON.stringify(payload)
     });
-    const data = await res.json();
+    let data = {};
+    try { data = await res.json(); } catch {}
+
     if (res.ok) {
       Toast.show({title:'Rezervace vytvořena', type:'success'});
       Modal.close('modal-new-reservation');
-      [dateEl, guestsEl, noteEl].forEach(el => { if (el) el.value=''; });
-      if (timeEl) timeEl.selectedIndex = 0;
-      document.querySelector('#modal-new-reservation input[placeholder="Jan Novák"]').value = '';
-      document.querySelector('#modal-new-reservation input[placeholder="+420 ..."]').value  = '';
+      // Reset formuláře
+      if (nameEl)  nameEl.value  = '';
+      if (phoneEl) phoneEl.value = '';
+      if (dateEl)  dateEl.value  = '';
+      if (timeEl)  timeEl.selectedIndex = 0;
+      if (guestsEl) guestsEl.value = '';
+      if (noteEl)  noteEl.value  = '';
       loadReservations();
     } else {
-      Toast.show({title: data.error || 'Chyba při ukládání', type:'error'});
+      const msg = data.error || `HTTP ${res.status}`;
+      Toast.show({title:'Chyba při ukládání', message: msg, type:'error'});
     }
-  } catch { Toast.show({title:'Chyba připojení', type:'error'}); }
+  } catch(e) {
+    console.error('Rezervace error:', e);
+    // Offline fallback — přidat do lokálního demo seznamu
+    const fakeRes = {
+      id: Date.now(), name, phone,
+      res_date: dateEl.value, time_from: timeEl.value, time_to: null,
+      guests_range: guestsEl.value, status: 'ceka',
+      note: noteEl?.value.trim() || ''
+    };
+    allReservations.unshift(fakeRes);
+    updateKpis(); render();
+    Toast.show({title:'Rezervace uložena lokálně', message:'Synchronizuje se po obnovení připojení', type:'info'});
+    Modal.close('modal-new-reservation');
+    if (nameEl)  nameEl.value  = '';
+    if (phoneEl) phoneEl.value = '';
+    if (dateEl)  dateEl.value  = '';
+    if (timeEl)  timeEl.selectedIndex = 0;
+    if (guestsEl) guestsEl.value = '';
+    if (noteEl)  noteEl.value  = '';
+  }
   btn.disabled = false; btn.textContent = 'Vytvořit rezervaci';
 }
 

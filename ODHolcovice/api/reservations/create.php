@@ -20,33 +20,37 @@ foreach ($required as $field) {
     }
 }
 
-// Datum nesmí být v minulosti
-if (strtotime($b['date']) < strtotime('today')) {
-    json_response(['error' => 'Datum rezervace musí být v budoucnosti'], 422);
+// Datum nesmí být více než 2 dny v minulosti (admin může vytvářet i zpětně)
+if (strtotime($b['date']) < strtotime('-2 days')) {
+    json_response(['error' => 'Datum rezervace je příliš v minulosti'], 422);
 }
 
 // Přihlášený uživatel (volitelné)
-session_start();
+if (session_status() === PHP_SESSION_NONE) session_start();
 $user_id = $_SESSION['user_id'] ?? null;
 
-$stmt = db()->prepare('
-    INSERT INTO restaurant_reservations
-      (user_id, name, phone, email, res_date, time_from, time_to, guests_range, note, status)
-    VALUES
-      (:user_id, :name, :phone, :email, :date, :time_from, :time_to, :guests_range, :note, "ceka")
-');
+try {
+    $stmt = db()->prepare('
+        INSERT INTO restaurant_reservations
+          (user_id, name, phone, email, res_date, time_from, time_to, guests_range, note, status)
+        VALUES
+          (:user_id, :name, :phone, :email, :date, :time_from, :time_to, :guests_range, :note, "ceka")
+    ');
 
-$stmt->execute([
-    ':user_id'     => $user_id,
-    ':name'        => trim($b['name']),
-    ':phone'       => trim($b['phone']),
-    ':email'       => trim($b['email'] ?? '') ?: null,
-    ':date'        => $b['date'],
-    ':time_from'   => $b['time_from'],
-    ':time_to'     => $b['time_to'] ?? null,
-    ':guests_range'=> $b['guests_range'],
-    ':note'        => trim($b['note'] ?? '') ?: null,
-]);
+    $stmt->execute([
+        ':user_id'     => $user_id,
+        ':name'        => trim($b['name']),
+        ':phone'       => trim($b['phone']),
+        ':email'       => trim($b['email'] ?? '') ?: null,
+        ':date'        => $b['date'],
+        ':time_from'   => $b['time_from'],
+        ':time_to'     => $b['time_to'] ?? null,
+        ':guests_range'=> (string)$b['guests_range'],
+        ':note'        => trim($b['note'] ?? '') ?: null,
+    ]);
+} catch (PDOException $e) {
+    json_response(['error' => 'Chyba databáze: ' . $e->getMessage()], 500);
+}
 
 $id = db()->lastInsertId();
 
