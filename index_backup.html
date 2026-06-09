@@ -315,7 +315,7 @@ a { color: inherit; text-decoration: none; }
    Subpixelová mezera opravena: překryv 2px + translateZ(0)
    ══════════════════════════════════════════════ */
 
-/* Hero → Program */
+/* Hero → Program — sklon \: vlevo vysoký, vpravo nízký */
 #program {
   position: relative;
   padding-top: 132px;
@@ -324,7 +324,7 @@ a { color: inherit; text-decoration: none; }
   content: '';
   position: absolute; top: -54px; left: -1px; right: -1px; height: 56px;
   background: var(--white);
-  clip-path: polygon(0 100%, 100% 0, 100% 100%);
+  clip-path: polygon(0 0, 100% 100%, 0 100%);
   pointer-events: none;
   transform: translateZ(0);
 }
@@ -746,12 +746,6 @@ a { color: inherit; text-decoration: none; }
   font-size: .9rem; color: rgba(255,255,255,.68);
   line-height: 1.8; margin-bottom: 32px;
 }
-.contact-list { list-style: none; display: flex; flex-direction: column; gap: 12px; }
-.contact-list li {
-  display: flex; align-items: center; gap: 12px;
-  font-size: .88rem; color: rgba(255,255,255,.7);
-}
-.contact-list svg { width: 16px; height: 16px; fill: var(--gold-light); flex-shrink: 0; }
 /* Copyright v levém sloupci */
 .contact-legal {
   margin-top: 40px;
@@ -789,7 +783,7 @@ a { color: inherit; text-decoration: none; }
   border-color: var(--gold-light); background: rgba(255,255,255,.1);
 }
 .fgrp input::placeholder, .fgrp textarea::placeholder { color: rgba(255,255,255,.2); }
-.fgrp textarea { min-height: 220px; resize: vertical; }
+.fgrp textarea { min-height: 160px; resize: vertical; }
 .btn-send {
   font-family: 'DM Sans', sans-serif;
   background: var(--gold); color: var(--white);
@@ -1229,21 +1223,6 @@ a { color: inherit; text-decoration: none; }
           Máte podnět, otázku nebo nápad pro Holčovice?
           Každý hlas bereme vážně — protože obec stavíme společně.
         </p>
-        <ul class="contact-list">
-          <li>
-            <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
-            <span>Holčovice, Moravskoslezský kraj</span>
-          </li>
-          <li>
-            <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
-            <span>info@prororvojholcovic.cz</span>
-          </li>
-          <li>
-            <svg viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>
-            <span>+420 XXX XXX XXX</span>
-          </li>
-        </ul>
-
         <div class="contact-legal">
           <div class="contact-legal-name">Pro rozvoj <em>Holčovic</em></div>
           <p>Volební uskupení · Holčovice, Moravskoslezský kraj<br>
@@ -1252,6 +1231,12 @@ a { color: inherit; text-decoration: none; }
       </div>
 
       <form class="contact-form fi" id="contactForm" novalidate>
+        <!-- Honeypot — skryté pole, lidé ho nevyplní, roboti ano -->
+        <div style="position:absolute;left:-9999px;opacity:0;pointer-events:none" aria-hidden="true">
+          <label for="f-website">Website</label>
+          <input type="text" id="f-website" name="website" tabindex="-1" autocomplete="off">
+        </div>
+
         <div class="frow">
           <div class="fgrp">
             <label for="f-name">Jméno</label>
@@ -1266,8 +1251,9 @@ a { color: inherit; text-decoration: none; }
           <label for="f-msg">Zpráva</label>
           <textarea id="f-msg" name="message" placeholder="Váš podnět, otázka nebo nápad pro Holčovice…" required></textarea>
         </div>
-        <button type="submit" class="btn-send">Odeslat zprávu</button>
-        <p id="form-ok">Děkujeme za zprávu — ozveme se co nejdříve.</p>
+        <button type="submit" class="btn-send" id="formBtn">Odeslat zprávu</button>
+        <p id="form-ok" style="display:none"></p>
+        <p id="form-err" style="display:none;font-size:.84rem;color:#f87c7c;margin-top:4px;font-style:italic"></p>
       </form>
 
     </div>
@@ -1351,11 +1337,45 @@ document.querySelectorAll('.timeline-item').forEach(el => {
 
 /* Priority karty — foto zoom při hover (číslování je statické) */
 
-/* Formulář */
-document.getElementById('contactForm').addEventListener('submit', e => {
+/* Formulář — AJAX odesílání přes mailer.php */
+document.getElementById('contactForm').addEventListener('submit', async function(e) {
   e.preventDefault();
-  document.getElementById('form-ok').style.display = 'block';
-  e.target.reset();
+
+  const btn    = document.getElementById('formBtn');
+  const ok     = document.getElementById('form-ok');
+  const err    = document.getElementById('form-err');
+
+  ok.style.display  = 'none';
+  err.style.display = 'none';
+  btn.disabled = true;
+  btn.textContent = 'Odesílám…';
+
+  try {
+    const res  = await fetch('mailer.php', {
+      method: 'POST',
+      body:   new FormData(this)
+    });
+    const data = await res.json();
+
+    if (data.ok) {
+      ok.textContent    = 'Děkujeme za zprávu — ozveme se co nejdříve.';
+      ok.style.display  = 'block';
+      ok.style.color    = '#7de8a8';
+      ok.style.fontStyle = 'italic';
+      ok.style.fontSize  = '.84rem';
+      ok.style.marginTop = '4px';
+      this.reset();
+    } else {
+      err.textContent   = data.error || 'Nepodařilo se odeslat zprávu.';
+      err.style.display = 'block';
+    }
+  } catch {
+    err.textContent   = 'Chyba připojení — zkuste to prosím znovu.';
+    err.style.display = 'block';
+  }
+
+  btn.disabled = false;
+  btn.textContent = 'Odeslat zprávu';
 });
 </script>
 
