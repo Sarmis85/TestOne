@@ -9,8 +9,7 @@
  */
 
 // ── Konfigurace ────────────────────────────────────
-$to      = 'info@prorozvojholcovic.cz';   // ← sem přijdou zprávy
-$subject = 'Zpráva z webu Pro rozvoj Holčovic';
+$to = 'petr.sarman@outlook.com';
 // ──────────────────────────────────────────────────
 
 header('Content-Type: application/json; charset=utf-8');
@@ -47,12 +46,21 @@ if ($errors) {
     exit;
 }
 
-// Sestavení zprávy
-$body  = "Jméno:   {$name}\n";
-$body .= "E-mail:  {$email}\n";
-$body .= "Zpráva:\n{$message}\n";
+// Předmět — snadno filtrovatelný štítek pro třídění
+$subject = '[PRH-WEB] Zpráva od: ' . $name;
 
-// Hlavičky mailu
+// Tělo zprávy — přehledný formát
+$date = date('d.m.Y H:i');
+$body  = "=== ZPRÁVA Z WEBU prorozvojholcovic.cz ===\n";
+$body .= "Datum:   {$date}\n";
+$body .= "Jméno:   {$name}\n";
+$body .= "E-mail:  {$email}\n";
+$body .= str_repeat("-", 42) . "\n";
+$body .= $message . "\n";
+$body .= str_repeat("=", 42) . "\n";
+$body .= "Pro odpověď použijte Reply (Reply-To je nastaven na e-mail odesílatele).\n";
+
+// Hlavičky
 $headers  = "From: web@prorozvojholcovic.cz\r\n";
 $headers .= "Reply-To: {$email}\r\n";
 $headers .= "MIME-Version: 1.0\r\n";
