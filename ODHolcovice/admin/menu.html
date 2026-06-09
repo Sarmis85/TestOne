@@ -56,7 +56,7 @@
       <div class="menu-editor-sidebar">
         <div class="menu-editor-sidebar__header">
           Kategorie
-          <button class="btn btn--ghost btn--sm" style="padding:0.25rem 0.5rem" onclick="Toast.show({title:'Přidat kategorii',type:'info'})">+</button>
+          <button class="btn btn--ghost btn--sm" style="padding:0.25rem 0.5rem" onclick="addCategory()">+</button>
         </div>
         <div data-draggable-list>
           <div class="menu-cat-item active" data-draggable>
@@ -258,6 +258,7 @@
 
 <div class="toast-container"></div>
 <script src="../js/admin.js"></script>
+<script src="../js/admin-auth.js"></script>
 <script>
 // ─── Náhled obrázku ────────────────────────────────────────────
 function previewImg(input) {
@@ -271,6 +272,41 @@ function previewImg(input) {
   };
   reader.readAsDataURL(file);
 }
+
+// ─── Přidání kategorie ────────────────────────────────────────
+function addCategory() {
+  const name = prompt('Název nové kategorie:');
+  if (!name || !name.trim()) return;
+  const emoji = prompt('Emoji ikona (volitelné, např. 🍕):', '📋') || '📋';
+  const list = document.querySelector('[data-draggable-list]');
+  if (!list) return;
+  const div = document.createElement('div');
+  div.className = 'menu-cat-item';
+  div.setAttribute('data-draggable','');
+  div.innerHTML = `<div><div class="menu-cat-item__name">${emoji} ${name.trim()}</div><div class="menu-cat-item__count">0 položek</div></div><span class="menu-cat-item__drag">⠿</span>`;
+  list.appendChild(div);
+  Toast.show({title: `Kategorie „${name.trim()}" přidána`, type:'success'});
+}
+
+// ─── Klik na kategorii filtruje položky ───────────────────────
+document.querySelectorAll('.menu-cat-item').forEach(item => {
+  item.addEventListener('click', function() {
+    document.querySelectorAll('.menu-cat-item').forEach(c => c.classList.remove('active'));
+    this.classList.add('active');
+    const catName = this.querySelector('.menu-cat-item__name')?.textContent.replace(/^[^\s]+\s/, '').trim();
+    // Filter items table
+    const rows = document.querySelectorAll('.admin-table tbody tr');
+    rows.forEach(row => {
+      if (!catName || catName === 'Vše') {
+        row.style.display = '';
+      } else {
+        const rowCat = row.querySelector('.badge')?.textContent.trim();
+        row.style.display = (rowCat && rowCat.toLowerCase().includes(catName.toLowerCase())) ? '' : 'none';
+      }
+    });
+    Toast.show({title: catName || 'Vše', message:'Filtr kategorií aktualizován', type:'info', duration:1500});
+  });
+});
 
 </script>
 </body>

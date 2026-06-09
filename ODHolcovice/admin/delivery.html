@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta name="robots" content="noindex, nofollow">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rozvoz – Admin · Obecní dům Holčovice</title>
+  <link rel="stylesheet" href="../css/admin.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+</head>
+<body>
+<div class="admin-root">
+<aside class="admin-sidebar" id="admin-sidebar">
+  <div class="admin-sidebar__header"><div class="admin-sidebar__brand"><img src="../img/OD_Logo_průhledné.png" class="admin-sidebar__logo-img" alt="OD"><div><div class="admin-sidebar__name">Obecní dům</div><div class="admin-sidebar__sub">Admin</div></div></div><button class="admin-sidebar__toggle"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 19l-7-7 7-7M18 19l-7-7 7-7"/></svg></button></div>
+  <nav class="admin-sidebar__nav">
+    <div class="admin-sidebar__section-title">Přehled</div>
+    <a href="index.html" class="admin-nav-item"><svg class="admin-nav-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg><span class="admin-nav-item__label">Dashboard</span></a>
+    <div class="admin-sidebar__section-title">Restaurace</div>
+    <a href="menu.html" class="admin-nav-item"><svg class="admin-nav-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 2h2l.4 2M7 13h10l4-8H5.4"/></svg><span class="admin-nav-item__label">Jídelní lístek</span></a>
+    <a href="weekly-menu.html" class="admin-nav-item"><svg class="admin-nav-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg><span class="admin-nav-item__label">Týdenní menu</span></a>
+    <a href="foods.html" class="admin-nav-item"><svg class="admin-nav-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/></svg><span class="admin-nav-item__label">Seznamy jídel</span></a>
+    <a href="orders.html" class="admin-nav-item"><svg class="admin-nav-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg><span class="admin-nav-item__label">Objednávky</span></a>
+    <a href="reservations.html" class="admin-nav-item"><svg class="admin-nav-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/></svg><span class="admin-nav-item__label">Rezervace</span></a>
+    <a href="delivery.html" class="admin-nav-item active"><svg class="admin-nav-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg><span class="admin-nav-item__label">Rozvoz</span></a>
+    <div class="admin-sidebar__section-title">Obsah</div>
+    <a href="events.html" class="admin-nav-item"><svg class="admin-nav-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18V5l12-2v13"/></svg><span class="admin-nav-item__label">Akce & Události</span></a>
+    <a href="content.html" class="admin-nav-item"><svg class="admin-nav-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg><span class="admin-nav-item__label">Články</span></a>
+    <div class="admin-sidebar__section-title">Systém</div>
+    <a href="users.html" class="admin-nav-item"><svg class="admin-nav-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg><span class="admin-nav-item__label">Uživatelé</span></a>
+  </nav>
+  <div class="admin-sidebar__footer"><div class="admin-user-mini"><div class="admin-user-mini__avatar">MH</div><div class="admin-user-mini__info"><div class="admin-user-mini__name">Martin Horák</div><div class="admin-user-mini__role">Rozvoz</div></div></div></div>
+</aside>
+
+<div class="admin-main">
+  <header class="admin-topbar">
+    <meta name="robots" content="noindex, nofollow">
+    <h1 class="admin-topbar__title">🚗 Rozvoz</h1>
+    <div class="admin-topbar__actions">
+      <a href="../index.html" class="btn btn--ghost btn--sm" style="display:flex;align-items:center;gap:0.4rem"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>Zpět na web</a>
+    </div>
+  </header>
+
+  <main class="admin-content">
+    <!-- KPIs -->
+    <div class="kpi-grid" style="grid-template-columns:repeat(4,1fr);margin-bottom:1.5rem">
+      <div class="kpi-card kpi-card--gold"><div class="kpi-card__header"><div class="kpi-card__icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div></div><div class="kpi-card__value" id="kpi-pending">0</div><div class="kpi-card__label">Čeká na doručení</div></div>
+      <div class="kpi-card kpi-card--blue"><div class="kpi-card__header"><div class="kpi-card__icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/></svg></div></div><div class="kpi-card__value" id="kpi-onway">0</div><div class="kpi-card__label">Na cestě</div></div>
+      <div class="kpi-card kpi-card--green"><div class="kpi-card__header"><div class="kpi-card__icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg></div></div><div class="kpi-card__value" id="kpi-done">0</div><div class="kpi-card__label">Doručeno dnes</div></div>
+      <div class="kpi-card kpi-card--brown"><div class="kpi-card__header"><div class="kpi-card__icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg></div></div><div class="kpi-card__value" id="kpi-revenue">0 Kč</div><div class="kpi-card__label">Tržby rozvoz</div></div>
+    </div>
+
+    <!-- Přepínání dne + filtr -->
+    <div style="display:flex;gap:0.75rem;margin-bottom:1rem;align-items:center;flex-wrap:wrap">
+      <div style="display:flex;gap:0.5rem">
+        <button class="tag tag--active" id="btn-today" onclick="switchDay('today',this)">Dnes</button>
+        <button class="tag" id="btn-tomorrow" onclick="switchDay('tomorrow',this)">Zítra</button>
+      </div>
+      <div style="display:flex;gap:0.5rem;margin-left:1rem">
+        <button class="tag tag--active" id="fil-all" onclick="filterDeliveries('all',this)">Všechny</button>
+        <button class="tag" id="fil-pending" onclick="filterDeliveries('pending',this)">Nevyřízené</button>
+        <button class="tag" id="fil-done" onclick="filterDeliveries('done',this)">Vyřízené</button>
+      </div>
+      <span style="margin-left:auto;font-size:0.875rem;color:var(--c-text-muted)" id="delivery-date-label"></span>
+    </div>
+
+    <!-- Map + List -->
+    <div style="display:grid;grid-template-columns:1fr 380px;gap:1.5rem;align-items:start">
+      <!-- Map -->
+      <div style="background:var(--c-white);border-radius:var(--r-xl);box-shadow:var(--shadow-card);overflow:hidden">
+        <div id="delivery-map" style="height:500px;width:100%"></div>
+      </div>
+
+      <!-- Delivery list -->
+      <div style="display:flex;flex-direction:column;gap:0.75rem;max-height:500px;overflow-y:auto;padding-right:0.25rem" id="delivery-list">
+        <p style="font-size:0.875rem;color:var(--c-text-muted)">Načítám…</p>
+      </div>
+    </div>
+  </main>
+</div>
+</div>
+
+<div class="toast-container"></div>
+<script src="../js/admin.js"></script>
+<script src="../js/admin-auth.js"></script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+// ═══════════════════════════════════════════════════════════════
+//  DELIVERY PAGE — Rozvoz s interaktivní mapou
+// ═══════════════════════════════════════════════════════════════
+
+// Demo data — in production would come from API
+const DELIVERIES_TODAY = [
+  {id:1, customer:'Lucie Marková',  address:'Holčovice 55',    items:'Svíčková + polévka', price:224, status:'pending',  lat:50.2361, lng:17.4522, time:'11:30'},
+  {id:2, customer:'Jan Procházka',  address:'Heřmanovice 12',  items:'2× kuřecí řízek',   price:338, status:'done',     lat:50.2101, lng:17.4102, time:'11:00'},
+  {id:3, customer:'Pavel Novák',    address:'Holčovice 128',   items:'Vepřová + polévka',  price:224, status:'pending',  lat:50.2391, lng:17.4589, time:'12:00'},
+  {id:4, customer:'Marie Dvořáková',address:'Zálesí 7',        items:'Vegetariánské menu',  price:165, status:'onway',   lat:50.2281, lng:17.4302, time:'11:45'},
+  {id:5, customer:'Tomáš Horák',    address:'Holčovice 82',    items:'Smažený sýr + pol.',  price:214, status:'pending',  lat:50.2345, lng:17.4478, time:'12:15'},
+  {id:6, customer:'Eva Nováčková',  address:'Holčovice 201',   items:'Svíčková na smetaně', price:259, status:'done',     lat:50.2412, lng:17.4625, time:'10:30'},
+];
+
+const DELIVERIES_TOMORROW = [
+  {id:101, customer:'Petr Svoboda', address:'Holčovice 33',     items:'Hovězí guláš + pol.', price:244, status:'pending', lat:50.2371, lng:17.4540, time:'11:00'},
+  {id:102, customer:'Anna Králová', address:'Heřmanovice 45',   items:'Pstruh na másle',     price:229, status:'pending', lat:50.2130, lng:17.4150, time:'11:30'},
+  {id:103, customer:'Jiří Malý',    address:'Holčovice 165',    items:'2× vepřová pečeně',   price:318, status:'pending', lat:50.2380, lng:17.4550, time:'12:00'},
+];
+
+let currentDay = 'today';
+let currentFilter = 'all';
+let map, markers = [];
+
+// Holčovice center
+const CENTER = [50.2360, 17.4500];
+
+function initMap() {
+  map = L.map('delivery-map').setView(CENTER, 14);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; OpenStreetMap',
+    maxZoom: 18
+  }).addTo(map);
+
+  // Mark the restaurant
+  L.marker(CENTER, {
+    icon: L.divIcon({
+      className: '',
+      html: '<div style="background:var(--c-green-700,#2d5016);color:white;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;box-shadow:0 2px 8px rgba(0,0,0,0.3);border:2px solid white">OD</div>',
+      iconSize: [32, 32],
+      iconAnchor: [16, 16]
+    })
+  }).addTo(map).bindPopup('<strong>Obecní dům Holčovice</strong><br>Výdejní místo');
+
+  renderDeliveries();
+}
+
+function getDeliveries() {
+  return currentDay === 'today' ? DELIVERIES_TODAY : DELIVERIES_TOMORROW;
+}
+
+function getFilteredDeliveries() {
+  let items = getDeliveries();
+  if (currentFilter === 'pending') items = items.filter(d => d.status !== 'done');
+  if (currentFilter === 'done') items = items.filter(d => d.status === 'done');
+  return items;
+}
+
+function renderDeliveries() {
+  const deliveries = getFilteredDeliveries();
+  updateKPIs();
+  updateDateLabel();
+
+  // Clear markers
+  markers.forEach(m => map.removeLayer(m));
+  markers = [];
+
+  // List
+  const list = document.getElementById('delivery-list');
+  if (!deliveries.length) {
+    list.innerHTML = '<p style="text-align:center;color:var(--c-text-muted);padding:2rem">Žádné závozy pro tento den.</p>';
+    return;
+  }
+
+  list.innerHTML = deliveries.map(d => {
+    const statusColors = {pending:'var(--c-gold-dark)',onway:'var(--c-info)',done:'var(--c-green-700)'};
+    const statusLabels = {pending:'Čeká',onway:'Na cestě',done:'Doručeno ✓'};
+    const statusBg = {pending:'rgba(196,154,60,0.08)',onway:'rgba(59,130,246,0.08)',done:'rgba(34,80,22,0.08)'};
+    const isDone = d.status === 'done';
+    return `
+    <div style="background:var(--c-white);border-radius:var(--r-xl);padding:1rem;box-shadow:var(--shadow-card);border-left:4px solid ${statusColors[d.status]};opacity:${isDone?'0.7':'1'};cursor:pointer;transition:all 0.2s"
+         onmouseover="this.style.transform='translateX(4px)';highlightMarker(${d.id})"
+         onmouseout="this.style.transform='';resetMarkers()"
+         onclick="focusDelivery(${d.id})">
+      <div style="display:flex;justify-content:space-between;align-items:start;margin-bottom:0.5rem">
+        <div>
+          <div style="font-weight:600;font-size:0.9375rem">${d.customer}</div>
+          <div style="font-size:0.8125rem;color:var(--c-text-muted)">${d.address}</div>
+        </div>
+        <span style="font-size:0.75rem;font-weight:600;padding:0.2rem 0.6rem;border-radius:var(--r-full);background:${statusBg[d.status]};color:${statusColors[d.status]}">${statusLabels[d.status]}</span>
+      </div>
+      <div style="font-size:0.8125rem;color:var(--c-text-sec);margin-bottom:0.5rem">${d.items}</div>
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <span style="font-size:0.8125rem;color:var(--c-text-muted)">⏰ ${d.time}</span>
+        <span style="font-weight:700;color:var(--c-green-700)">${d.price} Kč</span>
+      </div>
+      ${!isDone ? `
+      <div style="display:flex;gap:0.5rem;margin-top:0.75rem;border-top:1px solid var(--c-border-light);padding-top:0.75rem">
+        ${d.status==='pending' ? `<button class="btn btn--outline btn--sm" style="flex:1" onclick="event.stopPropagation();markStatus(${d.id},'onway')">🚗 Vyrazit</button>` : ''}
+        <button class="btn btn--primary btn--sm" style="flex:1" onclick="event.stopPropagation();markStatus(${d.id},'done')">✓ Doručeno</button>
+      </div>` : ''}
+    </div>`;
+  }).join('');
+
+  // Map markers
+  deliveries.forEach(d => {
+    const colors = {pending:'#c49a3c',onway:'#3b82f6',done:'#22801680'};
+    const icons = {pending:'⏳',onway:'🚗',done:'✓'};
+    const marker = L.marker([d.lat, d.lng], {
+      icon: L.divIcon({
+        className: '',
+        html: `<div style="background:${colors[d.status]};color:white;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;box-shadow:0 2px 6px rgba(0,0,0,0.3);border:2px solid white" data-delivery-id="${d.id}">${icons[d.status]}</div>`,
+        iconSize: [28, 28],
+        iconAnchor: [14, 14]
+      })
+    }).addTo(map);
+    marker.bindPopup(`<strong>${d.customer}</strong><br>${d.address}<br>${d.items}<br><strong>${d.price} Kč</strong>`);
+    marker._deliveryId = d.id;
+    markers.push(marker);
+  });
+
+  // Fit bounds
+  if (markers.length) {
+    const group = L.featureGroup(markers);
+    map.fitBounds(group.getBounds().pad(0.3));
+  }
+}
+
+function updateKPIs() {
+  const all = getDeliveries();
+  const pending = all.filter(d => d.status === 'pending').length;
+  const onway = all.filter(d => d.status === 'onway').length;
+  const done = all.filter(d => d.status === 'done').length;
+  const revenue = all.filter(d => d.status === 'done').reduce((s,d) => s + d.price, 0);
+
+  document.getElementById('kpi-pending').textContent = pending;
+  document.getElementById('kpi-onway').textContent = onway;
+  document.getElementById('kpi-done').textContent = done;
+  document.getElementById('kpi-revenue').textContent = revenue + ' Kč';
+}
+
+function updateDateLabel() {
+  const d = new Date();
+  if (currentDay === 'tomorrow') d.setDate(d.getDate() + 1);
+  const days = ['Neděle','Pondělí','Úterý','Středa','Čtvrtek','Pátek','Sobota'];
+  document.getElementById('delivery-date-label').textContent = `${days[d.getDay()]} ${d.getDate()}.${d.getMonth()+1}.${d.getFullYear()}`;
+}
+
+function switchDay(day, btn) {
+  currentDay = day;
+  document.querySelectorAll('#btn-today,#btn-tomorrow').forEach(b => b.classList.remove('tag--active'));
+  btn.classList.add('tag--active');
+  renderDeliveries();
+}
+
+function filterDeliveries(filter, btn) {
+  currentFilter = filter;
+  document.querySelectorAll('#fil-all,#fil-pending,#fil-done').forEach(b => b.classList.remove('tag--active'));
+  btn.classList.add('tag--active');
+  renderDeliveries();
+}
+
+function markStatus(id, newStatus) {
+  const list = currentDay === 'today' ? DELIVERIES_TODAY : DELIVERIES_TOMORROW;
+  const item = list.find(d => d.id === id);
+  if (item) {
+    item.status = newStatus;
+    renderDeliveries();
+    const labels = {onway:'Na cestě',done:'Doručeno'};
+    Toast.show({title: labels[newStatus] || 'Stav aktualizován', message: item.customer, type:'success'});
+  }
+}
+
+function focusDelivery(id) {
+  const marker = markers.find(m => m._deliveryId === id);
+  if (marker) {
+    map.setView(marker.getLatLng(), 16, {animate:true});
+    marker.openPopup();
+  }
+}
+
+function highlightMarker(id) {
+  markers.forEach(m => {
+    const el = m.getElement();
+    if (el) el.style.transform = m._deliveryId === id ? 'scale(1.4)' : 'scale(0.8)';
+  });
+}
+
+function resetMarkers() {
+  markers.forEach(m => {
+    const el = m.getElement();
+    if (el) el.style.transform = '';
+  });
+}
+
+// Init
+document.addEventListener('DOMContentLoaded', initMap);
+</script>
+</body>
+</html>

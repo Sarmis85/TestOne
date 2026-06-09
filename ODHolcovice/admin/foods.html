@@ -98,6 +98,26 @@
       </div>
     </div>
 
+    <!-- Žebříček nejlépe hodnocených jídel -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-top:1.5rem">
+      <div class="admin-table-card">
+        <div class="admin-table-card__header">
+          <h3 class="admin-table-card__title">🏆 Top jídla — poslední týden</h3>
+        </div>
+        <div style="padding:1rem 1.5rem" id="leaderboard-week">
+          <p style="font-size:0.875rem;color:var(--c-text-muted)">Načítám…</p>
+        </div>
+      </div>
+      <div class="admin-table-card">
+        <div class="admin-table-card__header">
+          <h3 class="admin-table-card__title">🏆 Top jídla — poslední měsíc</h3>
+        </div>
+        <div style="padding:1rem 1.5rem" id="leaderboard-month">
+          <p style="font-size:0.875rem;color:var(--c-text-muted)">Načítám…</p>
+        </div>
+      </div>
+    </div>
+
     <!-- Přehled denního menu (týden) -->
     <div class="admin-table-card" style="margin-top:1.5rem">
       <div class="admin-table-card__header">
@@ -162,6 +182,7 @@
 
 <div class="toast-container"></div>
 <script src="../js/admin.js"></script>
+<script src="../js/admin-auth.js"></script>
 <script>
 // ── State ─────────────────────────────────────────────────────
 let allFoods = [];
@@ -219,6 +240,7 @@ async function loadFoods() {
   }
   renderFoodsTable();
   renderWeek();
+  renderLeaderboard();
 }
 
 function renderFoodsTable() {
@@ -571,6 +593,42 @@ async function publishWeeklyMenu() {
 document.addEventListener('click', e => {
   if (!suggestEl.contains(e.target) && e.target !== suggestTarget) hideSuggest();
 });
+
+// ── Leaderboard (Top hodnocená jídla) ─────────────────────────
+function renderLeaderboard() {
+  const rated = allFoods
+    .filter(f => f.rating_count > 0 && f.avg_rating !== null)
+    .sort((a, b) => parseFloat(b.avg_rating) - parseFloat(a.avg_rating));
+
+  function buildList(items, containerId) {
+    const el = document.getElementById(containerId);
+    if (!el) return;
+    if (!items.length) {
+      el.innerHTML = '<p style="font-size:0.875rem;color:var(--c-text-muted)">Zatím žádná hodnocení.</p>';
+      return;
+    }
+    el.innerHTML = items.slice(0, 5).map((f, i) => {
+      const medal = i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : `${i+1}.`;
+      const stars = '★'.repeat(Math.round(parseFloat(f.avg_rating))) + '☆'.repeat(5 - Math.round(parseFloat(f.avg_rating)));
+      return `
+      <div style="display:flex;align-items:center;gap:0.75rem;padding:0.6rem 0;${i < items.length-1 ? 'border-bottom:1px solid var(--c-border-light)' : ''}">
+        <span style="font-size:1.25rem;min-width:2rem;text-align:center">${medal}</span>
+        <div style="flex:1;min-width:0">
+          <div style="font-weight:600;font-size:0.875rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${f.name}</div>
+          <div style="font-size:0.75rem;color:var(--c-text-muted)">${catBadge(f.category)} · ${f.rating_count} hodnocení</div>
+        </div>
+        <div style="text-align:right;white-space:nowrap">
+          <div style="color:var(--c-gold);font-size:0.875rem;letter-spacing:1px">${stars}</div>
+          <div style="font-weight:700;font-size:0.9375rem;color:var(--c-green-700)">${parseFloat(f.avg_rating).toFixed(1)}</div>
+        </div>
+      </div>`;
+    }).join('');
+  }
+
+  // V demo režimu zobrazíme stejný žebříček pro oba
+  buildList(rated, 'leaderboard-week');
+  buildList(rated, 'leaderboard-month');
+}
 
 // ── Init ──────────────────────────────────────────────────────
 loadFoods();

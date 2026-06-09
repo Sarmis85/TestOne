@@ -181,13 +181,14 @@
         <div class="form-group"><label class="form-label">E-mail</label><input type="email" class="form-input" value="vesela@obecnidumholcovice.cz"></div>
         <div class="form-group"><label class="form-label">Telefon</label><input type="tel" class="form-input" value="+420 604 111 222"></div>
         <div class="form-group"><label class="form-label">Role</label>
-          <select class="form-select">
-            <option>Super Admin</option>
-            <option selected>Restaurant Manager</option>
-            <option>Waiter / Číšník</option>
-            <option>Kitchen / Kuchyně</option>
-            <option>Delivery / Rozvoz</option>
-            <option>Content Editor / Editor obsahu</option>
+          <select class="form-select" id="eu-role">
+            <option value="super">Super Admin</option>
+            <option value="vedouci" selected>Vedoucí restaurace</option>
+            <option value="obsluha">Obsluha / Číšník</option>
+            <option value="kuchyn">Kuchyně</option>
+            <option value="rozvoz">Rozvoz</option>
+            <option value="obec">Editor obsahu</option>
+            <option value="zakaznik">Zákazník</option>
           </select>
         </div>
         <div class="form-group"><label class="form-label">Stav</label>
@@ -217,13 +218,14 @@
         <div class="form-group"><label class="form-label form-label--req">E-mail (přihlašovací)</label><input type="email" class="form-input" required placeholder="@obecnidumholcovice.cz"></div>
         <div class="form-group"><label class="form-label">Telefon</label><input type="tel" class="form-input"></div>
         <div class="form-group"><label class="form-label form-label--req">Role</label>
-          <select class="form-select" required>
+          <select class="form-select" id="nu-role" required>
             <option value="">Vyberte roli</option>
-            <option>Restaurant Manager</option>
-            <option>Waiter / Číšník</option>
-            <option>Kitchen / Kuchyně</option>
-            <option>Delivery / Rozvoz</option>
-            <option>Content Editor</option>
+            <option value="vedouci">Vedoucí restaurace</option>
+            <option value="obsluha">Obsluha / Číšník</option>
+            <option value="kuchyn">Kuchyně</option>
+            <option value="rozvoz">Rozvoz</option>
+            <option value="obec">Editor obsahu</option>
+            <option value="zakaznik">Zákazník</option>
           </select>
         </div>
         <div class="form-group"><label class="form-label form-label--req">Heslo</label><input type="password" class="form-input" required placeholder="Dočasné heslo"></div>
@@ -232,12 +234,50 @@
     </div>
     <div class="modal__footer">
       <button class="btn btn--ghost" data-modal-close="modal-new-user">Zrušit</button>
-      <button class="btn btn--primary" onclick="Toast.show({title:'Zaměstnanec přidán',message:'Přihlašovací údaje odeslány na e-mail.',type:'success'});Modal.close('modal-new-user')">Vytvořit účet</button>
+      <button class="btn btn--primary" onclick="createUser()">Vytvořit účet</button>
     </div>
   </div>
 </div>
 
 <div class="toast-container"></div>
 <script src="../js/admin.js"></script>
+<script src="../js/admin-auth.js"></script>
+<script>
+async function createUser() {
+  const modal = document.getElementById('modal-new-user');
+  const inputs = modal.querySelectorAll('.form-input');
+  const firstName = inputs[0]?.value.trim();
+  const lastName  = inputs[1]?.value.trim();
+  const email     = inputs[2]?.value.trim();
+  const phone     = inputs[3]?.value.trim();
+  const role      = document.getElementById('nu-role')?.value;
+  const password  = inputs[4]?.value;
+
+  if (!firstName || !lastName) { Toast.show({title:'Vyplňte jméno a příjmení',type:'warning'}); return; }
+  if (!email) { Toast.show({title:'Vyplňte e-mail',type:'warning'}); return; }
+  if (!role) { Toast.show({title:'Vyberte roli',type:'warning'}); return; }
+  if (!password || password.length < 4) { Toast.show({title:'Heslo musí mít alespoň 4 znaky',type:'warning'}); return; }
+
+  try {
+    const res = await fetch('../api/users/create.php', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({ first_name: firstName, last_name: lastName, email, phone, password, role })
+    });
+    const data = await res.json();
+    if (res.ok && data.ok) {
+      Toast.show({title:'Zaměstnanec přidán', message:`Přihlašovací údaje: ${email} / ${password}`, type:'success', duration:8000});
+      Modal.close('modal-new-user');
+      // Reset form
+      inputs.forEach(i => i.value = '');
+      document.getElementById('nu-role').selectedIndex = 0;
+    } else {
+      Toast.show({title: data.error || 'Chyba při vytváření', type:'error'});
+    }
+  } catch(e) {
+    console.error(e);
+    Toast.show({title:'Chyba připojení k serveru', type:'error'});
+  }
+}
+</script>
 </body>
 </html>

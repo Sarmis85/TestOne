@@ -39,26 +39,26 @@
   </header>
 
   <main class="admin-content">
-    <div style="display:grid;grid-template-columns:1fr 300px;gap:1.5rem;align-items:start">
-      <!-- Calendar -->
+    <div style="display:grid;grid-template-columns:300px 1fr;gap:1.5rem;align-items:start">
+      <!-- Events List sidebar (vlevo) -->
+      <div style="display:flex;flex-direction:column;gap:1rem">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.25rem">
+          <h3 style="font-family:var(--font-serif);font-size:1rem;color:var(--c-text)">📅 Připravované akce</h3>
+        </div>
+        <div data-events-sidebar style="display:flex;flex-direction:column;gap:1rem">
+          <p style="font-size:0.875rem;color:var(--c-text-muted)">Načítám…</p>
+        </div>
+      </div>
+
+      <!-- Calendar (vpravo) -->
       <div>
         <div class="calendar">
           <div class="calendar__header">
             <button class="btn btn--ghost btn--icon" data-cal-prev><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg></button>
-            <h3 class="calendar__month">Červen 2025</h3>
+            <h3 class="calendar__month">Červen 2026</h3>
             <button class="btn btn--ghost btn--icon" data-cal-next><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg></button>
           </div>
           <div class="calendar__grid"><!-- rendered by JS --></div>
-        </div>
-      </div>
-
-      <!-- Events List sidebar -->
-      <div style="display:flex;flex-direction:column;gap:1rem">
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.25rem">
-          <h3 style="font-family:var(--font-serif);font-size:1rem;color:var(--c-text)">Připravované akce</h3>
-        </div>
-        <div data-events-sidebar style="display:flex;flex-direction:column;gap:1rem">
-          <p style="font-size:0.875rem;color:var(--c-text-muted)">Načítám…</p>
         </div>
       </div>
     </div>
@@ -214,6 +214,7 @@
 
 <div class="toast-container"></div>
 <script src="../js/admin.js"></script>
+<script src="../js/admin-auth.js"></script>
 <script>
 // ── State ──────────────────────────────────────────────────────
 let allEvents = [];
@@ -289,7 +290,8 @@ function renderSidebar(rows) {
   const now = Date.now();
   const upcoming = rows
     .filter(r => new Date(r.date_start.replace(' ','T')).getTime() >= now - 86400000)
-    .slice(0, 5);
+    .sort((a, b) => new Date(a.date_start.replace(' ','T')) - new Date(b.date_start.replace(' ','T')))
+    .slice(0, 8);
   sidebar.innerHTML = upcoming.length ? upcoming.map(r => {
     const css = r.is_published == 1 ? 'status--published' : 'status--draft';
     const lbl = r.is_published == 1 ? 'Publikováno' : 'Koncept';
@@ -341,8 +343,8 @@ function openEditEvent(ev) {
   Modal.open('modal-new-event');
 }
 
-// ── Klik na den v kalendáři ────────────────────────────────────
-function calendarDayClick(day) {
+// ── Klik na den v kalendáři (přepíše default z admin.js) ──────
+window.calendarDayClick = function calendarDayClick(day) {
   // day = Date objekt (nebo YYYY-MM-DD string z admin.js)
   const d = typeof day === 'string' ? new Date(day) : day;
   const ymd = d.toISOString ? d.toISOString().slice(0,10) : day.slice(0,10);

@@ -267,9 +267,10 @@ function initCalendar() {
     }
     for (let d = 1; d <= daysInMonth; d++) {
       const isToday = d === now.getDate() && month === now.getMonth() && year === now.getFullYear();
+      const dateStr = `${year}-${String(month+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
       const events = sampleEvents[d] || [];
       cells += `
-        <div class="calendar__day ${isToday ? 'calendar__day--today' : ''}" onclick="calendarDayClick(${d})">
+        <div class="calendar__day ${isToday ? 'calendar__day--today' : ''}" onclick="calendarDayClick('${dateStr}')">
           <div class="calendar__day-num">${d}</div>
           ${events.map(ev => `<div class="calendar__event calendar__event--${ev.type}">${ev.title}</div>`).join('')}
         </div>`;
@@ -288,8 +289,10 @@ function initCalendar() {
   render();
 }
 
-window.calendarDayClick = function(day) {
-  Toast.show({ title: `Den ${day}`, message: 'Klikněte pro přidání události', type: 'info' });
+window.calendarDayClick = function(dateStr) {
+  // Default handler — can be overridden by page-specific JS (e.g. events.html)
+  const d = new Date(dateStr);
+  Toast.show({ title: `${d.getDate()}.${d.getMonth()+1}.${d.getFullYear()}`, message: 'Klikněte pro přidání události', type: 'info' });
 };
 
 /* ─── Filters ────────────────────────────────────────────────────── */
