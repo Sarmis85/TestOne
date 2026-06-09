@@ -6,6 +6,44 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Můj profil – Obecní dům Holčovice</title>
   <link rel="stylesheet" href="../css/main.css">
+  <style>
+    /* Star rating widget */
+    .star-rating { display:inline-flex; gap:2px; }
+    .star-rating__star {
+      cursor:pointer; font-size:1.25rem; color:var(--c-border);
+      transition:color 0.15s ease, transform 0.1s ease;
+      line-height:1;
+    }
+    .star-rating__star.filled,
+    .star-rating__star.hovered { color:var(--c-gold); }
+    .star-rating__star:hover { transform:scale(1.15); }
+    .star-rating--readonly .star-rating__star { cursor:default; }
+    .star-rating--readonly .star-rating__star:hover { transform:none; }
+
+    /* Order expandable row */
+    .order-item { cursor:default; }
+    .order-item__dishes {
+      display:none; flex-direction:column; gap:0.75rem;
+      padding:1rem 1rem 0.75rem; background:var(--c-cream-50);
+      border-top:1px solid var(--c-border-light);
+      border-radius:0 0 var(--r-lg) var(--r-lg);
+    }
+    .order-item__dishes.open { display:flex; }
+    .order-dish-row {
+      display:flex; align-items:center; justify-content:space-between;
+      gap:1rem; flex-wrap:wrap;
+    }
+    .order-dish-row__name { font-size:0.9375rem; color:var(--c-text); flex:1; }
+    .order-dish-row__rating { display:flex; align-items:center; gap:0.5rem; }
+    .order-dish-row__label { font-size:0.75rem; color:var(--c-text-muted); white-space:nowrap; }
+
+    /* Rating summary bar */
+    .rating-bar { display:flex; align-items:center; gap:0.5rem; margin-bottom:0.375rem; }
+    .rating-bar__label { font-size:0.8125rem; width:1.5rem; text-align:right; color:var(--c-text-sec); }
+    .rating-bar__track { flex:1; height:6px; background:var(--c-border-light); border-radius:99px; overflow:hidden; }
+    .rating-bar__fill { height:100%; background:var(--c-gold); border-radius:99px; transition:width 0.5s ease; }
+    .rating-bar__count { font-size:0.75rem; color:var(--c-text-muted); width:1.5rem; }
+  </style>
 </head>
 <body style="background:var(--c-cream-50)">
 
@@ -39,6 +77,10 @@
       <a href="#orders" class="profile-nav__item active" onclick="switchTab('orders',this)">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
         Historie objednávek
+      </a>
+      <a href="#ratings" class="profile-nav__item" onclick="switchTab('ratings',this)">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        Hodnocení pokrmů
       </a>
       <a href="#addresses" class="profile-nav__item" onclick="switchTab('addresses',this)">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
@@ -77,52 +119,233 @@
             <div style="font-size:0.8125rem;color:var(--c-text-muted)">Utraceno celkem</div>
           </div>
           <div style="text-align:center;padding:1rem;background:var(--c-cream-50);border-radius:var(--r-lg)">
-            <div style="font-family:var(--font-serif);font-size:2rem;font-weight:700;color:var(--c-green-700)">4.9 ★</div>
+            <div style="font-family:var(--font-serif);font-size:2rem;font-weight:700;color:var(--c-gold)">4.6 ★</div>
             <div style="font-size:0.8125rem;color:var(--c-text-muted)">Průměrné hodnocení</div>
           </div>
         </div>
 
-        <div style="display:flex;flex-direction:column">
-          <div class="order-item">
-            <div class="order-item__info">
-              <div class="order-item__num">#OBJ-2025-0089</div>
-              <div class="order-item__date">4. 6. 2025 · 12:00</div>
-              <div class="order-item__items">Hovězí vývar, Svíčková na smetaně · 1 ks</div>
+        <!-- Order list — každá objednávka rozbalitelná pro hodnocení -->
+        <div style="display:flex;flex-direction:column;gap:0.5rem">
+
+          <!-- Objednávka 1 — ohodnocena -->
+          <div style="border:1px solid var(--c-border-light);border-radius:var(--r-lg);overflow:hidden">
+            <div class="order-item" style="cursor:pointer" onclick="toggleOrder('ord-1')">
+              <div class="order-item__info">
+                <div class="order-item__num">#OBJ-2025-0089</div>
+                <div class="order-item__date">4. 6. 2025 · 12:00</div>
+                <div class="order-item__items">Hovězí vývar, Svíčková na smetaně · 2 ks</div>
+              </div>
+              <span class="status status--delivered">Doručeno</span>
+              <div style="display:flex;align-items:center;gap:0.75rem">
+                <span style="color:var(--c-gold);font-size:0.875rem">★ 4.5</span>
+                <div class="order-item__total">224 Kč</div>
+                <svg id="ord-1-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--c-text-muted)" stroke-width="2" style="transition:transform 0.2s"><polyline points="6 9 12 15 18 9"/></svg>
+              </div>
             </div>
-            <span class="status status--delivered">Doručeno</span>
-            <div class="order-item__total">224 Kč</div>
+            <div class="order-item__dishes" id="ord-1">
+              <div class="order-dish-row">
+                <div class="order-dish-row__name">Hovězí vývar s nudlemi</div>
+                <div class="order-dish-row__rating">
+                  <span class="order-dish-row__label">Vaše hodnocení:</span>
+                  <div class="star-rating star-rating--readonly" data-rating="4">
+                    <span class="star-rating__star filled">★</span><span class="star-rating__star filled">★</span><span class="star-rating__star filled">★</span><span class="star-rating__star filled">★</span><span class="star-rating__star">★</span>
+                  </div>
+                </div>
+              </div>
+              <div class="order-dish-row">
+                <div class="order-dish-row__name">Svíčková na smetaně, knedlík</div>
+                <div class="order-dish-row__rating">
+                  <span class="order-dish-row__label">Vaše hodnocení:</span>
+                  <div class="star-rating star-rating--readonly" data-rating="5">
+                    <span class="star-rating__star filled">★</span><span class="star-rating__star filled">★</span><span class="star-rating__star filled">★</span><span class="star-rating__star filled">★</span><span class="star-rating__star filled">★</span>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
-          <div class="order-item">
-            <div class="order-item__info">
-              <div class="order-item__num">#OBJ-2025-0074</div>
-              <div class="order-item__date">28. 5. 2025 · 11:45</div>
-              <div class="order-item__items">Polévka + Vepřová pečeně, Kuřecí řízek · 2 ks</div>
+
+          <!-- Objednávka 2 — neohodnocena -->
+          <div style="border:1px solid var(--c-border-light);border-radius:var(--r-lg);overflow:hidden">
+            <div class="order-item" style="cursor:pointer" onclick="toggleOrder('ord-2')">
+              <div class="order-item__info">
+                <div class="order-item__num">#OBJ-2025-0074</div>
+                <div class="order-item__date">28. 5. 2025 · 11:45</div>
+                <div class="order-item__items">Polévka + Vepřová pečeně, Kuřecí řízek · 3 ks</div>
+              </div>
+              <span class="status status--delivered">Doručeno</span>
+              <div style="display:flex;align-items:center;gap:0.75rem">
+                <span style="font-size:0.8125rem;color:var(--c-text-muted);font-style:italic">Neohodnoceno</span>
+                <div class="order-item__total">328 Kč</div>
+                <svg id="ord-2-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--c-text-muted)" stroke-width="2" style="transition:transform 0.2s"><polyline points="6 9 12 15 18 9"/></svg>
+              </div>
             </div>
-            <span class="status status--delivered">Doručeno</span>
-            <div class="order-item__total">328 Kč</div>
+            <div class="order-item__dishes" id="ord-2">
+              <p style="font-size:0.8125rem;color:var(--c-text-muted);margin-bottom:0.75rem">Ohodnoťte pokrmy kliknutím na hvězdičky:</p>
+              <div class="order-dish-row">
+                <div class="order-dish-row__name">Polévka dne (rajčatová)</div>
+                <div class="order-dish-row__rating">
+                  <span class="order-dish-row__label">Vaše hodnocení:</span>
+                  <div class="star-rating" data-dish="74-soup">
+                    <span class="star-rating__star" data-val="1">★</span><span class="star-rating__star" data-val="2">★</span><span class="star-rating__star" data-val="3">★</span><span class="star-rating__star" data-val="4">★</span><span class="star-rating__star" data-val="5">★</span>
+                  </div>
+                </div>
+              </div>
+              <div class="order-dish-row">
+                <div class="order-dish-row__name">Vepřová pečeně, knedlík, zelí</div>
+                <div class="order-dish-row__rating">
+                  <span class="order-dish-row__label">Vaše hodnocení:</span>
+                  <div class="star-rating" data-dish="74-main1">
+                    <span class="star-rating__star" data-val="1">★</span><span class="star-rating__star" data-val="2">★</span><span class="star-rating__star" data-val="3">★</span><span class="star-rating__star" data-val="4">★</span><span class="star-rating__star" data-val="5">★</span>
+                  </div>
+                </div>
+              </div>
+              <div class="order-dish-row">
+                <div class="order-dish-row__name">Kuřecí řízek, bramborový salát</div>
+                <div class="order-dish-row__rating">
+                  <span class="order-dish-row__label">Vaše hodnocení:</span>
+                  <div class="star-rating" data-dish="74-main2">
+                    <span class="star-rating__star" data-val="1">★</span><span class="star-rating__star" data-val="2">★</span><span class="star-rating__star" data-val="3">★</span><span class="star-rating__star" data-val="4">★</span><span class="star-rating__star" data-val="5">★</span>
+                  </div>
+                </div>
+              </div>
+              <div style="margin-top:0.75rem">
+                <button class="btn btn--primary btn--sm" onclick="submitRatings('ord-2',this)">Odeslat hodnocení</button>
+              </div>
+            </div>
           </div>
-          <div class="order-item">
-            <div class="order-item__info">
-              <div class="order-item__num">#OBJ-2025-0061</div>
-              <div class="order-item__date">21. 5. 2025 · 12:15</div>
-              <div class="order-item__items">Hovězí vývar, Gulášek s houskovým knedlíkem · 1 ks</div>
+
+          <!-- Objednávka 3 -->
+          <div style="border:1px solid var(--c-border-light);border-radius:var(--r-lg);overflow:hidden">
+            <div class="order-item" style="cursor:pointer" onclick="toggleOrder('ord-3')">
+              <div class="order-item__info">
+                <div class="order-item__num">#OBJ-2025-0061</div>
+                <div class="order-item__date">21. 5. 2025 · 12:15</div>
+                <div class="order-item__items">Hovězí vývar, Gulášek s houskovým knedlíkem · 2 ks</div>
+              </div>
+              <span class="status status--delivered">Doručeno</span>
+              <div style="display:flex;align-items:center;gap:0.75rem">
+                <span style="color:var(--c-gold);font-size:0.875rem">★ 4.0</span>
+                <div class="order-item__total">198 Kč</div>
+                <svg id="ord-3-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--c-text-muted)" stroke-width="2" style="transition:transform 0.2s"><polyline points="6 9 12 15 18 9"/></svg>
+              </div>
             </div>
-            <span class="status status--delivered">Doručeno</span>
-            <div class="order-item__total">198 Kč</div>
+            <div class="order-item__dishes" id="ord-3">
+              <div class="order-dish-row">
+                <div class="order-dish-row__name">Hovězí vývar s nudlemi</div>
+                <div class="order-dish-row__rating">
+                  <span class="order-dish-row__label">Vaše hodnocení:</span>
+                  <div class="star-rating star-rating--readonly" data-rating="4">
+                    <span class="star-rating__star filled">★</span><span class="star-rating__star filled">★</span><span class="star-rating__star filled">★</span><span class="star-rating__star filled">★</span><span class="star-rating__star">★</span>
+                  </div>
+                </div>
+              </div>
+              <div class="order-dish-row">
+                <div class="order-dish-row__name">Gulášek s houskovým knedlíkem</div>
+                <div class="order-dish-row__rating">
+                  <span class="order-dish-row__label">Vaše hodnocení:</span>
+                  <div class="star-rating star-rating--readonly" data-rating="4">
+                    <span class="star-rating__star filled">★</span><span class="star-rating__star filled">★</span><span class="star-rating__star filled">★</span><span class="star-rating__star filled">★</span><span class="star-rating__star">★</span>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
-          <div class="order-item">
-            <div class="order-item__info">
-              <div class="order-item__num">#OBJ-2025-0055</div>
-              <div class="order-item__date">14. 5. 2025 · 11:30</div>
-              <div class="order-item__items">Zapečená těstoviny, Ledový čaj · 1 ks</div>
+
+          <!-- Objednávka 4 -->
+          <div style="border:1px solid var(--c-border-light);border-radius:var(--r-lg);overflow:hidden">
+            <div class="order-item" style="cursor:pointer" onclick="toggleOrder('ord-4')">
+              <div class="order-item__info">
+                <div class="order-item__num">#OBJ-2025-0055</div>
+                <div class="order-item__date">14. 5. 2025 · 11:30</div>
+                <div class="order-item__items">Zapečené těstoviny, Ledový čaj · 2 ks</div>
+              </div>
+              <span class="status status--delivered">Doručeno</span>
+              <div style="display:flex;align-items:center;gap:0.75rem">
+                <span style="font-size:0.8125rem;color:var(--c-text-muted);font-style:italic">Neohodnoceno</span>
+                <div class="order-item__total">179 Kč</div>
+                <svg id="ord-4-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--c-text-muted)" stroke-width="2" style="transition:transform 0.2s"><polyline points="6 9 12 15 18 9"/></svg>
+              </div>
             </div>
-            <span class="status status--delivered">Doručeno</span>
-            <div class="order-item__total">179 Kč</div>
+            <div class="order-item__dishes" id="ord-4">
+              <p style="font-size:0.8125rem;color:var(--c-text-muted);margin-bottom:0.75rem">Ohodnoťte pokrmy kliknutím na hvězdičky:</p>
+              <div class="order-dish-row">
+                <div class="order-dish-row__name">Zapečené těstoviny s nivou</div>
+                <div class="order-dish-row__rating">
+                  <span class="order-dish-row__label">Vaše hodnocení:</span>
+                  <div class="star-rating" data-dish="55-pasta">
+                    <span class="star-rating__star" data-val="1">★</span><span class="star-rating__star" data-val="2">★</span><span class="star-rating__star" data-val="3">★</span><span class="star-rating__star" data-val="4">★</span><span class="star-rating__star" data-val="5">★</span>
+                  </div>
+                </div>
+              </div>
+              <div style="margin-top:0.75rem">
+                <button class="btn btn--primary btn--sm" onclick="submitRatings('ord-4',this)">Odeslat hodnocení</button>
+              </div>
+            </div>
           </div>
         </div>
 
         <div style="text-align:center;margin-top:1.5rem">
           <button class="btn btn--ghost btn--sm">Načíst starší objednávky</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Ratings Tab -->
+    <div id="tab-ratings" hidden>
+      <div class="profile-card">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;padding-bottom:1rem;border-bottom:1px solid var(--c-border-light)">
+          <h2 style="font-family:var(--font-serif);font-size:1.25rem">Moje hodnocení pokrmů</h2>
+          <span style="font-size:0.8125rem;color:var(--c-text-muted)">7 hodnocení celkem</span>
+        </div>
+
+        <!-- Souhrn -->
+        <div style="display:grid;grid-template-columns:auto 1fr;gap:2rem;align-items:center;background:var(--c-cream-50);border-radius:var(--r-xl);padding:1.5rem;margin-bottom:2rem">
+          <div style="text-align:center">
+            <div style="font-family:var(--font-serif);font-size:3.5rem;font-weight:700;color:var(--c-green-700);line-height:1">4.6</div>
+            <div class="star-rating star-rating--readonly" style="justify-content:center;margin:0.25rem 0" data-rating="5">
+              <span class="star-rating__star filled">★</span><span class="star-rating__star filled">★</span><span class="star-rating__star filled">★</span><span class="star-rating__star filled">★</span><span class="star-rating__star filled" style="color:var(--c-gold);opacity:0.5">★</span>
+            </div>
+            <div style="font-size:0.75rem;color:var(--c-text-muted)">průměr z 7 hodnocení</div>
+          </div>
+          <div>
+            <div class="rating-bar"><span class="rating-bar__label">5★</span><div class="rating-bar__track"><div class="rating-bar__fill" style="width:57%"></div></div><span class="rating-bar__count">4</span></div>
+            <div class="rating-bar"><span class="rating-bar__label">4★</span><div class="rating-bar__track"><div class="rating-bar__fill" style="width:43%"></div></div><span class="rating-bar__count">3</span></div>
+            <div class="rating-bar"><span class="rating-bar__label">3★</span><div class="rating-bar__track"><div class="rating-bar__fill" style="width:0%"></div></div><span class="rating-bar__count">0</span></div>
+            <div class="rating-bar"><span class="rating-bar__label">2★</span><div class="rating-bar__track"><div class="rating-bar__fill" style="width:0%"></div></div><span class="rating-bar__count">0</span></div>
+            <div class="rating-bar"><span class="rating-bar__label">1★</span><div class="rating-bar__track"><div class="rating-bar__fill" style="width:0%"></div></div><span class="rating-bar__count">0</span></div>
+          </div>
+        </div>
+
+        <!-- Hodnocení po pokrmech -->
+        <h3 style="font-family:var(--font-serif);font-size:1rem;margin-bottom:1rem;color:var(--c-text-sec)">Hodnocená jídla</h3>
+        <div style="display:flex;flex-direction:column;gap:0.875rem">
+          <div style="display:flex;align-items:center;gap:1rem;padding:1rem;border:1px solid var(--c-border-light);border-radius:var(--r-lg)">
+            <div style="flex:1">
+              <div style="font-weight:600;font-size:0.9375rem">Svíčková na smetaně, knedlík</div>
+              <div style="font-size:0.8125rem;color:var(--c-text-muted)">4. 6. 2025</div>
+            </div>
+            <div class="star-rating star-rating--readonly">
+              <span class="star-rating__star filled">★</span><span class="star-rating__star filled">★</span><span class="star-rating__star filled">★</span><span class="star-rating__star filled">★</span><span class="star-rating__star filled">★</span>
+            </div>
+          </div>
+          <div style="display:flex;align-items:center;gap:1rem;padding:1rem;border:1px solid var(--c-border-light);border-radius:var(--r-lg)">
+            <div style="flex:1">
+              <div style="font-weight:600;font-size:0.9375rem">Hovězí vývar s nudlemi</div>
+              <div style="font-size:0.8125rem;color:var(--c-text-muted)">4. 6. 2025</div>
+            </div>
+            <div class="star-rating star-rating--readonly">
+              <span class="star-rating__star filled">★</span><span class="star-rating__star filled">★</span><span class="star-rating__star filled">★</span><span class="star-rating__star filled">★</span><span class="star-rating__star">★</span>
+            </div>
+          </div>
+          <div style="display:flex;align-items:center;gap:1rem;padding:1rem;border:1px solid var(--c-border-light);border-radius:var(--r-lg)">
+            <div style="flex:1">
+              <div style="font-weight:600;font-size:0.9375rem">Gulášek s houskovým knedlíkem</div>
+              <div style="font-size:0.8125rem;color:var(--c-text-muted)">21. 5. 2025</div>
+            </div>
+            <div class="star-rating star-rating--readonly">
+              <span class="star-rating__star filled">★</span><span class="star-rating__star filled">★</span><span class="star-rating__star filled">★</span><span class="star-rating__star filled">★</span><span class="star-rating__star">★</span>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -190,10 +413,67 @@
 function switchTab(tab, link) {
   document.querySelectorAll('.profile-nav__item').forEach(i => i.classList.remove('active'));
   link.classList.add('active');
-  ['orders','addresses','settings'].forEach(t => {
+  ['orders','ratings','addresses','settings'].forEach(t => {
     const el = document.getElementById('tab-'+t);
     if (el) el.hidden = t !== tab;
   });
+}
+
+/* Toggle order detail (dish ratings) */
+function toggleOrder(id) {
+  const panel = document.getElementById(id);
+  const chevron = document.getElementById(id+'-chevron');
+  const open = panel.classList.toggle('open');
+  if (chevron) chevron.style.transform = open ? 'rotate(180deg)' : '';
+}
+
+/* Star rating interaction */
+document.querySelectorAll('.star-rating:not(.star-rating--readonly)').forEach(widget => {
+  const stars = widget.querySelectorAll('.star-rating__star');
+  let saved = 0;
+  stars.forEach((star, i) => {
+    star.addEventListener('mouseenter', () => {
+      stars.forEach((s, j) => s.classList.toggle('hovered', j <= i));
+    });
+    star.addEventListener('mouseleave', () => {
+      stars.forEach((s, j) => s.classList.toggle('filled', j < saved));
+      stars.forEach(s => s.classList.remove('hovered'));
+    });
+    star.addEventListener('click', () => {
+      saved = i + 1;
+      widget.dataset.value = saved;
+      stars.forEach((s, j) => { s.classList.toggle('filled', j < saved); s.classList.remove('hovered'); });
+    });
+  });
+});
+
+/* Submit ratings */
+function submitRatings(orderId, btn) {
+  const panel = document.getElementById(orderId);
+  const widgets = panel.querySelectorAll('.star-rating[data-dish]');
+  const allRated = [...widgets].every(w => w.dataset.value > 0);
+  if (!allRated) {
+    Toast.show({ title: 'Ohodnoťte prosím všechna jídla', type: 'warning' });
+    return;
+  }
+  btn.disabled = true;
+  btn.textContent = 'Odesíláno…';
+  setTimeout(() => {
+    Toast.show({ title: 'Hodnocení odesláno, děkujeme!', type: 'success' });
+    // Mark as rated in UI
+    panel.querySelector('p') && (panel.querySelector('p').remove());
+    btn.closest('div').remove();
+    widgets.forEach(w => w.classList.add('star-rating--readonly'));
+    // Update the order row badge
+    const row = panel.previousElementSibling;
+    const badge = row.querySelector('[style*="font-style:italic"]');
+    if (badge) {
+      const avg = Math.round([...widgets].reduce((a,w) => a + parseInt(w.dataset.value||0), 0) / widgets.length * 10) / 10;
+      badge.style.fontStyle = 'normal';
+      badge.style.color = 'var(--c-gold)';
+      badge.textContent = '★ ' + avg.toFixed(1);
+    }
+  }, 800);
 }
 </script>
 </body>

@@ -28,7 +28,6 @@
 <div class="mobile-menu"><nav class="mobile-menu__nav"><a href="menu.html" class="mobile-menu__link">Jídelní lístek</a><a href="events.html" class="mobile-menu__link">Akce & Události</a><a href="celebrations.html" class="mobile-menu__link">Oslavy & Pronájmy</a><a href="discover.html" class="mobile-menu__link">Objevte Holčovice</a><a href="gallery.html" class="mobile-menu__link">Galerie</a><a href="contact.html" class="mobile-menu__link">Kontakt</a></nav></div>
 
 <header class="page-header">
-    <meta name="robots" content="noindex, nofollow">
   <div class="container page-header__content">
     <nav class="page-header__breadcrumb"><a href="index.html">Domů</a><span>/</span><span>Kontakt</span></nav>
     <h1 class="page-header__title">Kontakt & Rezervace</h1>
@@ -36,11 +35,24 @@
   </div>
 </header>
 
-<section class="section contact-section">
+<!-- Google Maps — celá šířka -->
+<div style="width:100%;height:420px;overflow:hidden;display:block;line-height:0">
+  <iframe
+    src="https://maps.google.com/maps?q=Hol%C4%8Dovice+123%2C+793+71+Hol%C4%8Dovice&hl=cs&z=15&output=embed"
+    width="100%" height="420" style="border:0;display:block" allowfullscreen loading="lazy"
+    referrerpolicy="no-referrer-when-downgrade" title="Obecní dům Holčovice – mapa"></iframe>
+</div>
+
+<!-- Kontakt + Rezervace -->
+<section class="section contact-section" style="padding-top:clamp(2.5rem,5vw,4rem)">
   <div class="container">
+
+    <!-- Jak nás najdete — nadpis -->
+    <h2 style="font-family:var(--font-serif);font-size:1.75rem;margin-bottom:2rem">Jak nás najdete</h2>
+
     <div class="contact-grid">
+      <!-- Kontaktní info -->
       <div class="contact-info">
-        <h2 style="font-family:var(--font-serif);font-size:1.75rem;margin-bottom:2rem">Jak nás najdete</h2>
         <div class="contact-item">
           <div class="contact-item__icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
           <div><div class="contact-item__label">Adresa</div><div class="contact-item__value">Holčovice 123<br>793 71 Holčovice</div></div>
@@ -58,9 +70,15 @@
           <div>
             <div class="contact-item__label">Otevírací doba</div>
             <div class="contact-item__value" style="font-size:0.9375rem">
-              <div style="display:flex;gap:2rem;margin-bottom:0.25rem"><span>Pondělí – Pátek</span><strong>11:00 – 21:00</strong></div>
-              <div style="display:flex;gap:2rem;margin-bottom:0.25rem"><span>Sobota</span><strong>10:00 – 22:00</strong></div>
-              <div style="display:flex;gap:2rem"><span>Neděle</span><strong>10:00 – 20:00</strong></div>
+              <!-- Pivnice -->
+              <div style="font-size:0.7rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--c-green-600);margin-bottom:0.35rem;margin-top:0.25rem">Pivnice</div>
+              <div style="display:flex;justify-content:space-between;gap:1rem;margin-bottom:0.2rem"><span>Po – Pá</span><strong>11:00 – 21:00</strong></div>
+              <div style="display:flex;justify-content:space-between;gap:1rem;margin-bottom:0.2rem"><span>Sobota</span><strong>10:00 – 22:00</strong></div>
+              <div style="display:flex;justify-content:space-between;gap:1rem;margin-bottom:0.75rem"><span>Neděle</span><strong>10:00 – 20:00</strong></div>
+              <!-- Kuchyně -->
+              <div style="font-size:0.7rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--c-green-600);margin-bottom:0.35rem">Kuchyně</div>
+              <div style="display:flex;justify-content:space-between;gap:1rem;margin-bottom:0.2rem"><span>Po – Pá</span><strong>11–14 h, 17–20:30 h</strong></div>
+              <div style="display:flex;justify-content:space-between;gap:1rem"><span>So – Ne</span><strong>11:00 – 14:30</strong></div>
             </div>
           </div>
         </div>
@@ -68,44 +86,27 @@
           <div class="contact-item__icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg></div>
           <div><div class="contact-item__label">Web</div><div class="contact-item__value"><a href="https://obecnidumholcovice.cz">obecnidumholcovice.cz</a><br><a href="https://odholcovice.cz">odholcovice.cz</a></div></div>
         </div>
-        <!-- Jak se dostat -->
-        <div style="background:var(--c-cream-100);border-radius:var(--r-xl);padding:1.5rem;margin-top:1rem">
-          <h3 style="font-family:var(--font-serif);font-size:1.125rem;margin-bottom:1rem">Jak se dostat</h3>
-          <div style="display:flex;flex-direction:column;gap:0.75rem;font-size:0.9rem;color:var(--c-text-sec)">
-            <div><strong>🚗 Autem:</strong> Z Bruntálu po silnici 452 směr Heřmanovice – 22 km (25 min)</div>
-            <div><strong>🚌 Autobusem:</strong> Linka Bruntál – Holčovice, zastávka „Obecní dům"</div>
-            <div><strong>🚂 Vlakem:</strong> Nejbližší zastávka Bruntál, poté autobus nebo taxi</div>
-          </div>
-        </div>
       </div>
 
-      <!-- Map placeholder + Reservation Form -->
-      <div style="display:flex;flex-direction:column;gap:2rem">
-        <div class="contact-map" style="background:linear-gradient(135deg,#1A3129,#3D6B56);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1rem;color:rgba(255,255,255,0.6);min-height:280px">
-          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
-          <span style="font-size:0.875rem">Holčovice 123, 793 71</span>
-          <a href="https://maps.google.com" target="_blank" rel="noopener" class="btn btn--outline-light btn--sm">Otevřít v Google Maps</a>
-        </div>
-
-        <!-- Reservation form -->
-        <div id="reservation" style="background:var(--c-white);border-radius:var(--r-2xl);padding:2.5rem;box-shadow:var(--shadow-lg)">
-          <h3 style="font-family:var(--font-serif);font-size:1.5rem;margin-bottom:0.5rem">Rezervace stolu</h3>
-          <p style="font-size:0.875rem;color:var(--c-text-muted);margin-bottom:1.5rem">Rezervace podléhá potvrzení obsluhou do 24 hodin.</p>
-          <form data-reservation-form data-validate style="display:flex;flex-direction:column;gap:1rem" onsubmit="event.preventDefault();Toast.show({title:'Žádost odeslána!',message:'Ozveme se do 24 hodin.',type:'success'})">
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem">
-              <div class="form-group"><label class="form-label form-label--req">Jméno a příjmení</label><input type="text" class="form-input" required placeholder="Jan Novák"></div>
-              <div class="form-group"><label class="form-label form-label--req">Telefon</label><input type="tel" class="form-input" required placeholder="+420 000 000 000"></div>
-            </div>
-            <div class="form-group"><label class="form-label">E-mail</label><input type="email" class="form-input" placeholder="jan@example.cz"></div>
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem">
-              <div class="form-group"><label class="form-label form-label--req">Datum</label><input type="date" class="form-input" required></div>
-              <div class="form-group"><label class="form-label form-label--req">Čas</label><select class="form-select" required><option value="">Vyberte čas</option><option>11:00</option><option>12:00</option><option>13:00</option><option>17:00</option><option>18:00</option><option>19:00</option><option>20:00</option></select></div>
-            </div>
-            <div class="form-group"><label class="form-label form-label--req">Počet osob</label><select class="form-select" required><option value="">Počet hostů</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6+</option></select></div>
-            <div class="form-group"><label class="form-label">Poznámka (alergeny, přání…)</label><textarea class="form-textarea" rows="3" placeholder="Chcete slavit výročí? Máte alergeny? Napište nám…"></textarea></div>
-            <button type="submit" class="btn btn--primary btn--lg btn--full">Odeslat žádost o rezervaci</button>
-          </form>
-        </div>
+      <!-- Rezervační formulář -->
+      <div id="reservation" style="background:var(--c-white);border-radius:var(--r-2xl);padding:2.5rem;box-shadow:var(--shadow-lg)">
+        <h3 style="font-family:var(--font-serif);font-size:1.5rem;margin-bottom:0.5rem">Rezervace stolu</h3>
+        <p style="font-size:0.875rem;color:var(--c-text-muted);margin-bottom:1.5rem">Rezervace podléhá potvrzení obsluhou do 24 hodin.</p>
+        <form data-reservation-form data-validate style="display:flex;flex-direction:column;gap:1rem" onsubmit="event.preventDefault();Toast.show({title:'Žádost odeslána!',message:'Ozveme se do 24 hodin.',type:'success'})">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem">
+            <div class="form-group"><label class="form-label form-label--req">Jméno a příjmení</label><input type="text" class="form-input" required placeholder="Jan Novák"></div>
+            <div class="form-group"><label class="form-label form-label--req">Telefon</label><input type="tel" class="form-input" required placeholder="+420 000 000 000"></div>
+          </div>
+          <div class="form-group"><label class="form-label">E-mail</label><input type="email" class="form-input" placeholder="jan@example.cz"></div>
+          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:0.75rem">
+            <div class="form-group"><label class="form-label form-label--req">Datum</label><input type="date" class="form-input" required></div>
+            <div class="form-group"><label class="form-label form-label--req">Čas od</label><select class="form-select" required><option value="">Vyberte čas</option><option>11:00</option><option>11:30</option><option>12:00</option><option>12:30</option><option>13:00</option><option>17:00</option><option>17:30</option><option>18:00</option><option>18:30</option><option>19:00</option><option>19:30</option><option>20:00</option></select></div>
+            <div class="form-group"><label class="form-label" style="color:var(--c-text-muted)">Čas do <span style="font-size:0.75rem;opacity:0.7">(volitelné)</span></label><select class="form-select"><option value="">–</option><option>12:00</option><option>12:30</option><option>13:00</option><option>13:30</option><option>14:00</option><option>18:00</option><option>18:30</option><option>19:00</option><option>19:30</option><option>20:00</option><option>20:30</option><option>21:00</option><option>22:00</option></select></div>
+          </div>
+          <div class="form-group"><label class="form-label form-label--req">Počet hostů</label><select class="form-select" required><option value="">Počet hostů</option><option value="1-2">1 – 2 osoby</option><option value="3-4">3 – 4 osoby</option><option value="5-8">5 – 8 osob</option><option value="9-12">9 – 12 osob</option><option value="12+">12 a více</option></select></div>
+          <div class="form-group"><label class="form-label">Poznámka (alergeny, speciální přání…)</label><textarea class="form-textarea" rows="3" placeholder="Chcete slavit výročí? Máte alergeny? Napište nám…"></textarea></div>
+          <button type="submit" class="btn btn--primary btn--lg btn--full">Odeslat žádost o rezervaci</button>
+        </form>
       </div>
     </div>
   </div>
