@@ -273,7 +273,11 @@
   border-left: 3px solid var(--c-border-light);
   transition: box-shadow var(--tr-base), transform var(--tr-base), border-left-color var(--tr-base);
 }
-.kpi-card:hover { box-shadow: var(--shadow-md); transform: translateY(-1px); }
+.kpi-card:hover  { box-shadow: var(--shadow-md); transform: translateY(-1px); }
+.kpi-card[style*="outline"] { box-shadow: var(--shadow-md); transform: translateY(-2px); opacity:1; }
+/* Klikatelné KPI karty na stránce rezervací */
+.kpi-card[onclick] { user-select:none; }
+.kpi-card[onclick]:active { transform: translateY(0); }
 .kpi-card--green  { border-left-color: var(--c-green-400); }
 .kpi-card--gold   { border-left-color: var(--c-gold); }
 .kpi-card--brown  { border-left-color: var(--c-brown-400); }
