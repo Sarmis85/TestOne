@@ -108,27 +108,16 @@ a { color: inherit; text-decoration: none; }
   font-size: clamp(2rem, 5vw, 3rem);
   font-weight: 300; line-height: 1.1;
   color: var(--navy); margin-bottom: 20px;
-  position: relative; display: inline-block;
 }
-/* Jemný zlatý podtržení u sec-title */
-.sec-title::after {
-  content: '';
-  position: absolute; left: 50%; bottom: -6px;
-  transform: translateX(-50%);
-  width: 0; height: 1px;
-  background: linear-gradient(to right, transparent, var(--gold), transparent);
-  transition: width .8s ease;
-}
-.sec-head:hover .sec-title::after,
-.sec-head.on .sec-title::after { width: 80%; }
 
 .section-navy .sec-title,
 .section-dark  .sec-title { color: var(--white); }
 .sec-sub {
-  font-size: .95rem; color: var(--text-mid);
+  font-size: .95rem; color: var(--text);
   max-width: 560px; margin: 0 auto; line-height: 1.8;
+  opacity: .75;
 }
-.section-navy .sec-sub { color: rgba(255,255,255,.55); }
+.section-navy .sec-sub { color: rgba(255,255,255,.72); opacity: 1; }
 
 /* ══════════════════════════════════════════════
    NAVIGACE
@@ -272,14 +261,16 @@ a { color: inherit; text-decoration: none; }
 .hero-tagline {
   font-family: 'Cormorant Garamond', serif;
   font-size: clamp(1.1rem, 2.5vw, 1.4rem);
-  font-style: italic; color: rgba(255,255,255,.78);
+  font-style: italic; color: rgba(255,255,255,.92);
   margin-bottom: 24px; line-height: 1.5;
+  text-shadow: 0 1px 12px rgba(0,0,0,.4);
 }
 
 .hero-text {
-  font-size: .94rem; color: rgba(255,255,255,.55);
+  font-size: .94rem; color: rgba(255,255,255,.78);
   line-height: 1.9; margin-bottom: 48px;
   max-width: 520px; margin-left: auto; margin-right: auto;
+  text-shadow: 0 1px 8px rgba(0,0,0,.35);
 }
 
 .hero-btns { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
@@ -386,14 +377,15 @@ a { color: inherit; text-decoration: none; }
   pointer-events: none;
 }
 
-/* Kandidáti → Kontakt */
+/* Kandidáti → Kontakt — gradient přechod bez linky */
 #kontakt {
   position: relative;
-  padding-top: 132px;
+  padding-top: 100px;
+  margin-top: -2px;
 }
 #kontakt::before {
   content: '';
-  position: absolute; top: -52px; left: 0; right: 0; height: 52px;
+  position: absolute; top: -54px; left: 0; right: 0; height: 56px;
   background: var(--navy);
   clip-path: polygon(0 100%, 100% 0, 100% 100%);
   pointer-events: none;
@@ -413,22 +405,9 @@ a { color: inherit; text-decoration: none; }
 .section-white { background-color: var(--white); }
 .section-cream { background-color: var(--cream); }
 
-/* Rohové dekorativní prvky v sec-head */
 .sec-head {
-  position: relative;
   text-align: center; margin-bottom: 64px;
 }
-.sec-head::before,
-.sec-head::after {
-  content: '';
-  position: absolute; top: 0;
-  width: 18px; height: 18px;
-  border-color: var(--gold);
-  border-style: solid;
-  opacity: .25;
-}
-.sec-head::before { left: 0;  border-width: 1.5px 0 0 1.5px; }
-.sec-head::after  { right: 0; border-width: 1.5px 1.5px 0 0; }
 
 /* Dekorativní plovoucí diamanty — abstraktní pozadí pro cream sekce */
 @keyframes floatY {
@@ -457,46 +436,68 @@ a { color: inherit; text-decoration: none; }
 .deco-diamonds span:nth-child(5) { width:20px;height:20px; top:50%; left:50%; animation-delay: 1.5s, .6s; animation-duration: 12s, .8s; }
 
 /* ══════════════════════════════════════════════
-   PRIORITY — karty
+   PRIORITY — foto karty
    ══════════════════════════════════════════════ */
 .priorities-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 1px;
-  background: var(--border);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  overflow: hidden;
+  gap: 20px;
   position: relative; z-index: 1;
 }
 .priority-card {
   background: var(--white);
-  padding: 36px 30px 30px;
-  position: relative; overflow: hidden;
-  transition: background .25s;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+  position: relative;
+  transition: transform .3s cubic-bezier(.16,1,.3,1), box-shadow .3s, border-color .3s;
 }
-.priority-card:hover { background: var(--gold-wash); }
+.priority-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 16px 40px rgba(28,51,84,.13);
+  border-color: var(--gold);
+}
+/* Foto hlavička karty */
+.priority-photo {
+  height: 148px;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  transition: background-size .6s cubic-bezier(.16,1,.3,1);
+}
+.priority-card:hover .priority-photo {
+  background-size: 110%;
+}
+.priority-photo::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(to bottom, rgba(10,24,40,.18) 0%, rgba(10,24,40,.62) 100%);
+}
+/* Číslo přes foto */
 .priority-num {
-  position: absolute; top: 12px; right: 18px;
+  position: absolute; bottom: 12px; left: 18px; z-index: 1;
   font-family: 'Cormorant Garamond', serif;
-  font-size: 5rem; font-weight: 300; line-height: 1;
-  color: var(--gold-pale); pointer-events: none; user-select: none;
-  transition: color .25s;
+  font-size: 2.6rem; font-weight: 300; line-height: 1;
+  color: rgba(255,255,255,.9);
+  text-shadow: 0 2px 12px rgba(0,0,0,.4);
+  pointer-events: none; user-select: none;
 }
-.priority-card:hover .priority-num { color: rgba(184,135,58,.17); }
-.priority-icon-wrap {
-  width: 40px; height: 40px;
-  border: 1.5px solid var(--gold); border-radius: 3px;
-  display: flex; align-items: center; justify-content: center;
-  margin-bottom: 20px; transition: background .25s;
+/* Zlatá linka nahoře při hover */
+.priority-card::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 100%;
+  height: 2px; background: var(--gold); z-index: 2;
+  transition: right .4s ease;
 }
-.priority-card:hover .priority-icon-wrap { background: var(--gold); }
-.priority-icon-wrap svg { width: 18px; height: 18px; fill: var(--gold); transition: fill .25s; }
-.priority-card:hover .priority-icon-wrap svg { fill: var(--white); }
+.priority-card:hover::before { right: 0; }
+/* Textová část */
+.priority-body {
+  padding: 22px 24px 24px;
+}
 .priority-card h3 {
   font-family: 'Cormorant Garamond', serif;
-  font-size: 1.22rem; font-weight: 600;
-  color: var(--navy); margin-bottom: 12px; line-height: 1.2;
+  font-size: 1.2rem; font-weight: 600;
+  color: var(--navy); margin-bottom: 10px; line-height: 1.25;
 }
 .priority-card p {
   font-size: .86rem; color: var(--text-mid); line-height: 1.75;
@@ -549,7 +550,7 @@ a { color: inherit; text-decoration: none; }
   font-size: 1.12rem; font-weight: 600;
   color: var(--white); margin-bottom: 5px;
 }
-.timeline-body p { font-size: .85rem; color: rgba(255,255,255,.6); line-height: 1.7; }
+.timeline-body p { font-size: .85rem; color: rgba(255,255,255,.8); line-height: 1.7; }
 
 /* ══════════════════════════════════════════════
    KANDIDÁTI — lídr + mřížka
@@ -938,57 +939,63 @@ a { color: inherit; text-decoration: none; }
     <div class="priorities-grid fi">
 
       <div class="priority-card">
-        <div class="priority-num">01</div>
-        <div class="priority-icon-wrap">
-          <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+        <div class="priority-photo" style="background-image:url('media/a (9).jpg')">
+          <div class="priority-num">01</div>
         </div>
-        <h3>Obnova a bezpečnost po povodních</h3>
-        <p>Dokončení obnovy obecního majetku poškozeného povodněmi v říjnu 2024. Posílení protipovodňových opatření a příprava záchranných plánů ve spolupráci se složkami IZS.</p>
+        <div class="priority-body">
+          <h3>Obnova a bezpečnost po povodních</h3>
+          <p>Dokončení obnovy obecního majetku poškozeného povodněmi v říjnu 2024. Posílení protipovodňových opatření a příprava záchranných plánů ve spolupráci se složkami IZS.</p>
+        </div>
       </div>
 
       <div class="priority-card">
-        <div class="priority-num">02</div>
-        <div class="priority-icon-wrap">
-          <svg viewBox="0 0 24 24"><path d="M20 8h-3V4H3c-1.1 0-2 .9-2 2v11h2c0 1.66 1.34 3 3 3s3-1.34 3-3h6c0 1.66 1.34 3 3 3s3-1.34 3-3h2v-5l-3-4zM6 18.5c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5zm13.5-9l1.96 2.5H17V9.5h2.5zm-1.5 9c-.83 0-1.5-.67-1.5-1.5s.67-1.5 1.5-1.5 1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/></svg>
+        <div class="priority-photo" style="background-image:url('media/a (7).jpg')">
+          <div class="priority-num">02</div>
         </div>
-        <h3>Opravy cest, mostků a veřejného prostoru</h3>
-        <p>Systematická oprava místních komunikací a chodníků. Průběžná údržba tak, aby obec byla v dobrém stavu každý den v roce.</p>
+        <div class="priority-body">
+          <h3>Opravy cest, mostků a veřejného prostoru</h3>
+          <p>Systematická oprava místních komunikací a chodníků. Průběžná údržba tak, aby obec byla v dobrém stavu každý den v roce.</p>
+        </div>
       </div>
 
       <div class="priority-card">
-        <div class="priority-num">03</div>
-        <div class="priority-icon-wrap">
-          <svg viewBox="0 0 24 24"><path d="M11 9H9V2H7v7H5V2H3v7c0 2.12 1.66 3.84 3.75 3.97V22h2.5v-9.03C11.34 12.84 13 11.12 13 9V2h-2v7zm5-3v8h2.5v8H21V2c-2.76 0-5 2.24-5 4z"/></svg>
+        <div class="priority-photo" style="background-image:url('media/a (6).jpg')">
+          <div class="priority-num">03</div>
         </div>
-        <h3>Zachování obecní restaurace jako služby</h3>
-        <p>Obecní restaurace je místo setkávání a srdce vesnice. Chceme ji zachovat jako dotovanou obecní službu dostupnou všem.</p>
+        <div class="priority-body">
+          <h3>Zachování obecní restaurace jako služby</h3>
+          <p>Obecní restaurace je místo setkávání a srdce vesnice. Chceme ji zachovat jako dotovanou obecní službu dostupnou všem.</p>
+        </div>
       </div>
 
       <div class="priority-card">
-        <div class="priority-num">04</div>
-        <div class="priority-icon-wrap">
-          <svg viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+        <div class="priority-photo" style="background-image:url('media/a (4).jpg')">
+          <div class="priority-num">04</div>
         </div>
-        <h3>Podpora spolků, školy a seniorů</h3>
-        <p>Místní hasiči, sportovci a kulturní spolky dávají obci duši. Budeme je nadále podporovat spolu s dostupnými službami pro rodiny i seniory.</p>
+        <div class="priority-body">
+          <h3>Podpora spolků, školy a seniorů</h3>
+          <p>Místní hasiči, sportovci a kulturní spolky dávají obci duši. Budeme je nadále podporovat spolu s dostupnými službami pro rodiny i seniory.</p>
+        </div>
       </div>
 
       <div class="priority-card">
-        <div class="priority-num">05</div>
-        <div class="priority-icon-wrap">
-          <svg viewBox="0 0 24 24"><path d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"/></svg>
+        <div class="priority-photo" style="background-image:url('media/sky5.jpg'); background-position: center 30%">
+          <div class="priority-num">05</div>
         </div>
-        <h3>Rozvoj turistiky a péče o historii</h3>
-        <p>Holčovice leží v krásném prostředí jesenických hor s bohatou historií. Chceme zlepšit podmínky pro turisty a pečovat o pamětní místa.</p>
+        <div class="priority-body">
+          <h3>Rozvoj turistiky a péče o historii</h3>
+          <p>Holčovice leží v krásném prostředí jesenických hor s bohatou historií. Chceme zlepšit podmínky pro turisty a pečovat o pamětní místa.</p>
+        </div>
       </div>
 
       <div class="priority-card">
-        <div class="priority-num">06</div>
-        <div class="priority-icon-wrap">
-          <svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/></svg>
+        <div class="priority-photo" style="background-image:url('media/a (12).jpg')">
+          <div class="priority-num">06</div>
         </div>
-        <h3>Transparentní hospodaření a komunikace</h3>
-        <p>Každá koruna z obecního rozpočtu musí být vynaložena s rozvahou a veřejně dostupná. Pravidelné informování občanů — na webu, úřední desce i osobně.</p>
+        <div class="priority-body">
+          <h3>Transparentní hospodaření a komunikace</h3>
+          <p>Každá koruna z obecního rozpočtu musí být vynaložena s rozvahou a veřejně dostupná. Pravidelné informování občanů — na webu, úřední desce i osobně.</p>
+        </div>
       </div>
 
     </div>
@@ -1352,24 +1359,7 @@ document.querySelectorAll('.timeline-item').forEach(el => {
   tlIo.observe(el);
 });
 
-/* Priority karty counter */
-const prIo = new IntersectionObserver((entries) => {
-  entries.forEach(e => {
-    if (!e.isIntersecting) return;
-    const numEl = e.target.querySelector('.priority-num');
-    if (!numEl) return;
-    const target = parseInt(numEl.textContent, 10);
-    let current = 0;
-    const step = () => {
-      current++;
-      numEl.textContent = String(current).padStart(2, '0');
-      if (current < target) requestAnimationFrame(step);
-    };
-    requestAnimationFrame(step);
-    prIo.unobserve(e.target);
-  });
-}, { threshold: 0.3 });
-document.querySelectorAll('.priority-card').forEach(el => prIo.observe(el));
+/* Priority karty — foto zoom při hover (číslování je statické) */
 
 /* Formulář */
 document.getElementById('contactForm').addEventListener('submit', e => {
