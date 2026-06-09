@@ -383,39 +383,35 @@ a { color: inherit; text-decoration: none; }
 #kontakt {
   position: relative;
   padding-top: 132px;
-  /* bez overflow:hidden — trojúhelník musí přesahovat nahoru */
 }
-/* Dronová foto vrstva */
+/*
+  Foto vrstva sahá 54px NAHORU do krémové zóny #kandidati.
+  clip-path ořízne foto na tvar:
+    - v přechodové zóně (horních 54px): jen pravý trojúhelník (/ sklon)
+    - v sekci samé: celá šířka
+  → tmavý foto-trojúhelník je viditelný na světlém krémovém pozadí výše.
+  #kontakt leží v DOM za #kandidati → přirozeně se maluje navrch.
+*/
 #kontakt::before {
   content: '';
-  position: absolute; inset: 0;
+  position: absolute; top: -54px; left: 0; right: 0; bottom: 0;
   background-image: url('media/sky6.jpg');
   background-size: cover;
   background-position: center 50%;
-  filter: brightness(.28) saturate(.5);
+  filter: brightness(.52) saturate(.8);
+  clip-path: polygon(100% 0, 100% 100%, 0 100%, 0 54px);
   transform: translateZ(0);
 }
-/* Tmavý navy overlay pro čitelnost */
+/* Overlay — stejný tvar jako foto */
 #kontakt::after {
   content: '';
-  position: absolute; inset: 0;
-  background: rgba(10,20,38,.72);
+  position: absolute; top: -54px; left: 0; right: 0; bottom: 0;
+  background: rgba(10,20,38,.25);
+  clip-path: polygon(100% 0, 100% 100%, 0 100%, 0 54px);
   pointer-events: none;
 }
-/* Přechodový trojúhelník — přesahuje nad sekci, proto žádný overflow:hidden */
-#kontakt .kontakt-angle {
-  position: absolute; top: -54px; left: -1px; right: -1px; height: 56px;
-  z-index: 1; pointer-events: none;
-}
-#kontakt .kontakt-angle::before {
-  content: '';
-  position: absolute; inset: 0;
-  background: var(--cream);
-  clip-path: polygon(0 100%, 100% 0, 100% 100%);
-  transform: translateZ(0);
-}
 #kontakt .wrap {
-  position: relative; z-index: 2;
+  position: relative; z-index: 1;
 }
 
 /* ══════════════════════════════════════════════
@@ -1240,7 +1236,6 @@ a { color: inherit; text-decoration: none; }
 
 <!-- KONTAKT -->
 <section class="section section-navy" id="kontakt">
-  <div class="kontakt-angle" aria-hidden="true"></div>
   <div class="wrap">
     <div class="contact-wrap">
 
