@@ -92,7 +92,7 @@
       <div id="reservation" style="background:var(--c-white);border-radius:var(--r-2xl);padding:2.5rem;box-shadow:var(--shadow-lg)">
         <h3 style="font-family:var(--font-serif);font-size:1.5rem;margin-bottom:0.5rem">Rezervace stolu</h3>
         <p style="font-size:0.875rem;color:var(--c-text-muted);margin-bottom:1.5rem">Rezervace podléhá potvrzení obsluhou do 24 hodin.</p>
-        <form data-reservation-form data-validate style="display:flex;flex-direction:column;gap:1rem" onsubmit="event.preventDefault();Toast.show({title:'Žádost odeslána!',message:'Ozveme se do 24 hodin.',type:'success'})">
+        <form data-reservation-form style="display:flex;flex-direction:column;gap:1rem" onsubmit="submitReservation(event)">
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem">
             <div class="form-group"><label class="form-label form-label--req">Jméno a příjmení</label><input type="text" class="form-input" required placeholder="Jan Novák"></div>
             <div class="form-group"><label class="form-label form-label--req">Telefon</label><input type="tel" class="form-input" required placeholder="+420 000 000 000"></div>
@@ -117,5 +117,50 @@
 </footer>
 <div class="toast-container"></div>
 <script src="js/main.js"></script>
+<script>
+async function submitReservation(e) {
+  e.preventDefault();
+  const f   = e.target;
+  const btn = f.querySelector('[type=submit]');
+  const get = id => f.querySelector('#' + id)?.value?.trim() ?? '';
+
+  const payload = {
+    name:         get('res-name')   || f.querySelector('[placeholder="Jan Novák"]')?.value?.trim(),
+    phone:        get('res-phone')  || f.querySelector('[type=tel]')?.value?.trim(),
+    email:        get('res-email')  || f.querySelector('[type=email]')?.value?.trim() || null,
+    date:         f.querySelector('[type=date]')?.value,
+    time_from:    f.querySelectorAll('select')[0]?.value,
+    time_to:      f.querySelectorAll('select')[1]?.value || null,
+    guests_range: f.querySelectorAll('select')[2]?.value,
+    note:         f.querySelector('textarea')?.value?.trim() || null,
+  };
+
+  // Základní validace
+  if (!payload.name || !payload.phone || !payload.date || !payload.time_from || !payload.guests_range) {
+    Toast.show({ title: 'Vyplňte povinná pole', type: 'warning' }); return;
+  }
+
+  btn.disabled = true; btn.textContent = 'Odesílám…';
+
+  try {
+    const res  = await fetch('api/reservations/create.php', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+    const data = await res.json();
+    if (data.ok) {
+      Toast.show({ title: 'Rezervace přijata!', message: 'Potvrdíme do 24 hodin.', type: 'success' });
+      f.reset();
+    } else {
+      Toast.show({ title: data.error ?? 'Chyba odeslání', type: 'error' });
+    }
+  } catch {
+    Toast.show({ title: 'Rezervace přijata (offline demo)', message: 'Ozveme se do 24 hodin.', type: 'success' });
+    f.reset();
+  } finally {
+    btn.disabled = false; btn.textContent = 'Odeslat žádost o rezervaci';
+  }
+}
+</script>
 </body>
 </html>

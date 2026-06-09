@@ -508,5 +508,45 @@
 
 <div class="toast-container" aria-live="polite" aria-atomic="true"></div>
 <script src="js/main.js"></script>
+<script>
+// ── Načtení promo akce z API ──────────────────────────────────
+(async function loadPromoEvent() {
+  try {
+    const res  = await fetch('api/events/list.php?promote=1&limit=1');
+    if (!res.ok) return;
+    const data = await res.json();
+    if (!data.length) {
+      document.getElementById('promo-event')?.style.setProperty('display','none');
+      return;
+    }
+    const ev = data[0];
+    const section = document.getElementById('promo-event');
+    if (!section) return;
+
+    // Datum badge
+    const d = new Date(ev.date_start);
+    const dayNum = d.getDate();
+    const monthNum = d.getMonth()+1;
+    const badge = section.querySelector('.promo-event__date-badge');
+    if (badge) badge.innerHTML = `${dayNum}<sup>. ${monthNum}.</sup>`;
+
+    // Název
+    const nameEl = section.querySelector('.promo-event__name');
+    if (nameEl) nameEl.textContent = ev.title;
+
+    // Popis v rozbalené části
+    const descEl = section.querySelector('.promo-event__desc');
+    if (descEl && ev.perex) descEl.textContent = ev.perex;
+
+    // Meta info (místo)
+    const metaEl = section.querySelector('.promo-event__meta-inline');
+    if (metaEl && ev.location) metaEl.textContent = ev.location;
+
+    section.style.display = '';
+  } catch(e) {
+    console.warn('Promo event API nedostupné, zobrazuji statická data');
+  }
+})();
+</script>
 </body>
 </html>

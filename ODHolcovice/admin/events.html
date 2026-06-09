@@ -232,5 +232,58 @@
 
 <div class="toast-container"></div>
 <script src="../js/admin.js"></script>
+<script>
+async function loadEvents() {
+  try {
+    const res  = await fetch('../api/events/list.php?limit=20');
+    if (!res.ok) return;
+    const data = await res.json();
+    renderEvents(data);
+  } catch(e) { console.warn('API události nedostupné'); }
+}
+
+function formatDate(d) {
+  if (!d) return '—';
+  const [y,m,day] = d.split('T')[0].split('-');
+  return `${day}.${m}.${y}`;
+}
+
+function renderEvents(rows) {
+  const tbody = document.querySelector('.admin-table tbody');
+  if (!tbody) return;
+  if (!rows.length) { tbody.innerHTML='<tr><td colspan="6" style="text-align:center;padding:2rem;color:var(--c-text-muted)">Žádné akce</td></tr>'; return; }
+  tbody.innerHTML = rows.map(r => `
+    <tr data-id="${r.id}">
+      <td><strong>${r.title}</strong></td>
+      <td>${formatDate(r.date_start)}${r.date_end&&r.date_end!==r.date_start?' – '+formatDate(r.date_end):''}</td>
+      <td>${r.location??'—'}</td>
+      <td><span class="status status--success">Publikováno</span></td>
+      <td style="text-align:center">
+        <label class="form-check" style="justify-content:center">
+          <input type="checkbox" ${r.promote_homepage=='1'?'checked':''} onchange="togglePromote(${r.id},this.checked)">
+        </label>
+      </td>
+      <td>
+        <div class="admin-table__cell--actions">
+          <button class="admin-table__action" title="Upravit" onclick="Toast.show({title:'Editor brzy dostupný',type:'info'})">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+          </button>
+        </div>
+      </td>
+    </tr>`).join('');
+}
+
+async function togglePromote(id, value) {
+  try {
+    await fetch('../api/events/update.php', {
+      method:'PUT', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({id, field:'promote_homepage', value: value?1:0}),
+    });
+    Toast.show({title: value?'Promováno na homepage':'Propagace odstraněna', type:'success'});
+  } catch { Toast.show({title:'Chyba',type:'error'}); }
+}
+
+loadEvents();
+</script>
 </body>
 </html>

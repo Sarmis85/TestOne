@@ -362,5 +362,46 @@ document.addEventListener('DOMContentLoaded', () => {
   AdminSidebar.init();
 });
 </script>
+<script>
+// ── Dashboard KPI z API ───────────────────────────────────────
+(async function loadStats() {
+  try {
+    const res  = await fetch('../api/admin/stats.php');
+    if (!res.ok) return;
+    const s = await res.json();
+
+    // KPI čísla — najdeme elementy podle pořadí nebo data atributů
+    const kpis = document.querySelectorAll('.admin-kpi__value');
+    if (kpis[0]) kpis[0].textContent = s.today.orders;
+    if (kpis[1]) kpis[1].textContent = Math.round(s.today.revenue).toLocaleString('cs') + ' Kč';
+    if (kpis[2]) kpis[2].textContent = s.pending_reservations;
+    if (kpis[3]) kpis[3].textContent = s.rating.avg ? s.rating.avg + ' ★' : '—';
+
+    // Odznaky v sidebaru
+    document.querySelectorAll('.admin-nav-item').forEach(a => {
+      const badge = a.querySelector('.admin-nav-item__badge');
+      if (!badge) return;
+      const href = a.getAttribute('href') ?? '';
+      if (href.includes('reservations')) badge.textContent = s.pending_reservations;
+      if (href.includes('orders'))       badge.textContent = s.pending_orders;
+    });
+
+    // Top jídla — vypíšeme pod tabulku jídel pokud existuje
+    if (s.top_foods?.length) {
+      const existing = document.getElementById('top-foods-widget');
+      if (existing) {
+        existing.innerHTML = s.top_foods.map(f =>
+          `<div style="display:flex;justify-content:space-between;padding:.4rem 0;border-bottom:1px solid var(--c-border-light);font-size:.875rem">
+            <span>${f.name}</span>
+            <span style="color:var(--c-gold);font-weight:600">${f.rating_avg} ★ <span style="color:var(--c-text-muted);font-weight:400">(${f.rating_count})</span></span>
+          </div>`
+        ).join('');
+      }
+    }
+  } catch(e) {
+    console.warn('Stats API nedostupné');
+  }
+})();
+</script>
 </body>
 </html>

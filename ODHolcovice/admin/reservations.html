@@ -205,5 +205,70 @@
 
 <div class="toast-container"></div>
 <script src="../js/admin.js"></script>
+<script>
+// ── Načtení rezervací z API ───────────────────────────────────
+const STATUS_LABELS = { ceka:'Čeká', potvrzena:'Potvrzena', zrusena:'Zrušena' };
+const STATUS_CSS    = { ceka:'status--pending', potvrzena:'status--success', zrusena:'status--cancelled' };
+
+async function loadReservations() {
+  try {
+    const res  = await fetch('../api/reservations/list.php?from=' + new Date().toISOString().split('T')[0] + '&limit=50');
+    if (!res.ok) return;
+    const data = await res.json();
+    renderReservations(data);
+    // Aktualizovat odznak v sidebaru
+    const pending = data.filter(r => r.status === 'ceka').length;
+    document.querySelectorAll('.admin-nav-item__badge').forEach(b => {
+      if (b.closest('a')?.href?.includes('reservations')) b.textContent = pending;
+    });
+  } catch(e) { console.warn('API rezervace nedostupné'); }
+}
+
+function renderReservations(rows) {
+  const tbody = document.querySelector('#reservations-table tbody, .admin-table tbody');
+  if (!tbody) return;
+  if (!rows.length) { tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:2rem;color:var(--c-text-muted)">Žádné rezervace</td></tr>'; return; }
+  tbody.innerHTML = rows.map(r => `
+    <tr data-id="${r.id}">
+      <td><strong>#${r.id}</strong></td>
+      <td>${r.name}<br><small style="color:var(--c-text-muted)">${r.phone}</small></td>
+      <td>${formatDate(r.res_date)}</td>
+      <td>${r.time_from}${r.time_to ? ' – '+r.time_to : ''}</td>
+      <td>${r.guests_range} os.</td>
+      <td><span class="status ${STATUS_CSS[r.status]??''}">${STATUS_LABELS[r.status]??r.status}</span></td>
+      <td>
+        <div class="admin-table__cell--actions">
+          ${r.status==='ceka' ? `
+            <button class="btn btn--primary btn--sm" onclick="updateRes(${r.id},'potvrzena',this)">Potvrdit</button>
+            <button class="btn btn--ghost btn--sm" style="color:var(--c-error)" onclick="updateRes(${r.id},'zrusena',this)">Zrušit</button>
+          ` : `<span style="font-size:0.8rem;color:var(--c-text-muted)">${STATUS_LABELS[r.status]}</span>`}
+        </div>
+      </td>
+    </tr>`).join('');
+}
+
+async function updateRes(id, status, btn) {
+  btn.disabled = true;
+  try {
+    const res = await fetch('../api/reservations/update.php', {
+      method:'PUT', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({id, status}),
+    });
+    if ((await res.json()).ok) {
+      Toast.show({ title: status==='potvrzena'?'Rezervace potvrzena':'Rezervace zrušena', type:'success' });
+      loadReservations();
+    }
+  } catch { Toast.show({title:'Chyba',type:'error'}); btn.disabled=false; }
+}
+
+function formatDate(d) {
+  if (!d) return '—';
+  const [y,m,day] = d.split('-');
+  return `${day}.${m}.${y}`;
+}
+
+loadReservations();
+setInterval(loadReservations, 60000); // refresh každou minutu
+</script>
 </body>
 </html>

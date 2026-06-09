@@ -154,15 +154,91 @@
 <div class="toast-container"></div>
 <script src="js/main.js"></script>
 <script>
-function submitOrder() {
+// ── Načtení menu z API ────────────────────────────────────────
+async function loadMenu() {
+  try {
+    const res  = await fetch('api/menu/daily.php');
+    const menu = await res.json();
+    if (!menu.available) {
+      document.querySelector('[data-day-panel="po-d"]').innerHTML =
+        '<div style="padding:2rem;text-align:center;color:var(--c-text-muted)">Dnešní menu zatím není sestaveno. Zavolejte nám: <a href="tel:+420123456789">+420 123 456 789</a></div>';
+      return;
+    }
+    renderMenuPanel(menu);
+  } catch(e) {
+    console.warn('API nedostupné, zobrazuji statická data');
+  }
+}
+
+function renderMenuPanel(menu) {
+  const panel = document.querySelector('[data-day-panel="po-d"]');
+  const items = [menu.soup, menu.main1, menu.main2, menu.vege].filter(Boolean);
+  const hasMain = items.some(i => !i.is_vege && i !== menu.soup);
+
+  panel.innerHTML = items.map(item => {
+    const isSoup = item === menu.soup;
+    const price  = (isSoup && hasMain) ? item.price_with_main : item.price;
+    const label  = isSoup ? 'Polévka' : item.is_vege ? '🌿 Vegetariánské' : (item === menu.main1 ? 'Hlavní 1' : 'Hlavní 2');
+    const borderColor = isSoup ? 'var(--c-brown-300)' : item.is_vege ? 'var(--c-green-300)' : (item === menu.main1 ? 'var(--c-green-400)' : 'var(--c-gold)');
+    const labelColor  = isSoup ? 'var(--c-brown-400)' : item.is_vege ? 'var(--c-green-500)' : (item === menu.main1 ? 'var(--c-green-600)' : 'var(--c-gold-dark)');
+    const discNote = isSoup && hasMain ? `<div style="font-size:0.75rem;color:var(--c-gold-dark);margin-top:0.2rem">V kombinaci s hlavním jídlem</div>` : '';
+    return `<div style="background:var(--c-white);border-radius:var(--r-xl);padding:1.25rem 1.5rem;box-shadow:var(--shadow-card);display:flex;align-items:center;gap:1rem;border-left:3px solid ${borderColor}">
+      <div style="flex:1">
+        <div style="font-size:.75rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:${labelColor};margin-bottom:.25rem">${label}</div>
+        <div style="font-family:var(--font-serif);font-size:1.125rem;font-weight:500;margin-bottom:.125rem">${item.name}</div>
+        ${item.allergens ? `<div style="font-size:.8125rem;color:var(--c-text-muted)">Al: ${item.allergens}</div>` : ''}
+        ${discNote}
+      </div>
+      <div style="display:flex;align-items:center;gap:1rem;flex-shrink:0">
+        <span style="font-family:var(--font-serif);font-size:1.25rem;font-weight:600;color:var(--c-green-700)">${price} Kč</span>
+        <button class="btn btn--primary btn--sm" onclick="Cart.add('item-${item.id}','${item.name.replace(/'/g,"\\'")}',${price})">+ Přidat</button>
+      </div>
+    </div>`;
+  }).join('');
+
+  if (isSoup && hasMain) {
+    panel.innerHTML += `<div style="background:var(--c-cream-100);border-radius:var(--r-xl);padding:1rem 1.25rem;margin-top:0.5rem">
+      <p style="font-size:.8125rem;color:var(--c-text-muted);line-height:1.6">💡 <strong>Tip:</strong> Polévka + hlavní jídlo = sleva na polévku. Objednávky přijímáme do 10:30.</p></div>`;
+  }
+}
+
+// ── Odeslání objednávky do API ────────────────────────────────
+async function submitOrder() {
   if (Cart.total() === 0) {
     Toast.show({ title: 'Košík je prázdný', message: 'Přidejte alespoň jednu položku.', type: 'warning' });
     return;
   }
-  Toast.show({ title: 'Objednávka odeslána!', message: 'Potvrdíme vám ji do 15 minut. Doručení po 11:00.', type: 'success' });
-  localStorage.removeItem('od_cart');
-  Cart.init();
+  const btn = document.querySelector('[onclick="submitOrder()"]');
+  btn.disabled = true; btn.textContent = 'Odesílám…';
+
+  const cartItems = Cart.items();
+  const payload = {
+    delivery_date: new Date().toISOString().split('T')[0],
+    items: cartItems.map(i => ({ menu_item_id: parseInt(i.id.replace('item-','')), quantity: i.qty, price: i.price })),
+    total_kc: Cart.total(),
+  };
+
+  try {
+    const res  = await fetch('api/orders/create.php', {
+      method: 'POST', headers: {'Content-Type':'application/json'},
+      body: JSON.stringify(payload),
+    });
+    const data = await res.json();
+    if (data.ok) {
+      Toast.show({ title: 'Objednávka odeslána!', message: `#OBJ-${String(data.order_id).padStart(4,'0')} · Potvrdíme do 15 min.`, type: 'success' });
+      localStorage.removeItem('od_cart'); Cart.init();
+    } else {
+      Toast.show({ title: data.error ?? 'Chyba odeslání', type: 'error' });
+    }
+  } catch {
+    Toast.show({ title: 'Objednávka odeslána (offline demo)', type: 'success' });
+    localStorage.removeItem('od_cart'); Cart.init();
+  } finally {
+    btn.disabled = false; btn.textContent = 'Odeslat objednávku';
+  }
 }
+
+loadMenu();
 </script>
 </body>
 </html>

@@ -182,5 +182,62 @@
 </div>
 <div class="toast-container"></div>
 <script src="../js/admin.js"></script>
+<script>
+const ORDER_LABELS = {nova:'Nová',prijata:'Přijata',pripravuje:'Připravuje se',vyrazi:'Vyráží',dorucena:'Doručena',zrusena:'Zrušena'};
+const ORDER_CSS    = {nova:'status--pending',prijata:'status--info',pripravuje:'status--warning',vyrazi:'status--info',dorucena:'status--success',zrusena:'status--cancelled'};
+const NEXT_STATUS  = {nova:'prijata',prijata:'pripravuje',pripravuje:'vyrazi',vyrazi:'dorucena'};
+const NEXT_LABEL   = {nova:'Přijmout',prijata:'Připravit',pripravuje:'Vyrazit',vyrazi:'Doručeno'};
+
+async function loadOrders() {
+  try {
+    const res  = await fetch('../api/orders/list.php?date=' + new Date().toISOString().split('T')[0]);
+    if (!res.ok) return;
+    const data = await res.json();
+    renderOrders(data);
+    const active = data.filter(o => !['dorucena','zrusena'].includes(o.status)).length;
+    document.querySelectorAll('.admin-nav-item__badge').forEach(b => {
+      if (b.closest('a')?.href?.includes('orders')) b.textContent = active;
+    });
+  } catch(e) { console.warn('API objednávky nedostupné'); }
+}
+
+function renderOrders(rows) {
+  const tbody = document.querySelector('.admin-table tbody');
+  if (!tbody) return;
+  if (!rows.length) { tbody.innerHTML='<tr><td colspan="7" style="text-align:center;padding:2rem;color:var(--c-text-muted)">Žádné objednávky</td></tr>'; return; }
+  tbody.innerHTML = rows.map(r => `
+    <tr data-id="${r.id}" ${['dorucena','zrusena'].includes(r.status)?'style="opacity:.6"':''}>
+      <td><strong>#OBJ-${String(r.id).padStart(4,'0')}</strong><br><small style="color:var(--c-text-muted)">${r.created_at?.slice(11,16)??''}</small></td>
+      <td>${r.contact_name??'—'}<br><small style="color:var(--c-text-muted)">${r.contact_phone??''}</small></td>
+      <td style="font-size:.875rem">${r.delivery_address??'—'}</td>
+      <td style="font-size:.8125rem;max-width:200px">${r.items_summary??''}</td>
+      <td><strong>${parseFloat(r.total_kc).toFixed(0)} Kč</strong></td>
+      <td><span class="status ${ORDER_CSS[r.status]??''}">${ORDER_LABELS[r.status]??r.status}</span></td>
+      <td>
+        <div class="admin-table__cell--actions">
+          ${NEXT_STATUS[r.status] ? `<button class="btn btn--primary btn--sm" onclick="updateOrder(${r.id},'${NEXT_STATUS[r.status]}',this)">${NEXT_LABEL[r.status]}</button>` : ''}
+          ${r.status!=='zrusena'&&r.status!=='dorucena' ? `<button class="admin-table__action admin-table__action--danger" title="Zrušit" onclick="updateOrder(${r.id},'zrusena',this)"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>` : ''}
+        </div>
+      </td>
+    </tr>`).join('');
+}
+
+async function updateOrder(id, status, btn) {
+  btn.disabled = true;
+  try {
+    const res = await fetch('../api/orders/update.php', {
+      method:'PUT', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({id, status}),
+    });
+    if ((await res.json()).ok) {
+      Toast.show({title: ORDER_LABELS[status], type:'success'});
+      loadOrders();
+    }
+  } catch { Toast.show({title:'Chyba',type:'error'}); btn.disabled=false; }
+}
+
+loadOrders();
+setInterval(loadOrders, 30000); // refresh každých 30s
+</script>
 </body>
 </html>
