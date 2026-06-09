@@ -90,10 +90,18 @@ a { color: inherit; text-decoration: none; }
 
 /* ── Záhlaví sekce ───────────────────────────── */
 .sec-head { text-align: center; margin-bottom: 64px; }
+.sec-eyebrow-row {
+  display: flex; align-items: center; justify-content: center;
+  gap: 14px; margin-bottom: 14px;
+}
+.sec-eyebrow-line {
+  width: 28px; height: 1px;
+  background: var(--gold); opacity: .45; flex-shrink: 0;
+}
 .sec-eyebrow {
   display: inline-block;
   font-size: .68rem; letter-spacing: .28em; text-transform: uppercase;
-  font-weight: 500; color: var(--gold); margin-bottom: 14px;
+  font-weight: 500; color: var(--gold);
 }
 .sec-title {
   font-family: 'Cormorant Garamond', serif;
@@ -140,12 +148,19 @@ a { color: inherit; text-decoration: none; }
   height: 68px;
 }
 
-/* Textové logo v navigaci */
+/* Textové logo v navigaci — viditelné až po scrollu */
 .nav-wordmark {
   font-family: 'Cormorant Garamond', serif;
   font-size: 1.05rem; font-weight: 400; letter-spacing: .06em;
   color: var(--white);
   display: flex; flex-direction: column; line-height: 1.15;
+  opacity: 0; transform: translateY(-4px);
+  transition: opacity .3s ease, transform .3s ease;
+  pointer-events: none;
+}
+.nav.scrolled .nav-wordmark {
+  opacity: 1; transform: translateY(0);
+  pointer-events: auto;
 }
 .nav-wordmark strong {
   font-weight: 600; color: var(--gold-light);
@@ -356,6 +371,7 @@ a { color: inherit; text-decoration: none; }
 .section-vysledky .sec-title { color: var(--white); }
 .section-vysledky .sec-sub   { color: rgba(255,255,255,.5); }
 .section-vysledky .sec-eyebrow { color: var(--gold-light); }
+.section-vysledky .sec-eyebrow-line { background: var(--gold-light); opacity: .55; }
 
 /* Výsledky → Kandidáti */
 #kandidati {
@@ -905,7 +921,11 @@ a { color: inherit; text-decoration: none; }
 <section class="section section-white" id="program">
   <div class="wrap">
     <div class="sec-head fi">
-      <span class="sec-eyebrow">Naše priority</span>
+      <div class="sec-eyebrow-row">
+        <div class="sec-eyebrow-line"></div>
+        <span class="sec-eyebrow">Naše priority</span>
+        <div class="sec-eyebrow-line"></div>
+      </div>
       <h2 class="sec-title">Co chceme pro Holčovice</h2>
       <div class="orn">
         <div class="orn-line"></div>
@@ -981,7 +1001,11 @@ a { color: inherit; text-decoration: none; }
   <div class="angled-top" aria-hidden="true"></div>
   <div class="wrap">
     <div class="sec-head fi">
-      <span class="sec-eyebrow">Dosavadní práce</span>
+      <div class="sec-eyebrow-row">
+        <div class="sec-eyebrow-line"></div>
+        <span class="sec-eyebrow">Dosavadní práce</span>
+        <div class="sec-eyebrow-line"></div>
+      </div>
       <h2 class="sec-title">Co se za tu dobu podařilo</h2>
       <div class="orn" style="--gold:var(--gold-light)">
         <div class="orn-line" style="background:rgba(255,255,255,.25);opacity:1"></div>
@@ -1064,7 +1088,11 @@ a { color: inherit; text-decoration: none; }
   </div>
   <div class="wrap">
     <div class="sec-head fi">
-      <span class="sec-eyebrow">Naše kandidátka</span>
+      <div class="sec-eyebrow-row">
+        <div class="sec-eyebrow-line"></div>
+        <span class="sec-eyebrow">Naše kandidátka</span>
+        <div class="sec-eyebrow-line"></div>
+      </div>
       <h2 class="sec-title">Lidé, kteří stojí za programem</h2>
       <div class="orn">
         <div class="orn-line"></div>
