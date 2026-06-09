@@ -311,10 +311,25 @@ a { color: inherit; text-decoration: none; }
 }
 
 /* ══════════════════════════════════════════════
-   SEKCE — jednoduché přechody bez clip-path hran
+   PŘECHODY MEZI SEKCEMI — šikmé hrany
+   Subpixelová mezera opravena: překryv 2px + translateZ(0)
    ══════════════════════════════════════════════ */
-#program { padding-top: 100px; }
 
+/* Hero → Program */
+#program {
+  position: relative;
+  padding-top: 132px;
+}
+#program::before {
+  content: '';
+  position: absolute; top: -54px; left: -1px; right: -1px; height: 56px;
+  background: var(--white);
+  clip-path: polygon(0 100%, 100% 0, 100% 100%);
+  pointer-events: none;
+  transform: translateZ(0);
+}
+
+/* Program → Výsledky (přes pomocný div, ::before je obsazeno foto bg) */
 .section-vysledky {
   position: relative;
   padding: 100px 32px;
@@ -333,14 +348,50 @@ a { color: inherit; text-decoration: none; }
   position: absolute; inset: 0;
   background: rgba(10,22,38,.55);
 }
-.section-vysledky .wrap { position: relative; z-index: 1; }
+.section-vysledky .angled-top {
+  position: absolute; top: -1px; left: -1px; right: -1px; z-index: 1;
+  height: 57px; pointer-events: none; overflow: visible;
+}
+.section-vysledky .angled-top::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: var(--white);
+  clip-path: polygon(0 0, 100% 0, 0 100%);
+  transform: translateZ(0);
+}
+.section-vysledky .wrap { position: relative; z-index: 2; }
 .section-vysledky .sec-title { color: var(--white); }
 .section-vysledky .sec-sub   { color: rgba(255,255,255,.72); opacity: 1; }
 .section-vysledky .sec-eyebrow { color: var(--gold-light); }
 .section-vysledky .sec-eyebrow-line { background: var(--gold-light); opacity: .55; }
 
-#kandidati { position: relative; }
-#kontakt   { position: relative; }
+/* Výsledky → Kandidáti */
+#kandidati {
+  position: relative;
+  padding-top: 132px;
+}
+#kandidati::before {
+  content: '';
+  position: absolute; top: -54px; left: -1px; right: -1px; height: 56px;
+  background: var(--cream);
+  clip-path: polygon(0 0, 100% 100%, 0 100%);
+  pointer-events: none;
+  transform: translateZ(0);
+}
+
+/* Kandidáti → Kontakt */
+#kontakt {
+  position: relative;
+  padding-top: 132px;
+}
+#kontakt::before {
+  content: '';
+  position: absolute; top: -54px; left: -1px; right: -1px; height: 56px;
+  background: var(--navy);
+  clip-path: polygon(0 100%, 100% 0, 100% 100%);
+  pointer-events: none;
+  transform: translateZ(0);
+}
 
 /* ══════════════════════════════════════════════
    JEMNÉ GRAFICKÉ PRVKY — čistý CSS, bez externích zdrojů
@@ -884,7 +935,7 @@ a { color: inherit; text-decoration: none; }
     <div class="priorities-grid fi">
 
       <div class="priority-card">
-        <div class="priority-photo" style="background-image:url('media/a (9).jpg')">
+        <div class="priority-photo" style="background-image:url('media/sky3.jpg')">
           <div class="priority-num">01</div>
         </div>
         <div class="priority-body">
@@ -894,7 +945,7 @@ a { color: inherit; text-decoration: none; }
       </div>
 
       <div class="priority-card">
-        <div class="priority-photo" style="background-image:url('media/a (7).jpg')">
+        <div class="priority-photo" style="background-image:url('media/sky7.jpg')">
           <div class="priority-num">02</div>
         </div>
         <div class="priority-body">
@@ -904,7 +955,7 @@ a { color: inherit; text-decoration: none; }
       </div>
 
       <div class="priority-card">
-        <div class="priority-photo" style="background-image:url('media/a (6).jpg')">
+        <div class="priority-photo" style="background-image:url('media/sky1.jpg')">
           <div class="priority-num">03</div>
         </div>
         <div class="priority-body">
@@ -914,7 +965,7 @@ a { color: inherit; text-decoration: none; }
       </div>
 
       <div class="priority-card">
-        <div class="priority-photo" style="background-image:url('media/a (4).jpg')">
+        <div class="priority-photo" style="background-image:url('media/sky9.jpg')">
           <div class="priority-num">04</div>
         </div>
         <div class="priority-body">
@@ -924,7 +975,7 @@ a { color: inherit; text-decoration: none; }
       </div>
 
       <div class="priority-card">
-        <div class="priority-photo" style="background-image:url('media/sky5.jpg'); background-position: center 30%">
+        <div class="priority-photo" style="background-image:url('media/sky4.jpg')">
           <div class="priority-num">05</div>
         </div>
         <div class="priority-body">
@@ -934,7 +985,7 @@ a { color: inherit; text-decoration: none; }
       </div>
 
       <div class="priority-card">
-        <div class="priority-photo" style="background-image:url('media/a (12).jpg')">
+        <div class="priority-photo" style="background-image:url('media/sky6.jpg')">
           <div class="priority-num">06</div>
         </div>
         <div class="priority-body">
@@ -949,6 +1000,7 @@ a { color: inherit; text-decoration: none; }
 
 <!-- ÚSPĚCHY -->
 <section class="section-vysledky" id="vysledky">
+  <div class="angled-top" aria-hidden="true"></div>
   <div class="wrap">
     <div class="sec-head fi">
       <div class="sec-eyebrow-row">
