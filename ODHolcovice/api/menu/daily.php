@@ -6,6 +6,24 @@
 require_once __DIR__ . '/../config.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+    // Range mode: ?from=YYYY-MM-DD&to=YYYY-MM-DD  — returns array of days
+    if (!empty($_GET['from']) && !empty($_GET['to'])) {
+        $stmt = db()->prepare('SELECT * FROM v_today_menu WHERE menu_date BETWEEN ? AND ? ORDER BY menu_date');
+        $stmt->execute([$_GET['from'], $_GET['to']]);
+        $rows = $stmt->fetchAll();
+        $days = array_map(function($m) {
+            return [
+                'menu_date' => $m['menu_date'],
+                'soup_id'   => $m['soup_id'],   'soup_name'  => $m['soup_name'],
+                'main1_id'  => $m['main1_id'],  'main1_name' => $m['main1_name'],
+                'main2_id'  => $m['main2_id'],  'main2_name' => $m['main2_name'],
+                'vege_id'   => $m['vege_id'],   'vege_name'  => $m['vege_name'],
+            ];
+        }, $rows);
+        json_response(['days' => $days]);
+    }
+
+    // Single day mode: ?date=YYYY-MM-DD
     $date = $_GET['date'] ?? date('Y-m-d');
     $stmt = db()->prepare('SELECT * FROM v_today_menu WHERE menu_date = ?');
     $stmt->execute([$date]);
@@ -34,7 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     require_role('vedouci', 'super');
     $b = json_decode(file_get_contents('php://input'), true) ?? [];
-    $date = $b['date'] ?? date('Y-m-d');
+    $date = $b['menu_date'] ?? $b['date'] ?? date('Y-m-d');
     $stmt = db()->prepare('REPLACE INTO restaurant_daily_menu
         (menu_date, soup_id, main1_id, main2_id, vege_id, is_weekend, note)
         VALUES (?,?,?,?,?,?,?)');

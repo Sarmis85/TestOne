@@ -40,12 +40,46 @@ if ($method === 'POST') {
 if ($method === 'PUT') {
     require_role('vedouci', 'super');
     $b = json_decode(file_get_contents('php://input'), true) ?? [];
-    $allowed = ['name','category','price_kc','allergens','weight_g','is_vege','is_active'];
-    if (!in_array($b['field'] ?? '', $allowed, true)) {
-        json_response(['error' => 'Nepovolené pole'], 422);
+    if (!isset($b['id'])) json_response(['error' => 'Chybí id'], 422);
+
+    // Accept either {id, field, value} or {id, fieldname: value}
+    $allowed = ['name','category','price_kc','allergens','weight_g','is_vege','is_active',
+                'price','portion','is_vegetarian']; // frontend aliases
+    $fieldMap = ['price'=>'price_kc','portion'=>'weight_g','is_vegetarian'=>'is_vege'];
+
+    if (isset($b['field'])) {
+        // Legacy format: {id, field, value}
+        $field = $fieldMap[$b['field']] ?? $b['field'];
+        if (!in_array($field, ['name','category','price_kc','allergens','weight_g','is_vege','is_active'])) {
+            json_response(['error' => 'Nepovolené pole'], 422);
+        }
+        db()->prepare("UPDATE restaurant_menu_items SET {$field} = ? WHERE id = ?")
+            ->execute([$b['value'], $b['id']]);
+    } else {
+        // New format: {id, fieldname: value, ...}
+        $updates = [];
+        $vals = [];
+        foreach ($b as $k => $v) {
+            if ($k === 'id') continue;
+            $col = $fieldMap[$k] ?? $k;
+            if (in_array($col, ['name','category','price_kc','allergens','weight_g','is_vege','is_active'])) {
+                $updates[] = "$col = ?";
+                $vals[] = $v;
+            }
+        }
+        if (empty($updates)) json_response(['error' => 'Žádná pole k aktualizaci'], 422);
+        $vals[] = $b['id'];
+        db()->prepare("UPDATE restaurant_menu_items SET " . implode(', ', $updates) . " WHERE id = ?")
+            ->execute($vals);
     }
-    db()->prepare("UPDATE restaurant_menu_items SET {$b['field']} = ? WHERE id = ?")
-        ->execute([$b['value'], $b['id']]);
+    json_response(['ok' => true]);
+}
+
+if ($method === 'DELETE') {
+    require_role('vedouci', 'super');
+    $b = json_decode(file_get_contents('php://input'), true) ?? [];
+    if (!isset($b['id'])) json_response(['error' => 'Chybí id'], 422);
+    db()->prepare("DELETE FROM restaurant_menu_items WHERE id = ?")->execute([$b['id']]);
     json_response(['ok' => true]);
 }
 

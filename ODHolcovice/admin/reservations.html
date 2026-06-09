@@ -35,6 +35,7 @@
     <meta name="robots" content="noindex, nofollow">
     <h1 class="admin-topbar__title">Rezervace stolů</h1>
     <div class="admin-topbar__actions">
+      <a href="../index.html" class="btn btn--ghost btn--sm" style="display:flex;align-items:center;gap:0.4rem"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>Zpět na web</a>
       <div class="admin-topbar__search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg><input type="text" placeholder="Hledat rezervace..." data-filter-input="reservations"></div>
       <button class="btn btn--primary btn--sm" data-modal-open="modal-new-reservation">+ Nová rezervace</button>
     </div>
@@ -198,7 +199,7 @@
     </div>
     <div class="modal__footer">
       <button class="btn btn--ghost" data-modal-close="modal-new-reservation">Zrušit</button>
-      <button class="btn btn--primary" onclick="Toast.show({title:'Rezervace vytvořena',type:'success'});Modal.close('modal-new-reservation')">Vytvořit rezervaci</button>
+      <button class="btn btn--primary" id="res-submit-btn" onclick="saveNewReservation()">Vytvořit rezervaci</button>
     </div>
   </div>
 </div>
@@ -265,6 +266,51 @@ function formatDate(d) {
   if (!d) return '—';
   const [y,m,day] = d.split('-');
   return `${day}.${m}.${y}`;
+}
+
+async function saveNewReservation() {
+  const name     = document.querySelector('#modal-new-reservation input[placeholder="Jan Novák"]')?.value.trim();
+  const phone    = document.querySelector('#modal-new-reservation input[placeholder="+420 ..."]')?.value.trim();
+  const dateEl   = document.querySelector('#modal-new-reservation input[type="date"]');
+  const timeEl   = document.querySelector('#modal-new-reservation select');
+  const guestsEl = document.querySelector('#modal-new-reservation input[type="number"]');
+  const noteEl   = document.querySelector('#modal-new-reservation textarea');
+
+  if (!name || !phone || !dateEl?.value || !timeEl?.value || !guestsEl?.value) {
+    Toast.show({title:'Vyplňte povinná pole',type:'warning'}); return;
+  }
+
+  const btn = document.getElementById('res-submit-btn');
+  btn.disabled = true; btn.textContent = 'Ukládám…';
+
+  try {
+    const res = await fetch('../api/reservations/create.php', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({
+        name, phone,
+        date:         dateEl.value,
+        time_from:    timeEl.value,
+        guests_range: guestsEl.value,
+        note:         noteEl?.value.trim() || ''
+      })
+    });
+    const data = await res.json();
+    if (res.ok) {
+      Toast.show({title:'Rezervace vytvořena',type:'success'});
+      Modal.close('modal-new-reservation');
+      // Clear form
+      [dateEl, guestsEl, noteEl].forEach(el => { if(el) el.value=''; });
+      if(timeEl) timeEl.selectedIndex=0;
+      document.querySelector('#modal-new-reservation input[placeholder="Jan Novák"]').value='';
+      document.querySelector('#modal-new-reservation input[placeholder="+420 ..."]').value='';
+      loadReservations();
+    } else {
+      Toast.show({title: data.error||'Chyba při ukládání',type:'error'});
+    }
+  } catch {
+    Toast.show({title:'Chyba připojení',type:'error'});
+  }
+  btn.disabled = false; btn.textContent = 'Vytvořit rezervaci';
 }
 
 loadReservations();

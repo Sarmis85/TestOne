@@ -34,6 +34,7 @@
     <meta name="robots" content="noindex, nofollow">
     <h1 class="admin-topbar__title">Seznamy jídel</h1>
     <div class="admin-topbar__actions">
+      <a href="../index.html" class="btn btn--ghost btn--sm" style="display:flex;align-items:center;gap:0.4rem"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>Zpět na web</a>
       <div class="admin-topbar__search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg><input type="text" placeholder="Hledat jídlo..." data-filter-input="foods"></div>
       <button class="btn btn--primary btn--sm" data-modal-open="modal-new-food">+ Přidat jídlo</button>
     </div>
@@ -85,99 +86,13 @@
               <th style="text-align:right">Akce</th>
             </tr>
           </thead>
-          <tbody>
-            <!-- Polévky -->
-            <tr data-cat="Polévka" data-filter-row="foods" data-filter-value="Polévka">
-              <td class="admin-table__cell--name" contenteditable="true" style="outline:none" onfocus="this.style.background='var(--c-cream-50)'" onblur="this.style.background='';Toast.show({title:'Uloženo',type:'success'})">Hovězí vývar s nudlemi</td>
-              <td><span class="badge badge--brown">Polévka</span></td>
-              <td class="admin-table__cell--price" contenteditable="true" style="outline:none" onfocus="this.style.background='var(--c-cream-50)'" onblur="this.style.background='';Toast.show({title:'Cena uložena',type:'success'})">65 Kč</td>
-              <td style="font-size:0.8rem;color:var(--c-text-muted)" contenteditable="true" style="outline:none">1, 3</td>
-              <td style="font-size:0.8rem;color:var(--c-text-muted)" contenteditable="true" style="outline:none">300 ml</td>
-              <td style="text-align:center;white-space:nowrap"><span style="color:var(--c-gold);font-size:0.875rem">★ 4.2</span><br><span style="font-size:0.7rem;color:var(--c-text-muted)">12 hodnocení</span></td>
-              <td style="text-align:center"><input type="checkbox" disabled></td>
-              <td style="text-align:center"><input type="checkbox" checked onchange="Toast.show({title:'Stav jídla aktualizován',type:'success'})"></td>
-              <td><div class="admin-table__cell--actions">
-                <button class="admin-table__action" title="Přidat do dnešního menu" onclick="Toast.show({title:'Přidáno do menu',type:'success'})"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg></button>
-                <button class="admin-table__action admin-table__action--danger" onclick="deleteRow(this.closest('tr'))"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/></svg></button>
-              </div></td>
-            </tr>
-            <tr data-cat="Polévka" data-filter-row="foods" data-filter-value="Polévka">
-              <td class="admin-table__cell--name" contenteditable="true" style="outline:none" onfocus="this.style.background='var(--c-cream-50)'" onblur="this.style.background='';Toast.show({title:'Uloženo',type:'success'})">Česneková polévka se sýrem</td>
-              <td><span class="badge badge--brown">Polévka</span></td>
-              <td class="admin-table__cell--price" contenteditable="true" style="outline:none" onfocus="this.style.background='var(--c-cream-50)'" onblur="this.style.background=''">79 Kč</td>
-              <td style="font-size:0.8rem;color:var(--c-text-muted)" contenteditable="true" style="outline:none">1, 7</td>
-              <td style="font-size:0.8rem;color:var(--c-text-muted)" contenteditable="true" style="outline:none">300 ml</td>
-              <td style="text-align:center;white-space:nowrap"><span style="color:var(--c-gold);font-size:0.875rem">★ 4.7</span><br><span style="font-size:0.7rem;color:var(--c-text-muted)">8 hodnocení</span></td>
-              <td style="text-align:center"><input type="checkbox" disabled></td>
-              <td style="text-align:center"><input type="checkbox" checked onchange="Toast.show({title:'Stav aktualizován',type:'success'})"></td>
-              <td><div class="admin-table__cell--actions">
-                <button class="admin-table__action" title="Přidat do menu" onclick="Toast.show({title:'Přidáno do menu',type:'success'})"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg></button>
-                <button class="admin-table__action admin-table__action--danger" onclick="deleteRow(this.closest('tr'))"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/></svg></button>
-              </div></td>
-            </tr>
-            <!-- Hlavní jídla -->
-            <tr data-cat="Hlavní" data-filter-row="foods" data-filter-value="Hlavní">
-              <td class="admin-table__cell--name" contenteditable="true" style="outline:none" onfocus="this.style.background='var(--c-cream-50)'" onblur="this.style.background='';Toast.show({title:'Uloženo',type:'success'})">Vepřová pečeně, knedlík, zelí</td>
-              <td><span class="badge badge--gold">Hlavní</span></td>
-              <td class="admin-table__cell--price" contenteditable="true" style="outline:none" onfocus="this.style.background='var(--c-cream-50)'" onblur="this.style.background=''">159 Kč</td>
-              <td style="font-size:0.8rem;color:var(--c-text-muted)" contenteditable="true" style="outline:none">1, 3, 7</td>
-              <td style="font-size:0.8rem;color:var(--c-text-muted)" contenteditable="true" style="outline:none">350 g</td>
-              <td style="text-align:center;white-space:nowrap"><span style="color:var(--c-gold);font-size:0.875rem">★ 4.5</span><br><span style="font-size:0.7rem;color:var(--c-text-muted)">23 hodnocení</span></td>
-              <td style="text-align:center"><input type="checkbox" disabled></td>
-              <td style="text-align:center"><input type="checkbox" checked onchange="Toast.show({title:'Stav aktualizován',type:'success'})"></td>
-              <td><div class="admin-table__cell--actions">
-                <button class="admin-table__action" onclick="Toast.show({title:'Přidáno do menu',type:'success'})"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg></button>
-                <button class="admin-table__action admin-table__action--danger" onclick="deleteRow(this.closest('tr'))"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/></svg></button>
-              </div></td>
-            </tr>
-            <tr data-cat="Hlavní" data-filter-row="foods" data-filter-value="Hlavní">
-              <td class="admin-table__cell--name" contenteditable="true" style="outline:none" onfocus="this.style.background='var(--c-cream-50)'" onblur="this.style.background='';Toast.show({title:'Uloženo',type:'success'})">Svíčková na smetaně, houskový knedlík</td>
-              <td><span class="badge badge--gold">Hlavní</span></td>
-              <td class="admin-table__cell--price" contenteditable="true" style="outline:none" onfocus="this.style.background='var(--c-cream-50)'" onblur="this.style.background=''">259 Kč</td>
-              <td style="font-size:0.8rem;color:var(--c-text-muted)" contenteditable="true" style="outline:none">1, 3, 7</td>
-              <td style="font-size:0.8rem;color:var(--c-text-muted)" contenteditable="true" style="outline:none">350 g</td>
-              <td style="text-align:center;white-space:nowrap"><span style="color:var(--c-gold);font-size:0.875rem">★ 5.0</span><br><span style="font-size:0.7rem;color:var(--c-text-muted)">31 hodnocení</span></td>
-              <td style="text-align:center"><input type="checkbox" disabled></td>
-              <td style="text-align:center"><input type="checkbox" checked onchange="Toast.show({title:'Stav aktualizován',type:'success'})"></td>
-              <td><div class="admin-table__cell--actions">
-                <button class="admin-table__action" onclick="Toast.show({title:'Přidáno do menu',type:'success'})"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg></button>
-                <button class="admin-table__action admin-table__action--danger" onclick="deleteRow(this.closest('tr'))"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/></svg></button>
-              </div></td>
-            </tr>
-            <!-- Vegetariánské -->
-            <tr data-cat="Vegetariánské" data-filter-row="foods" data-filter-value="Vegetariánské">
-              <td class="admin-table__cell--name" contenteditable="true" style="outline:none" onfocus="this.style.background='var(--c-cream-50)'" onblur="this.style.background='';Toast.show({title:'Uloženo',type:'success'})">Zapečené brambory se sýrem</td>
-              <td><span class="badge badge--green">Vege</span></td>
-              <td class="admin-table__cell--price" contenteditable="true" style="outline:none" onfocus="this.style.background='var(--c-cream-50)'" onblur="this.style.background=''">129 Kč</td>
-              <td style="font-size:0.8rem;color:var(--c-text-muted)" contenteditable="true" style="outline:none">7</td>
-              <td style="font-size:0.8rem;color:var(--c-text-muted)" contenteditable="true" style="outline:none">300 g</td>
-              <td style="text-align:center;white-space:nowrap"><span style="color:var(--c-gold);font-size:0.875rem">★ 4.1</span><br><span style="font-size:0.7rem;color:var(--c-text-muted)">7 hodnocení</span></td>
-              <td style="text-align:center"><input type="checkbox" checked disabled></td>
-              <td style="text-align:center"><input type="checkbox" checked onchange="Toast.show({title:'Stav aktualizován',type:'success'})"></td>
-              <td><div class="admin-table__cell--actions">
-                <button class="admin-table__action" onclick="Toast.show({title:'Přidáno do menu',type:'success'})"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg></button>
-                <button class="admin-table__action admin-table__action--danger" onclick="deleteRow(this.closest('tr'))"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/></svg></button>
-              </div></td>
-            </tr>
-            <tr data-cat="Vegetariánské" data-filter-row="foods" data-filter-value="Vegetariánské" style="opacity:0.5">
-              <td class="admin-table__cell--name" contenteditable="true" style="outline:none" onfocus="this.style.background='var(--c-cream-50)'" onblur="this.style.background='';Toast.show({title:'Uloženo',type:'success'})">Čočkový dhal s rýží</td>
-              <td><span class="badge badge--green">Vege</span></td>
-              <td class="admin-table__cell--price" contenteditable="true" style="outline:none" onfocus="this.style.background='var(--c-cream-50)'" onblur="this.style.background=''">165 Kč</td>
-              <td style="font-size:0.8rem;color:var(--c-text-muted)" contenteditable="true" style="outline:none">—</td>
-              <td style="font-size:0.8rem;color:var(--c-text-muted)" contenteditable="true" style="outline:none">350 g</td>
-              <td style="text-align:center;white-space:nowrap"><span style="color:var(--c-text-faint);font-size:0.8rem">– žádné</span></td>
-              <td style="text-align:center"><input type="checkbox" checked disabled></td>
-              <td style="text-align:center"><input type="checkbox" onchange="this.closest('tr').style.opacity=this.checked?'1':'0.5';Toast.show({title:'Stav aktualizován',type:'success'})"></td>
-              <td><div class="admin-table__cell--actions">
-                <button class="admin-table__action" onclick="Toast.show({title:'Přidáno do menu',type:'success'})"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg></button>
-                <button class="admin-table__action admin-table__action--danger" onclick="deleteRow(this.closest('tr'))"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/></svg></button>
-              </div></td>
-            </tr>
+          <tbody id="foods-tbody">
+            <tr><td colspan="9" style="text-align:center;padding:2rem;color:var(--c-text-muted)">Načítám jídla…</td></tr>
           </tbody>
         </table>
       </div>
       <div style="padding:1rem 1.5rem;border-top:1px solid var(--c-border-light);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem">
-        <span style="font-size:0.875rem;color:var(--c-text-muted)">Celkem 5 aktivních jídel · 1 neaktivní</span>
+        <span style="font-size:0.875rem;color:var(--c-text-muted)" id="foods-count">—</span>
         <button class="btn btn--primary btn--sm" data-modal-open="modal-new-food">+ Přidat jídlo</button>
       </div>
     </div>
@@ -187,38 +102,31 @@
       <div class="admin-table-card__header">
         <h3 class="admin-table-card__title">📅 Týdenní denní menu</h3>
         <div class="admin-table-card__actions">
-          <span style="font-size:0.8rem;color:var(--c-text-muted)">9.–13. 6. 2025</span>
-          <button class="btn btn--primary btn--sm" onclick="Toast.show({title:'Menu publikováno',type:'success'})">Publikovat</button>
+          <span style="font-size:0.8rem;color:var(--c-text-muted)" id="week-label"></span>
+          <button class="btn btn--outline btn--sm" onclick="prevWeek()">‹ Předchozí</button>
+          <button class="btn btn--ghost btn--sm" id="week-today-btn" onclick="goToCurrentWeek()">Tento týden</button>
+          <button class="btn btn--outline btn--sm" onclick="nextWeek()">Další ›</button>
+          <button class="btn btn--primary btn--sm" onclick="publishWeeklyMenu()">Publikovat</button>
         </div>
       </div>
       <div class="admin-table-wrap">
-        <table class="admin-table">
-          <thead><tr><th>Den</th><th>Polévka</th><th>Hlavní 1</th><th>Hlavní 2</th><th>Vegetariánské</th></tr></thead>
-          <tbody>
+        <table class="admin-table" id="week-table">
+          <thead>
             <tr>
-              <td style="font-weight:700;color:var(--c-green-700)">Po 9.6.</td>
-              <td><select class="form-select" style="font-size:0.8125rem;padding:0.35rem 0.6rem"><option>Hovězí vývar</option><option>Česneková</option></select></td>
-              <td><select class="form-select" style="font-size:0.8125rem;padding:0.35rem 0.6rem"><option>Vepřová pečeně</option><option>Svíčková</option></select></td>
-              <td><select class="form-select" style="font-size:0.8125rem;padding:0.35rem 0.6rem"><option>Kuřecí řízek</option><option>Pstruh</option></select></td>
-              <td><select class="form-select" style="font-size:0.8125rem;padding:0.35rem 0.6rem"><option>Zapečené brambory</option><option>Čočkový dhal</option></select></td>
+              <th style="min-width:90px">Den</th>
+              <th>Polévka</th>
+              <th>Hlavní 1</th>
+              <th>Hlavní 2</th>
+              <th>Vegetariánské</th>
             </tr>
-            <tr>
-              <td style="font-weight:600">Út 10.6.</td>
-              <td><select class="form-select" style="font-size:0.8125rem;padding:0.35rem 0.6rem"><option>Česneková</option><option>Hovězí vývar</option></select></td>
-              <td><select class="form-select" style="font-size:0.8125rem;padding:0.35rem 0.6rem"><option>Svíčková</option><option>Vepřová pečeně</option></select></td>
-              <td><select class="form-select" style="font-size:0.8125rem;padding:0.35rem 0.6rem"><option>Kuřecí řízek</option></select></td>
-              <td><select class="form-select" style="font-size:0.8125rem;padding:0.35rem 0.6rem"><option>Zapečené brambory</option></select></td>
-            </tr>
-            <tr>
-              <td style="font-weight:600">St 11.6.</td>
-              <td><select class="form-select" style="font-size:0.8125rem;padding:0.35rem 0.6rem"><option>Hovězí vývar</option><option>Česneková</option></select></td>
-              <td><select class="form-select" style="font-size:0.8125rem;padding:0.35rem 0.6rem"><option>Vepřová pečeně</option></select></td>
-              <td><select class="form-select" style="font-size:0.8125rem;padding:0.35rem 0.6rem"><option>Svíčková</option><option>Pstruh</option></select></td>
-              <td><select class="form-select" style="font-size:0.8125rem;padding:0.35rem 0.6rem"><option>Čočkový dhal</option></select></td>
-            </tr>
+          </thead>
+          <tbody id="week-tbody">
+            <tr><td colspan="5" style="text-align:center;padding:2rem;color:var(--c-text-muted)">Načítám menu…</td></tr>
           </tbody>
         </table>
       </div>
+      <!-- Suggestion dropdown (shared) -->
+      <div id="food-suggest" style="display:none;position:fixed;z-index:999;background:#fff;border:1px solid var(--c-border);border-radius:var(--r-md);box-shadow:var(--shadow-lg);min-width:240px;max-height:220px;overflow-y:auto"></div>
     </div>
   </main>
 </div>
@@ -229,24 +137,24 @@
   <div class="modal modal--sm">
     <div class="modal__header"><h3 class="modal__title">Nové jídlo</h3><button class="modal__close" data-modal-close="modal-new-food"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6L6 18M6 6l12 12"/></svg></button></div>
     <div class="modal__body" style="display:flex;flex-direction:column;gap:1rem">
-      <div class="form-group"><label class="form-label form-label--req">Název jídla</label><input type="text" class="form-input" required placeholder="Svíčková na smetaně"></div>
+      <div class="form-group"><label class="form-label form-label--req">Název jídla</label><input type="text" class="form-input" id="nf-name" required placeholder="Svíčková na smetaně"></div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem">
-        <div class="form-group"><label class="form-label form-label--req">Kategorie</label><select class="form-select" required><option>Polévka</option><option>Předkrm</option><option selected>Hlavní</option><option>Vegetariánské</option><option>Dezert</option><option>Nápoj</option></select></div>
-        <div class="form-group"><label class="form-label form-label--req">Cena (Kč)</label><input type="number" class="form-input" required min="0" placeholder="159"></div>
+        <div class="form-group"><label class="form-label form-label--req">Kategorie</label><select class="form-select" id="nf-category" required><option>Polévka</option><option>Předkrm</option><option selected>Hlavní</option><option>Vegetariánské</option><option>Dezert</option><option>Nápoj</option></select></div>
+        <div class="form-group"><label class="form-label form-label--req">Cena (Kč)</label><input type="number" class="form-input" id="nf-price" required min="0" placeholder="159"></div>
       </div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem">
-        <div class="form-group"><label class="form-label">Alergeny</label><input type="text" class="form-input" placeholder="1, 3, 7"></div>
-        <div class="form-group"><label class="form-label">Váha/porce</label><input type="text" class="form-input" placeholder="350 g"></div>
+        <div class="form-group"><label class="form-label">Alergeny</label><input type="text" class="form-input" id="nf-allergens" placeholder="1, 3, 7"></div>
+        <div class="form-group"><label class="form-label">Váha/porce</label><input type="text" class="form-input" id="nf-portion" placeholder="350 g"></div>
       </div>
-      <div class="form-group"><label class="form-label">Popis</label><textarea class="form-textarea" rows="2" placeholder="Krátký popis pro zákazníky..."></textarea></div>
+      <div class="form-group"><label class="form-label">Popis</label><textarea class="form-textarea" id="nf-description" rows="2" placeholder="Krátký popis pro zákazníky..."></textarea></div>
       <div style="display:flex;gap:1.5rem">
-        <label class="form-check"><input type="checkbox"><span style="font-size:0.875rem">Vegetariánské</span></label>
-        <label class="form-check"><input type="checkbox" checked><span style="font-size:0.875rem">Aktivní</span></label>
+        <label class="form-check"><input type="checkbox" id="nf-vegetarian"><span style="font-size:0.875rem">Vegetariánské</span></label>
+        <label class="form-check"><input type="checkbox" id="nf-active" checked><span style="font-size:0.875rem">Aktivní</span></label>
       </div>
     </div>
     <div class="modal__footer">
       <button class="btn btn--ghost" data-modal-close="modal-new-food">Zrušit</button>
-      <button class="btn btn--primary" onclick="Toast.show({title:'Jídlo přidáno do seznamu',type:'success'});Modal.close('modal-new-food')">Přidat jídlo</button>
+      <button class="btn btn--primary" id="nf-submit-btn" onclick="saveNewFood()">Přidat jídlo</button>
     </div>
   </div>
 </div>
@@ -254,26 +162,418 @@
 <div class="toast-container"></div>
 <script src="../js/admin.js"></script>
 <script>
+// ── State ─────────────────────────────────────────────────────
+let allFoods = [];
+let activeCatFilter = '';
+let showInactive = false;
+let weekOffset = 0;           // 0 = current week
+let pendingMenuSlot = null;   // { rowIdx, col, inputEl }
+const DAYS_CS = ['Ne','Po','Út','St','Čt','Pá','So'];
+
+// ── Helpers ───────────────────────────────────────────────────
+function getMonday(offset = 0) {
+  const d = new Date();
+  const day = d.getDay() || 7;
+  d.setDate(d.getDate() - day + 1 + offset * 7);
+  d.setHours(0,0,0,0);
+  return d;
+}
+function isoDate(d) { return d.toISOString().split('T')[0]; }
+function fmtDate(d) { return `${DAYS_CS[d.getDay()]} ${d.getDate()}.${d.getMonth()+1}.`; }
+function catBadge(cat) {
+  const map = { Polévka:'badge--brown', Předkrm:'badge--blue', Hlavní:'badge--gold',
+                Vegetariánské:'badge--green', Dezert:'badge--purple', Nápoj:'badge--teal' };
+  return `<span class="badge ${map[cat]||'badge--grey'}">${cat}</span>`;
+}
+
+// ── Load foods from API ───────────────────────────────────────
+async function loadFoods() {
+  try {
+    const res = await fetch('../api/menu/items.php');
+    if (!res.ok) throw new Error(res.status);
+    const raw = await res.json();
+    // Normalize API field names to frontend names
+    allFoods = (raw.items || raw).map(f => ({
+      id:           f.id,
+      name:         f.name,
+      category:     f.category,
+      price:        f.price_kc ?? f.price,
+      allergens:    f.allergens || '',
+      portion:      f.weight_g  ?? f.portion || '',
+      is_vegetarian: f.is_vege  ?? f.is_vegetarian ?? 0,
+      is_active:    f.is_active ?? 1,
+      avg_rating:   f.rating_avg ?? f.avg_rating ?? null,
+      rating_count: f.rating_count ?? 0,
+    }));
+  } catch {
+    // Fallback demo data
+    allFoods = [
+      {id:1,name:'Hovězí vývar s nudlemi',category:'Polévka',price:65,allergens:'1, 3',portion:'300 ml',is_vegetarian:0,is_active:1,avg_rating:4.2,rating_count:12},
+      {id:2,name:'Česneková polévka se sýrem',category:'Polévka',price:79,allergens:'1, 7',portion:'300 ml',is_vegetarian:0,is_active:1,avg_rating:4.7,rating_count:8},
+      {id:3,name:'Vepřová pečeně, knedlík, zelí',category:'Hlavní',price:159,allergens:'1, 3, 7',portion:'350 g',is_vegetarian:0,is_active:1,avg_rating:4.5,rating_count:23},
+      {id:4,name:'Svíčková na smetaně, houskový knedlík',category:'Hlavní',price:259,allergens:'1, 3, 7',portion:'350 g',is_vegetarian:0,is_active:1,avg_rating:5.0,rating_count:31},
+      {id:5,name:'Zapečené brambory se sýrem',category:'Vegetariánské',price:129,allergens:'7',portion:'300 g',is_vegetarian:1,is_active:1,avg_rating:4.1,rating_count:7},
+      {id:6,name:'Čočkový dhal s rýží',category:'Vegetariánské',price:165,allergens:'',portion:'350 g',is_vegetarian:1,is_active:0,avg_rating:null,rating_count:0},
+    ];
+  }
+  renderFoodsTable();
+  renderWeek();
+}
+
+function renderFoodsTable() {
+  const tbody = document.getElementById('foods-tbody');
+  let rows = allFoods.filter(f => {
+    if (!showInactive && !f.is_active) return false;
+    if (activeCatFilter && f.category !== activeCatFilter) return false;
+    return true;
+  });
+  if (!rows.length) {
+    tbody.innerHTML = `<tr><td colspan="9" style="text-align:center;padding:2rem;color:var(--c-text-muted)">Žádná jídla</td></tr>`;
+    return;
+  }
+  tbody.innerHTML = rows.map(f => {
+    const ratingHtml = f.rating_count > 0
+      ? `<span style="color:var(--c-gold);font-size:0.875rem">★ ${parseFloat(f.avg_rating).toFixed(1)}</span><br><span style="font-size:0.7rem;color:var(--c-text-muted)">${f.rating_count} hodnocení</span>`
+      : `<span style="color:var(--c-text-faint);font-size:0.8rem">– žádné</span>`;
+    const opacity = f.is_active ? '' : 'opacity:0.5;';
+    return `<tr data-id="${f.id}" data-cat="${f.category}" style="${opacity}">
+      <td class="admin-table__cell--name" contenteditable="true" style="outline:none"
+          onfocus="this.style.background='var(--c-cream-50)'"
+          onblur="saveFieldInline(${f.id},'name',this.textContent.trim());this.style.background=''">${f.name}</td>
+      <td>${catBadge(f.category)}</td>
+      <td contenteditable="true" style="outline:none"
+          onfocus="this.style.background='var(--c-cream-50)'"
+          onblur="saveFieldInline(${f.id},'price',this.textContent.replace(/[^0-9]/g,''));this.style.background=''">${f.price} Kč</td>
+      <td style="font-size:0.8rem;color:var(--c-text-muted)" contenteditable="true" style="outline:none"
+          onblur="saveFieldInline(${f.id},'allergens',this.textContent.trim())">${f.allergens||'—'}</td>
+      <td style="font-size:0.8rem;color:var(--c-text-muted)" contenteditable="true" style="outline:none"
+          onblur="saveFieldInline(${f.id},'portion',this.textContent.trim())">${f.portion||'—'}</td>
+      <td style="text-align:center;white-space:nowrap">${ratingHtml}</td>
+      <td style="text-align:center"><input type="checkbox" ${f.is_vegetarian?'checked':''} disabled></td>
+      <td style="text-align:center"><input type="checkbox" ${f.is_active?'checked':''}
+          onchange="toggleActive(${f.id},this.checked,this.closest('tr'))"></td>
+      <td><div class="admin-table__cell--actions">
+        <button class="admin-table__action admin-table__action--danger" title="Smazat" onclick="deleteFood(${f.id},this.closest('tr'))">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/></svg>
+        </button>
+      </div></td>
+    </tr>`;
+  }).join('');
+
+  const active = allFoods.filter(f=>f.is_active).length;
+  const inactive = allFoods.filter(f=>!f.is_active).length;
+  document.getElementById('foods-count').textContent =
+    `Celkem ${active} aktivních jídel · ${inactive} neaktivní`;
+}
+
+async function saveFieldInline(id, field, value) {
+  try {
+    const res = await fetch('../api/menu/items.php', {
+      method:'PUT',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({id, [field]: value})
+    });
+    if (res.ok) {
+      Toast.show({title:'Uloženo',type:'success'});
+      const f = allFoods.find(x=>x.id===id);
+      if (f) f[field] = field==='price' ? parseInt(value) : value;
+    } else { Toast.show({title:'Chyba při ukládání',type:'error'}); }
+  } catch { Toast.show({title:'Uloženo (offline)',type:'success'}); }
+}
+
+async function toggleActive(id, active, row) {
+  row.style.opacity = active ? '1' : '0.5';
+  try {
+    await fetch('../api/menu/items.php', {
+      method:'PUT', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({id, is_active: active ? 1 : 0})
+    });
+    const f = allFoods.find(x=>x.id===id);
+    if (f) f.is_active = active ? 1 : 0;
+    Toast.show({title:'Stav aktualizován',type:'success'});
+  } catch { Toast.show({title:'Stav aktualizován',type:'success'}); }
+}
+
+async function deleteFood(id, row) {
+  if (!confirm('Opravdu smazat toto jídlo?')) return;
+  row.style.opacity = '0';
+  row.style.transition = 'opacity 0.3s';
+  try {
+    await fetch('../api/menu/items.php', {
+      method:'DELETE', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({id})
+    });
+    allFoods = allFoods.filter(f=>f.id!==id);
+  } catch {}
+  setTimeout(() => { row.remove(); renderFoodsTable(); }, 300);
+  Toast.show({title:'Jídlo smazáno',type:'success'});
+}
+
+// ── Save new food ─────────────────────────────────────────────
+async function saveNewFood() {
+  const name = document.getElementById('nf-name').value.trim();
+  const category = document.getElementById('nf-category').value;
+  const price = parseInt(document.getElementById('nf-price').value);
+  const allergens = document.getElementById('nf-allergens').value.trim();
+  const portion = document.getElementById('nf-portion').value.trim();
+  const description = document.getElementById('nf-description').value.trim();
+  const is_vegetarian = document.getElementById('nf-vegetarian').checked ? 1 : 0;
+  const is_active = document.getElementById('nf-active').checked ? 1 : 0;
+
+  if (!name || !price) { Toast.show({title:'Vyplňte povinná pole',type:'warning'}); return; }
+
+  const btn = document.getElementById('nf-submit-btn');
+  btn.disabled = true; btn.textContent = 'Ukládám…';
+
+  try {
+    const res = await fetch('../api/menu/items.php', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({name, category, price_kc: price, allergens, weight_g: portion, description, is_vege: is_vegetarian, is_active})
+    });
+    const data = await res.json();
+    if (res.ok) {
+      const newFood = {id: data.id || Date.now(), name, category, price, allergens, portion, is_vegetarian, is_active, avg_rating:null, rating_count:0};
+      allFoods.push(newFood);
+      renderFoodsTable();
+      Modal.close('modal-new-food');
+      Toast.show({title:'Jídlo přidáno',type:'success'});
+      // Clear form
+      ['nf-name','nf-price','nf-allergens','nf-portion','nf-description'].forEach(id => document.getElementById(id).value='');
+      document.getElementById('nf-vegetarian').checked = false;
+      document.getElementById('nf-active').checked = true;
+    } else {
+      Toast.show({title: data.error||'Chyba při ukládání',type:'error'});
+    }
+  } catch {
+    Toast.show({title:'Chyba připojení',type:'error'});
+  }
+  btn.disabled = false; btn.textContent = 'Přidat jídlo';
+}
+
+// ── Filter / toggle inactive ──────────────────────────────────
 function filterCat(btn, cat) {
   document.querySelectorAll('.tag').forEach(t => t.classList.remove('tag--active'));
   btn.classList.add('tag--active');
-  document.querySelectorAll('#foods-table tr').forEach(row => {
-    row.style.display = (!cat || row.dataset.cat === cat) ? '' : 'none';
+  activeCatFilter = cat;
+  renderFoodsTable();
+}
+function toggleInactive(checked) {
+  showInactive = checked;
+  renderFoodsTable();
+}
+
+// ── Weekly menu builder ───────────────────────────────────────
+// weekData[date] = {soup_id, soup_name, main1_id, main1_name, main2_id, main2_name, vege_id, vege_name}
+let weekData = {};
+
+function getWeekDates() {
+  const mon = getMonday(weekOffset);
+  return Array.from({length:5}, (_,i) => {
+    const d = new Date(mon); d.setDate(d.getDate()+i); return d;
   });
 }
-function toggleInactive(show) {
-  document.querySelectorAll('#foods-table tr').forEach(row => {
-    const cb = row.querySelector('input[type="checkbox"]:last-of-type');
-    if (cb && !cb.checked) row.style.display = show ? '' : 'none';
-  });
-}
-function deleteRow(row) {
-  if (confirm('Opravdu smazat toto jídlo?')) {
-    row.style.animation = 'fadeIn 0.3s ease reverse both';
-    setTimeout(() => row.remove(), 300);
-    Toast.show({title:'Jídlo smazáno',type:'success'});
+
+function updateWeekLabel() {
+  const dates = getWeekDates();
+  const lbl = document.getElementById('week-label');
+  if (lbl) {
+    const fmt = d => `${d.getDate()}.${d.getMonth()+1}.`;
+    lbl.textContent = `${fmt(dates[0])}–${fmt(dates[4])} ${dates[0].getFullYear()}`;
   }
 }
+
+function prevWeek() { weekOffset--; loadWeek(); }
+function nextWeek() { weekOffset++; loadWeek(); }
+function goToCurrentWeek() { weekOffset = 0; loadWeek(); }
+
+async function loadWeek() {
+  updateWeekLabel();
+  const dates = getWeekDates();
+  weekData = {};
+  try {
+    const from = isoDate(dates[0]), to = isoDate(dates[4]);
+    const res = await fetch(`../api/menu/daily.php?from=${from}&to=${to}`);
+    if (res.ok) {
+      const data = await res.json();
+      (data.days || data).forEach(d => { weekData[d.menu_date] = d; });
+    }
+  } catch {}
+  renderWeek();
+}
+
+function renderWeek() {
+  updateWeekLabel();
+  const tbody = document.getElementById('week-tbody');
+  if (!tbody) return;
+  const today = isoDate(new Date());
+  const rows = getWeekDates().map((d, rowIdx) => {
+    const dateStr = isoDate(d);
+    const isToday = dateStr === today;
+    const dayData = weekData[dateStr] || {};
+    const cols = [
+      { key:'soup',  label:'Polévka',      catFilter:'Polévka' },
+      { key:'main1', label:'Hlavní 1',     catFilter:'Hlavní' },
+      { key:'main2', label:'Hlavní 2',     catFilter:'Hlavní' },
+      { key:'vege',  label:'Vegetariánské',catFilter:'Vegetariánské' },
+    ];
+    const cells = cols.map(col => {
+      const nameKey = col.key + '_name';
+      const val = dayData[nameKey] || '';
+      return `<td>
+        <input class="form-input" style="font-size:0.8125rem;padding:0.35rem 0.6rem;min-width:160px"
+          placeholder="${col.label}…"
+          value="${val.replace(/"/g,'&quot;')}"
+          data-date="${dateStr}" data-col="${col.key}" data-cat="${col.catFilter}"
+          autocomplete="off"
+          oninput="onMenuInput(this)"
+          onfocus="onMenuFocus(this)"
+          onblur="onMenuBlur(this)">
+      </td>`;
+    }).join('');
+    const fw = isToday ? 'font-weight:700;color:var(--c-green-700)' : 'font-weight:600';
+    return `<tr><td style="${fw}">${fmtDate(d)}</td>${cells}</tr>`;
+  }).join('');
+  tbody.innerHTML = rows;
+}
+
+// Autocomplete suggestion box
+let suggestTarget = null;
+const suggestEl = document.getElementById('food-suggest');
+
+function onMenuInput(inp) {
+  const val = inp.value.trim().toLowerCase();
+  if (!val) { hideSuggest(); return; }
+  const cat = inp.dataset.cat;
+  const matches = allFoods.filter(f =>
+    f.is_active &&
+    (!cat || f.category === cat) &&
+    f.name.toLowerCase().includes(val)
+  );
+  showSuggest(inp, val, matches, cat);
+}
+
+function onMenuFocus(inp) {
+  const val = inp.value.trim().toLowerCase();
+  if (val) onMenuInput(inp);
+}
+
+function onMenuBlur(inp) {
+  // Delay to allow click on suggestion
+  setTimeout(() => {
+    hideSuggest();
+    // Save whatever is typed (match by name or blank)
+    saveMenuCell(inp);
+  }, 200);
+}
+
+function showSuggest(inp, query, matches, cat) {
+  suggestTarget = inp;
+  const rect = inp.getBoundingClientRect();
+  suggestEl.style.display = 'block';
+  suggestEl.style.left = rect.left + 'px';
+  suggestEl.style.top = (rect.bottom + window.scrollY + 4) + 'px';
+  suggestEl.style.width = Math.max(rect.width, 240) + 'px';
+
+  let html = matches.slice(0,8).map(f =>
+    `<div style="padding:0.6rem 1rem;cursor:pointer;border-bottom:1px solid var(--c-border-light);font-size:0.875rem"
+        onmousedown="pickFood(${f.id},'${f.name.replace(/'/g,"\\'")}',event)"
+        onmouseover="this.style.background='var(--c-cream-50)'"
+        onmouseout="this.style.background=''">
+      ${f.name}
+      <span style="font-size:0.75rem;color:var(--c-text-muted);margin-left:0.5rem">${f.price} Kč</span>
+    </div>`
+  ).join('');
+
+  if (!matches.length || !matches.some(f => f.name.toLowerCase() === query)) {
+    html += `<div style="padding:0.6rem 1rem;cursor:pointer;color:var(--c-green-700);font-size:0.875rem;display:flex;align-items:center;gap:0.5rem;border-top:1px solid var(--c-border-light)"
+        onmousedown="openNewFoodModal('${inp.value.trim().replace(/'/g,"\\'")}',event)"
+        onmouseover="this.style.background='var(--c-cream-50)'"
+        onmouseout="this.style.background=''">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      Přidat „${inp.value.trim()}" jako nové jídlo
+    </div>`;
+  }
+  suggestEl.innerHTML = html;
+}
+
+function hideSuggest() {
+  suggestEl.style.display = 'none';
+  suggestTarget = null;
+}
+
+function pickFood(id, name, evt) {
+  evt.preventDefault();
+  if (!suggestTarget) return;
+  suggestTarget.value = name;
+  // Store selected food id in dataset for saving
+  suggestTarget.dataset.selectedId = id;
+  hideSuggest();
+  saveMenuCell(suggestTarget);
+}
+
+function openNewFoodModal(prefill, evt) {
+  if (evt) evt.preventDefault();
+  hideSuggest();
+  // Remember which slot we're filling
+  if (suggestTarget) pendingMenuSlot = {
+    date: suggestTarget.dataset.date,
+    col:  suggestTarget.dataset.col,
+    inp:  suggestTarget
+  };
+  document.getElementById('nf-name').value = prefill;
+  // Auto-detect category
+  if (suggestTarget) {
+    const catMap = {soup:'Polévka', main1:'Hlavní', main2:'Hlavní', vege:'Vegetariánské'};
+    const cat = catMap[suggestTarget.dataset.col];
+    if (cat) document.getElementById('nf-category').value = cat;
+  }
+  Modal.open('modal-new-food');
+}
+
+async function saveMenuCell(inp) {
+  const date = inp.dataset.date;
+  const col  = inp.dataset.col;
+  const name = inp.value.trim();
+  const id   = inp.dataset.selectedId ? parseInt(inp.dataset.selectedId) : null;
+  // Find food by name if id not set
+  const food = id ? allFoods.find(f=>f.id===id) : allFoods.find(f=>f.name===name);
+  if (!weekData[date]) weekData[date] = {};
+  weekData[date][col+'_name'] = name;
+  weekData[date][col+'_id']   = food ? food.id : null;
+}
+
+async function publishWeeklyMenu() {
+  const dates = getWeekDates();
+  let count = 0;
+  for (const d of dates) {
+    const dateStr = isoDate(d);
+    const row = weekData[dateStr];
+    if (!row) continue;
+    try {
+      const res = await fetch('../api/menu/daily.php', {
+        method:'POST', headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({
+          menu_date: dateStr,
+          soup_id:   row.soup_id || null,
+          main1_id:  row.main1_id || null,
+          main2_id:  row.main2_id || null,
+          vege_id:   row.vege_id || null,
+        })
+      });
+      if (res.ok) count++;
+    } catch {}
+  }
+  Toast.show({title: count > 0 ? `Menu publikováno (${count} dní)` : 'Nic k publikaci', type: count>0?'success':'info'});
+}
+
+// Close suggest on outside click
+document.addEventListener('click', e => {
+  if (!suggestEl.contains(e.target) && e.target !== suggestTarget) hideSuggest();
+});
+
+// ── Init ──────────────────────────────────────────────────────
+loadFoods();
+loadWeek();
 </script>
 </body>
 </html>
