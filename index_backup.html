@@ -78,11 +78,11 @@ a { color: inherit; text-decoration: none; }
 
 /* ── Ornamentální oddělovač ──────────────────── */
 .orn {
-  display: flex; align-items: center; gap: 14px;
-  margin: 0 auto 2.8rem;
+  display: flex; align-items: center; justify-content: center; gap: 14px;
+  width: 160px; margin: 0 auto 2.8rem;
 }
-.orn-line { height: 1px; flex: 1; max-width: 60px; background: currentColor; opacity: .2; }
-.orn-glyph { display: flex; gap: 4px; align-items: center; color: var(--gold); }
+.orn-line { height: 1px; width: 52px; flex-shrink: 0; background: currentColor; opacity: .2; }
+.orn-glyph { display: flex; gap: 4px; align-items: center; color: var(--gold); flex-shrink: 0; }
 .orn-glyph span { display: block; background: var(--gold); transform: rotate(45deg); }
 .orn-glyph span:nth-child(1),
 .orn-glyph span:nth-child(3) { width: 5px; height: 5px; opacity: .5; }
@@ -311,23 +311,10 @@ a { color: inherit; text-decoration: none; }
 }
 
 /* ══════════════════════════════════════════════
-   PŘECHODY MEZI SEKCEMI (šikmé hrany)
+   SEKCE — jednoduché přechody bez clip-path hran
    ══════════════════════════════════════════════ */
+#program { padding-top: 100px; }
 
-/* Hero → Program (bílá šikmá hrana) */
-#program {
-  position: relative;
-  padding-top: 132px;
-}
-#program::before {
-  content: '';
-  position: absolute; top: -52px; left: 0; right: 0; height: 52px;
-  background: var(--white);
-  clip-path: polygon(0 100%, 100% 0, 100% 100%);
-  pointer-events: none;
-}
-
-/* Program → Výsledky: plynulý gradient přechod bílá → tmavá */
 .section-vysledky {
   position: relative;
   padding: 100px 32px;
@@ -346,50 +333,14 @@ a { color: inherit; text-decoration: none; }
   position: absolute; inset: 0;
   background: rgba(10,22,38,.55);
 }
-/* Šikmá bílá hrana nahoře sekce výsledků */
-.section-vysledky .angled-top {
-  position: absolute; top: 0; left: 0; right: 0; z-index: 1;
-  height: 56px; pointer-events: none;
-  overflow: hidden;
-}
-.section-vysledky .angled-top::before {
-  content: '';
-  position: absolute; top: 0; left: 0; right: 0; height: 100%;
-  background: var(--white);
-  clip-path: polygon(0 0, 100% 0, 100% 0, 0 100%);
-}
-.section-vysledky .wrap { position: relative; z-index: 2; padding-top: 32px; }
+.section-vysledky .wrap { position: relative; z-index: 1; }
 .section-vysledky .sec-title { color: var(--white); }
-.section-vysledky .sec-sub   { color: rgba(255,255,255,.5); }
+.section-vysledky .sec-sub   { color: rgba(255,255,255,.72); opacity: 1; }
 .section-vysledky .sec-eyebrow { color: var(--gold-light); }
 .section-vysledky .sec-eyebrow-line { background: var(--gold-light); opacity: .55; }
 
-/* Výsledky → Kandidáti */
-#kandidati {
-  position: relative;
-  padding-top: 132px;
-}
-#kandidati::before {
-  content: '';
-  position: absolute; top: -52px; left: 0; right: 0; height: 52px;
-  background: var(--cream);
-  clip-path: polygon(0 0, 100% 100%, 0 100%);
-  pointer-events: none;
-}
-
-/* Kandidáti → Kontakt — gradient přechod bez linky */
-#kontakt {
-  position: relative;
-  padding-top: 100px;
-  margin-top: -2px;
-}
-#kontakt::before {
-  content: '';
-  position: absolute; top: -54px; left: 0; right: 0; height: 56px;
-  background: var(--navy);
-  clip-path: polygon(0 100%, 100% 0, 100% 100%);
-  pointer-events: none;
-}
+#kandidati { position: relative; }
+#kontakt   { position: relative; }
 
 /* ══════════════════════════════════════════════
    JEMNÉ GRAFICKÉ PRVKY — čistý CSS, bez externích zdrojů
@@ -741,7 +692,7 @@ a { color: inherit; text-decoration: none; }
   margin-bottom: 14px; line-height: 1.15;
 }
 .contact-info .lead {
-  font-size: .9rem; color: rgba(255,255,255,.55);
+  font-size: .9rem; color: rgba(255,255,255,.68);
   line-height: 1.8; margin-bottom: 32px;
 }
 .contact-list { list-style: none; display: flex; flex-direction: column; gap: 12px; }
@@ -750,6 +701,24 @@ a { color: inherit; text-decoration: none; }
   font-size: .88rem; color: rgba(255,255,255,.7);
 }
 .contact-list svg { width: 16px; height: 16px; fill: var(--gold-light); flex-shrink: 0; }
+/* Copyright v levém sloupci */
+.contact-legal {
+  margin-top: 40px;
+  padding-top: 24px;
+  border-top: 1px solid rgba(255,255,255,.08);
+}
+.contact-legal-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.1rem; font-weight: 300;
+  color: rgba(255,255,255,.45);
+  letter-spacing: .06em; margin-bottom: 6px;
+}
+.contact-legal-name em { font-style: italic; color: var(--gold); opacity: .7; }
+.contact-legal p {
+  font-size: .74rem; color: rgba(255,255,255,.28);
+  line-height: 1.7;
+}
+/* Formulář */
 .contact-form { display: flex; flex-direction: column; gap: 13px; }
 .frow { display: grid; grid-template-columns: 1fr 1fr; gap: 13px; }
 .fgrp { display: flex; flex-direction: column; gap: 5px; }
@@ -769,7 +738,7 @@ a { color: inherit; text-decoration: none; }
   border-color: var(--gold-light); background: rgba(255,255,255,.1);
 }
 .fgrp input::placeholder, .fgrp textarea::placeholder { color: rgba(255,255,255,.2); }
-.fgrp textarea { min-height: 110px; resize: vertical; }
+.fgrp textarea { min-height: 220px; resize: vertical; }
 .btn-send {
   font-family: 'DM Sans', sans-serif;
   background: var(--gold); color: var(--white);
@@ -781,30 +750,6 @@ a { color: inherit; text-decoration: none; }
 }
 .btn-send:hover { background: var(--gold-light); transform: translateY(-2px); }
 #form-ok { display: none; font-size: .84rem; color: #7de8a8; margin-top: 4px; font-style: italic; }
-
-/* ══════════════════════════════════════════════
-   PATIČKA — textová, bez loga
-   ══════════════════════════════════════════════ */
-.footer {
-  background: #080f1a;
-  color: rgba(255,255,255,.35);
-  padding: 44px 32px; text-align: center;
-  font-size: .78rem;
-}
-.footer-wordmark {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 1.4rem; font-weight: 300;
-  color: rgba(255,255,255,.5);
-  letter-spacing: .08em;
-  margin-bottom: 6px;
-}
-.footer-wordmark em { font-style: italic; color: var(--gold); }
-.footer-orn {
-  display: flex; align-items: center; gap: 10px;
-  justify-content: center; margin: 14px 0;
-}
-.footer-orn-line { flex: 1; max-width: 60px; height: 1px; background: rgba(255,255,255,.08); }
-.footer-orn-dot { width: 5px; height: 5px; background: var(--gold); transform: rotate(45deg); opacity: .4; }
 
 /* ══════════════════════════════════════════════
    FADE-IN ANIMACE
@@ -826,6 +771,7 @@ a { color: inherit; text-decoration: none; }
 @media (max-width: 860px) {
   .contact-wrap { grid-template-columns: 1fr; gap: 44px; }
   .frow { grid-template-columns: 1fr; }
+  .contact-legal { margin-top: 28px; padding-top: 20px; }
   .leader-feature { grid-template-columns: 1fr; }
   .leader-avatar-wrap { padding: 36px; border-right: none; border-bottom: 1px solid var(--gold-pale); }
   .leader-num-badge { bottom: 28px; right: calc(50% - 80px); }
@@ -844,7 +790,6 @@ a { color: inherit; text-decoration: none; }
   .section { padding: 72px 20px; }
   .section-vysledky { padding: 72px 20px; }
   .wrap { padding: 0 20px; }
-  .sec-head::before, .sec-head::after { display: none; }
 }
 @media (max-width: 640px) {
   .priorities-grid  { grid-template-columns: 1fr; }
@@ -1004,8 +949,6 @@ a { color: inherit; text-decoration: none; }
 
 <!-- ÚSPĚCHY -->
 <section class="section-vysledky" id="vysledky">
-  <!-- šikmá bílá hrana nahoře -->
-  <div class="angled-top" aria-hidden="true"></div>
   <div class="wrap">
     <div class="sec-head fi">
       <div class="sec-eyebrow-row">
@@ -1248,6 +1191,12 @@ a { color: inherit; text-decoration: none; }
             <span>+420 XXX XXX XXX</span>
           </li>
         </ul>
+
+        <div class="contact-legal">
+          <div class="contact-legal-name">Pro rozvoj <em>Holčovic</em></div>
+          <p>Volební uskupení · Holčovice, Moravskoslezský kraj<br>
+          &copy; 2026 Pro rozvoj Holčovic · Všechna práva vyhrazena</p>
+        </div>
       </div>
 
       <form class="contact-form fi" id="contactForm" novalidate>
@@ -1273,17 +1222,6 @@ a { color: inherit; text-decoration: none; }
   </div>
 </section>
 
-<!-- PATIČKA — textová -->
-<footer class="footer">
-  <div class="footer-wordmark">Pro rozvoj <em>Holčovic</em></div>
-  <div>Volební uskupení pro komunální volby · Holčovice, Moravskoslezský kraj</div>
-  <div class="footer-orn">
-    <div class="footer-orn-line"></div>
-    <div class="footer-orn-dot"></div>
-    <div class="footer-orn-line"></div>
-  </div>
-  <div>&copy; 2026 Pro rozvoj Holčovic · Všechna práva vyhrazena</div>
-</footer>
 
 <script>
 const nav      = document.getElementById('nav');
