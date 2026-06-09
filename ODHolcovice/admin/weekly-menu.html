@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta name="robots" content="noindex, nofollow">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Týdenní menu – Admin · Obecní dům Holčovice</title>
+  <link rel="stylesheet" href="../css/admin.css">
+</head>
+<body>
+<div class="admin-root">
+
+<!-- ─── Sidebar ──────────────────────────────────────────────── -->
+<aside class="admin-sidebar" id="admin-sidebar">
+  <div class="admin-sidebar__header">
+    <div class="admin-sidebar__brand">
+      <img src="../img/OD_Logo_průhledné.png" class="admin-sidebar__logo-img" alt="OD Holčovice">
+      <div><div class="admin-sidebar__name">Obecní dům</div><div class="admin-sidebar__sub">Admin</div></div>
+    </div>
+    <button class="admin-sidebar__toggle"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 19l-7-7 7-7M18 19l-7-7 7-7"/></svg></button>
+  </div>
+  <nav class="admin-sidebar__nav">
+    <div class="admin-sidebar__section-title">Přehled</div>
+    <a href="index.html" class="admin-nav-item">
+      <svg class="admin-nav-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+      <span class="admin-nav-item__label">Dashboard</span>
+    </a>
+    <div class="admin-sidebar__section-title">Restaurace</div>
+    <a href="menu.html" class="admin-nav-item">
+      <svg class="admin-nav-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 2h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 4"/></svg>
+      <span class="admin-nav-item__label">Jídelní lístek</span>
+    </a>
+    <a href="weekly-menu.html" class="admin-nav-item active">
+      <svg class="admin-nav-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><polyline points="8 14 11 17 16 12"/></svg>
+      <span class="admin-nav-item__label">Týdenní menu</span>
+    </a>
+    <a href="foods.html" class="admin-nav-item">
+      <svg class="admin-nav-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+      <span class="admin-nav-item__label">Seznamy jídel</span>
+    </a>
+    <a href="reservations.html" class="admin-nav-item">
+      <svg class="admin-nav-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+      <span class="admin-nav-item__label">Rezervace</span>
+      <span class="admin-nav-item__badge">3</span>
+    </a>
+    <a href="orders.html" class="admin-nav-item">
+      <svg class="admin-nav-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      <span class="admin-nav-item__label">Objednávky</span>
+      <span class="admin-nav-item__badge">7</span>
+    </a>
+    <div class="admin-sidebar__section-title">Obsah</div>
+    <a href="events.html" class="admin-nav-item">
+      <svg class="admin-nav-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/></svg>
+      <span class="admin-nav-item__label">Akce & Události</span>
+    </a>
+    <a href="content.html" class="admin-nav-item">
+      <svg class="admin-nav-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+      <span class="admin-nav-item__label">Správa obsahu</span>
+    </a>
+    <div class="admin-sidebar__section-title">Systém</div>
+    <a href="users.html" class="admin-nav-item">
+      <svg class="admin-nav-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+      <span class="admin-nav-item__label">Uživatelé</span>
+    </a>
+  </nav>
+  <div class="admin-sidebar__footer">
+    <div class="admin-user-mini">
+      <div class="admin-user-mini__avatar">SA</div>
+      <div class="admin-user-mini__info">
+        <div class="admin-user-mini__name">Super Admin</div>
+        <div class="admin-user-mini__role">Správce systému</div>
+      </div>
+    </div>
+  </div>
+</aside>
+
+<!-- ─── Main ─────────────────────────────────────────────────── -->
+<div class="admin-main">
+  <header class="admin-topbar">
+    <meta name="robots" content="noindex, nofollow">
+    <h1 class="admin-topbar__title">Týdenní menu</h1>
+    <div class="admin-topbar__actions">
+      <a href="../index.html" class="btn btn--ghost btn--sm" style="display:flex;align-items:center;gap:0.4rem">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>Zpět na web
+      </a>
+      <button class="btn btn--outline btn--sm" onclick="exportMenuPdf()">⬇ PDF</button>
+      <button class="btn btn--outline btn--sm" onclick="exportMenuPng()">🖼 PNG</button>
+      <button class="btn btn--primary btn--sm" id="save-btn" onclick="saveWeeklyMenu()">💾 Uložit</button>
+    </div>
+  </header>
+
+  <main class="admin-content">
+
+    <!-- Navigace týdne -->
+    <div class="admin-table-card" style="margin-bottom:1.5rem">
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:1rem 1.25rem;flex-wrap:wrap;gap:0.75rem">
+        <div style="display:flex;align-items:center;gap:0.5rem">
+          <button class="btn btn--ghost btn--sm" onclick="changeWeek(-1)" id="btn-prev">← Předchozí</button>
+          <div style="min-width:200px;text-align:center">
+            <div id="wm-range" style="font-weight:700;font-size:1rem;color:var(--c-text)">Načítám…</div>
+            <div id="wm-saved-at" style="font-size:0.75rem;color:var(--c-text-muted);margin-top:0.15rem"></div>
+          </div>
+          <button class="btn btn--ghost btn--sm" onclick="changeWeek(+1)" id="btn-next">Následující →</button>
+        </div>
+        <div style="display:flex;gap:0.5rem;align-items:center">
+          <button class="btn btn--ghost btn--sm" onclick="changeWeek(0)">Aktuální týden</button>
+          <div id="wm-status" style="font-size:0.8125rem;color:var(--c-text-muted)"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Týdenní tabulka -->
+    <div class="admin-table-card" id="wm-table-card">
+      <div class="admin-table-wrap" style="overflow-x:auto">
+        <table class="admin-table" id="wm-table" style="min-width:760px">
+          <thead>
+            <tr>
+              <th style="width:90px">Den</th>
+              <th>🍲 Polévka</th>
+              <th>🍽 Hlavní jídlo 1</th>
+              <th>🍽 Hlavní jídlo 2</th>
+              <th>🌿 Vegetariánské</th>
+            </tr>
+          </thead>
+          <tbody id="wm-tbody">
+            <tr>
+              <td colspan="5" style="text-align:center;padding:3rem;color:var(--c-text-muted)">
+                Načítám data…
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div style="padding:0.875rem 1.25rem;border-top:1px solid var(--c-border);background:var(--c-cream-50);border-radius:0 0 var(--r-2xl) var(--r-2xl);font-size:0.8125rem;color:var(--c-text-muted);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:0.5rem">
+        <span>💡 Začněte psát název jídla — nabídne uložená jídla. Neznámé přidejte přes <a href="foods.html" style="color:var(--c-gold-dark)">Seznamy jídel</a>.</span>
+        <span>Změny se zobrazí na webu po kliknutí <strong>Uložit</strong></span>
+      </div>
+    </div>
+
+  </main>
+</div>
+</div>
+
+<!-- Autocomplete dropdown -->
+<div id="wm-suggest"
+  style="display:none;position:fixed;z-index:9999;background:var(--c-white);border:1px solid var(--c-border);border-radius:var(--r-lg);box-shadow:var(--shadow-lg);min-width:260px;max-height:260px;overflow-y:auto">
+</div>
+
+<div class="toast-container"></div>
+<script src="../js/admin.js"></script>
+<script>
+// ═══════════════════════════════════════════════════════════════
+//  KONSTANTY
+// ═══════════════════════════════════════════════════════════════
+const WM_DAYS    = ['Po','Út','St','Čt','Pá'];
+const WM_SLOTS   = ['soup','main1','main2','vege'];
+const WM_SLOT_LABEL = { soup:'Polévka', main1:'Hlavní 1', main2:'Hlavní 2', vege:'Vegetariánské' };
+const WM_PLACEHOLDERS = {
+  soup: 'Polévka…',
+  main1: 'Hlavní jídlo 1…',
+  main2: 'Hlavní jídlo 2…',
+  vege:  'Vegetariánské…',
+};
+
+// ═══════════════════════════════════════════════════════════════
+//  STAV
+// ═══════════════════════════════════════════════════════════════
+let weekOffset = 0;
+let wmFoods    = [];   // všechna jídla z DB
+let wmData     = {};   // { "YYYY-MM-DD": { soup_id, soup_name, main1_id, ... } }
+let wmDates    = [];   // [Mon ISO, …, Fri ISO]
+let suggestTarget = null; // { inp, slot, date }
+
+// ═══════════════════════════════════════════════════════════════
+//  DATUM – POMOCNÉ
+// ═══════════════════════════════════════════════════════════════
+function getWeekDates(offset) {
+  const d = new Date();
+  const dow = d.getDay() || 7;
+  d.setDate(d.getDate() - dow + 1 + offset * 7);
+  return Array.from({ length: 5 }, (_, i) => {
+    const dt = new Date(d);
+    dt.setDate(d.getDate() + i);
+    return dt.toISOString().slice(0, 10);
+  });
+}
+
+function fmtShort(iso) {
+  const d = new Date(iso + 'T00:00');
+  return `${d.getDate()}.${d.getMonth() + 1}.`;
+}
+
+function fmtLong(iso) {
+  const MONTHS = ['ledna','února','března','dubna','května','června',
+                  'července','srpna','září','října','listopadu','prosince'];
+  const d = new Date(iso + 'T00:00');
+  return `${d.getDate()}. ${MONTHS[d.getMonth()]} ${d.getFullYear()}`;
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  NAVIGACE TÝDNE
+// ═══════════════════════════════════════════════════════════════
+function changeWeek(delta) {
+  if (delta === 0) weekOffset = 0;
+  else weekOffset += delta;
+  loadWeeklyMenu();
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  NAČTENÍ JÍDEL
+// ═══════════════════════════════════════════════════════════════
+async function loadFoods() {
+  if (wmFoods.length) return;
+  try {
+    const res = await fetch('../api/menu/items.php?limit=500');
+    if (!res.ok) throw new Error();
+    const data = await res.json();
+    // Normalizace: price_kc → price, is_vege → is_vegetarian
+    wmFoods = data.map(f => ({
+      ...f,
+      price: f.price ?? f.price_kc ?? 0,
+      is_vegetarian: f.is_vegetarian ?? f.is_vege ?? 0,
+    }));
+  } catch {
+    wmFoods = [];
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  NAČTENÍ TÝDENNÍHO MENU
+// ═══════════════════════════════════════════════════════════════
+async function loadWeeklyMenu() {
+  await loadFoods();
+  wmDates = getWeekDates(weekOffset);
+  const from = wmDates[0], to = wmDates[4];
+
+  // Záhlaví – rozsah týdne
+  document.getElementById('wm-range').textContent =
+    `${fmtShort(from)} – ${fmtShort(to)} · ${new Date(from + 'T00:00').getFullYear()}`;
+
+  // Indikátor aktuálního / jiného týdne
+  const statusEl = document.getElementById('wm-status');
+  statusEl.textContent = weekOffset === 0 ? '← aktuální týden' :
+    weekOffset > 0 ? `+${weekOffset} týden` : `${weekOffset} týden`;
+  document.getElementById('btn-prev').disabled = false;
+  document.getElementById('btn-next').disabled = false;
+
+  // Načtení z API
+  document.getElementById('wm-tbody').innerHTML =
+    '<tr><td colspan="5" style="text-align:center;padding:2.5rem;color:var(--c-text-muted)">Načítám…</td></tr>';
+  try {
+    const res  = await fetch(`../api/menu/daily.php?from=${from}&to=${to}`);
+    const data = res.ok ? await res.json() : { days: [] };
+    wmData = {};
+    (data.days ?? []).forEach(d => { wmData[d.menu_date] = d; });
+  } catch {
+    wmData = {};
+  }
+
+  renderTable();
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  RENDEROVÁNÍ TABULKY
+// ═══════════════════════════════════════════════════════════════
+function renderTable() {
+  const tbody = document.getElementById('wm-tbody');
+  tbody.innerHTML = wmDates.map((date, i) => {
+    const d = wmData[date] || {};
+    const dayLabel = WM_DAYS[i];
+    const dayDate  = fmtShort(date);
+    const isToday  = date === new Date().toISOString().slice(0, 10);
+
+    const cells = WM_SLOTS.map(slot => {
+      const nameVal = d[`${slot}_name`] ?? '';
+      const idVal   = d[`${slot}_id`]   ?? '';
+      return `<td style="padding:0.35rem 0.5rem">
+        <input type="text"
+          class="form-input wm-cell"
+          style="font-size:0.8125rem;padding:0.35rem 0.6rem;width:100%;min-width:140px"
+          data-date="${date}"
+          data-slot="${slot}"
+          data-food-id="${escH(idVal)}"
+          value="${escH(nameVal)}"
+          placeholder="${WM_PLACEHOLDERS[slot]}"
+          oninput="wmOnInput(this)"
+          onfocus="wmOnFocus(this)"
+          onblur="wmOnBlur(this)"
+          autocomplete="off">
+      </td>`;
+    }).join('');
+
+    return `<tr style="${isToday ? 'background:rgba(196,154,60,0.06);' : ''}">
+      <td style="padding:0.5rem 0.75rem;white-space:nowrap">
+        <strong style="font-size:0.9375rem">${dayLabel}</strong>
+        <span style="color:var(--c-text-muted);font-size:0.8125rem;display:block">${dayDate}</span>
+        ${isToday ? '<span style="font-size:0.7rem;color:var(--c-gold-dark);font-weight:700;letter-spacing:0.06em">DNES</span>' : ''}
+      </td>
+      ${cells}
+    </tr>`;
+  }).join('');
+}
+
+function escH(s) {
+  return String(s ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  AUTOCOMPLETE
+// ═══════════════════════════════════════════════════════════════
+function wmOnFocus(inp) {
+  wmOnInput(inp);
+}
+
+function wmOnInput(inp) {
+  const val  = inp.value.trim().toLowerCase();
+  const slot = inp.dataset.slot;
+
+  // Odmaž food-id pokud uživatel upravil text
+  if (val !== (wmData[inp.dataset.date] ?? {})[`${slot}_name`]?.toLowerCase()) {
+    inp.dataset.foodId = '';
+  }
+
+  if (!val || val.length < 1) { hideSuggest(); return; }
+
+  const matches = wmFoods.filter(f => {
+    if (f.is_active == 0) return false;
+    // Pro vege slot preferuj vegetariánská jídla, ale ukaž vše
+    return f.name.toLowerCase().includes(val);
+  }).slice(0, 10);
+
+  showSuggest(inp, val, matches);
+}
+
+function wmOnBlur(inp) {
+  setTimeout(hideSuggest, 180);
+}
+
+function showSuggest(inp, val, matches) {
+  const box  = document.getElementById('wm-suggest');
+  const rect = inp.getBoundingClientRect();
+
+  box.style.left  = rect.left + window.scrollX + 'px';
+  box.style.top   = rect.bottom + window.scrollY + 4 + 'px';
+  box.style.width = Math.max(rect.width, 260) + 'px';
+  suggestTarget   = inp;
+
+  if (!matches.length) {
+    const name = escH(inp.value.trim());
+    box.innerHTML = `<div style="padding:0.65rem 0.875rem">
+      <div style="font-size:0.8125rem;color:var(--c-text-muted);margin-bottom:0.5rem">Žádné jídlo nenalezeno</div>
+      <a href="foods.html" target="_blank"
+        style="font-size:0.8125rem;color:var(--c-gold-dark);font-weight:600;text-decoration:none">
+        + Přidat „${name}" do seznamu jídel →
+      </a>
+    </div>`;
+  } else {
+    box.innerHTML = matches.map(f => {
+      const vege = f.is_vegetarian == 1 ? ' <span style="color:var(--c-green-600);font-size:0.75rem">🌿</span>' : '';
+      const cat  = f.category ? `<span style="font-size:0.7rem;color:var(--c-text-muted);margin-left:0.4rem">${escH(f.category)}</span>` : '';
+      const price = f.price ? `<span style="font-size:0.75rem;font-weight:700;color:var(--c-green-700)">${f.price} Kč</span>` : '';
+      return `<div class="wm-si"
+        style="padding:0.5rem 0.875rem;cursor:pointer;font-size:0.8125rem;border-bottom:1px solid var(--c-border);display:flex;align-items:center;justify-content:space-between;gap:0.5rem"
+        onmousedown="pickFood(${f.id},'${escH(f.name)}')"
+        onmouseover="this.style.background='var(--c-cream-50)'"
+        onmouseout="this.style.background=''">
+        <span><strong>${escH(f.name)}</strong>${vege}${cat}</span>
+        ${price}
+      </div>`;
+    }).join('') + `<div style="padding:0.5rem 0.875rem;font-size:0.75rem;border-top:1px solid var(--c-border)">
+      <a href="foods.html" target="_blank" style="color:var(--c-text-muted);text-decoration:none">+ Přidat nové jídlo…</a>
+    </div>`;
+  }
+  box.style.display = 'block';
+}
+
+function hideSuggest() {
+  document.getElementById('wm-suggest').style.display = 'none';
+  suggestTarget = null;
+}
+
+function pickFood(id, name) {
+  if (!suggestTarget) return;
+  const inp  = suggestTarget;
+  const slot = inp.dataset.slot;
+  const date = inp.dataset.date;
+  inp.value          = name;
+  inp.dataset.foodId = id;
+  if (!wmData[date]) wmData[date] = {};
+  wmData[date][`${slot}_id`]   = id;
+  wmData[date][`${slot}_name`] = name;
+  hideSuggest();
+}
+
+// Zavřít suggest při kliknutí mimo
+document.addEventListener('click', e => {
+  if (!e.target.closest('.wm-cell') && !e.target.closest('#wm-suggest')) hideSuggest();
+});
+
+// ═══════════════════════════════════════════════════════════════
+//  ULOŽIT
+// ═══════════════════════════════════════════════════════════════
+async function saveWeeklyMenu() {
+  const btn  = document.getElementById('save-btn');
+  const orig = btn.textContent;
+  btn.disabled = true;
+  btn.textContent = 'Ukládám…';
+
+  // Přečteme aktuální hodnoty inputů (uživatel mohl psát bez výběru z listu)
+  document.querySelectorAll('.wm-cell').forEach(inp => {
+    const date = inp.dataset.date;
+    const slot = inp.dataset.slot;
+    const fid  = inp.dataset.foodId ? parseInt(inp.dataset.foodId) : null;
+    if (!wmData[date]) wmData[date] = {};
+    if (fid) {
+      wmData[date][`${slot}_id`]   = fid;
+      wmData[date][`${slot}_name`] = inp.value;
+    } else if (!inp.value.trim()) {
+      // Pole smazáno — vynuluj
+      wmData[date][`${slot}_id`]   = null;
+      wmData[date][`${slot}_name`] = null;
+    }
+  });
+
+  let ok = 0, fail = 0;
+  for (const date of wmDates) {
+    const d = wmData[date] ?? {};
+    const body = {
+      menu_date: date,
+      soup_id:   d.soup_id   ?? null,
+      main1_id:  d.main1_id  ?? null,
+      main2_id:  d.main2_id  ?? null,
+      vege_id:   d.vege_id   ?? null,
+    };
+    try {
+      const res = await fetch('../api/menu/daily.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body),
+      });
+      if (res.ok) ok++;
+      else {
+        const err = await res.json().catch(() => ({}));
+        console.error('Chyba ukládání', date, err);
+        fail++;
+      }
+    } catch (e) {
+      console.error(e);
+      fail++;
+    }
+  }
+
+  btn.disabled    = false;
+  btn.textContent = orig;
+
+  if (fail === 0) {
+    const now = new Date();
+    document.getElementById('wm-saved-at').textContent =
+      `Uloženo ${now.getHours()}:${String(now.getMinutes()).padStart(2,'0')}`;
+    Toast.show({ title: 'Týdenní menu uloženo', message: 'Zobrazuje se na webu.', type: 'success' });
+    // Znovu načteme pro jistotu správných ID
+    await loadWeeklyMenu();
+  } else if (ok > 0) {
+    Toast.show({ title: `Uloženo ${ok} z ${ok + fail} dní`, type: 'warning' });
+  } else {
+    Toast.show({ title: 'Chyba ukládání', message: 'Zkontrolujte připojení k databázi.', type: 'error' });
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  EXPORT PDF
+// ═══════════════════════════════════════════════════════════════
+function exportMenuPdf() {
+  const range = document.getElementById('wm-range').textContent;
+
+  const rows = wmDates.map((date, i) => {
+    const readVal = slot => {
+      const inp = document.querySelector(`.wm-cell[data-date="${date}"][data-slot="${slot}"]`);
+      return escH(inp?.value || wmData[date]?.[`${slot}_name`] || '—');
+    };
+    return `<tr>
+      <td><strong>${WM_DAYS[i]}</strong> ${fmtShort(date)}</td>
+      <td>${readVal('soup')}</td>
+      <td>${readVal('main1')}</td>
+      <td>${readVal('main2')}</td>
+      <td>${readVal('vege')}</td>
+    </tr>`;
+  }).join('');
+
+  const win = window.open('', '_blank', 'width=820,height=560');
+  win.document.write(`<!DOCTYPE html><html lang="cs"><head><meta charset="UTF-8">
+    <title>Týdenní menu – ${range}</title>
+    <style>
+      body { font-family: Georgia, serif; padding: 2rem 2.5rem; color: #1a1a1a; }
+      h1 { font-size: 1.5rem; margin: 0 0 0.25rem; }
+      .sub { color: #666; font-size: 0.9rem; margin-bottom: 1.5rem; }
+      table { width: 100%; border-collapse: collapse; font-size: 0.875rem; }
+      th { background: #f5efe0; padding: 0.5rem 0.75rem; text-align: left;
+           font-family: sans-serif; font-size: 0.75rem; text-transform: uppercase;
+           letter-spacing: 0.06em; border-bottom: 2px solid #c49a3c; }
+      td { padding: 0.55rem 0.75rem; border-bottom: 1px solid #e8e0d4; vertical-align: top; }
+      tr:nth-child(even) td { background: #faf8f4; }
+      td:first-child { font-family: sans-serif; font-weight: 600; white-space: nowrap; }
+      .footer { margin-top: 1.5rem; font-size: 0.75rem; color: #999; font-family: sans-serif; }
+      @media print { body { padding: 1rem; } button { display: none; } }
+    </style>
+  </head><body>
+    <h1>Týdenní menu – Obecní dům Holčovice</h1>
+    <p class="sub">${range}</p>
+    <table>
+      <thead><tr><th>Den</th><th>Polévka</th><th>Hlavní jídlo 1</th><th>Hlavní jídlo 2</th><th>Vegetariánské</th></tr></thead>
+      <tbody>${rows}</tbody>
+    </table>
+    <p class="footer">Denní menu platí Po–Pá 11:00–14:00. Ceny a nabídka se mohou měnit.</p>
+    <script>window.onload = () => window.print();<\/script>
+  </body></html>`);
+  win.document.close();
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  EXPORT PNG
+// ═══════════════════════════════════════════════════════════════
+function exportMenuPng() {
+  if (typeof html2canvas !== 'undefined') {
+    const el = document.getElementById('wm-table-card');
+    html2canvas(el, { scale: 2, backgroundColor: '#fff', useCORS: true }).then(canvas => {
+      const a = document.createElement('a');
+      a.download = `tydenni-menu-${wmDates[0] ?? 'export'}.png`;
+      a.href = canvas.toDataURL('image/png');
+      a.click();
+    });
+    return;
+  }
+  Toast.show({
+    title: 'Export PNG',
+    message: 'Použijte DevTools → screenshot (F12 → Ctrl+Shift+P → „Capture node screenshot") nebo exportujte jako PDF a uložte stránku jako obrázek.',
+    type: 'info',
+    duration: 7000,
+  });
+}
+
+// ═══════════════════════════════════════════════════════════════
+//  START
+// ═══════════════════════════════════════════════════════════════
+loadWeeklyMenu();
+</script>
+</body>
+</html>

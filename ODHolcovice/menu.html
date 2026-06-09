@@ -285,5 +285,119 @@
 
 <div class="toast-container"></div>
 <script src="js/main.js"></script>
+<script>
+// ── Dynamické denní menu z DB ─────────────────────────────────
+(async function loadDayMenu() {
+  const DAY_KEYS   = ['po','ut','st','ct','pa'];
+  const DAY_LABELS = ['Pondělí','Úterý','Středa','Čtvrtek','Pátek'];
+  const MONTHS_CS  = ['ledna','února','března','dubna','května','června',
+                      'července','srpna','září','října','listopadu','prosince'];
+
+  const today  = new Date();
+  const dow    = today.getDay() || 7;
+  const monday = new Date(today);
+  monday.setDate(today.getDate() - dow + 1);
+  const friday = new Date(monday);
+  friday.setDate(monday.getDate() + 4);
+
+  const iso = d => d.toISOString().slice(0, 10);
+
+  let weekData = {};
+  try {
+    const res = await fetch(`api/menu/daily.php?from=${iso(monday)}&to=${iso(friday)}`);
+    if (!res.ok) return;
+    const data = await res.json();
+    (data.days ?? []).forEach((d, i) => { weekData[DAY_KEYS[i]] = d; });
+  } catch { return; }
+
+  if (!Object.keys(weekData).length) return;
+
+  // Aktualizuj nadpis sekce (dnes)
+  const todayKey = DAY_KEYS[dow - 1];
+  const todayDate = new Date(today);
+  const titleEl = document.querySelector('[data-tab-panel="denni"] h2');
+  if (titleEl) {
+    const dayLabel = DAY_LABELS[dow - 1] ?? 'Denní menu';
+    titleEl.textContent = `Denní menu – ${dayLabel} ${todayDate.getDate()}. ${MONTHS_CS[todayDate.getMonth()]} ${todayDate.getFullYear()}`;
+  }
+
+  // Nahraď kontejner denního menu dynamickými panely
+  const tabPanel = document.querySelector('[data-tab-panel="denni"] .menu-section-block');
+  if (!tabPanel) return;
+
+  function buildDayBlock(key, d, date) {
+    const dt = new Date(date + 'T00:00');
+    const dayLbl = DAY_LABELS[DAY_KEYS.indexOf(key)] ?? key;
+    const dateStr = `${dt.getDate()}. ${MONTHS_CS[dt.getMonth()]}`;
+
+    const slots = [
+      d?.soup_name  ? { label:'Polévka',  name:d.soup_name,  color:'var(--c-brown-300)', vege:false } : null,
+      d?.main1_name ? { label:'Hlavní 1', name:d.main1_name, color:'var(--c-green-400)', vege:false } : null,
+      d?.main2_name ? { label:'Hlavní 2', name:d.main2_name, color:'var(--c-gold)',      vege:false } : null,
+      d?.vege_name  ? { label:'🌿 Vege',  name:d.vege_name,  color:'var(--c-green-300)', vege:true  } : null,
+    ].filter(Boolean);
+
+    const items = slots.length
+      ? slots.map(s => `
+          <div class="menu-full-item" style="border-left:3px solid ${s.color}">
+            <div class="menu-full-item__img" style="background:linear-gradient(135deg,var(--c-green-800),var(--c-green-600))"></div>
+            <div class="menu-full-item__body">
+              <div class="menu-full-item__name">${s.vege ? '' : ''}${s.label}: ${s.name}</div>
+              <div class="menu-full-item__footer" style="margin-top:0.5rem">
+                ${s.vege ? '<span class="menu-full-item__tag">Vegetariánské</span>' : ''}
+              </div>
+            </div>
+          </div>`).join('')
+      : '<p style="color:var(--c-text-muted);padding:1rem">Menu pro tento den není k dispozici.</p>';
+
+    const hidden = key === (todayKey || 'po') ? '' : 'hidden';
+    return `<div data-day-panel="${key}" ${hidden}>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;flex-wrap:wrap;gap:0.5rem">
+        <h3 style="font-family:var(--font-serif);font-size:1.125rem;margin:0">${dayLbl} ${dateStr}</h3>
+      </div>
+      <div style="background:var(--c-cream-50);border-radius:var(--r-2xl);padding:2rem;margin-bottom:2rem">
+        <div style="display:grid;gap:1rem">${items}</div>
+        <div style="margin-top:1.5rem;padding-top:1.5rem;border-top:1px solid var(--c-border-light);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem">
+          <p style="font-size:0.875rem;color:var(--c-text-muted);margin:0">Denní menu je dostupné Po–Pá 11:00–14:00.</p>
+          <a href="delivery.html" class="btn btn--primary">Objednat rozvoz</a>
+        </div>
+      </div>
+    </div>`;
+  }
+
+  // Zjistíme data jednotlivých dní
+  const dates = Array.from({ length: 5 }, (_, i) => {
+    const d = new Date(monday);
+    d.setDate(monday.getDate() + i);
+    return iso(d);
+  });
+
+  // Sestavíme nový obsah
+  const inner = `
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;flex-wrap:wrap;gap:1rem">
+      <h2 class="menu-section-title" style="border:none;margin:0;padding:0" id="daily-menu-heading">
+        Denní menu
+      </h2>
+      <div class="menu-day-selector" style="margin:0">
+        ${DAY_KEYS.map((k,i) => `<button class="tag${k === (todayKey || 'po') ? ' tag--active' : ''}" data-day="${k}">${['Po','Út','St','Čt','Pá'][i]}</button>`).join('')}
+      </div>
+    </div>
+    ${DAY_KEYS.map((k, i) => buildDayBlock(k, weekData[k], dates[i])).join('')}`;
+
+  tabPanel.innerHTML = inner;
+
+  // Aktualizuj nadpis při přepnutí dne
+  document.querySelectorAll('[data-tab-panel="denni"] [data-day]').forEach((btn, i) => {
+    btn.addEventListener('click', () => {
+      const key = btn.dataset.day;
+      const idx = DAY_KEYS.indexOf(key);
+      const dt  = new Date(dates[idx] + 'T00:00');
+      const heading = document.getElementById('daily-menu-heading');
+      if (heading) heading.textContent =
+        `Denní menu – ${DAY_LABELS[idx]} ${dt.getDate()}. ${MONTHS_CS[dt.getMonth()]}`;
+    });
+  });
+})();
+</script>
 </body>
 </html>

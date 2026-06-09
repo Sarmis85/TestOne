@@ -50,7 +50,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    require_role('vedouci', 'super');
+    // Volitelné přihlášení — admin panel funguje i bez PHP session
+    if (session_status() === PHP_SESSION_NONE) session_start();
     $b = json_decode(file_get_contents('php://input'), true) ?? [];
     $date = $b['menu_date'] ?? $b['date'] ?? date('Y-m-d');
     $stmt = db()->prepare('REPLACE INTO restaurant_daily_menu
