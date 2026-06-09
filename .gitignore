@@ -1,0 +1,9 @@
+# Deploy zipy — velké soubory, nepotřebné v repozitáři
+Deploys/
+
+# Dočasné staging složky
+_s*/
+
+# OS soubory
+.DS_Store
+Thumbs.db

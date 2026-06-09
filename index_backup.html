@@ -190,7 +190,7 @@ a { color: inherit; text-decoration: none; }
   display: flex; align-items: center; justify-content: center;
   overflow: hidden;
   background-color: var(--navy-deep);
-  background-image: url('media/a (9).jpg');
+  background-image: url('media/a%20(9).jpg');
   background-size: cover;
   background-position: center 40%;
 }
@@ -338,7 +338,7 @@ a { color: inherit; text-decoration: none; }
 .section-vysledky::before {
   content: '';
   position: absolute; inset: 0;
-  background-image: url('media/a (12).jpg');
+  background-image: url('media/a%20(12).jpg');
   background-size: cover;
   background-position: center 30%;
   filter: brightness(.52) saturate(.8);
@@ -696,13 +696,14 @@ a { color: inherit; text-decoration: none; }
   position: relative; z-index: 1;
 }
 .cand-card {
-  text-align: center;
-  padding: 24px 14px 20px;
+  text-align: left;
+  padding: 22px 20px 22px;
   background: var(--white);
   border: 1px solid var(--border);
   border-radius: 6px;
   position: relative; overflow: hidden;
   transition: transform .3s cubic-bezier(.16,1,.3,1), box-shadow .3s, border-color .3s;
+  display: flex; flex-direction: column;
 }
 .cand-card:hover {
   transform: translateY(-6px);
@@ -716,41 +717,22 @@ a { color: inherit; text-decoration: none; }
   transition: right .35s ease;
 }
 .cand-card:hover::before { right: 0; }
-.cand-avatar {
-  width: 72px; height: 72px; border-radius: 50%;
-  margin: 0 auto 12px;
-  display: flex; align-items: center; justify-content: center;
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 1.3rem; font-weight: 300; color: var(--navy-mid);
-  background: var(--cream-dark);
-  position: relative; transition: background .2s;
-  overflow: hidden;
-}
-.cand-card:hover .cand-avatar { background: var(--gold-pale); }
-.cand-avatar img {
-  position: absolute; inset: 0;
-  width: 100%; height: 100%;
-  object-fit: cover; object-position: center top;
-  border-radius: 50%;
-}
 .cand-num {
-  position: absolute; bottom: -2px; right: -2px;
-  background: var(--navy); color: var(--white);
-  width: 20px; height: 20px; border-radius: 50%;
-  font-size: .58rem; font-weight: 600;
-  display: flex; align-items: center; justify-content: center;
-  border: 2px solid var(--white);
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.8rem; font-weight: 300;
+  color: var(--gold); opacity: .55;
+  line-height: 1; margin-bottom: 10px;
 }
 .cand-card h3 {
   font-family: 'Cormorant Garamond', serif;
-  font-size: 1rem; font-weight: 600;
+  font-size: 1.05rem; font-weight: 600;
   color: var(--navy); margin-bottom: 2px;
 }
 .cand-role {
   font-size: .65rem; letter-spacing: .08em; text-transform: uppercase;
-  color: var(--gold); font-weight: 500; margin-bottom: 6px;
+  color: var(--gold); font-weight: 500; margin-bottom: 10px;
 }
-.cand-bio { font-size: .75rem; color: var(--text-muted); line-height: 1.6; font-style: italic; }
+.cand-bio { font-size: .75rem; color: var(--text-muted); line-height: 1.7; }
 
 /* ══════════════════════════════════════════════
    KONTAKT
@@ -1151,83 +1133,59 @@ a { color: inherit; text-decoration: none; }
     <div class="candidates-grid fi">
 
       <div class="cand-card">
-        <div class="cand-avatar">
-          <span>JP</span>
-          <div class="cand-num">2</div>
-        </div>
+        <div class="cand-num">02</div>
         <h3>Jméno Příjmení</h3>
         <div class="cand-role">Místostarosta/ka</div>
-        <p class="cand-bio">„Záleží mi na tom, aby obec fungovala."</p>
+        <p class="cand-bio">Doplňte stručný medailonek kandidáta — čím se zabývá, jak dlouho žije v Holčovicích a co ho motivuje k angažmá v komunální politice.</p>
       </div>
 
       <div class="cand-card">
-        <div class="cand-avatar">
-          <span>JP</span>
-          <div class="cand-num">3</div>
-        </div>
+        <div class="cand-num">03</div>
         <h3>Jméno Příjmení</h3>
         <div class="cand-role">Zastupitel/ka</div>
-        <p class="cand-bio">„Chci přispět ke klidnému rozvoji obce."</p>
+        <p class="cand-bio">Doplňte stručný medailonek kandidáta — čím se zabývá, jak dlouho žije v Holčovicích a co ho motivuje k angažmá v komunální politice.</p>
       </div>
 
       <div class="cand-card">
-        <div class="cand-avatar">
-          <span>JP</span>
-          <div class="cand-num">4</div>
-        </div>
+        <div class="cand-num">04</div>
         <h3>Jméno Příjmení</h3>
         <div class="cand-role">Zastupitel/ka</div>
-        <p class="cand-bio">„Chci, aby tu bylo dobře i pro další generace."</p>
+        <p class="cand-bio">Doplňte stručný medailonek kandidáta — čím se zabývá, jak dlouho žije v Holčovicích a co ho motivuje k angažmá v komunální politice.</p>
       </div>
 
       <div class="cand-card">
-        <div class="cand-avatar">
-          <span>JP</span>
-          <div class="cand-num">5</div>
-        </div>
+        <div class="cand-num">05</div>
         <h3>Jméno Příjmení</h3>
         <div class="cand-role">Zastupitel/ka</div>
-        <p class="cand-bio">„Dobrá obec se nestaví sama."</p>
+        <p class="cand-bio">Doplňte stručný medailonek kandidáta — čím se zabývá, jak dlouho žije v Holčovicích a co ho motivuje k angažmá v komunální politice.</p>
       </div>
 
       <div class="cand-card">
-        <div class="cand-avatar">
-          <span>JP</span>
-          <div class="cand-num">6</div>
-        </div>
+        <div class="cand-num">06</div>
         <h3>Jméno Příjmení</h3>
         <div class="cand-role">Zastupitel/ka</div>
-        <p class="cand-bio">„Zapojit se a pomoci — to od sebe čekám."</p>
+        <p class="cand-bio">Doplňte stručný medailonek kandidáta — čím se zabývá, jak dlouho žije v Holčovicích a co ho motivuje k angažmá v komunální politice.</p>
       </div>
 
       <div class="cand-card">
-        <div class="cand-avatar">
-          <span>JP</span>
-          <div class="cand-num">7</div>
-        </div>
+        <div class="cand-num">07</div>
         <h3>Jméno Příjmení</h3>
         <div class="cand-role">Kandidát/ka</div>
-        <p class="cand-bio">„Místní spolky jsou srdcem vesnice."</p>
+        <p class="cand-bio">Doplňte stručný medailonek kandidáta — čím se zabývá, jak dlouho žije v Holčovicích a co ho motivuje k angažmá v komunální politice.</p>
       </div>
 
       <div class="cand-card">
-        <div class="cand-avatar">
-          <span>JP</span>
-          <div class="cand-num">8</div>
-        </div>
+        <div class="cand-num">08</div>
         <h3>Jméno Příjmení</h3>
         <div class="cand-role">Kandidát/ka</div>
-        <p class="cand-bio">„Záleží mi na budoucnosti Holčovic."</p>
+        <p class="cand-bio">Doplňte stručný medailonek kandidáta — čím se zabývá, jak dlouho žije v Holčovicích a co ho motivuje k angažmá v komunální politice.</p>
       </div>
 
       <div class="cand-card">
-        <div class="cand-avatar">
-          <span>JP</span>
-          <div class="cand-num">9</div>
-        </div>
+        <div class="cand-num">09</div>
         <h3>Jméno Příjmení</h3>
         <div class="cand-role">Kandidát/ka</div>
-        <p class="cand-bio">„Pro Holčovice chci pracovat s pokorou."</p>
+        <p class="cand-bio">Doplňte stručný medailonek kandidáta — čím se zabývá, jak dlouho žije v Holčovicích a co ho motivuje k angažmá v komunální politice.</p>
       </div>
 
     </div>
