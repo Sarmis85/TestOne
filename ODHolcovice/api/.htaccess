@@ -1,0 +1,14 @@
+# Ochrana API složky
+# config.php nesmí být stažitelný přímo
+
+<Files "config.php">
+    Order Allow,Deny
+    Deny from all
+</Files>
+
+# CORS hlavičky pro všechny PHP endpointy
+<FilesMatch "\.php$">
+    Header set Access-Control-Allow-Origin "https://od.prorozvojholcovic.cz"
+    Header set Access-Control-Allow-Methods "GET, POST, OPTIONS"
+    Header set Access-Control-Allow-Headers "Content-Type"
+</FilesMatch>
