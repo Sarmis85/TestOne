@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta name="robots" content="noindex, nofollow">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Akce & Události – Obecní dům Holčovice</title>
+  <meta name="description" content="Připravované akce, kulturní události a komunitní dění v Holčovicích a okolí.">
+  <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+
+<nav class="nav nav--scrolled" id="main-nav">
+  <div class="container nav__inner">
+    <a href="index.html" class="nav__logo"><img src="img/OD1_Logo_Small_průhledné.png" class="nav__logo-img" alt="Obecní dům Holčovice"></a>
+    <ul class="nav__links">
+      <li><a href="menu.html" class="nav__link">Jídelní lístek</a></li>
+      <li><a href="events.html" class="nav__link nav__link--active">Akce & Události</a></li>
+      <li><a href="celebrations.html" class="nav__link">Oslavy & Pronájmy</a></li>
+      <li><a href="discover.html" class="nav__link">Objevte Holčovice</a></li>
+      <li><a href="gallery.html" class="nav__link">Galerie</a></li>
+      <li><a href="contact.html" class="nav__link">Kontakt</a></li>
+    </ul>
+    <div class="nav__actions">
+      <div class="nav__lang"><a href="#" class="active">CZ</a><span>/</span><a href="#">EN</a><span>/</span><a href="#">PL</a></div>
+      <a href="contact.html#reservation" class="btn btn--accent btn--sm">Rezervovat stůl</a>
+      <button class="nav__hamburger"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</nav>
+
+<div class="mobile-menu">
+  <nav class="mobile-menu__nav">
+    <a href="menu.html" class="mobile-menu__link">Jídelní lístek</a>
+    <a href="events.html" class="mobile-menu__link">Akce & Události</a>
+    <a href="celebrations.html" class="mobile-menu__link">Oslavy & Pronájmy</a>
+    <a href="discover.html" class="mobile-menu__link">Objevte Holčovice</a>
+    <a href="gallery.html" class="mobile-menu__link">Galerie</a>
+    <a href="contact.html" class="mobile-menu__link">Kontakt</a>
+  </nav>
+  <div class="mobile-menu__actions">
+    <a href="contact.html#reservation" class="btn btn--accent btn--lg btn--full">Rezervovat stůl</a>
+  </div>
+</div>
+
+<header class="page-header">
+    <meta name="robots" content="noindex, nofollow">
+  <div class="container page-header__content">
+    <nav class="page-header__breadcrumb"><a href="index.html">Domů</a><span>/</span><span>Akce & Události</span></nav>
+    <h1 class="page-header__title">Akce & Události</h1>
+    <p class="page-header__subtitle">Kulturní, sportovní a komunitní dění v Holčovicích po celý rok.</p>
+  </div>
+</header>
+
+<main class="section" style="background:var(--c-cream-50)">
+  <div class="container">
+
+    <!-- Filters -->
+    <div style="display:flex;align-items:center;gap:1rem;margin-bottom:2rem;flex-wrap:wrap">
+      <div class="discover-filters">
+        <button class="tag tag--active" data-tab-trigger="vse">Vše</button>
+        <button class="tag" data-tab-trigger="hudba">🎵 Hudba</button>
+        <button class="tag" data-tab-trigger="kultura">🎭 Kultura</button>
+        <button class="tag" data-tab-trigger="sport">⚽ Sport</button>
+        <button class="tag" data-tab-trigger="turistika">🥾 Turistika</button>
+        <button class="tag" data-tab-trigger="komunita">🏘 Komunita</button>
+      </div>
+    </div>
+
+    <!-- Featured Event -->
+    <div style="background:var(--c-green-700);border-radius:var(--r-2xl);overflow:hidden;margin-bottom:3rem;display:grid;grid-template-columns:1fr 1fr;min-height:360px" class="hide-mobile">
+      <div style="background:linear-gradient(135deg,#1A3129,#4A7C65);display:flex;align-items:center;justify-content:center">
+        <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="1"><path d="M9 18V5l12-2v13M9 9l12-2"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+      </div>
+      <div style="padding:3rem;display:flex;flex-direction:column;justify-content:center;gap:1rem">
+        <span style="font-size:0.75rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:var(--c-gold-light)">Připravovaná akce</span>
+        <h2 style="font-family:var(--font-serif);font-size:2rem;color:white;line-height:1.2">Letní hudební večer<br><em style="color:var(--c-gold-light)">na terase</em></h2>
+        <div style="display:flex;gap:1.5rem;font-size:0.875rem;color:rgba(255,255,255,0.7);flex-wrap:wrap">
+          <span>📅 Pátek 14. 6. 2025</span>
+          <span>🕖 18:00 – 23:00</span>
+          <span>📍 Terasa OD</span>
+        </div>
+        <p style="color:rgba(255,255,255,0.72);line-height:1.7;font-size:0.9375rem">Živá hudba, dobré jídlo a pohoda pod hvězdami. Přijďte si užít letní večer s kapelou Jesenická Hvězda. Vstup volný, rezervace míst doporučena.</p>
+        <div style="display:flex;gap:0.75rem;flex-wrap:wrap">
+          <a href="contact.html#reservation" class="btn btn--accent">Rezervovat místo</a>
+          <button class="btn btn--outline-light" onclick="Toast.show({title:'Přidáno do kalendáře',type:'success'})">+ Přidat do kalendáře</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Events Grid -->
+    <h2 style="font-family:var(--font-serif);font-size:1.5rem;margin-bottom:1.5rem;color:var(--c-text)">Červen – Červenec 2025</h2>
+    <div class="events-grid" style="margin-bottom:3rem">
+
+      <article class="event-card">
+        <div class="event-card__img-wrap">
+          <div style="width:100%;height:100%;background:linear-gradient(135deg,#1A3129,#3D6B56)"></div>
+          <div class="event-card__date-badge"><div class="event-card__date-day">14</div><div class="event-card__date-month">Čvn</div></div>
+        </div>
+        <div class="event-card__body">
+          <div class="event-card__cat">🎵 Hudba & Zábava</div>
+          <h3 class="event-card__title">Letní hudební večer</h3>
+          <div class="event-card__meta"><span>📅 Pátek 14. 6.</span><span>🕖 18:00</span><span>📍 Terasa</span></div>
+          <p class="event-card__desc">Živá hudba, dobré pivo a pohoda pod hvězdami s kapelou Jesenická Hvězda.</p>
+          <div class="event-card__footer"><span class="event-card__price badge badge--green">Vstup zdarma</span><a href="contact.html#reservation" class="btn btn--primary btn--sm">Rezervovat</a></div>
+        </div>
+      </article>
+
+      <article class="event-card">
+        <div class="event-card__img-wrap">
+          <div style="width:100%;height:100%;background:linear-gradient(135deg,#4A3020,#8B6B47)"></div>
+          <div class="event-card__date-badge"><div class="event-card__date-day">21</div><div class="event-card__date-month">Čvn</div></div>
+        </div>
+        <div class="event-card__body">
+          <div class="event-card__cat">🏘 Komunita</div>
+          <h3 class="event-card__title">Veřejné zasedání zastupitelstva</h3>
+          <div class="event-card__meta"><span>📅 Pátek 21. 6.</span><span>🕔 17:00</span><span>📍 Sál</span></div>
+          <p class="event-card__desc">Veřejné zasedání zastupitelstva obce Holčovice. Všichni občané jsou zváni.</p>
+          <div class="event-card__footer"><span class="event-card__price badge badge--green">Vstup zdarma</span><a href="#" class="btn btn--primary btn--sm">Více info</a></div>
+        </div>
+      </article>
+
+      <article class="event-card">
+        <div class="event-card__img-wrap">
+          <div style="width:100%;height:100%;background:linear-gradient(135deg,#C49A3C,#9B7A2E)"></div>
+          <div class="event-card__date-badge"><div class="event-card__date-day">28</div><div class="event-card__date-month">Čvn</div></div>
+        </div>
+        <div class="event-card__body">
+          <div class="event-card__cat">🎭 Kultura</div>
+          <h3 class="event-card__title">Filmový večer – Česká klasika</h3>
+          <div class="event-card__meta"><span>📅 Pátek 28. 6.</span><span>🕗 19:30</span><span>📍 Sál</span></div>
+          <p class="event-card__desc">Promítání filmové klasiky v útulné atmosféře sálu. S diskuzí a občerstvením.</p>
+          <div class="event-card__footer"><span class="event-card__price">80 Kč / os.</span><a href="#" class="btn btn--primary btn--sm">Přihlásit se</a></div>
+        </div>
+      </article>
+
+      <article class="event-card">
+        <div class="event-card__img-wrap">
+          <div style="width:100%;height:100%;background:linear-gradient(135deg,#2C4A3B,#5A9A7A)"></div>
+          <div class="event-card__date-badge"><div class="event-card__date-day">5</div><div class="event-card__date-month">Čvc</div></div>
+        </div>
+        <div class="event-card__body">
+          <div class="event-card__cat">🥾 Turistika & Příroda</div>
+          <h3 class="event-card__title">Komentovaný výlet – Pradědova stezka</h3>
+          <div class="event-card__meta"><span>📅 So 5. 7.</span><span>🕢 7:30</span><span>📍 Start: OD</span></div>
+          <p class="event-card__desc">Průvodce vás provede historickou stezkou k Pradědu s odborným výkladem.</p>
+          <div class="event-card__footer"><span class="event-card__price">250 Kč / os.</span><a href="#" class="btn btn--primary btn--sm">Přihlásit se</a></div>
+        </div>
+      </article>
+
+      <article class="event-card">
+        <div class="event-card__img-wrap">
+          <div style="width:100%;height:100%;background:linear-gradient(135deg,#8B6B47,#C49A6C)"></div>
+          <div class="event-card__date-badge"><div class="event-card__date-day">12</div><div class="event-card__date-month">Čvc</div></div>
+        </div>
+        <div class="event-card__body">
+          <div class="event-card__cat">⚽ Sport</div>
+          <h3 class="event-card__title">Letní turnaj v nohejbalu</h3>
+          <div class="event-card__meta"><span>📅 So 12. 7.</span><span>🕤 9:00</span><span>📍 Hřiště</span></div>
+          <p class="event-card__desc">Tradiční letní turnaj pro týmy z celého Jesenicka. Grilovačka a afterparty v OD.</p>
+          <div class="event-card__footer"><span class="event-card__price">Tým: 300 Kč</span><a href="#" class="btn btn--primary btn--sm">Přihlásit tým</a></div>
+        </div>
+      </article>
+
+      <article class="event-card">
+        <div class="event-card__img-wrap">
+          <div style="width:100%;height:100%;background:linear-gradient(135deg,#3D6B56,#1A3129)"></div>
+          <div class="event-card__date-badge"><div class="event-card__date-day">19</div><div class="event-card__date-month">Čvc</div></div>
+        </div>
+        <div class="event-card__body">
+          <div class="event-card__cat">🎵 Hudba</div>
+          <h3 class="event-card__title">Folklorní festival Holčovice 2025</h3>
+          <div class="event-card__meta"><span>📅 So 19. 7.</span><span>🕑 14:00</span><span>📍 Náměstí + OD</span></div>
+          <p class="event-card__desc">Každoroční festival s folklórními soubory z Moravy a Slezska. Taneční, hudba, místní speciality.</p>
+          <div class="event-card__footer"><span class="event-card__price badge badge--green">Vstup zdarma</span><a href="#" class="btn btn--primary btn--sm">Více info</a></div>
+        </div>
+      </article>
+    </div>
+
+    <!-- Past Events -->
+    <h2 style="font-family:var(--font-serif);font-size:1.5rem;margin-bottom:1.5rem;color:var(--c-text-muted)">Proběhlé akce</h2>
+    <div class="events-grid" style="opacity:0.6">
+      <article class="event-card">
+        <div class="event-card__img-wrap">
+          <div style="width:100%;height:100%;background:linear-gradient(135deg,#666,#999)"></div>
+          <div class="event-card__date-badge"><div class="event-card__date-day">3</div><div class="event-card__date-month">Čvn</div></div>
+        </div>
+        <div class="event-card__body">
+          <div class="event-card__cat">🎭 Kultura</div>
+          <h3 class="event-card__title">Vernisáž fotografické výstavy</h3>
+          <div class="event-card__meta"><span>3. 6. 2025</span><span>Proběhlo</span></div>
+          <p class="event-card__desc">Zahájení výstavy „Holčovice ve čtyřech ročních dobách" místních fotografů.</p>
+          <div class="event-card__footer"><span class="badge badge--brown">Proběhlo</span><a href="#" class="btn btn--ghost btn--sm">Fotogalerie</a></div>
+        </div>
+      </article>
+    </div>
+
+    <!-- Newsletter CTA -->
+    <div style="background:var(--c-green-700);border-radius:var(--r-2xl);padding:3rem;text-align:center;margin-top:3rem">
+      <h3 style="font-family:var(--font-serif);font-size:1.75rem;color:white;margin-bottom:0.75rem">Nechte si posílat přehled akcí</h3>
+      <p style="color:rgba(255,255,255,0.7);margin-bottom:1.5rem;max-width:45ch;margin-inline:auto">Každý měsíc vám pošleme výběr připravovaných akcí, dění v obci a tipů na výlety.</p>
+      <form style="display:flex;gap:0.75rem;max-width:440px;margin-inline:auto;flex-wrap:wrap" onsubmit="event.preventDefault();Toast.show({title:'Přihlášení úspěšné',message:'Brzy vám pošleme první newsletter.',type:'success'})">
+        <input type="email" class="form-input" placeholder="Váš e-mail" required style="flex:1;background:rgba(255,255,255,0.12);border-color:rgba(255,255,255,0.2);color:white;min-width:200px">
+        <button type="submit" class="btn btn--accent">Odebírat</button>
+      </form>
+    </div>
+  </div>
+</main>
+
+<footer class="footer">
+  <div class="container"><div class="footer__bottom" style="padding-block:1.5rem"><p class="footer__copy">© 2025 Obecní dům Holčovice</p><nav class="footer__bottom-links"><a href="index.html" class="footer__bottom-link">Domů</a><a href="contact.html" class="footer__bottom-link">Kontakt</a></nav></div></div>
+</footer>
+
+<div class="toast-container"></div>
+<script src="js/main.js"></script>
+</body>
+</html>

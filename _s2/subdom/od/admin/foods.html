@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta name="robots" content="noindex, nofollow">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Seznamy jídel – Admin · Obecní dům Holčovice</title>
+  <link rel="stylesheet" href="../css/admin.css">
+</head>
+<body>
+<div class="admin-root">
+<aside class="admin-sidebar" id="admin-sidebar">
+  <div class="admin-sidebar__header"><div class="admin-sidebar__brand"><img src="../img/OD_Logo_průhledné.png" class="admin-sidebar__logo-img" alt="OD"><div><div class="admin-sidebar__name">Obecní dům</div><div class="admin-sidebar__sub">Admin</div></div></div><button class="admin-sidebar__toggle"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 19l-7-7 7-7M18 19l-7-7 7-7"/></svg></button></div>
+  <nav class="admin-sidebar__nav">
+    <div class="admin-sidebar__section-title">Přehled</div>
+    <a href="index.html" class="admin-nav-item"><svg class="admin-nav-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg><span class="admin-nav-item__label">Dashboard</span></a>
+    <div class="admin-sidebar__section-title">Vedoucí</div>
+    <a href="menu.html" class="admin-nav-item"><svg class="admin-nav-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 2h2l.4 2M7 13h10l4-8H5.4"/></svg><span class="admin-nav-item__label">Jídelní lístek</span></a>
+    <a href="foods.html" class="admin-nav-item active"><svg class="admin-nav-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/></svg><span class="admin-nav-item__label">Seznamy jídel</span></a>
+    <div class="admin-sidebar__section-title">Restaurace</div>
+    <a href="orders.html" class="admin-nav-item"><svg class="admin-nav-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/></svg><span class="admin-nav-item__label">Objednávky</span><span class="admin-nav-item__badge">7</span></a>
+    <a href="reservations.html" class="admin-nav-item"><svg class="admin-nav-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/></svg><span class="admin-nav-item__label">Rezervace</span><span class="admin-nav-item__badge">3</span></a>
+    <div class="admin-sidebar__section-title">Obec</div>
+    <a href="events.html" class="admin-nav-item"><svg class="admin-nav-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18V5l12-2v13"/></svg><span class="admin-nav-item__label">Akce & Události</span></a>
+    <a href="content.html" class="admin-nav-item"><svg class="admin-nav-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg><span class="admin-nav-item__label">Články</span></a>
+    <div class="admin-sidebar__section-title">Systém</div>
+    <a href="users.html" class="admin-nav-item"><svg class="admin-nav-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg><span class="admin-nav-item__label">Uživatelé</span></a>
+  </nav>
+  <div class="admin-sidebar__footer"><div class="admin-user-mini"><div class="admin-user-mini__avatar">JV</div><div class="admin-user-mini__info"><div class="admin-user-mini__name">Jana Veselá</div><div class="admin-user-mini__role">Vedoucí restaurace</div></div></div></div>
+</aside>
+
+<div class="admin-main">
+  <header class="admin-topbar">
+    <meta name="robots" content="noindex, nofollow">
+    <h1 class="admin-topbar__title">Seznamy jídel</h1>
+    <div class="admin-topbar__actions">
+      <div class="admin-topbar__search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg><input type="text" placeholder="Hledat jídlo..." data-filter-input="foods"></div>
+      <button class="btn btn--primary btn--sm" data-modal-open="modal-new-food">+ Přidat jídlo</button>
+    </div>
+  </header>
+
+  <main class="admin-content">
+    <div class="admin-page-header">
+      <div>
+        <h2 class="admin-page-title">Databáze jídel</h2>
+        <p class="admin-page-subtitle">Editovatelný seznam všech jídel — kliknutím na buňku upravíte. Jídla se používají při sestavování denního menu.</p>
+      </div>
+      <div class="admin-page-actions">
+        <button class="btn btn--outline btn--sm" onclick="Toast.show({title:'Exportováno do CSV',type:'success'})">Exportovat CSV</button>
+        <a href="menu.html" class="btn btn--ghost btn--sm">Správa jídelního lístku →</a>
+      </div>
+    </div>
+
+    <!-- Filtry -->
+    <div style="display:flex;gap:0.75rem;margin-bottom:1.5rem;flex-wrap:wrap;align-items:center">
+      <div style="display:flex;gap:0.5rem">
+        <button class="tag tag--active" onclick="filterCat(this,'')">Vše</button>
+        <button class="tag" onclick="filterCat(this,'Polévka')">Polévky</button>
+        <button class="tag" onclick="filterCat(this,'Předkrm')">Předkrmy</button>
+        <button class="tag" onclick="filterCat(this,'Hlavní')">Hlavní</button>
+        <button class="tag" onclick="filterCat(this,'Vegetariánské')">Vegetariánské</button>
+        <button class="tag" onclick="filterCat(this,'Dezert')">Dezerty</button>
+        <button class="tag" onclick="filterCat(this,'Nápoj')">Nápoje</button>
+      </div>
+      <label class="form-check" style="margin-left:auto">
+        <input type="checkbox" id="show-inactive" onchange="toggleInactive(this.checked)">
+        <span style="font-size:0.875rem">Zobrazit neaktivní</span>
+      </label>
+    </div>
+
+    <!-- Hlavní tabulka -->
+    <div class="admin-table-card">
+      <div class="admin-table-wrap">
+        <table class="admin-table" id="foods-table">
+          <thead>
+            <tr>
+              <th data-sort="name" style="min-width:220px">Název jídla</th>
+              <th>Kategorie</th>
+              <th data-sort="price">Cena</th>
+              <th>Alergeny</th>
+              <th>Váha/porce</th>
+              <th style="text-align:center">Vege</th>
+              <th style="text-align:center">Aktivní</th>
+              <th style="text-align:right">Akce</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Polévky -->
+            <tr data-cat="Polévka" data-filter-row="foods" data-filter-value="Polévka">
+              <td class="admin-table__cell--name" contenteditable="true" style="outline:none" onfocus="this.style.background='var(--c-cream-50)'" onblur="this.style.background='';Toast.show({title:'Uloženo',type:'success'})">Hovězí vývar s nudlemi</td>
+              <td><span class="badge badge--brown">Polévka</span></td>
+              <td class="admin-table__cell--price" contenteditable="true" style="outline:none" onfocus="this.style.background='var(--c-cream-50)'" onblur="this.style.background='';Toast.show({title:'Cena uložena',type:'success'})">65 Kč</td>
+              <td style="font-size:0.8rem;color:var(--c-text-muted)" contenteditable="true" style="outline:none">1, 3</td>
+              <td style="font-size:0.8rem;color:var(--c-text-muted)" contenteditable="true" style="outline:none">300 ml</td>
+              <td style="text-align:center"><input type="checkbox" disabled></td>
+              <td style="text-align:center"><input type="checkbox" checked onchange="Toast.show({title:'Stav jídla aktualizován',type:'success'})"></td>
+              <td><div class="admin-table__cell--actions">
+                <button class="admin-table__action" title="Přidat do dnešního menu" onclick="Toast.show({title:'Přidáno do menu',type:'success'})"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg></button>
+                <button class="admin-table__action admin-table__action--danger" onclick="deleteRow(this.closest('tr'))"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/></svg></button>
+              </div></td>
+            </tr>
+            <tr data-cat="Polévka" data-filter-row="foods" data-filter-value="Polévka">
+              <td class="admin-table__cell--name" contenteditable="true" style="outline:none" onfocus="this.style.background='var(--c-cream-50)'" onblur="this.style.background='';Toast.show({title:'Uloženo',type:'success'})">Česneková polévka se sýrem</td>
+              <td><span class="badge badge--brown">Polévka</span></td>
+              <td class="admin-table__cell--price" contenteditable="true" style="outline:none" onfocus="this.style.background='var(--c-cream-50)'" onblur="this.style.background=''">79 Kč</td>
+              <td style="font-size:0.8rem;color:var(--c-text-muted)" contenteditable="true" style="outline:none">1, 7</td>
+              <td style="font-size:0.8rem;color:var(--c-text-muted)" contenteditable="true" style="outline:none">300 ml</td>
+              <td style="text-align:center"><input type="checkbox" disabled></td>
+              <td style="text-align:center"><input type="checkbox" checked onchange="Toast.show({title:'Stav aktualizován',type:'success'})"></td>
+              <td><div class="admin-table__cell--actions">
+                <button class="admin-table__action" title="Přidat do menu" onclick="Toast.show({title:'Přidáno do menu',type:'success'})"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg></button>
+                <button class="admin-table__action admin-table__action--danger" onclick="deleteRow(this.closest('tr'))"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/></svg></button>
+              </div></td>
+            </tr>
+            <!-- Hlavní jídla -->
+            <tr data-cat="Hlavní" data-filter-row="foods" data-filter-value="Hlavní">
+              <td class="admin-table__cell--name" contenteditable="true" style="outline:none" onfocus="this.style.background='var(--c-cream-50)'" onblur="this.style.background='';Toast.show({title:'Uloženo',type:'success'})">Vepřová pečeně, knedlík, zelí</td>
+              <td><span class="badge badge--gold">Hlavní</span></td>
+              <td class="admin-table__cell--price" contenteditable="true" style="outline:none" onfocus="this.style.background='var(--c-cream-50)'" onblur="this.style.background=''">159 Kč</td>
+              <td style="font-size:0.8rem;color:var(--c-text-muted)" contenteditable="true" style="outline:none">1, 3, 7</td>
+              <td style="font-size:0.8rem;color:var(--c-text-muted)" contenteditable="true" style="outline:none">350 g</td>
+              <td style="text-align:center"><input type="checkbox" disabled></td>
+              <td style="text-align:center"><input type="checkbox" checked onchange="Toast.show({title:'Stav aktualizován',type:'success'})"></td>
+              <td><div class="admin-table__cell--actions">
+                <button class="admin-table__action" onclick="Toast.show({title:'Přidáno do menu',type:'success'})"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg></button>
+                <button class="admin-table__action admin-table__action--danger" onclick="deleteRow(this.closest('tr'))"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/></svg></button>
+              </div></td>
+            </tr>
+            <tr data-cat="Hlavní" data-filter-row="foods" data-filter-value="Hlavní">
+              <td class="admin-table__cell--name" contenteditable="true" style="outline:none" onfocus="this.style.background='var(--c-cream-50)'" onblur="this.style.background='';Toast.show({title:'Uloženo',type:'success'})">Svíčková na smetaně, houskový knedlík</td>
+              <td><span class="badge badge--gold">Hlavní</span></td>
+              <td class="admin-table__cell--price" contenteditable="true" style="outline:none" onfocus="this.style.background='var(--c-cream-50)'" onblur="this.style.background=''">259 Kč</td>
+              <td style="font-size:0.8rem;color:var(--c-text-muted)" contenteditable="true" style="outline:none">1, 3, 7</td>
+              <td style="font-size:0.8rem;color:var(--c-text-muted)" contenteditable="true" style="outline:none">350 g</td>
+              <td style="text-align:center"><input type="checkbox" disabled></td>
+              <td style="text-align:center"><input type="checkbox" checked onchange="Toast.show({title:'Stav aktualizován',type:'success'})"></td>
+              <td><div class="admin-table__cell--actions">
+                <button class="admin-table__action" onclick="Toast.show({title:'Přidáno do menu',type:'success'})"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg></button>
+                <button class="admin-table__action admin-table__action--danger" onclick="deleteRow(this.closest('tr'))"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/></svg></button>
+              </div></td>
+            </tr>
+            <!-- Vegetariánské -->
+            <tr data-cat="Vegetariánské" data-filter-row="foods" data-filter-value="Vegetariánské">
+              <td class="admin-table__cell--name" contenteditable="true" style="outline:none" onfocus="this.style.background='var(--c-cream-50)'" onblur="this.style.background='';Toast.show({title:'Uloženo',type:'success'})">Zapečené brambory se sýrem</td>
+              <td><span class="badge badge--green">Vege</span></td>
+              <td class="admin-table__cell--price" contenteditable="true" style="outline:none" onfocus="this.style.background='var(--c-cream-50)'" onblur="this.style.background=''">129 Kč</td>
+              <td style="font-size:0.8rem;color:var(--c-text-muted)" contenteditable="true" style="outline:none">7</td>
+              <td style="font-size:0.8rem;color:var(--c-text-muted)" contenteditable="true" style="outline:none">300 g</td>
+              <td style="text-align:center"><input type="checkbox" checked disabled></td>
+              <td style="text-align:center"><input type="checkbox" checked onchange="Toast.show({title:'Stav aktualizován',type:'success'})"></td>
+              <td><div class="admin-table__cell--actions">
+                <button class="admin-table__action" onclick="Toast.show({title:'Přidáno do menu',type:'success'})"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg></button>
+                <button class="admin-table__action admin-table__action--danger" onclick="deleteRow(this.closest('tr'))"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/></svg></button>
+              </div></td>
+            </tr>
+            <tr data-cat="Vegetariánské" data-filter-row="foods" data-filter-value="Vegetariánské" style="opacity:0.5">
+              <td class="admin-table__cell--name" contenteditable="true" style="outline:none" onfocus="this.style.background='var(--c-cream-50)'" onblur="this.style.background='';Toast.show({title:'Uloženo',type:'success'})">Čočkový dhal s rýží</td>
+              <td><span class="badge badge--green">Vege</span></td>
+              <td class="admin-table__cell--price" contenteditable="true" style="outline:none" onfocus="this.style.background='var(--c-cream-50)'" onblur="this.style.background=''">165 Kč</td>
+              <td style="font-size:0.8rem;color:var(--c-text-muted)" contenteditable="true" style="outline:none">—</td>
+              <td style="font-size:0.8rem;color:var(--c-text-muted)" contenteditable="true" style="outline:none">350 g</td>
+              <td style="text-align:center"><input type="checkbox" checked disabled></td>
+              <td style="text-align:center"><input type="checkbox" onchange="this.closest('tr').style.opacity=this.checked?'1':'0.5';Toast.show({title:'Stav aktualizován',type:'success'})"></td>
+              <td><div class="admin-table__cell--actions">
+                <button class="admin-table__action" onclick="Toast.show({title:'Přidáno do menu',type:'success'})"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg></button>
+                <button class="admin-table__action admin-table__action--danger" onclick="deleteRow(this.closest('tr'))"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/></svg></button>
+              </div></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div style="padding:1rem 1.5rem;border-top:1px solid var(--c-border-light);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem">
+        <span style="font-size:0.875rem;color:var(--c-text-muted)">Celkem 5 aktivních jídel · 1 neaktivní</span>
+        <button class="btn btn--primary btn--sm" data-modal-open="modal-new-food">+ Přidat jídlo</button>
+      </div>
+    </div>
+
+    <!-- Přehled denního menu (týden) -->
+    <div class="admin-table-card" style="margin-top:1.5rem">
+      <div class="admin-table-card__header">
+        <h3 class="admin-table-card__title">📅 Týdenní denní menu</h3>
+        <div class="admin-table-card__actions">
+          <span style="font-size:0.8rem;color:var(--c-text-muted)">9.–13. 6. 2025</span>
+          <button class="btn btn--primary btn--sm" onclick="Toast.show({title:'Menu publikováno',type:'success'})">Publikovat</button>
+        </div>
+      </div>
+      <div class="admin-table-wrap">
+        <table class="admin-table">
+          <thead><tr><th>Den</th><th>Polévka</th><th>Hlavní 1</th><th>Hlavní 2</th><th>Vegetariánské</th></tr></thead>
+          <tbody>
+            <tr>
+              <td style="font-weight:700;color:var(--c-green-700)">Po 9.6.</td>
+              <td><select class="form-select" style="font-size:0.8125rem;padding:0.35rem 0.6rem"><option>Hovězí vývar</option><option>Česneková</option></select></td>
+              <td><select class="form-select" style="font-size:0.8125rem;padding:0.35rem 0.6rem"><option>Vepřová pečeně</option><option>Svíčková</option></select></td>
+              <td><select class="form-select" style="font-size:0.8125rem;padding:0.35rem 0.6rem"><option>Kuřecí řízek</option><option>Pstruh</option></select></td>
+              <td><select class="form-select" style="font-size:0.8125rem;padding:0.35rem 0.6rem"><option>Zapečené brambory</option><option>Čočkový dhal</option></select></td>
+            </tr>
+            <tr>
+              <td style="font-weight:600">Út 10.6.</td>
+              <td><select class="form-select" style="font-size:0.8125rem;padding:0.35rem 0.6rem"><option>Česneková</option><option>Hovězí vývar</option></select></td>
+              <td><select class="form-select" style="font-size:0.8125rem;padding:0.35rem 0.6rem"><option>Svíčková</option><option>Vepřová pečeně</option></select></td>
+              <td><select class="form-select" style="font-size:0.8125rem;padding:0.35rem 0.6rem"><option>Kuřecí řízek</option></select></td>
+              <td><select class="form-select" style="font-size:0.8125rem;padding:0.35rem 0.6rem"><option>Zapečené brambory</option></select></td>
+            </tr>
+            <tr>
+              <td style="font-weight:600">St 11.6.</td>
+              <td><select class="form-select" style="font-size:0.8125rem;padding:0.35rem 0.6rem"><option>Hovězí vývar</option><option>Česneková</option></select></td>
+              <td><select class="form-select" style="font-size:0.8125rem;padding:0.35rem 0.6rem"><option>Vepřová pečeně</option></select></td>
+              <td><select class="form-select" style="font-size:0.8125rem;padding:0.35rem 0.6rem"><option>Svíčková</option><option>Pstruh</option></select></td>
+              <td><select class="form-select" style="font-size:0.8125rem;padding:0.35rem 0.6rem"><option>Čočkový dhal</option></select></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+</div>
+</div>
+
+<!-- Modal: nové jídlo -->
+<div class="modal-backdrop" id="modal-new-food">
+  <div class="modal modal--sm">
+    <div class="modal__header"><h3 class="modal__title">Nové jídlo</h3><button class="modal__close" data-modal-close="modal-new-food"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6L6 18M6 6l12 12"/></svg></button></div>
+    <div class="modal__body" style="display:flex;flex-direction:column;gap:1rem">
+      <div class="form-group"><label class="form-label form-label--req">Název jídla</label><input type="text" class="form-input" required placeholder="Svíčková na smetaně"></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem">
+        <div class="form-group"><label class="form-label form-label--req">Kategorie</label><select class="form-select" required><option>Polévka</option><option>Předkrm</option><option selected>Hlavní</option><option>Vegetariánské</option><option>Dezert</option><option>Nápoj</option></select></div>
+        <div class="form-group"><label class="form-label form-label--req">Cena (Kč)</label><input type="number" class="form-input" required min="0" placeholder="159"></div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem">
+        <div class="form-group"><label class="form-label">Alergeny</label><input type="text" class="form-input" placeholder="1, 3, 7"></div>
+        <div class="form-group"><label class="form-label">Váha/porce</label><input type="text" class="form-input" placeholder="350 g"></div>
+      </div>
+      <div class="form-group"><label class="form-label">Popis</label><textarea class="form-textarea" rows="2" placeholder="Krátký popis pro zákazníky..."></textarea></div>
+      <div style="display:flex;gap:1.5rem">
+        <label class="form-check"><input type="checkbox"><span style="font-size:0.875rem">Vegetariánské</span></label>
+        <label class="form-check"><input type="checkbox" checked><span style="font-size:0.875rem">Aktivní</span></label>
+      </div>
+    </div>
+    <div class="modal__footer">
+      <button class="btn btn--ghost" data-modal-close="modal-new-food">Zrušit</button>
+      <button class="btn btn--primary" onclick="Toast.show({title:'Jídlo přidáno do seznamu',type:'success'});Modal.close('modal-new-food')">Přidat jídlo</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast-container"></div>
+<script src="../js/admin.js"></script>
+<script>
+function filterCat(btn, cat) {
+  document.querySelectorAll('.tag').forEach(t => t.classList.remove('tag--active'));
+  btn.classList.add('tag--active');
+  document.querySelectorAll('#foods-table tr').forEach(row => {
+    row.style.display = (!cat || row.dataset.cat === cat) ? '' : 'none';
+  });
+}
+function toggleInactive(show) {
+  document.querySelectorAll('#foods-table tr').forEach(row => {
+    const cb = row.querySelector('input[type="checkbox"]:last-of-type');
+    if (cb && !cb.checked) row.style.display = show ? '' : 'none';
+  });
+}
+function deleteRow(row) {
+  if (confirm('Opravdu smazat toto jídlo?')) {
+    row.style.animation = 'fadeIn 0.3s ease reverse both';
+    setTimeout(() => row.remove(), 300);
+    Toast.show({title:'Jídlo smazáno',type:'success'});
+  }
+}
+</script>
+</body>
+</html>

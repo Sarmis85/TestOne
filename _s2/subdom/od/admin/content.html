@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta name="robots" content="noindex, nofollow">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Správa obsahu – Admin · Obecní dům Holčovice</title>
+  <link rel="stylesheet" href="../css/admin.css">
+</head>
+<body>
+<div class="admin-root">
+<aside class="admin-sidebar" id="admin-sidebar">
+  <div class="admin-sidebar__header"><div class="admin-sidebar__brand"><img src="../img/OD_Logo_průhledné.png" class="admin-sidebar__logo-img" alt="OD Holčovice"><div><div class="admin-sidebar__name">Obecní dům</div><div class="admin-sidebar__sub">Admin</div></div></div><button class="admin-sidebar__toggle"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 19l-7-7 7-7M18 19l-7-7 7-7"/></svg></button></div>
+  <nav class="admin-sidebar__nav">
+    <div class="admin-sidebar__section-title">Přehled</div>
+    <a href="index.html" class="admin-nav-item"><svg class="admin-nav-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg><span class="admin-nav-item__label">Dashboard</span></a>
+    <div class="admin-sidebar__section-title">Restaurace</div>
+    <a href="menu.html" class="admin-nav-item"><svg class="admin-nav-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 2h2l.4 2M7 13h10l4-8H5.4"/></svg><span class="admin-nav-item__label">Jídelní lístek</span></a>
+    <a href="reservations.html" class="admin-nav-item"><svg class="admin-nav-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/></svg><span class="admin-nav-item__label">Rezervace</span><span class="admin-nav-item__badge">3</span></a>
+    <a href="orders.html" class="admin-nav-item"><svg class="admin-nav-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/></svg><span class="admin-nav-item__label">Objednávky</span><span class="admin-nav-item__badge">7</span></a>
+    <div class="admin-sidebar__section-title">Obsah</div>
+    <a href="events.html" class="admin-nav-item"><svg class="admin-nav-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18V5l12-2v13"/></svg><span class="admin-nav-item__label">Akce & Události</span></a>
+    <a href="content.html" class="admin-nav-item active"><svg class="admin-nav-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg><span class="admin-nav-item__label">Správa obsahu</span></a>
+    <div class="admin-sidebar__section-title">Systém</div>
+    <a href="users.html" class="admin-nav-item"><svg class="admin-nav-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg><span class="admin-nav-item__label">Uživatelé</span></a>
+  </nav>
+  <div class="admin-sidebar__footer"><div class="admin-user-mini"><div class="admin-user-mini__avatar">EF</div><div class="admin-user-mini__info"><div class="admin-user-mini__name">Eva Fišerová</div><div class="admin-user-mini__role">Editor obsahu</div></div></div></div>
+</aside>
+
+<div class="admin-main">
+  <header class="admin-topbar">
+    <meta name="robots" content="noindex, nofollow">
+    <h1 class="admin-topbar__title">Správa obsahu webu</h1>
+    <div class="admin-topbar__actions">
+      <a href="../index.html" target="_blank" class="btn btn--ghost btn--sm">Zobrazit web →</a>
+    </div>
+  </header>
+
+  <main class="admin-content">
+    <div class="admin-page-header">
+      <div>
+        <h2 class="admin-page-title">Obsah webu</h2>
+        <p class="admin-page-subtitle">Editujte texty, fotky a informace na veřejném webu.</p>
+      </div>
+    </div>
+
+    <!-- Content Sections -->
+    <div style="display:grid;grid-template-columns:240px 1fr;gap:1.5rem;align-items:start">
+
+      <!-- Section Nav -->
+      <div style="background:var(--c-white);border-radius:var(--r-xl);box-shadow:var(--shadow-card);overflow:hidden">
+        <div style="padding:1rem;font-size:0.75rem;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:var(--c-text-muted);border-bottom:1px solid var(--c-border-light)">Sekce webu</div>
+        <div style="display:flex;flex-direction:column">
+          <button class="profile-nav__item active" onclick="switchSection('hero',this)">🏠 Homepage – Hero</button>
+          <button class="profile-nav__item" onclick="switchSection('hours',this)">🕐 Otevírací doba</button>
+          <button class="profile-nav__item" onclick="switchSection('contact-info',this)">📞 Kontaktní údaje</button>
+          <button class="profile-nav__item" onclick="switchSection('about',this)">ℹ️ O nás</button>
+          <button class="profile-nav__item" onclick="switchSection('gallery',this)">📷 Galerie</button>
+          <button class="profile-nav__item" onclick="switchSection('tourism',this)">🗺 Turistické info</button>
+          <button class="profile-nav__item" onclick="switchSection('translations',this)">🌍 Překlady (EN/DE)</button>
+          <button class="profile-nav__item" onclick="switchSection('seo',this)">🔍 SEO & Metadata</button>
+        </div>
+      </div>
+
+      <!-- Editor Area -->
+      <div id="content-editor">
+
+        <!-- Hero Section -->
+        <div id="section-hero">
+          <div class="admin-table-card">
+            <div class="admin-table-card__header">
+              <h3 class="admin-table-card__title">Homepage – Hero sekce</h3>
+              <div class="admin-table-card__actions">
+                <button class="btn btn--primary btn--sm" onclick="Toast.show({title:'Změny uloženy a publikovány',type:'success'})">Uložit a publikovat</button>
+              </div>
+            </div>
+            <div style="padding:2rem;display:flex;flex-direction:column;gap:1.5rem">
+              <div class="form-group"><label class="form-label">Hlavní nadpis (CZ)</label><textarea class="form-textarea" rows="2">Srdce obce na kraji Jeseníků</textarea></div>
+              <div class="form-group"><label class="form-label">Podnadpis (CZ)</label><textarea class="form-textarea" rows="3">Obecní dům Holčovice – místo, kde se setkávají lidé, kultury a příroda. Dobrá kuchyně, komunitní život a brána do krásné jesenické krajiny.</textarea></div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
+                <div class="form-group"><label class="form-label">Text CTA 1</label><input type="text" class="form-input" value="Dnešní menu"></div>
+                <div class="form-group"><label class="form-label">Text CTA 2</label><input type="text" class="form-input" value="Rezervovat stůl"></div>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Hero video / Pozadí</label>
+                <div style="border:2px dashed var(--c-border);border-radius:var(--r-xl);padding:2rem;text-align:center;background:var(--c-cream-50)">
+                  <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="var(--c-text-faint)" stroke-width="1.5" style="margin:0 auto 0.75rem"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
+                  <div style="font-size:0.875rem;color:var(--c-text-muted);margin-bottom:0.75rem">Nahrajte hero video (MP4, max 50 MB)<br>nebo obrázek (JPG, PNG, WebP)</div>
+                  <button class="btn btn--outline btn--sm" onclick="Toast.show({title:'Funkce brzy dostupná',type:'info'})">Nahrát soubor</button>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Statistiky ve stats baru</label>
+                <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:0.5rem">
+                  <div><label style="font-size:0.75rem;color:var(--c-text-muted)">Popisek 1</label><input type="text" class="form-input" value="Dnešní polévka" style="font-size:0.8125rem;padding:0.4rem 0.6rem"></div>
+                  <div><label style="font-size:0.75rem;color:var(--c-text-muted)">Hodnota 1</label><input type="text" class="form-input" value="[z menu]" style="font-size:0.8125rem;padding:0.4rem 0.6rem"></div>
+                  <div><label style="font-size:0.75rem;color:var(--c-text-muted)">Popisek 2</label><input type="text" class="form-input" value="Příští akce" style="font-size:0.8125rem;padding:0.4rem 0.6rem"></div>
+                  <div><label style="font-size:0.75rem;color:var(--c-text-muted)">Hodnota 2</label><input type="text" class="form-input" value="[z kalendáře]" style="font-size:0.8125rem;padding:0.4rem 0.6rem"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Hours -->
+        <div id="section-hours" hidden>
+          <div class="admin-table-card">
+            <div class="admin-table-card__header"><h3 class="admin-table-card__title">Otevírací doba</h3><div class="admin-table-card__actions"><button class="btn btn--primary btn--sm" onclick="Toast.show({title:'Uloženo',type:'success'})">Uložit</button></div></div>
+            <div style="padding:2rem;display:flex;flex-direction:column;gap:1rem">
+              <div style="display:grid;grid-template-columns:180px 1fr 1fr 80px;gap:0.75rem;align-items:center;font-size:0.875rem;font-weight:600;color:var(--c-text-muted)">
+                <div>Den</div><div>Od</div><div>Do</div><div>Zavřeno</div>
+              </div>
+              <div style="display:grid;grid-template-columns:180px 1fr 1fr 80px;gap:0.75rem;align-items:center">
+                <span>Pondělí – Pátek</span>
+                <input type="time" class="form-input" value="11:00">
+                <input type="time" class="form-input" value="21:00">
+                <label class="form-check" style="justify-content:center"><input type="checkbox"></label>
+              </div>
+              <div style="display:grid;grid-template-columns:180px 1fr 1fr 80px;gap:0.75rem;align-items:center">
+                <span>Sobota</span>
+                <input type="time" class="form-input" value="10:00">
+                <input type="time" class="form-input" value="22:00">
+                <label class="form-check" style="justify-content:center"><input type="checkbox"></label>
+              </div>
+              <div style="display:grid;grid-template-columns:180px 1fr 1fr 80px;gap:0.75rem;align-items:center">
+                <span>Neděle</span>
+                <input type="time" class="form-input" value="10:00">
+                <input type="time" class="form-input" value="20:00">
+                <label class="form-check" style="justify-content:center"><input type="checkbox"></label>
+              </div>
+              <div class="form-group" style="margin-top:0.5rem"><label class="form-label">Speciální uzavření / svátky</label><textarea class="form-textarea" rows="3" placeholder="Např.: 24.–26. 12. 2025 – Vánoce – ZAVŘENO"></textarea></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Contact Info -->
+        <div id="section-contact-info" hidden>
+          <div class="admin-table-card">
+            <div class="admin-table-card__header"><h3 class="admin-table-card__title">Kontaktní údaje</h3><div class="admin-table-card__actions"><button class="btn btn--primary btn--sm" onclick="Toast.show({title:'Uloženo',type:'success'})">Uložit</button></div></div>
+            <div style="padding:2rem;display:flex;flex-direction:column;gap:1rem">
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
+                <div class="form-group"><label class="form-label">Telefon</label><input type="tel" class="form-input" value="+420 123 456 789"></div>
+                <div class="form-group"><label class="form-label">E-mail</label><input type="email" class="form-input" value="info@obecnidumholcovice.cz"></div>
+                <div class="form-group"><label class="form-label">Adresa</label><input type="text" class="form-input" value="Holčovice 123"></div>
+                <div class="form-group"><label class="form-label">PSČ a obec</label><input type="text" class="form-input" value="793 71 Holčovice"></div>
+                <div class="form-group"><label class="form-label">Facebook URL</label><input type="url" class="form-input" value="https://facebook.com/obecnidumholcovice"></div>
+                <div class="form-group"><label class="form-label">Instagram URL</label><input type="url" class="form-input" placeholder="https://instagram.com/..."></div>
+              </div>
+              <div class="form-group"><label class="form-label">Google Maps embed URL nebo souřadnice</label><input type="text" class="form-input" value="49.7234N, 17.5678E" placeholder="GPS nebo embed URL"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Translations -->
+        <div id="section-translations" hidden>
+          <div class="admin-table-card">
+            <div class="admin-table-card__header"><h3 class="admin-table-card__title">🌍 Překlady obsahu</h3><div class="admin-table-card__actions">
+              <div style="display:flex;gap:0.5rem">
+                <button class="btn btn--outline btn--sm tag--active" style="background:var(--c-green-50);color:var(--c-green-700)">CZ</button>
+                <button class="btn btn--ghost btn--sm">EN</button>
+                <button class="btn btn--ghost btn--sm">DE</button>
+              </div>
+              <button class="btn btn--primary btn--sm" onclick="Toast.show({title:'Přeloženo pomocí AI',message:'Zkontrolujte a případně opravte.',type:'info'})">AI překlad</button>
+            </div></div>
+            <div style="padding:2rem;display:flex;flex-direction:column;gap:1.5rem">
+              <div style="background:var(--c-info-bg);border-radius:var(--r-lg);padding:1rem;font-size:0.875rem;color:var(--c-info)">
+                ℹ️ Vyberte jazyk výše a upravte překlady jednotlivých textů. Použijte AI překlad pro rychlé generování překladů z češtiny.
+              </div>
+              <div class="form-group"><label class="form-label">Hlavní slogan (EN)</label><input type="text" class="form-input" value="The heart of the village on the edge of Jeseníky"></div>
+              <div class="form-group"><label class="form-label">Podnadpis hero (EN)</label><textarea class="form-textarea" rows="3">Obecní dům Holčovice – a place where people, cultures and nature meet. Good cuisine, community life and a gateway to the beautiful Jeseník landscape.</textarea></div>
+              <div class="form-group"><label class="form-label">Navigace: Menu (EN)</label><input type="text" class="form-input" value="Food Menu"></div>
+              <div class="form-group"><label class="form-label">Navigace: Akce (EN)</label><input type="text" class="form-input" value="Events"></div>
+              <div class="form-group"><label class="form-label">Navigace: Oslavy (EN)</label><input type="text" class="form-input" value="Celebrations & Rentals"></div>
+              <button class="btn btn--primary" onclick="Toast.show({title:'Překlady uloženy',type:'success'})">Uložit překlady</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Gallery -->
+        <div id="section-gallery" hidden>
+          <div class="admin-table-card">
+            <div class="admin-table-card__header"><h3 class="admin-table-card__title">📷 Galerie fotografií</h3><div class="admin-table-card__actions"><button class="btn btn--primary btn--sm" onclick="Toast.show({title:'Nahrát fotky',type:'info'})">+ Nahrát fotky</button></div></div>
+            <div style="padding:2rem">
+              <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:0.75rem">
+                <div style="aspect-ratio:1;background:linear-gradient(135deg,#1A3129,#3D6B56);border-radius:var(--r-lg);position:relative;overflow:hidden"><div style="position:absolute;inset:0;background:rgba(0,0,0,0);transition:background 0.2s;display:flex;align-items:center;justify-content:flex-end;padding:0.5rem;opacity:0" class="gallery-del" onmouseover="this.style.opacity='1';this.style.background='rgba(0,0,0,0.3)'" onmouseout="this.style.opacity='0';this.style.background='rgba(0,0,0,0)'"><button onclick="Toast.show({title:'Foto smazáno',type:'success'})" style="background:rgba(255,0,0,0.8);color:white;border:none;border-radius:50%;width:26px;height:26px;cursor:pointer;font-size:14px">×</button></div></div>
+                <div style="aspect-ratio:1;background:linear-gradient(135deg,#4A3020,#8B6B47);border-radius:var(--r-lg);position:relative;overflow:hidden"></div>
+                <div style="aspect-ratio:1;background:linear-gradient(135deg,#C49A3C,#7A5E20);border-radius:var(--r-lg)"></div>
+                <div style="aspect-ratio:1;background:linear-gradient(135deg,#2C4A3B,#5A9A7A);border-radius:var(--r-lg)"></div>
+                <div style="aspect-ratio:1;background:linear-gradient(135deg,#8B6B47,#C49A6C);border-radius:var(--r-lg)"></div>
+                <div style="aspect-ratio:1;border:2px dashed var(--c-border);border-radius:var(--r-lg);display:flex;align-items:center;justify-content:center;cursor:pointer;background:var(--c-cream-50)" onclick="Toast.show({title:'Nahrát fotku',type:'info'})">
+                  <span style="color:var(--c-text-muted);font-size:1.5rem">+</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- SEO -->
+        <div id="section-seo" hidden>
+          <div class="admin-table-card">
+            <div class="admin-table-card__header"><h3 class="admin-table-card__title">🔍 SEO & Metadata</h3><div class="admin-table-card__actions"><button class="btn btn--primary btn--sm" onclick="Toast.show({title:'SEO uloženo',type:'success'})">Uložit</button></div></div>
+            <div style="padding:2rem;display:flex;flex-direction:column;gap:1.5rem">
+              <div class="form-group"><label class="form-label">Title tag (stránka – homepage)</label><input type="text" class="form-input" value="Obecní dům Holčovice – srdce obce na kraji Jeseníků"><span class="form-hint">Doporučeno 50–60 znaků. Aktuálně: 53 znaků ✓</span></div>
+              <div class="form-group"><label class="form-label">Meta description (homepage)</label><textarea class="form-textarea" rows="3">Obecní dům Holčovice – restaurace, kulturní centrum, komunitní hub a turistická brána do Jeseníků. Rezervujte stůl, sledujte akce a objevte krásy Holčovic.</textarea><span class="form-hint">Doporučeno 120–160 znaků. Aktuálně: 148 znaků ✓</span></div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
+                <div class="form-group"><label class="form-label">Primární doména</label><input type="text" class="form-input" value="obecnidumholcovice.cz" readonly style="background:var(--c-cream-50)"></div>
+                <div class="form-group"><label class="form-label">Marketingová doména</label><input type="text" class="form-input" value="odholcovice.cz" readonly style="background:var(--c-cream-50)"></div>
+              </div>
+              <div class="form-group"><label class="form-label">Google Analytics / Tag Manager ID</label><input type="text" class="form-input" placeholder="G-XXXXXXXXXX nebo GTM-XXXXXXX"></div>
+              <div class="form-group"><label class="form-label">OG Image (1200×630 px)</label>
+                <div style="border:2px dashed var(--c-border);border-radius:var(--r-xl);padding:1.5rem;text-align:center;background:var(--c-cream-50)">
+                  <div style="font-size:0.875rem;color:var(--c-text-muted)">Nahrát OG obrázek pro sdílení na sociálních sítích</div>
+                  <button class="btn btn--ghost btn--sm" style="margin-top:0.75rem">Nahrát</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Other placeholders -->
+        <div id="section-about" hidden>
+          <div class="admin-table-card"><div class="admin-table-card__header"><h3 class="admin-table-card__title">ℹ️ O nás</h3><div class="admin-table-card__actions"><button class="btn btn--primary btn--sm" onclick="Toast.show({title:'Uloženo',type:'success'})">Uložit</button></div></div><div style="padding:2rem"><div class="form-group"><label class="form-label">Text sekce „O nás" (CZ)</label><textarea class="form-textarea" rows="8">Obecní dům Holčovice je srdcem naší obce. Sloužíme jako restaurace s domácí kuchyní, kulturní centrum a komunitní prostor pro všechny věkové skupiny. Věříme, že jídlo, kultura a lidská setkání tvoří základ zdravé komunity.</textarea></div></div></div>
+        </div>
+        <div id="section-tourism" hidden>
+          <div class="admin-table-card"><div class="admin-table-card__header"><h3 class="admin-table-card__title">🗺 Turistické informace</h3><div class="admin-table-card__actions"><button class="btn btn--primary btn--sm" onclick="Toast.show({title:'Uloženo',type:'success'})">Uložit</button></div></div><div style="padding:2rem;color:var(--c-text-muted);font-size:0.9375rem">Správa obsahu sekce „Objevte Holčovice" – trasy, zajímavosti, místní produkty a historické informace. Formulář pro přidávání/editaci turistických tras a míst je dostupný v rozšířené verzi CMS.</div></div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+</div>
+
+<div class="toast-container"></div>
+<script src="../js/admin.js"></script>
+<script>
+function switchSection(section, btn) {
+  document.querySelectorAll('.profile-nav__item').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  ['hero','hours','contact-info','about','gallery','tourism','translations','seo'].forEach(s => {
+    const el = document.getElementById('section-'+s);
+    if (el) el.hidden = s !== section;
+  });
+}
+</script>
+</body>
+</html>

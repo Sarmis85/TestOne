@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta name="robots" content="noindex, nofollow">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jídelní lístek – Obecní dům Holčovice</title>
+  <meta name="description" content="Kompletní jídelní lístek – denní menu, polévky, hlavní jídla, dezerty a nápoje. Čerstvé suroviny, domácí recepty.">
+  <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+
+<nav class="nav nav--scrolled" id="main-nav">
+  <div class="container nav__inner">
+    <a href="index.html" class="nav__logo">
+      <img src="img/OD1_Logo_Small_průhledné.png" class="nav__logo-img" alt="Obecní dům Holčovice">
+    </a>
+    <ul class="nav__links">
+      <li><a href="menu.html" class="nav__link nav__link--active">Jídelní lístek</a></li>
+      <li><a href="events.html" class="nav__link">Akce & Události</a></li>
+      <li><a href="celebrations.html" class="nav__link">Oslavy & Pronájmy</a></li>
+      <li><a href="discover.html" class="nav__link">Objevte Holčovice</a></li>
+      <li><a href="gallery.html" class="nav__link">Galerie</a></li>
+      <li><a href="contact.html" class="nav__link">Kontakt</a></li>
+    </ul>
+    <div class="nav__actions">
+      <div class="nav__lang"><a href="#" class="active">CZ</a><span>/</span><a href="#">EN</a><span>/</span><a href="#">PL</a></div>
+      <a href="account/login.html" class="nav__user-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg> Přihlásit se</a>
+      <a href="contact.html#reservation" class="btn btn--accent btn--sm">Rezervovat stůl</a>
+      <button class="nav__hamburger"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</nav>
+
+<div class="mobile-menu">
+  <nav class="mobile-menu__nav">
+    <a href="menu.html" class="mobile-menu__link">Jídelní lístek</a>
+    <a href="events.html" class="mobile-menu__link">Akce & Události</a>
+    <a href="celebrations.html" class="mobile-menu__link">Oslavy & Pronájmy</a>
+    <a href="discover.html" class="mobile-menu__link">Objevte Holčovice</a>
+    <a href="gallery.html" class="mobile-menu__link">Galerie</a>
+    <a href="contact.html" class="mobile-menu__link">Kontakt</a>
+  </nav>
+  <div class="mobile-menu__actions">
+    <a href="account/login.html" class="btn btn--outline-light btn--lg btn--full">Přihlásit se</a>
+    <a href="contact.html#reservation" class="btn btn--accent btn--lg btn--full">Rezervovat stůl</a>
+  </div>
+</div>
+
+<!-- Page Header -->
+<header class="page-header">
+    <meta name="robots" content="noindex, nofollow">
+  <div class="container page-header__content">
+    <nav class="page-header__breadcrumb" aria-label="Breadcrumb">
+      <a href="index.html">Domů</a><span>/</span><span>Jídelní lístek</span>
+    </nav>
+    <h1 class="page-header__title">Jídelní lístek</h1>
+    <p class="page-header__subtitle">Čerstvé suroviny, domácí recepty a láska k vaření – každý den trochu jinak.</p>
+  </div>
+</header>
+
+<!-- Menu Notice -->
+<div style="background:var(--c-gold);color:white;text-align:center;padding:0.75rem 1rem;font-size:0.875rem;font-weight:600">
+  📅 Denní menu platí vždy Po–Pá 11:00–14:00 · Rozvoz obědů objednejte přes
+  <a href="delivery.html" style="color:white;text-decoration:underline">Rozvoz jídel</a>
+</div>
+
+<!-- Menu Nav Tabs -->
+<div class="menu-nav">
+  <div class="container menu-nav__inner">
+    <button class="menu-nav__btn" data-tab-trigger="denni">📅 Denní menu</button>
+    <button class="menu-nav__btn" data-tab-trigger="polevky">🍲 Polévky</button>
+    <button class="menu-nav__btn" data-tab-trigger="predkrmy">🥗 Předkrmy & Saláty</button>
+    <button class="menu-nav__btn" data-tab-trigger="hlavni">🍽 Hlavní jídla</button>
+    <button class="menu-nav__btn" data-tab-trigger="vegetarian">🌿 Vegetariánské</button>
+    <button class="menu-nav__btn" data-tab-trigger="dezerty">🍰 Dezerty</button>
+    <button class="menu-nav__btn" data-tab-trigger="napoje">🍺 Nápoje</button>
+  </div>
+</div>
+
+<!-- Menu Content -->
+<main class="menu-page section--sm">
+  <div class="container">
+
+    <!-- DENNÍ MENU -->
+    <div data-tab-panel="denni" hidden>
+      <div class="menu-section-block">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.5rem;flex-wrap:wrap;gap:1rem">
+          <h2 class="menu-section-title" style="border:none;margin:0;padding:0">Denní menu – Pondělí 9. 6. 2025</h2>
+          <div class="menu-day-selector" style="margin:0">
+            <button class="tag" data-day="po">Po</button>
+            <button class="tag" data-day="ut">Út</button>
+            <button class="tag" data-day="st">St</button>
+            <button class="tag" data-day="ct">Čt</button>
+            <button class="tag" data-day="pa">Pá</button>
+          </div>
+        </div>
+        <div style="background:var(--c-cream-50);border-radius:var(--r-2xl);padding:2rem;margin-bottom:2rem">
+          <div style="display:grid;gap:1rem">
+            <div class="menu-full-item" style="border-left:3px solid var(--c-brown-300)">
+              <div class="menu-full-item__img" style="background:linear-gradient(135deg,#8B6B47,#C49A6C)"></div>
+              <div class="menu-full-item__body">
+                <div class="menu-full-item__name">Polévka: Hovězí vývar s nudlemi a zeleninou</div>
+                <div class="menu-full-item__desc">Tradiční domácí vývar s kořenovou zeleninou, masem a domácími nudlemi. Alergeny: 1, 3</div>
+                <div class="menu-full-item__footer">
+                  <div class="menu-full-item__tags"><span class="menu-full-item__tag">Alergeny: 1, 3</span></div>
+                  <span class="menu-full-item__price">65 Kč</span>
+                </div>
+              </div>
+            </div>
+            <div class="menu-full-item" style="border-left:3px solid var(--c-green-400)">
+              <div class="menu-full-item__img" style="background:linear-gradient(135deg,#3D6B56,#4A7C65)"></div>
+              <div class="menu-full-item__body">
+                <div class="menu-full-item__name">Hlavní 1: Vepřová pečeně na kmíně, houskový knedlík, zelí</div>
+                <div class="menu-full-item__desc">Šťavnatá vepřová pečeně na kmíně s domácím houškovým knedlíkem a dušeným zelím. Alergeny: 1, 3, 7</div>
+                <div class="menu-full-item__footer">
+                  <div class="menu-full-item__tags"><span class="menu-full-item__tag">Alergeny: 1, 3, 7</span></div>
+                  <span class="menu-full-item__price">159 Kč</span>
+                </div>
+              </div>
+            </div>
+            <div class="menu-full-item" style="border-left:3px solid var(--c-gold)">
+              <div class="menu-full-item__img" style="background:linear-gradient(135deg,#C49A3C,#E0BA6A)"></div>
+              <div class="menu-full-item__body">
+                <div class="menu-full-item__name">Hlavní 2: Kuřecí řízek, brambory, tatarská omáčka</div>
+                <div class="menu-full-item__desc">Zlatavý kuřecí řízek v trojobalu s vařenými brambory a domácí tatarskou omáčkou. Alergeny: 1, 3, 7, 10</div>
+                <div class="menu-full-item__footer">
+                  <div class="menu-full-item__tags"><span class="menu-full-item__tag">Alergeny: 1, 3, 7, 10</span></div>
+                  <span class="menu-full-item__price">169 Kč</span>
+                </div>
+              </div>
+            </div>
+            <div class="menu-full-item" style="border-left:3px solid var(--c-green-300)">
+              <div class="menu-full-item__img" style="background:linear-gradient(135deg,#2C4A3B,#5A9A7A)"></div>
+              <div class="menu-full-item__body">
+                <div class="menu-full-item__name">🌿 Vegetariánské: Zapečená těstoviny s ricottou a špenátem</div>
+                <div class="menu-full-item__desc">Creamy zapékané těstoviny s čerstvým špenátem, ricottou a parmezánem. Alergeny: 1, 3, 7</div>
+                <div class="menu-full-item__footer">
+                  <div class="menu-full-item__tags"><span class="menu-full-item__tag">Vegetariánské</span><span class="menu-full-item__tag">Alergeny: 1, 3, 7</span></div>
+                  <span class="menu-full-item__price">139 Kč</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div style="margin-top:1.5rem;padding-top:1.5rem;border-top:1px solid var(--c-border-light);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1rem">
+            <p style="font-size:0.875rem;color:var(--c-text-muted)">Denní menu je dostupné Po–Pá 11:00–14:00. Menu se může změnit bez předchozího upozornění.</p>
+            <a href="delivery.html" class="btn btn--primary">Objednat rozvoz</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- POLÉVKY -->
+    <div data-tab-panel="polevky" hidden>
+      <div class="menu-section-block">
+        <h2 class="menu-section-title">Polévky</h2>
+        <div class="menu-full-grid">
+          <div class="menu-full-item"><div class="menu-full-item__img" style="background:linear-gradient(135deg,#8B6B47,#C49A6C)"></div><div class="menu-full-item__body"><div class="menu-full-item__name">Hovězí vývar s nudlemi</div><div class="menu-full-item__desc">Tradiční domácí vývar s masem, zeleninou a nudlemi</div><div class="menu-full-item__footer"><div class="menu-full-item__tags"><span class="menu-full-item__tag">Al: 1, 3</span></div><span class="menu-full-item__price">75 Kč</span></div></div></div>
+          <div class="menu-full-item"><div class="menu-full-item__img" style="background:linear-gradient(135deg,#C49A3C,#9B7A2E)"></div><div class="menu-full-item__body"><div class="menu-full-item__name">Česneková polévka se sýrem</div><div class="menu-full-item__desc">Hustá česneková polévka s opečeným chlebem a strouhaným eidamem</div><div class="menu-full-item__footer"><div class="menu-full-item__tags"><span class="menu-full-item__tag">Al: 1, 7</span></div><span class="menu-full-item__price">79 Kč</span></div></div></div>
+          <div class="menu-full-item"><div class="menu-full-item__img" style="background:linear-gradient(135deg,#3D6B56,#1A3129)"></div><div class="menu-full-item__body"><div class="menu-full-item__name">Špenátová krémová polévka</div><div class="menu-full-item__desc">Jemný špenátový krém s crème fraîche a opečenými krutony</div><div class="menu-full-item__footer"><div class="menu-full-item__tags"><span class="menu-full-item__tag">Vegetariánské</span><span class="menu-full-item__tag">Al: 1, 7</span></div><span class="menu-full-item__price">79 Kč</span></div></div></div>
+          <div class="menu-full-item"><div class="menu-full-item__img" style="background:linear-gradient(135deg,#6B4A2E,#8B6B47)"></div><div class="menu-full-item__body"><div class="menu-full-item__name">Gulášová polévka</div><div class="menu-full-item__desc">Sytá gulášová polévka s hovězím masem, paprikou a brambory</div><div class="menu-full-item__footer"><div class="menu-full-item__tags"><span class="menu-full-item__tag">Al: 1</span></div><span class="menu-full-item__price">89 Kč</span></div></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PŘEDKRMY -->
+    <div data-tab-panel="predkrmy" hidden>
+      <div class="menu-section-block">
+        <h2 class="menu-section-title">Předkrmy & Saláty</h2>
+        <div class="menu-full-grid">
+          <div class="menu-full-item"><div class="menu-full-item__img" style="background:linear-gradient(135deg,#4A7C65,#2C4A3B)"></div><div class="menu-full-item__body"><div class="menu-full-item__name">Caesar salát s kuřecím masem</div><div class="menu-full-item__desc">Římský salát, kuřecí prsa, parmazán, krutony, Caesar dresing</div><div class="menu-full-item__footer"><div class="menu-full-item__tags"><span class="menu-full-item__tag">Al: 1, 3, 7, 10</span></div><span class="menu-full-item__price">185 Kč</span></div></div></div>
+          <div class="menu-full-item"><div class="menu-full-item__img" style="background:linear-gradient(135deg,#C49A3C,#8B6B47)"></div><div class="menu-full-item__body"><div class="menu-full-item__name">Šunkový závitek s křenem</div><div class="menu-full-item__desc">Jemná šunka plněná křenovou pomazánkou podávaná s toastem</div><div class="menu-full-item__footer"><div class="menu-full-item__tags"><span class="menu-full-item__tag">Al: 1, 7</span></div><span class="menu-full-item__price">129 Kč</span></div></div></div>
+          <div class="menu-full-item"><div class="menu-full-item__img" style="background:linear-gradient(135deg,#3D6B56,#5A9A7A)"></div><div class="menu-full-item__body"><div class="menu-full-item__name">Caprese s mozzarellou</div><div class="menu-full-item__desc">Rajčata, čerstvá mozzarella, bazalka, olivový olej, balzamikový ocet</div><div class="menu-full-item__footer"><div class="menu-full-item__tags"><span class="menu-full-item__tag">Vegetariánské</span><span class="menu-full-item__tag">Al: 7</span></div><span class="menu-full-item__price">145 Kč</span></div></div></div>
+          <div class="menu-full-item"><div class="menu-full-item__img" style="background:linear-gradient(135deg,#8B6B47,#4A3020)"></div><div class="menu-full-item__body"><div class="menu-full-item__name">Nakládané hermelíny</div><div class="menu-full-item__desc">Domácí nakládané hermelíny v bylinkové marinádě s pečivem</div><div class="menu-full-item__footer"><div class="menu-full-item__tags"><span class="menu-full-item__tag">Al: 1, 7</span></div><span class="menu-full-item__price">149 Kč</span></div></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- HLAVNÍ JÍDLA -->
+    <div data-tab-panel="hlavni" hidden>
+      <div class="menu-section-block">
+        <h2 class="menu-section-title">Hlavní jídla</h2>
+        <div class="menu-full-grid">
+          <div class="menu-full-item"><div class="menu-full-item__img" style="background:linear-gradient(135deg,#8B6B47,#C49A6C)"></div><div class="menu-full-item__body"><div class="menu-full-item__name">Svíčková na smetaně</div><div class="menu-full-item__desc">Hovězí svíčková v jemné smetanové omáčce s knedlíkem, brusinkami a šlehačkou</div><div class="menu-full-item__footer"><div class="menu-full-item__tags"><span class="menu-full-item__tag">Al: 1, 3, 7</span></div><span class="menu-full-item__price">259 Kč</span></div></div></div>
+          <div class="menu-full-item"><div class="menu-full-item__img" style="background:linear-gradient(135deg,#C49A3C,#7A5E20)"></div><div class="menu-full-item__body"><div class="menu-full-item__name">Vepřová panenka na houbách</div><div class="menu-full-item__desc">Medailonky z vepřové panenky na lesních houbách s bramborovým pyré</div><div class="menu-full-item__footer"><div class="menu-full-item__tags"><span class="menu-full-item__tag">Al: 7</span></div><span class="menu-full-item__price">279 Kč</span></div></div></div>
+          <div class="menu-full-item"><div class="menu-full-item__img" style="background:linear-gradient(135deg,#1A3129,#3D6B56)"></div><div class="menu-full-item__body"><div class="menu-full-item__name">Pstruh na másle</div><div class="menu-full-item__desc">Čerstvý pstruh pečený na másle s bylinkami, citronem a vařenými brambory</div><div class="menu-full-item__footer"><div class="menu-full-item__tags"><span class="menu-full-item__tag">Al: 4, 7</span></div><span class="menu-full-item__price">245 Kč</span></div></div></div>
+          <div class="menu-full-item"><div class="menu-full-item__img" style="background:linear-gradient(135deg,#4A3020,#8B6B47)"></div><div class="menu-full-item__body"><div class="menu-full-item__name">Hovězí burger Jeseník</div><div class="menu-full-item__desc">Domácí brioche, hovězí patty 180g, čedar, karamelizovaná cibule, salát, rajče</div><div class="menu-full-item__footer"><div class="menu-full-item__tags"><span class="menu-full-item__tag">Al: 1, 3, 7, 10</span></div><span class="menu-full-item__price">245 Kč</span></div></div></div>
+          <div class="menu-full-item"><div class="menu-full-item__img" style="background:linear-gradient(135deg,#2C4A3B,#4A7C65)"></div><div class="menu-full-item__body"><div class="menu-full-item__name">Kuřecí steak na bylinkách</div><div class="menu-full-item__desc">Kuřecí steak marinovaný v bylinkách s restovanou zeleninou a rýží</div><div class="menu-full-item__footer"><div class="menu-full-item__tags"><span class="menu-full-item__tag">Al: 7</span></div><span class="menu-full-item__price">229 Kč</span></div></div></div>
+          <div class="menu-full-item"><div class="menu-full-item__img" style="background:linear-gradient(135deg,#6B4A2E,#C49A6C)"></div><div class="menu-full-item__body"><div class="menu-full-item__name">Halušky s brynzou a slaninou</div><div class="menu-full-item__desc">Tradiční bramborové halušky s ovčí brynzou a křupavou slaninou</div><div class="menu-full-item__footer"><div class="menu-full-item__tags"><span class="menu-full-item__tag">Al: 7</span></div><span class="menu-full-item__price">195 Kč</span></div></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- VEGETARIÁNSKÉ -->
+    <div data-tab-panel="vegetarian" hidden>
+      <div class="menu-section-block">
+        <h2 class="menu-section-title">🌿 Vegetariánské & Veganské</h2>
+        <div class="menu-full-grid">
+          <div class="menu-full-item"><div class="menu-full-item__img" style="background:linear-gradient(135deg,#3D6B56,#5A9A7A)"></div><div class="menu-full-item__body"><div class="menu-full-item__name">Zapečená zelenina s fetou</div><div class="menu-full-item__desc">Sezónní zelenina zapečená s řeckým sýrem feta a bylinkami, pečivo</div><div class="menu-full-item__footer"><div class="menu-full-item__tags"><span class="menu-full-item__tag">Vegetariánské</span><span class="menu-full-item__tag">Al: 1, 7</span></div><span class="menu-full-item__price">179 Kč</span></div></div></div>
+          <div class="menu-full-item"><div class="menu-full-item__img" style="background:linear-gradient(135deg,#4A7C65,#2C4A3B)"></div><div class="menu-full-item__body"><div class="menu-full-item__name">Čočkový dhal s rýží</div><div class="menu-full-item__desc">Indicky laděný čočkový dhal s kokosovým mlékem, čerstvým koriandrem a basmati rýží</div><div class="menu-full-item__footer"><div class="menu-full-item__tags"><span class="menu-full-item__tag">Veganské</span><span class="menu-full-item__tag">Bezlepkové</span></div><span class="menu-full-item__price">165 Kč</span></div></div></div>
+          <div class="menu-full-item"><div class="menu-full-item__img" style="background:linear-gradient(135deg,#8BB8A0,#3D6B56)"></div><div class="menu-full-item__body"><div class="menu-full-item__name">Rizoto s lesními houbami</div><div class="menu-full-item__desc">Krémové arborio rizoto s liškami a hříbky, parmazánem a čerstvou bazalkou</div><div class="menu-full-item__footer"><div class="menu-full-item__tags"><span class="menu-full-item__tag">Vegetariánské</span><span class="menu-full-item__tag">Al: 7</span></div><span class="menu-full-item__price">189 Kč</span></div></div></div>
+          <div class="menu-full-item"><div class="menu-full-item__img" style="background:linear-gradient(135deg,#5A9A7A,#8BB8A0)"></div><div class="menu-full-item__body"><div class="menu-full-item__name">Buddha bowl</div><div class="menu-full-item__desc">Quinoa, pečená dýně, avokádo, cherry rajčata, cizrna, tahini dresink</div><div class="menu-full-item__footer"><div class="menu-full-item__tags"><span class="menu-full-item__tag">Veganské</span><span class="menu-full-item__tag">Bezlepkové</span></div><span class="menu-full-item__price">199 Kč</span></div></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DEZERTY -->
+    <div data-tab-panel="dezerty" hidden>
+      <div class="menu-section-block">
+        <h2 class="menu-section-title">Dezerty</h2>
+        <div class="menu-full-grid">
+          <div class="menu-full-item"><div class="menu-full-item__img" style="background:linear-gradient(135deg,#C49A3C,#E0BA6A)"></div><div class="menu-full-item__body"><div class="menu-full-item__name">Domácí jablečný závin</div><div class="menu-full-item__desc">Tradiční závin z listového těsta s jablky, skořicí a rozinkami, vanilková zmrzlina</div><div class="menu-full-item__footer"><div class="menu-full-item__tags"><span class="menu-full-item__tag">Al: 1, 3, 7</span></div><span class="menu-full-item__price">89 Kč</span></div></div></div>
+          <div class="menu-full-item"><div class="menu-full-item__img" style="background:linear-gradient(135deg,#4A3020,#8B6B47)"></div><div class="menu-full-item__body"><div class="menu-full-item__name">Čokoládová fondánka</div><div class="menu-full-item__desc">Teplá čokoládová fondánka s tekutým středem, kopečkem vanilkové zmrzliny</div><div class="menu-full-item__footer"><div class="menu-full-item__tags"><span class="menu-full-item__tag">Al: 1, 3, 7</span></div><span class="menu-full-item__price">99 Kč</span></div></div></div>
+          <div class="menu-full-item"><div class="menu-full-item__img" style="background:linear-gradient(135deg,#8B6B47,#C49A6C)"></div><div class="menu-full-item__body"><div class="menu-full-item__name">Palačinky se zakysanou smetanou</div><div class="menu-full-item__desc">Domácí palačinky s džemem, čerstvým ovocem a šlehačkou</div><div class="menu-full-item__footer"><div class="menu-full-item__tags"><span class="menu-full-item__tag">Al: 1, 3, 7</span></div><span class="menu-full-item__price">79 Kč</span></div></div></div>
+          <div class="menu-full-item"><div class="menu-full-item__img" style="background:linear-gradient(135deg,#DDD4C4,#C9BCA8)"></div><div class="menu-full-item__body"><div class="menu-full-item__name">Zmrzlinový pohár Jeseník</div><div class="menu-full-item__desc">3 kopečky zmrzliny, šlehačka, domácí lesní ovoce, čokoládový sirup</div><div class="menu-full-item__footer"><div class="menu-full-item__tags"><span class="menu-full-item__tag">Al: 7</span></div><span class="menu-full-item__price">89 Kč</span></div></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- NÁPOJE -->
+    <div data-tab-panel="napoje" hidden>
+      <div class="menu-section-block">
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:2rem">
+          <div>
+            <h2 class="menu-section-title">🍺 Točené pivo</h2>
+            <div style="display:flex;flex-direction:column;gap:0.75rem">
+              <div style="display:flex;justify-content:space-between;padding:0.75rem 0;border-bottom:1px solid var(--c-border-light)"><span><strong>Radegast 10°</strong> – 0,5 l</span><strong style="color:var(--c-green-700)">39 Kč</strong></div>
+              <div style="display:flex;justify-content:space-between;padding:0.75rem 0;border-bottom:1px solid var(--c-border-light)"><span><strong>Radegast 12°</strong> – 0,5 l</span><strong style="color:var(--c-green-700)">45 Kč</strong></div>
+              <div style="display:flex;justify-content:space-between;padding:0.75rem 0;border-bottom:1px solid var(--c-border-light)"><span><strong>Bernard světlý</strong> – 0,5 l</span><strong style="color:var(--c-green-700)">49 Kč</strong></div>
+              <div style="display:flex;justify-content:space-between;padding:0.75rem 0"><span><strong>Nealkoholické pivo</strong> – 0,5 l</span><strong style="color:var(--c-green-700)">45 Kč</strong></div>
+            </div>
+          </div>
+          <div>
+            <h2 class="menu-section-title">🍷 Víno</h2>
+            <div style="display:flex;flex-direction:column;gap:0.75rem">
+              <div style="display:flex;justify-content:space-between;padding:0.75rem 0;border-bottom:1px solid var(--c-border-light)"><span><strong>Moravské bílé</strong> – 0,2 l</span><strong style="color:var(--c-green-700)">65 Kč</strong></div>
+              <div style="display:flex;justify-content:space-between;padding:0.75rem 0;border-bottom:1px solid var(--c-border-light)"><span><strong>Moravské červené</strong> – 0,2 l</span><strong style="color:var(--c-green-700)">65 Kč</strong></div>
+              <div style="display:flex;justify-content:space-between;padding:0.75rem 0;border-bottom:1px solid var(--c-border-light)"><span><strong>Rosé</strong> – 0,2 l</span><strong style="color:var(--c-green-700)">65 Kč</strong></div>
+              <div style="display:flex;justify-content:space-between;padding:0.75rem 0"><span><strong>Prosecco</strong> – sklenka</span><strong style="color:var(--c-green-700)">89 Kč</strong></div>
+            </div>
+          </div>
+          <div>
+            <h2 class="menu-section-title">☕ Teplé nápoje</h2>
+            <div style="display:flex;flex-direction:column;gap:0.75rem">
+              <div style="display:flex;justify-content:space-between;padding:0.75rem 0;border-bottom:1px solid var(--c-border-light)"><span><strong>Espresso</strong></span><strong style="color:var(--c-green-700)">45 Kč</strong></div>
+              <div style="display:flex;justify-content:space-between;padding:0.75rem 0;border-bottom:1px solid var(--c-border-light)"><span><strong>Cappuccino</strong></span><strong style="color:var(--c-green-700)">55 Kč</strong></div>
+              <div style="display:flex;justify-content:space-between;padding:0.75rem 0;border-bottom:1px solid var(--c-border-light)"><span><strong>Čaj výběrový</strong></span><strong style="color:var(--c-green-700)">39 Kč</strong></div>
+              <div style="display:flex;justify-content:space-between;padding:0.75rem 0"><span><strong>Svařené víno</strong></span><strong style="color:var(--c-green-700)">55 Kč</strong></div>
+            </div>
+          </div>
+          <div>
+            <h2 class="menu-section-title">🥤 Nealkoholické</h2>
+            <div style="display:flex;flex-direction:column;gap:0.75rem">
+              <div style="display:flex;justify-content:space-between;padding:0.75rem 0;border-bottom:1px solid var(--c-border-light)"><span><strong>Džus čerstvý</strong> – 0,3 l</span><strong style="color:var(--c-green-700)">59 Kč</strong></div>
+              <div style="display:flex;justify-content:space-between;padding:0.75rem 0;border-bottom:1px solid var(--c-border-light)"><span><strong>Limonáda domácí</strong> – 0,4 l</span><strong style="color:var(--c-green-700)">55 Kč</strong></div>
+              <div style="display:flex;justify-content:space-between;padding:0.75rem 0;border-bottom:1px solid var(--c-border-light)"><span><strong>Minerální voda</strong> – 0,33 l</span><strong style="color:var(--c-green-700)">29 Kč</strong></div>
+              <div style="display:flex;justify-content:space-between;padding:0.75rem 0"><span><strong>Coca-Cola</strong> – 0,33 l</span><strong style="color:var(--c-green-700)">39 Kč</strong></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Allergen Info -->
+    <div style="background:var(--c-cream-100);border-radius:var(--r-xl);padding:1.5rem 2rem;margin-top:2rem">
+      <h3 style="font-family:var(--font-serif);font-size:1rem;margin-bottom:0.75rem;color:var(--c-text)">ℹ️ Alergeny</h3>
+      <p style="font-size:0.875rem;color:var(--c-text-muted);line-height:1.6;max-width:none">1 – obiloviny s lepkem, 2 – korýši, 3 – vejce, 4 – ryby, 5 – arašídy, 6 – sójové boby, 7 – mléko, 8 – skořápkové plody, 9 – celer, 10 – hořčice, 11 – sezam, 12 – oxid siřičitý, 13 – vlčí bob, 14 – měkkýši. V případě alergie nás prosím informujte před objednávkou.</p>
+    </div>
+  </div>
+</main>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer__bottom" style="padding-block:1.5rem">
+      <p class="footer__copy">© 2025 Obecní dům Holčovice</p>
+      <nav class="footer__bottom-links">
+        <a href="index.html" class="footer__bottom-link">Domů</a>
+        <a href="contact.html" class="footer__bottom-link">Kontakt</a>
+        <a href="delivery.html" class="footer__bottom-link">Rozvoz</a>
+      </nav>
+    </div>
+  </div>
+</footer>
+
+<div class="toast-container"></div>
+<script src="js/main.js"></script>
+</body>
+</html>

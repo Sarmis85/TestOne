@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta name="robots" content="noindex, nofollow">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Uživatelé – Admin · Obecní dům Holčovice</title>
+  <link rel="stylesheet" href="../css/admin.css">
+</head>
+<body>
+<div class="admin-root">
+<aside class="admin-sidebar" id="admin-sidebar">
+  <div class="admin-sidebar__header"><div class="admin-sidebar__brand"><img src="../img/OD_Logo_průhledné.png" class="admin-sidebar__logo-img" alt="OD Holčovice"><div><div class="admin-sidebar__name">Obecní dům</div><div class="admin-sidebar__sub">Admin</div></div></div><button class="admin-sidebar__toggle"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 19l-7-7 7-7M18 19l-7-7 7-7"/></svg></button></div>
+  <nav class="admin-sidebar__nav">
+    <div class="admin-sidebar__section-title">Přehled</div>
+    <a href="index.html" class="admin-nav-item"><svg class="admin-nav-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg><span class="admin-nav-item__label">Dashboard</span></a>
+    <div class="admin-sidebar__section-title">Restaurace</div>
+    <a href="menu.html" class="admin-nav-item"><svg class="admin-nav-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 2h2l.4 2M7 13h10l4-8H5.4"/></svg><span class="admin-nav-item__label">Jídelní lístek</span></a>
+    <a href="reservations.html" class="admin-nav-item"><svg class="admin-nav-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/></svg><span class="admin-nav-item__label">Rezervace</span><span class="admin-nav-item__badge">3</span></a>
+    <a href="orders.html" class="admin-nav-item"><svg class="admin-nav-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/></svg><span class="admin-nav-item__label">Objednávky</span><span class="admin-nav-item__badge">7</span></a>
+    <div class="admin-sidebar__section-title">Obsah</div>
+    <a href="events.html" class="admin-nav-item"><svg class="admin-nav-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18V5l12-2v13"/></svg><span class="admin-nav-item__label">Akce & Události</span></a>
+    <a href="content.html" class="admin-nav-item"><svg class="admin-nav-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg><span class="admin-nav-item__label">Správa obsahu</span></a>
+    <div class="admin-sidebar__section-title">Systém</div>
+    <a href="users.html" class="admin-nav-item active"><svg class="admin-nav-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg><span class="admin-nav-item__label">Uživatelé</span></a>
+  </nav>
+  <div class="admin-sidebar__footer"><div class="admin-user-mini"><div class="admin-user-mini__avatar">SA</div><div class="admin-user-mini__info"><div class="admin-user-mini__name">Super Admin</div><div class="admin-user-mini__role">Správce systému</div></div></div></div>
+</aside>
+
+<div class="admin-main">
+  <header class="admin-topbar">
+    <meta name="robots" content="noindex, nofollow">
+    <h1 class="admin-topbar__title">Správa uživatelů</h1>
+    <div class="admin-topbar__actions">
+      <div class="admin-topbar__search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg><input type="text" placeholder="Hledat uživatele..." data-filter-input="users"></div>
+      <button class="btn btn--primary btn--sm" data-modal-open="modal-new-user">+ Přidat uživatele</button>
+    </div>
+  </header>
+
+  <main class="admin-content">
+    <!-- Role Overview -->
+    <div class="kpi-grid" style="grid-template-columns:repeat(6,1fr);margin-bottom:2rem">
+      <div style="background:var(--c-white);border-radius:var(--r-xl);padding:1.25rem;box-shadow:var(--shadow-card);text-align:center">
+        <div style="font-family:var(--font-serif);font-size:1.75rem;font-weight:700;color:#5B21B6">1</div>
+        <div style="font-size:0.75rem;margin-top:0.25rem"><span class="role-badge role-badge--super-admin">Super Admin</span></div>
+      </div>
+      <div style="background:var(--c-white);border-radius:var(--r-xl);padding:1.25rem;box-shadow:var(--shadow-card);text-align:center">
+        <div style="font-family:var(--font-serif);font-size:1.75rem;font-weight:700;color:var(--c-green-700)">2</div>
+        <div style="font-size:0.75rem;margin-top:0.25rem"><span class="role-badge role-badge--manager">Manažeři</span></div>
+      </div>
+      <div style="background:var(--c-white);border-radius:var(--r-xl);padding:1.25rem;box-shadow:var(--shadow-card);text-align:center">
+        <div style="font-family:var(--font-serif);font-size:1.75rem;font-weight:700;color:var(--c-gold-deeper)">3</div>
+        <div style="font-size:0.75rem;margin-top:0.25rem"><span class="role-badge role-badge--waiter">Číšníci</span></div>
+      </div>
+      <div style="background:var(--c-white);border-radius:var(--r-xl);padding:1.25rem;box-shadow:var(--shadow-card);text-align:center">
+        <div style="font-family:var(--font-serif);font-size:1.75rem;font-weight:700;color:#B91C1C">2</div>
+        <div style="font-size:0.75rem;margin-top:0.25rem"><span class="role-badge role-badge--kitchen">Kuchyně</span></div>
+      </div>
+      <div style="background:var(--c-white);border-radius:var(--r-xl);padding:1.25rem;box-shadow:var(--shadow-card);text-align:center">
+        <div style="font-family:var(--font-serif);font-size:1.75rem;font-weight:700;color:var(--c-info)">1</div>
+        <div style="font-size:0.75rem;margin-top:0.25rem"><span class="role-badge role-badge--delivery">Rozvoz</span></div>
+      </div>
+      <div style="background:var(--c-white);border-radius:var(--r-xl);padding:1.25rem;box-shadow:var(--shadow-card);text-align:center">
+        <div style="font-family:var(--font-serif);font-size:1.75rem;font-weight:700;color:var(--c-brown-600)">1</div>
+        <div style="font-size:0.75rem;margin-top:0.25rem"><span class="role-badge role-badge--content">Obsah</span></div>
+      </div>
+    </div>
+
+    <!-- Tabs -->
+    <div style="display:flex;gap:0;border-bottom:1px solid var(--c-border-light);margin-bottom:1.5rem">
+      <button class="menu-nav__btn active" onclick="this.parentElement.querySelectorAll('button').forEach(b=>b.classList.remove('active'));this.classList.add('active')">Zaměstnanci (10)</button>
+      <button class="menu-nav__btn" onclick="this.parentElement.querySelectorAll('button').forEach(b=>b.classList.remove('active'));this.classList.add('active')">Zákazníci (147)</button>
+    </div>
+
+    <div style="display:flex;gap:0.75rem;margin-bottom:1.5rem;flex-wrap:wrap">
+      <select class="form-select" style="width:auto" data-filter-select="users">
+        <option value="">Všechny role</option>
+        <option value="super-admin">Super Admin</option>
+        <option value="manager">Manažer</option>
+        <option value="waiter">Číšník</option>
+        <option value="kitchen">Kuchyně</option>
+        <option value="delivery">Rozvoz</option>
+        <option value="content">Editor obsahu</option>
+      </select>
+    </div>
+
+    <div class="admin-table-card">
+      <div class="admin-table-card__header">
+        <h3 class="admin-table-card__title">Zaměstnanci systému</h3>
+        <div class="admin-table-card__actions">
+          <button class="btn btn--ghost btn--sm">Exportovat</button>
+        </div>
+      </div>
+      <div class="admin-table-wrap">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>Jméno</th>
+              <th>E-mail</th>
+              <th>Role</th>
+              <th>Telefon</th>
+              <th>Poslední přihlášení</th>
+              <th>Stav</th>
+              <th style="text-align:right">Akce</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr data-id="u1" data-filter-row="users" data-filter-value="super-admin">
+              <td><div style="display:flex;align-items:center;gap:0.75rem"><div style="width:32px;height:32px;border-radius:50%;background:var(--c-green-700);display:flex;align-items:center;justify-content:center;color:white;font-size:0.75rem;font-weight:700;border:2px solid var(--c-gold)">SA</div><div><div style="font-weight:600;font-size:0.9rem">Super Admin</div><div style="font-size:0.75rem;color:var(--c-text-muted)">admin@obecnidumholcovice.cz</div></div></div></td>
+              <td>admin@obecnidumholcovice.cz</td>
+              <td><span class="role-badge role-badge--super-admin">Super Admin</span></td>
+              <td>—</td>
+              <td style="font-size:0.8125rem">Dnes 9:41</td>
+              <td><span class="status status--active">Aktivní</span></td>
+              <td><div class="admin-table__cell--actions"><button class="admin-table__action" title="Upravit" data-modal-open="modal-edit-user"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button></div></td>
+            </tr>
+            <tr data-id="u2" data-filter-row="users" data-filter-value="manager">
+              <td><div style="display:flex;align-items:center;gap:0.75rem"><div style="width:32px;height:32px;border-radius:50%;background:var(--c-green-600);display:flex;align-items:center;justify-content:center;color:white;font-size:0.75rem;font-weight:700">JV</div><div><div style="font-weight:600;font-size:0.9rem">Jana Veselá</div></div></div></td>
+              <td>vesela@obecnidumholcovice.cz</td>
+              <td><span class="role-badge role-badge--manager">Manažer</span></td>
+              <td>+420 604 111 222</td>
+              <td style="font-size:0.8125rem">Dnes 8:15</td>
+              <td><span class="status status--active">Aktivní</span></td>
+              <td><div class="admin-table__cell--actions"><button class="admin-table__action" data-modal-open="modal-edit-user"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7M18.5 2.5a2.121 2.121 0 013 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button><button class="admin-table__action admin-table__action--danger" onclick="deleteRow('u2')"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/></svg></button></div></td>
+            </tr>
+            <tr data-id="u3" data-filter-row="users" data-filter-value="waiter">
+              <td><div style="display:flex;align-items:center;gap:0.75rem"><div style="width:32px;height:32px;border-radius:50%;background:var(--c-gold-dark);display:flex;align-items:center;justify-content:center;color:white;font-size:0.75rem;font-weight:700">TN</div><div><div style="font-weight:600;font-size:0.9rem">Tomáš Novotný</div></div></div></td>
+              <td>novotny@obecnidumholcovice.cz</td>
+              <td><span class="role-badge role-badge--waiter">Číšník</span></td>
+              <td>+420 604 333 444</td>
+              <td style="font-size:0.8125rem">Včera 22:10</td>
+              <td><span class="status status--active">Aktivní</span></td>
+              <td><div class="admin-table__cell--actions"><button class="admin-table__action" data-modal-open="modal-edit-user"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/></svg></button><button class="admin-table__action admin-table__action--danger" onclick="deleteRow('u3')"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/></svg></button></div></td>
+            </tr>
+            <tr data-id="u4" data-filter-row="users" data-filter-value="kitchen">
+              <td><div style="display:flex;align-items:center;gap:0.75rem"><div style="width:32px;height:32px;border-radius:50%;background:#B91C1C;display:flex;align-items:center;justify-content:center;color:white;font-size:0.75rem;font-weight:700">PK</div><div><div style="font-weight:600;font-size:0.9rem">Pavel Král</div></div></div></td>
+              <td>kral@obecnidumholcovice.cz</td>
+              <td><span class="role-badge role-badge--kitchen">Kuchyně</span></td>
+              <td>+420 775 555 666</td>
+              <td style="font-size:0.8125rem">Dnes 10:00</td>
+              <td><span class="status status--active">Aktivní</span></td>
+              <td><div class="admin-table__cell--actions"><button class="admin-table__action" data-modal-open="modal-edit-user"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/></svg></button><button class="admin-table__action admin-table__action--danger" onclick="deleteRow('u4')"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/></svg></button></div></td>
+            </tr>
+            <tr data-id="u5" data-filter-row="users" data-filter-value="delivery">
+              <td><div style="display:flex;align-items:center;gap:0.75rem"><div style="width:32px;height:32px;border-radius:50%;background:var(--c-info);display:flex;align-items:center;justify-content:center;color:white;font-size:0.75rem;font-weight:700">MH</div><div><div style="font-weight:600;font-size:0.9rem">Martin Horák</div></div></div></td>
+              <td>horak@obecnidumholcovice.cz</td>
+              <td><span class="role-badge role-badge--delivery">Rozvoz</span></td>
+              <td>+420 720 777 888</td>
+              <td style="font-size:0.8125rem">Dnes 11:30</td>
+              <td><span class="status status--active">Aktivní</span></td>
+              <td><div class="admin-table__cell--actions"><button class="admin-table__action" data-modal-open="modal-edit-user"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/></svg></button><button class="admin-table__action admin-table__action--danger" onclick="deleteRow('u5')"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/></svg></button></div></td>
+            </tr>
+            <tr data-id="u6" data-filter-row="users" data-filter-value="content">
+              <td><div style="display:flex;align-items:center;gap:0.75rem"><div style="width:32px;height:32px;border-radius:50%;background:var(--c-brown-500);display:flex;align-items:center;justify-content:center;color:white;font-size:0.75rem;font-weight:700">EF</div><div><div style="font-weight:600;font-size:0.9rem">Eva Fišerová</div></div></div></td>
+              <td>fiserova@obecnidumholcovice.cz</td>
+              <td><span class="role-badge role-badge--content">Editor obsahu</span></td>
+              <td>+420 608 999 000</td>
+              <td style="font-size:0.8125rem">3. 6. 2025</td>
+              <td><span class="status status--active">Aktivní</span></td>
+              <td><div class="admin-table__cell--actions"><button class="admin-table__action" data-modal-open="modal-edit-user"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7"/></svg></button><button class="admin-table__action admin-table__action--danger" onclick="deleteRow('u6')"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/></svg></button></div></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+</div>
+</div>
+
+<!-- Edit User Modal -->
+<div class="modal-backdrop" id="modal-edit-user">
+  <div class="modal">
+    <div class="modal__header"><h3 class="modal__title">Upravit uživatele</h3><button class="modal__close" data-modal-close="modal-edit-user"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6L6 18M6 6l12 12"/></svg></button></div>
+    <div class="modal__body">
+      <div style="display:flex;flex-direction:column;gap:1rem">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem">
+          <div class="form-group"><label class="form-label">Jméno</label><input type="text" class="form-input" value="Jana"></div>
+          <div class="form-group"><label class="form-label">Příjmení</label><input type="text" class="form-input" value="Veselá"></div>
+        </div>
+        <div class="form-group"><label class="form-label">E-mail</label><input type="email" class="form-input" value="vesela@obecnidumholcovice.cz"></div>
+        <div class="form-group"><label class="form-label">Telefon</label><input type="tel" class="form-input" value="+420 604 111 222"></div>
+        <div class="form-group"><label class="form-label">Role</label>
+          <select class="form-select">
+            <option>Super Admin</option>
+            <option selected>Restaurant Manager</option>
+            <option>Waiter / Číšník</option>
+            <option>Kitchen / Kuchyně</option>
+            <option>Delivery / Rozvoz</option>
+            <option>Content Editor / Editor obsahu</option>
+          </select>
+        </div>
+        <div class="form-group"><label class="form-label">Stav</label>
+          <select class="form-select"><option>Aktivní</option><option>Neaktivní</option></select>
+        </div>
+        <hr class="sep" style="margin:0">
+        <div class="form-group"><label class="form-label">Nové heslo (ponechat prázdné pro zachování)</label><input type="password" class="form-input" placeholder="Nové heslo"></div>
+      </div>
+    </div>
+    <div class="modal__footer">
+      <button class="btn btn--ghost" data-modal-close="modal-edit-user">Zrušit</button>
+      <button class="btn btn--primary" onclick="Toast.show({title:'Uživatel uložen',type:'success'});Modal.close('modal-edit-user')">Uložit</button>
+    </div>
+  </div>
+</div>
+
+<!-- New User Modal -->
+<div class="modal-backdrop" id="modal-new-user">
+  <div class="modal">
+    <div class="modal__header"><h3 class="modal__title">Přidat zaměstnance</h3><button class="modal__close" data-modal-close="modal-new-user"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6L6 18M6 6l12 12"/></svg></button></div>
+    <div class="modal__body">
+      <div style="display:flex;flex-direction:column;gap:1rem">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem">
+          <div class="form-group"><label class="form-label form-label--req">Jméno</label><input type="text" class="form-input" required></div>
+          <div class="form-group"><label class="form-label form-label--req">Příjmení</label><input type="text" class="form-input" required></div>
+        </div>
+        <div class="form-group"><label class="form-label form-label--req">E-mail (přihlašovací)</label><input type="email" class="form-input" required placeholder="@obecnidumholcovice.cz"></div>
+        <div class="form-group"><label class="form-label">Telefon</label><input type="tel" class="form-input"></div>
+        <div class="form-group"><label class="form-label form-label--req">Role</label>
+          <select class="form-select" required>
+            <option value="">Vyberte roli</option>
+            <option>Restaurant Manager</option>
+            <option>Waiter / Číšník</option>
+            <option>Kitchen / Kuchyně</option>
+            <option>Delivery / Rozvoz</option>
+            <option>Content Editor</option>
+          </select>
+        </div>
+        <div class="form-group"><label class="form-label form-label--req">Heslo</label><input type="password" class="form-input" required placeholder="Dočasné heslo"></div>
+        <div style="background:var(--c-info-bg);border-radius:var(--r-md);padding:0.75rem;font-size:0.875rem;color:var(--c-info)">ℹ️ Uživatel dostane e-mail s přihlašovacími údaji a bude vyzván ke změně hesla při prvním přihlášení.</div>
+      </div>
+    </div>
+    <div class="modal__footer">
+      <button class="btn btn--ghost" data-modal-close="modal-new-user">Zrušit</button>
+      <button class="btn btn--primary" onclick="Toast.show({title:'Zaměstnanec přidán',message:'Přihlašovací údaje odeslány na e-mail.',type:'success'});Modal.close('modal-new-user')">Vytvořit účet</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast-container"></div>
+<script src="../js/admin.js"></script>
+</body>
+</html>
