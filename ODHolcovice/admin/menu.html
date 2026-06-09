@@ -32,6 +32,7 @@
     <meta name="robots" content="noindex, nofollow">
     <h1 class="admin-topbar__title">Správa jídelního lístku</h1>
     <div class="admin-topbar__actions">
+      <a href="../index.html" class="btn btn--ghost btn--sm" style="display:flex;align-items:center;gap:0.4rem"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>Zpět na web</a>
       <button class="btn btn--primary btn--sm" data-modal-open="modal-new-item">+ Přidat položku</button>
     </div>
   </header>
@@ -44,7 +45,7 @@
       </div>
       <div class="admin-page-actions">
         <button class="btn btn--ghost btn--sm" onclick="Toast.show({title:'Exportováno',type:'success'})">Exportovat PDF</button>
-        <button class="btn btn--outline btn--sm" data-modal-open="modal-weekly-menu">📅 Týdenní menu</button>
+        <button class="btn btn--outline btn--sm" onclick="document.getElementById('weekly-menu-section').scrollIntoView({behavior:'smooth'})">📅 Týdenní menu ↓</button>
       </div>
     </div>
 
@@ -177,9 +178,60 @@
         </div>
       </div>
     </div>
+
+    <!-- ═══════════════════════════════════════════
+         TÝDENNÍ MENU — samostatná sekce
+    ═════════════════════════════════════════════ -->
+    <div id="weekly-menu-section" style="margin-top:2.5rem">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;flex-wrap:wrap;gap:0.75rem">
+        <div>
+          <h2 class="admin-page-title" style="margin-bottom:0.25rem">📅 Týdenní menu</h2>
+          <p class="admin-page-subtitle">Sestavte menu pro každý den. Jídla se načítají z databáze.</p>
+        </div>
+        <div style="display:flex;gap:0.5rem;flex-wrap:wrap">
+          <button class="btn btn--ghost btn--sm" id="wm-prev" onclick="weekOffset--;loadWeeklyMenu()">← Předchozí</button>
+          <span id="wm-range" style="align-self:center;font-size:0.875rem;font-weight:600;color:var(--c-text);padding:0 0.5rem">Načítám…</span>
+          <button class="btn btn--ghost btn--sm" id="wm-next" onclick="weekOffset++;loadWeeklyMenu()">Následující →</button>
+        </div>
+        <div style="display:flex;gap:0.5rem">
+          <button class="btn btn--outline btn--sm" onclick="exportMenuPdf()">⬇ Export PDF</button>
+          <button class="btn btn--outline btn--sm" onclick="exportMenuPng()">🖼 Export PNG</button>
+          <button class="btn btn--primary btn--sm" onclick="saveWeeklyMenu()">💾 Uložit a publikovat</button>
+        </div>
+      </div>
+
+      <!-- Týdenní tabulka -->
+      <div class="admin-table-card" id="wm-table-card">
+        <div class="admin-table-wrap" style="overflow-x:auto">
+          <table class="admin-table" id="wm-table" style="min-width:700px">
+            <thead>
+              <tr>
+                <th style="width:80px">Den</th>
+                <th>🍲 Polévka</th>
+                <th>🍽 Hlavní jídlo 1</th>
+                <th>🍽 Hlavní jídlo 2</th>
+                <th style="width:36px;text-align:center" title="Vegetariánské">🌿</th>
+              </tr>
+            </thead>
+            <tbody id="wm-tbody">
+              <tr><td colspan="5" style="text-align:center;padding:2rem;color:var(--c-text-muted)">Načítám…</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Legenda + instrukce -->
+        <div style="padding:1rem 1.25rem;border-top:1px solid var(--c-border);font-size:0.8125rem;color:var(--c-text-muted);display:flex;align-items:center;gap:1rem;flex-wrap:wrap">
+          <span>💡 Začněte psát název jídla — nabídne uložená jídla. Neznámé jídlo uložte přes dialog.</span>
+          <span style="margin-left:auto">Změny se projeví po kliknutí <strong>Uložit a publikovat</strong></span>
+        </div>
+      </div>
+    </div>
   </main>
 </div>
 </div>
+
+<!-- Autocomplete dropdown -->
+<div id="wm-suggest" style="display:none;position:fixed;z-index:9999;background:var(--c-white);border:1px solid var(--c-border);border-radius:var(--r-lg);box-shadow:var(--shadow-lg);min-width:240px;max-height:240px;overflow-y:auto"></div>
 
 <!-- Edit Item Modal -->
 <div class="modal-backdrop" id="modal-edit-item">
@@ -250,48 +302,12 @@
   </div>
 </div>
 
-<!-- Weekly Menu Modal -->
-<div class="modal-backdrop" id="modal-weekly-menu">
-  <div class="modal modal--lg">
-    <div class="modal__header"><h3 class="modal__title">📅 Týdenní menu – 9.–13. 6. 2025</h3><button class="modal__close" data-modal-close="modal-weekly-menu"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M18 6L6 18M6 6l12 12"/></svg></button></div>
-    <div class="modal__body">
-      <p style="color:var(--c-text-muted);font-size:0.875rem;margin-bottom:1.5rem">Týdenní menu je dostupné zákazníkům pro objednávku rozvozu. Označte jídla pro každý den.</p>
-      <div style="display:flex;flex-direction:column;gap:1.5rem">
-        <div style="display:grid;grid-template-columns:80px 1fr 1fr 1fr;gap:0.75rem;align-items:center">
-          <div></div><strong style="font-size:0.8rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--c-text-muted)">Polévka</strong><strong style="font-size:0.8rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--c-text-muted)">Hlavní 1</strong><strong style="font-size:0.8rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--c-text-muted)">Hlavní 2</strong>
-          <strong>Po 9.6.</strong>
-          <select class="form-select" style="font-size:0.8125rem"><option>Hovězí vývar</option><option>Česneková</option></select>
-          <select class="form-select" style="font-size:0.8125rem"><option>Vepřová pečeně</option><option>Kuřecí řízek</option></select>
-          <select class="form-select" style="font-size:0.8125rem"><option>Kuřecí řízek</option><option>Svíčková</option></select>
-          <strong>Út 10.6.</strong>
-          <select class="form-select" style="font-size:0.8125rem"><option>Česneková</option><option>Hovězí vývar</option></select>
-          <select class="form-select" style="font-size:0.8125rem"><option>Svíčková</option><option>Vepřová pečeně</option></select>
-          <select class="form-select" style="font-size:0.8125rem"><option>Halušky s brynzou</option><option>Kuřecí řízek</option></select>
-          <strong>St 11.6.</strong>
-          <select class="form-select" style="font-size:0.8125rem"><option>Špenátová</option><option>Gulášová</option></select>
-          <select class="form-select" style="font-size:0.8125rem"><option>Kuřecí steak</option><option>Svíčková</option></select>
-          <select class="form-select" style="font-size:0.8125rem"><option>Rizoto s houbami</option><option>Zapečená zelenina</option></select>
-          <strong>Čt 12.6.</strong>
-          <select class="form-select" style="font-size:0.8125rem"><option>Gulášová</option><option>Hovězí vývar</option></select>
-          <select class="form-select" style="font-size:0.8125rem"><option>Vepřová pečeně</option><option>Burger Jeseník</option></select>
-          <select class="form-select" style="font-size:0.8125rem"><option>Pstruh na másle</option><option>Kuřecí steak</option></select>
-          <strong>Pá 13.6.</strong>
-          <select class="form-select" style="font-size:0.8125rem"><option>Hovězí vývar</option><option>Česneková</option></select>
-          <select class="form-select" style="font-size:0.8125rem"><option>Svíčková</option><option>Vepřová pečeně</option></select>
-          <select class="form-select" style="font-size:0.8125rem"><option>Čočkový dhal</option><option>Buddha bowl</option></select>
-        </div>
-      </div>
-    </div>
-    <div class="modal__footer">
-      <button class="btn btn--ghost" data-modal-close="modal-weekly-menu">Zrušit</button>
-      <button class="btn btn--primary" onclick="Toast.show({title:'Týdenní menu uloženo',message:'Zákazníci mohou objednávat.',type:'success'});Modal.close('modal-weekly-menu')">Uložit a publikovat</button>
-    </div>
-  </div>
-</div>
+<!-- Weekly Menu Modal removed – nahrazeno standalone sekcí -->
 
 <div class="toast-container"></div>
 <script src="../js/admin.js"></script>
 <script>
+// ─── Náhled obrázku ────────────────────────────────────────────
 function previewImg(input) {
   const file = input.files[0];
   if (!file) return;
@@ -303,6 +319,287 @@ function previewImg(input) {
   };
   reader.readAsDataURL(file);
 }
+
+// ═══════════════════════════════════════════════════════════════
+//  TÝDENNÍ MENU — STANDALONE SEKCE
+// ═══════════════════════════════════════════════════════════════
+const WM_DAYS  = ['Po','Út','St','Čt','Pá'];
+const WM_SLOTS = ['soup','main1','main2'];
+const WM_SLOT_LABELS = { soup:'Polévka', main1:'Hlavní 1', main2:'Hlavní 2' };
+const WM_CATS  = { soup:['polevka','soup','polévka'], main1:['hlavni','main','hlavní'], main2:['hlavni','main','hlavní'] };
+
+let weekOffset = 0;       // 0 = aktuální týden, -1 = předchozí, +1 = příští
+let wmFoods    = [];      // všechna jídla z DB (pro autocomplete)
+let wmData     = {};      // { "YYYY-MM-DD": { soup_id, soup_name, main1_id, main1_name, main2_id, main2_name } }
+let wmDates    = [];      // aktuálně zobrazené datumy [Po..Pá]
+let wmActiveSuggest = null; // { inp, slot, date }
+
+// ── Výpočet dat týdne ──────────────────────────────────────────
+function getWeekDates(offset) {
+  const d = new Date();
+  const dow = d.getDay() || 7;
+  d.setDate(d.getDate() - dow + 1 + offset * 7);
+  return Array.from({length:5}, (_, i) => {
+    const dt = new Date(d);
+    dt.setDate(d.getDate() + i);
+    return dt.toISOString().slice(0,10);
+  });
+}
+
+function fmtWmDate(iso) {
+  const d = new Date(iso + 'T00:00');
+  return `${d.getDate()}.${d.getMonth()+1}.`;
+}
+
+// ── Načtení jídel ─────────────────────────────────────────────
+async function loadWmFoods() {
+  if (wmFoods.length) return;
+  try {
+    const res  = await fetch('../api/menu/items.php?limit=300');
+    if (!res.ok) throw new Error();
+    wmFoods = await res.json();
+  } catch {
+    wmFoods = [];
+  }
+}
+
+// ── Načtení týdenního menu z API ──────────────────────────────
+async function loadWeeklyMenu() {
+  await loadWmFoods();
+  wmDates = getWeekDates(weekOffset);
+  const from = wmDates[0], to = wmDates[4];
+
+  // Rozsah textu
+  document.getElementById('wm-range').textContent =
+    `${fmtWmDate(from)} – ${fmtWmDate(to)} ${new Date(from+'T00:00').getFullYear()}`;
+
+  // Načti z API
+  try {
+    const res  = await fetch(`../api/menu/daily.php?from=${from}&to=${to}`);
+    const data = res.ok ? await res.json() : { days: [] };
+    wmData = {};
+    (data.days ?? []).forEach(d => { wmData[d.menu_date] = d; });
+  } catch {
+    wmData = {};
+  }
+
+  renderWmTable();
+}
+
+// ── Render tabulky ────────────────────────────────────────────
+function renderWmTable() {
+  const tbody = document.getElementById('wm-tbody');
+  tbody.innerHTML = wmDates.map((date, i) => {
+    const d    = wmData[date] || {};
+    const dayL = WM_DAYS[i];
+    const dayN = fmtWmDate(date);
+
+    const cells = WM_SLOTS.map(slot => {
+      const nameVal = d[`${slot}_name`] ?? '';
+      const idVal   = d[`${slot}_id`]   ?? '';
+      return `<td style="padding:0.4rem 0.5rem">
+        <input type="text" class="form-input wm-cell" style="font-size:0.8125rem;padding:0.35rem 0.6rem"
+          data-date="${date}" data-slot="${slot}" data-food-id="${idVal}"
+          value="${escHtml(nameVal)}" placeholder="Začněte psát…"
+          oninput="wmOnInput(this)" onfocus="wmOnInput(this)" onblur="wmOnBlur(this)"
+          autocomplete="off">
+      </td>`;
+    }).join('');
+
+    const vegeDay = WM_SLOTS.some(s => {
+      const fid = d[`${s}_id`];
+      const f   = wmFoods.find(x => x.id == fid);
+      return f && (f.is_vegetarian == 1 || f.is_vege == 1);
+    });
+
+    return `<tr>
+      <td style="padding:0.4rem 0.75rem;white-space:nowrap"><strong>${dayL}</strong> <span style="color:var(--c-text-muted);font-size:0.8125rem">${dayN}</span></td>
+      ${cells}
+      <td style="text-align:center;padding:0.4rem">${vegeDay ? '<span title="Vegetariánské">🌿</span>' : ''}</td>
+    </tr>`;
+  }).join('');
+}
+
+function escHtml(s) { return (s ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+// ── Autocomplete ──────────────────────────────────────────────
+function wmOnInput(inp) {
+  const val  = inp.value.trim().toLowerCase();
+  const slot = inp.dataset.slot;
+  const date = inp.dataset.date;
+
+  if (!val || val.length < 1) { wmHideSuggest(); return; }
+
+  const cats = WM_CATS[slot] ?? [];
+  const matches = wmFoods.filter(f => {
+    const inCat = !cats.length || cats.some(c => (f.category ?? '').toLowerCase().includes(c));
+    return f.name.toLowerCase().includes(val) && f.is_active != 0;
+  }).slice(0, 8);
+
+  wmShowSuggest(inp, val, matches, slot, date);
+}
+
+function wmOnBlur(inp) {
+  // Dej čas kliknutí na suggest
+  setTimeout(wmHideSuggest, 200);
+}
+
+function wmShowSuggest(inp, val, matches, slot, date) {
+  const box = document.getElementById('wm-suggest');
+  const rect = inp.getBoundingClientRect();
+  box.style.left  = rect.left + 'px';
+  box.style.top   = (rect.bottom + window.scrollY + 2) + 'px';
+  box.style.width = Math.max(rect.width, 240) + 'px';
+
+  wmActiveSuggest = { inp, slot, date };
+
+  if (!matches.length) {
+    box.innerHTML = `<div style="padding:0.6rem 0.875rem;font-size:0.8125rem">
+      <a href="#" style="color:var(--c-gold-dark);font-weight:600" onclick="wmNewFood('${escHtml(inp.value.trim())}','${slot}');return false">
+        + Přidat „${escHtml(inp.value.trim())}" jako nové jídlo
+      </a></div>`;
+    box.style.display = 'block';
+    return;
+  }
+
+  box.innerHTML = matches.map(f =>
+    `<div class="wm-suggest-item" style="padding:0.5rem 0.875rem;cursor:pointer;font-size:0.8125rem;border-bottom:1px solid var(--c-border)"
+      onmousedown="wmPickFood(${f.id},'${escHtml(f.name)}')"
+      style="hover:background:var(--c-cream-50)">
+      <strong>${escHtml(f.name)}</strong>
+      <span style="color:var(--c-text-muted);font-size:0.75rem;margin-left:0.5rem">${f.category ?? ''} · ${f.price ?? f.price_kc ?? '?'} Kč</span>
+    </div>`
+  ).join('') + `<div style="padding:0.5rem 0.875rem;font-size:0.8125rem;border-top:1px solid var(--c-border)">
+    <a href="#" style="color:var(--c-text-muted)" onclick="wmNewFood('${escHtml(inp.value.trim())}','${slot}');return false">+ Přidat nové jídlo…</a>
+  </div>`;
+  box.style.display = 'block';
+}
+
+function wmHideSuggest() {
+  document.getElementById('wm-suggest').style.display = 'none';
+  wmActiveSuggest = null;
+}
+
+function wmPickFood(id, name) {
+  if (!wmActiveSuggest) return;
+  const { inp, slot, date } = wmActiveSuggest;
+  inp.value = name;
+  inp.dataset.foodId = id;
+  if (!wmData[date]) wmData[date] = {};
+  wmData[date][`${slot}_id`]   = id;
+  wmData[date][`${slot}_name`] = name;
+  wmHideSuggest();
+}
+
+function wmNewFood(prefill, slot) {
+  wmHideSuggest();
+  // Otevřeme modal nového jídla z foods.html — nebo zobrazíme hint
+  Toast.show({
+    title: 'Nové jídlo',
+    message: `Přejděte na stránku „Jídla" a přidejte „${prefill}". Poté se vratte a sestavte menu.`,
+    type: 'info',
+    duration: 5000
+  });
+}
+
+// ── Uložení ───────────────────────────────────────────────────
+async function saveWeeklyMenu() {
+  const btn = document.querySelector('#weekly-menu-section .btn--primary');
+  const orig = btn.textContent;
+  btn.disabled = true; btn.textContent = 'Ukládám…';
+
+  let ok = 0, fail = 0;
+  for (const date of wmDates) {
+    const d = wmData[date];
+    if (!d) continue;
+    // Uložíme každý den
+    const body = {
+      menu_date: date,
+      soup_id:   d.soup_id   ?? null,
+      main1_id:  d.main1_id  ?? null,
+      main2_id:  d.main2_id  ?? null,
+    };
+    // Přečti aktuální hodnoty z inputů
+    document.querySelectorAll(`.wm-cell[data-date="${date}"]`).forEach(inp => {
+      const slot = inp.dataset.slot;
+      const fid  = inp.dataset.foodId ? parseInt(inp.dataset.foodId) : null;
+      if (fid) body[`${slot}_id`] = fid;
+    });
+    try {
+      const res = await fetch('../api/menu/daily.php', {
+        method:'POST', headers:{'Content-Type':'application/json'},
+        body: JSON.stringify(body)
+      });
+      if (res.ok) ok++; else fail++;
+    } catch { fail++; }
+  }
+
+  btn.disabled = false; btn.textContent = orig;
+  if (fail === 0) {
+    Toast.show({title:'Týdenní menu uloženo', message:'Zákazníci mohou objednávat.', type:'success'});
+  } else {
+    Toast.show({title:`Uloženo ${ok}/${ok+fail} dní`, type: fail > ok ? 'error' : 'warning'});
+  }
+  loadWeeklyMenu();
+}
+
+// ── Export PDF / PNG ──────────────────────────────────────────
+async function exportMenuPdf() {
+  // Generujeme jednoduchý HTML → tisk dialog (bez externích knihoven)
+  const rows = wmDates.map((date, i) => {
+    const d   = wmData[date] || {};
+    const readCell = slot => {
+      const inp = document.querySelector(`.wm-cell[data-date="${date}"][data-slot="${slot}"]`);
+      return escHtml(inp?.value || d[`${slot}_name`] || '—');
+    };
+    return `<tr>
+      <td><strong>${WM_DAYS[i]} ${fmtWmDate(date)}</strong></td>
+      <td>${readCell('soup')}</td>
+      <td>${readCell('main1')}</td>
+      <td>${readCell('main2')}</td>
+    </tr>`;
+  }).join('');
+
+  const range = document.getElementById('wm-range').textContent;
+  const win = window.open('','_blank','width=700,height=500');
+  win.document.write(`<!DOCTYPE html><html><head><meta charset="UTF-8">
+    <title>Týdenní menu – ${range}</title>
+    <style>
+      body { font-family: serif; padding: 2rem; }
+      h1 { font-size: 1.5rem; margin-bottom: 1rem; }
+      table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+      th, td { border: 1px solid #ccc; padding: 0.5rem 0.75rem; text-align: left; }
+      th { background: #f5f0e8; font-weight: 700; }
+      tr:nth-child(even) { background: #fafaf8; }
+      @media print { body { padding: 0; } }
+    </style></head><body>
+    <h1>Týdenní menu Obecního domu Holčovice</h1>
+    <p style="color:#888;margin-bottom:1rem">${range}</p>
+    <table>
+      <thead><tr><th>Den</th><th>Polévka</th><th>Hlavní jídlo 1</th><th>Hlavní jídlo 2</th></tr></thead>
+      <tbody>${rows}</tbody>
+    </table>
+    <script>window.onload=()=>window.print()<\/script>
+  </body></html>`);
+  win.document.close();
+}
+
+async function exportMenuPng() {
+  // Snap #wm-table-card jako screenshot pomocí html2canvas (pokud je k dispozici)
+  if (typeof html2canvas === 'undefined') {
+    Toast.show({title:'Export PNG', message:'Použijte screenshot nástroj prohlížeče (F12 → screenshot nebo Ctrl+Shift+P → "screenshot").', type:'info', duration:6000});
+    return;
+  }
+  const el = document.getElementById('wm-table-card');
+  const canvas = await html2canvas(el, {scale:2, backgroundColor:'#fff'});
+  const a = document.createElement('a');
+  a.download = `tydenni-menu-${wmDates[0]}.png`;
+  a.href = canvas.toDataURL('image/png');
+  a.click();
+}
+
+// ── Inicializace ──────────────────────────────────────────────
+loadWeeklyMenu();
 </script>
 </body>
 </html>

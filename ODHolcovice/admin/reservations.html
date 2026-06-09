@@ -42,28 +42,24 @@
   </header>
 
   <main class="admin-content">
-    <!-- KPI dlaždice — kliknutím filtrují tabulku -->
-    <div class="kpi-grid" style="grid-template-columns:repeat(4,1fr);margin-bottom:1.5rem">
-      <div class="kpi-card kpi-card--gold" id="kpi-ceka" onclick="setFilter('ceka')" style="cursor:pointer" title="Zobrazit pouze čekající">
-        <div class="kpi-card__header"><div class="kpi-card__icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div></div>
-        <div class="kpi-card__value" id="kpi-ceka-val">—</div>
-        <div class="kpi-card__label">Čekají na potvrzení</div>
-      </div>
-      <div class="kpi-card kpi-card--green" id="kpi-dnes" onclick="setFilter('dnes_potvrzena')" style="cursor:pointer" title="Zobrazit potvrzené dnes">
-        <div class="kpi-card__header"><div class="kpi-card__icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div></div>
-        <div class="kpi-card__value" id="kpi-dnes-val">—</div>
-        <div class="kpi-card__label">Potvrzené dnes</div>
-      </div>
-      <div class="kpi-card kpi-card--brown" id="kpi-zitra" onclick="setFilter('zitra_potvrzena')" style="cursor:pointer" title="Zobrazit potvrzené zítra">
-        <div class="kpi-card__header"><div class="kpi-card__icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/><line x1="12" y1="15" x2="12" y2="19"/><line x1="10" y1="17" x2="14" y2="17"/></svg></div></div>
-        <div class="kpi-card__value" id="kpi-zitra-val">—</div>
-        <div class="kpi-card__label">Potvrzené zítra</div>
-      </div>
-      <div class="kpi-card kpi-card--blue" id="kpi-tyden" onclick="setFilter('tyden')" style="cursor:pointer" title="Zobrazit tento týden">
-        <div class="kpi-card__header"><div class="kpi-card__icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></div></div>
-        <div class="kpi-card__value" id="kpi-tyden-val">—</div>
-        <div class="kpi-card__label">Rezervace tento týden</div>
-      </div>
+    <!-- Kompaktní filtrační statistiky -->
+    <div style="display:flex;gap:0.625rem;flex-wrap:wrap;margin-bottom:1.25rem">
+      <button class="res-stat-chip res-stat-chip--gold" id="kpi-ceka" onclick="setFilter('ceka')" title="Čekají na potvrzení">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        <span id="kpi-ceka-val">—</span> čekající
+      </button>
+      <button class="res-stat-chip res-stat-chip--green" id="kpi-dnes" onclick="setFilter('dnes_potvrzena')" title="Potvrzené dnes">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+        <span id="kpi-dnes-val">—</span> dnes
+      </button>
+      <button class="res-stat-chip res-stat-chip--brown" id="kpi-zitra" onclick="setFilter('zitra_potvrzena')" title="Potvrzené zítra">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        <span id="kpi-zitra-val">—</span> zítra
+      </button>
+      <button class="res-stat-chip res-stat-chip--blue" id="kpi-tyden" onclick="setFilter('tyden')" title="Rezervace tento týden">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        <span id="kpi-tyden-val">—</span> tento týden
+      </button>
     </div>
 
     <!-- Filtrační lišta -->
@@ -307,13 +303,13 @@ function updateFilterTags() {
     const el = document.getElementById('ftag-' + k);
     if (el) el.classList.toggle('tag--active', k === activeFilter);
   });
-  // Obrys aktivní KPI karty
-  ['kpi-ceka','kpi-dnes','kpi-zitra','kpi-tyden'].forEach(id => {
-    document.getElementById(id)?.style.setProperty('outline','none');
-  });
+  // Aktivní třída na stat-chips
   const kpiMap = { ceka:'kpi-ceka', dnes_potvrzena:'kpi-dnes', zitra_potvrzena:'kpi-zitra', tyden:'kpi-tyden' };
+  ['kpi-ceka','kpi-dnes','kpi-zitra','kpi-tyden'].forEach(id => {
+    document.getElementById(id)?.classList.remove('active');
+  });
   if (kpiMap[activeFilter]) {
-    document.getElementById(kpiMap[activeFilter])?.style.setProperty('outline','2px solid currentColor');
+    document.getElementById(kpiMap[activeFilter])?.classList.add('active');
   }
 }
 

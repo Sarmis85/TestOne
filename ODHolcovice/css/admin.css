@@ -278,6 +278,31 @@
 /* Klikatelné KPI karty na stránce rezervací */
 .kpi-card[onclick] { user-select:none; }
 .kpi-card[onclick]:active { transform: translateY(0); }
+
+/* Kompaktní stat-chips (rezervace filtr) */
+.res-stat-chip {
+  display: inline-flex; align-items: center; gap: 0.4rem;
+  padding: 0.4rem 0.875rem;
+  border-radius: 999px;
+  border: 1.5px solid transparent;
+  font-size: 0.8125rem; font-weight: 600;
+  cursor: pointer; user-select: none;
+  background: var(--c-white);
+  box-shadow: var(--shadow-card);
+  transition: box-shadow var(--tr-base), transform var(--tr-fast), border-color var(--tr-base);
+}
+.res-stat-chip:hover  { box-shadow: var(--shadow-md); transform: translateY(-1px); }
+.res-stat-chip:active { transform: translateY(0); box-shadow: var(--shadow-card); }
+.res-stat-chip.active { box-shadow: var(--shadow-md); transform: translateY(-1px); }
+.res-stat-chip span   { font-size: 1rem; font-weight: 700; }
+.res-stat-chip--gold  { color: var(--c-gold-dark); border-color: rgba(196,154,60,0.35); }
+.res-stat-chip--gold.active { background: rgba(196,154,60,0.08); border-color: var(--c-gold); }
+.res-stat-chip--green { color: var(--c-green-700); border-color: rgba(45,100,70,0.25); }
+.res-stat-chip--green.active { background: var(--c-green-50); border-color: var(--c-green-400); }
+.res-stat-chip--brown { color: var(--c-brown-600); border-color: rgba(130,90,60,0.25); }
+.res-stat-chip--brown.active { background: var(--c-cream-100); border-color: var(--c-brown-400); }
+.res-stat-chip--blue  { color: var(--c-info); border-color: rgba(59,130,246,0.25); }
+.res-stat-chip--blue.active  { background: var(--c-info-bg); border-color: var(--c-info); }
 .kpi-card--green  { border-left-color: var(--c-green-400); }
 .kpi-card--gold   { border-left-color: var(--c-gold); }
 .kpi-card--brown  { border-left-color: var(--c-brown-400); }
