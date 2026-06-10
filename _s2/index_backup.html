@@ -529,20 +529,42 @@ a { color: inherit; text-decoration: none; }
 }
 
 /* ══════════════════════════════════════════════
-   ÚSPĚCHY — timeline s foto pozadím
+   ÚSPĚCHY — dvousloupcová časová osa
    ══════════════════════════════════════════════ */
+.vysledky-cols {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0 56px;
+  position: relative;
+}
+/* Svislý oddělovač */
+.vysledky-cols::before {
+  content: '';
+  position: absolute; left: 50%; top: 16px; bottom: 0; width: 1px;
+  transform: translateX(-50%);
+  background: linear-gradient(to bottom, transparent, rgba(184,135,58,.3) 4%, rgba(184,135,58,.3) 96%, transparent);
+}
+.vysledky-col-label {
+  display: flex; align-items: center; gap: 14px;
+  font-size: .62rem; letter-spacing: .22em; text-transform: uppercase;
+  font-weight: 600; color: var(--gold-light);
+  margin-bottom: 28px;
+}
+.vysledky-col-label::after {
+  content: ''; flex: 1; height: 1px;
+  background: rgba(184,135,58,.25);
+}
 .timeline {
   position: relative;
-  max-width: 780px; margin: 0 auto;
 }
 .timeline::before {
   content: '';
   position: absolute; left: 20px; top: 8px; bottom: 8px; width: 1px;
-  background: linear-gradient(to bottom, transparent, rgba(184,135,58,.5) 10%, rgba(184,135,58,.5) 90%, transparent);
+  background: linear-gradient(to bottom, transparent, rgba(184,135,58,.4) 8%, rgba(184,135,58,.4) 92%, transparent);
 }
 .timeline-item {
-  display: flex; gap: 28px;
-  padding-bottom: 36px; position: relative;
+  display: flex; gap: 24px;
+  padding-bottom: 28px; position: relative;
 }
 .timeline-item:last-child { padding-bottom: 0; }
 .timeline-dot {
@@ -562,7 +584,7 @@ a { color: inherit; text-decoration: none; }
   border: 1px solid rgba(255,255,255,.1);
   border-left: 3px solid var(--green);
   border-radius: 0 6px 6px 0;
-  padding: 18px 22px;
+  padding: 14px 18px;
   backdrop-filter: blur(8px);
   transition: border-left-color .2s, background .2s;
 }
@@ -570,12 +592,22 @@ a { color: inherit; text-decoration: none; }
   border-left-color: var(--gold);
   background: rgba(255,255,255,.1);
 }
+.timeline-date {
+  font-size: .6rem; letter-spacing: .14em; text-transform: uppercase;
+  font-weight: 600; color: var(--gold-light); opacity: .85;
+  margin-bottom: 3px;
+}
 .timeline-body h4 {
   font-family: 'Cormorant Garamond', serif;
-  font-size: 1.12rem; font-weight: 600;
-  color: var(--white); margin-bottom: 5px;
+  font-size: 1.08rem; font-weight: 600;
+  color: var(--white); margin-bottom: 4px;
 }
-.timeline-body p { font-size: .85rem; color: rgba(255,255,255,.8); line-height: 1.7; }
+.timeline-body p { font-size: .82rem; color: rgba(255,255,255,.78); line-height: 1.65; }
+/* Na mobilu sloupce pod sebou */
+@media (max-width: 780px) {
+  .vysledky-cols { grid-template-columns: 1fr; gap: 44px 0; }
+  .vysledky-cols::before { display: none; }
+}
 
 /* ══════════════════════════════════════════════
    KANDIDÁTI — lídr + mřížka
@@ -681,20 +713,52 @@ a { color: inherit; text-decoration: none; }
   font-size: 1.15rem; font-style: italic;
   color: var(--text-mid); line-height: 1.7;
   margin-bottom: 16px;
-  max-width: 480px;
 }
 .leader-desc {
   font-size: .86rem; color: var(--text-muted); line-height: 1.75;
-  max-width: 480px;
+}
+/* Dvousloupcový popis pro staroštu — větší plocha */
+.leader-desc-cols {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 0 36px;
+}
+@media (max-width: 860px) {
+  .leader-desc-cols { grid-template-columns: 1fr; }
 }
 
 /* Mřížka ostatních kandidátů */
 .candidates-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 16px;
   position: relative; z-index: 1;
 }
+/* Místostarosta — zabírá 2/3 šířky */
+.cand-card--wide {
+  grid-column: span 2;
+  display: grid !important;
+  grid-template-columns: auto 1fr;
+  gap: 0;
+  padding: 0 !important;
+  align-items: stretch;
+}
+.cand-card--wide .cand-wide-num {
+  display: flex; align-items: flex-start; justify-content: center;
+  padding: 26px 22px 26px 24px;
+  background: var(--gold-wash);
+  border-right: 1px solid var(--gold-pale);
+}
+.cand-card--wide .cand-wide-num span {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 2.4rem; font-weight: 300;
+  color: var(--gold); opacity: .7; line-height: 1;
+}
+.cand-card--wide .cand-wide-body {
+  padding: 24px 26px;
+  display: flex; flex-direction: column;
+}
+.cand-card--wide h3 { margin-bottom: 2px; }
+.cand-card--wide .cand-bio { flex: 1; }
+
 .cand-card {
   text-align: left;
   padding: 22px 20px 22px;
@@ -841,12 +905,18 @@ a { color: inherit; text-decoration: none; }
   .section-vysledky { padding: 72px 20px; }
   .wrap { padding: 0 20px; }
 }
+@media (max-width: 860px) {
+  .cand-card--wide { grid-column: span 3; grid-template-columns: 1fr; }
+  .cand-card--wide .cand-wide-num { padding: 18px 24px; border-right: none; border-bottom: 1px solid var(--gold-pale); flex-direction: row; justify-content: flex-start; }
+}
 @media (max-width: 640px) {
   .priorities-grid  { grid-template-columns: 1fr; }
   .candidates-grid  { grid-template-columns: repeat(2, 1fr); }
+  .cand-card--wide  { grid-column: span 2; }
 }
 @media (max-width: 400px) {
-  .candidates-grid { grid-template-columns: 1fr; }
+  .candidates-grid  { grid-template-columns: 1fr; }
+  .cand-card--wide  { grid-column: span 1; }
 }
 </style>
 </head>
@@ -1017,85 +1087,148 @@ a { color: inherit; text-decoration: none; }
       <p class="sec-sub">Práci pro obec měříme výsledky, ne sliby. Tady jsou konkrétní věci, které se podařilo dotáhnout.</p>
     </div>
 
-    <div class="timeline fi">
+    <div class="vysledky-cols fi">
 
-      <div class="timeline-item">
-        <div class="timeline-dot">
-          <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
-        </div>
-        <div class="timeline-body">
-          <h4>Krizové zvládnutí povodní v říjnu 2024</h4>
-          <p>Povodeň v říjnu 2024 byla pro obec jednou z nejtěžších zkoušek posledních let. Vedení obce okamžitě koordinovalo záchranné práce, komunikovalo s krajem a státními orgány a začalo připravovat podklady pro čerpání dotací na obnovu. Díky rychlé reakci a úspěšnému žadatelství se podařilo zajistit financování, které by jinak obec ze svého rozpočtu nemohla pokrýt.</p>
+      <!-- LEVÝ SLOUPEC: průběžné, trvalé zásluhy -->
+      <div>
+        <div class="vysledky-col-label">Průběžná péče o obec</div>
+        <div class="timeline">
+
+          <div class="timeline-item">
+            <div class="timeline-dot">
+              <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+            </div>
+            <div class="timeline-body">
+              <h4>Stabilní a odpovědné vedení obce</h4>
+              <p>Obec fungovala bez politických turbulencí. Rozhodnutí se přijímala věcně, s rozmyslem a v zájmu všech obyvatel — ne v zájmu stranické linie. Zastupitelé jsou dostupní a otevření.</p>
+            </div>
+          </div>
+
+          <div class="timeline-item">
+            <div class="timeline-dot">
+              <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+            </div>
+            <div class="timeline-body">
+              <h4>Každoroční podpora místních spolků</h4>
+              <p>TJ Tatran Holčovice, SDH Holčovice, SDH Spálené a ŘKF Holčovice — každý rok dotace, každý rok podpora. Hasiči, sportovci a farnost dávají obci duši. Bez obecního zázemí by tato činnost nebyla možná.</p>
+            </div>
+          </div>
+
+          <div class="timeline-item">
+            <div class="timeline-dot">
+              <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+            </div>
+            <div class="timeline-body">
+              <h4>Bohatý kulturní a sportovní program</h4>
+              <p>Festival Holčovice, Gulášohraní, Pohár starosty, Příměstský tábor, Naučný kemp Prudká, Varhanní koncert, Holčovický uzlík, Ples obce, Dogtrekkingový závod — takhle má obec žít. Stojíme za každou z nich organizačně i finančně.</p>
+            </div>
+          </div>
+
+          <div class="timeline-item">
+            <div class="timeline-dot">
+              <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+            </div>
+            <div class="timeline-body">
+              <h4>Transparentní hospodaření a komunikace</h4>
+              <p>Holčovický hlasatel vychází pravidelně každý měsíc. Zápisy ze zastupitelstva a rozpočty jsou veřejné. Věříme, že otevřenost není volba — je to závazek vůči každému občanu, který nás pověřil správou věcí veřejných.</p>
+            </div>
+          </div>
+
+          <div class="timeline-item">
+            <div class="timeline-dot">
+              <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+            </div>
+            <div class="timeline-body">
+              <h4>Zachování klíčových obecních služeb</h4>
+              <p>Obecní restaurace, Pošta Partner, knihovna, základní škola — v malé obci jsou tyto služby nenahraditelné. Trh je sám od sebe nezajistí; my ano. Udržovat je je vědomé politické rozhodnutí, za nímž stojíme.</p>
+            </div>
+          </div>
+
         </div>
       </div>
 
-      <div class="timeline-item">
-        <div class="timeline-dot">
-          <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
-        </div>
-        <div class="timeline-body">
-          <h4>Zahájení obnovy komunikací a sanace sesuvů</h4>
-          <p>V roce 2026 jsme vypsali a uzavřeli veřejné zakázky na dvě klíčové stavební akce: obnovu komunikací poškozených povodní a sanaci sesuvů vzniklých po intenzivních deštích. Obě zakázky jsou výsledkem měsíců přípravné práce — projektové dokumentace, jednání s dodavateli a zajištění financování z dotačních zdrojů.</p>
-        </div>
-      </div>
+      <!-- PRAVÝ SLOUPEC: konkrétní datované milníky -->
+      <div>
+        <div class="vysledky-col-label">Konkrétní kroky · s datem</div>
+        <div class="timeline">
 
-      <div class="timeline-item">
-        <div class="timeline-dot">
-          <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
-        </div>
-        <div class="timeline-body">
-          <h4>Rekonstrukce obecního bytu a pošty</h4>
-          <p>Připravili jsme a spustili rekonstrukci bytu a poštovního prostoru v Holčovicích IV. Jde o dlouhodobě potřebnou opravu, která zajistí důstojné podmínky pro bydlení i zachování přístupu k poštovním a bankovním službám přímo v obci — což pro seniory a rodiny bez vlastního auta není detail, ale nezbytnost.</p>
-        </div>
-      </div>
+          <div class="timeline-item">
+            <div class="timeline-dot">
+              <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+            </div>
+            <div class="timeline-body">
+              <div class="timeline-date">říjen 2024</div>
+              <h4>Koordinace záchranných prací po povodních</h4>
+              <p>Povodeň v říjnu 2024 zasáhla obec tvrdě. Vedení okamžitě koordinovalo záchranné práce a komunikovalo s krajem, státními orgány i dobrovolníky. Díky rychlé reakci se podařilo zajistit dotace na obnovu, které by obec ze svého rozpočtu pokrýt nemohla.</p>
+            </div>
+          </div>
 
-      <div class="timeline-item">
-        <div class="timeline-dot">
-          <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
-        </div>
-        <div class="timeline-body">
-          <h4>Otevření nové obecní knihovny</h4>
-          <p>V červnu 2026 jsme slavnostně otevřeli novou obecní knihovnu — místo, které v Holčovicích dlouho chybělo. Jde o prostor pro všechny generace: pro děti, které se tu mohou setkat s knihou a s kamarády, i pro seniory, kteří ocení klidné zázemí a přístup ke kultuře. Knihovnu provozuje kronikářka obce Žaneta Dolanová, která do ní vdechla duši.</p>
-        </div>
-      </div>
+          <div class="timeline-item">
+            <div class="timeline-dot">
+              <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+            </div>
+            <div class="timeline-body">
+              <div class="timeline-date">2024–2025</div>
+              <h4>Projektová dokumentace a žádosti o dotace</h4>
+              <p>Měsíce přípravné práce — průzkumy, projekční dokumentace, jednání s dotačními úřady. Výsledek: zajištěné financování pro sanaci sesuvů i obnovu komunikací, které by obec ze svého rozpočtu financovat nemohla.</p>
+            </div>
+          </div>
 
-      <div class="timeline-item">
-        <div class="timeline-dot">
-          <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
-        </div>
-        <div class="timeline-body">
-          <h4>Pravidelná podpora místních spolků</h4>
-          <p>Každoročně poskytujeme dotace TJ Tatran Holčovice, SDH Holčovice, SDH Spálené a Římskokatolické farnosti. Nejde o almužnu — jde o vědomé rozhodnutí investovat do živého tkáně obce. Hasiči, sportovci a farnost organizují akce, udržují tradice a starají se o sousedy. Bez obecní podpory by jejich činnost byla podstatně obtížnější.</p>
-        </div>
-      </div>
+          <div class="timeline-item">
+            <div class="timeline-dot">
+              <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+            </div>
+            <div class="timeline-body">
+              <div class="timeline-date">květen 2026</div>
+              <h4>Zakázka: sanace sesuvů v obci</h4>
+              <p>Vypsána a uzavřena veřejná zakázka na sanaci sesuvů, které povodeň způsobila na více místech v obci. Akce pokrývá zpevnění svahů a odvedení srážkové vody tak, aby se situace neopakovala.</p>
+            </div>
+          </div>
 
-      <div class="timeline-item">
-        <div class="timeline-dot">
-          <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
-        </div>
-        <div class="timeline-body">
-          <h4>Bohatý kulturní a sportovní rok</h4>
-          <p>Festival Holčovice, Gulášohraní, Pohár starosty, Příměstský tábor, Naučný kemp Prudká, Varhanní koncert, Holčovický uzlík, Dogtrekkingový závod — to je jen výčet letošních akcí. Takhle má obec žít. Stojíme za každou z nich — organizačně, finančně i osobní přítomností.</p>
-        </div>
-      </div>
+          <div class="timeline-item">
+            <div class="timeline-dot">
+              <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+            </div>
+            <div class="timeline-body">
+              <div class="timeline-date">květen 2026</div>
+              <h4>Zahájení rekonstrukce bytu a pošty</h4>
+              <p>Spuštěna rekonstrukce bytu a poštovního prostoru v Holčovicích IV. Oprava zajistí důstojné podmínky pro bydlení a zachování Pošty Partner přímo v obci — klíčová služba zejména pro seniory.</p>
+            </div>
+          </div>
 
-      <div class="timeline-item">
-        <div class="timeline-dot">
-          <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
-        </div>
-        <div class="timeline-body">
-          <h4>Projekt prevence vzniku komunálního odpadu</h4>
-          <p>V roce 2026 jsme rozjeli projekt zaměřený na prevenci vzniku skleněného a biologicky rozložitelného komunálního odpadu. Jde o malý, ale smysluplný krok k tomu, aby Holčovice hospodařily s přírodními zdroji odpovědně — a aby se snížily náklady na odvoz a zpracování odpadu pro celou obec.</p>
-        </div>
-      </div>
+          <div class="timeline-item">
+            <div class="timeline-dot">
+              <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+            </div>
+            <div class="timeline-body">
+              <div class="timeline-date">červen 2026</div>
+              <h4>Otevření nové obecní knihovny</h4>
+              <p>Slavnostní otevření obecní knihovny v den Dne dětí. Místo pro všechny generace — pro děti, seniory i každého, kdo hledá klidné setkání nad knihou. Provozuje ji kronikářka obce Žaneta Dolanová.</p>
+            </div>
+          </div>
 
-      <div class="timeline-item">
-        <div class="timeline-dot">
-          <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
-        </div>
-        <div class="timeline-body">
-          <h4>Otevřené hospodaření a pravidelný Hlasatel</h4>
-          <p>Holčovický hlasatel vychází pravidelně a je volně ke stažení na obecním webu. Zápisy ze zastupitelstva jsou veřejné, rozpočet i jeho změny zveřejňujeme na úřední desce. Věříme, že otevřenost není volba — je to závazek vůči každému občanu, který nás svým hlasem pověřil správou věcí veřejných.</p>
+          <div class="timeline-item">
+            <div class="timeline-dot">
+              <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+            </div>
+            <div class="timeline-body">
+              <div class="timeline-date">červen 2026</div>
+              <h4>Zakázka: obnova komunikací po povodni</h4>
+              <p>Vypsána veřejná zakázka na obnovu místních komunikací poškozených povodní. Opravy se dotknou úseků ve více částech obce — výsledek bude vidět a hmatatelný.</p>
+            </div>
+          </div>
+
+          <div class="timeline-item">
+            <div class="timeline-dot">
+              <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+            </div>
+            <div class="timeline-body">
+              <div class="timeline-date">2026</div>
+              <h4>Projekt prevence komunálního odpadu</h4>
+              <p>Spuštěn projekt prevence vzniku skleněného a biologicky rozložitelného odpadu. Krok k odpovědnému hospodaření s přírodními zdroji a ke snížení nákladů na odvoz odpadu pro celou obec.</p>
+            </div>
+          </div>
+
         </div>
       </div>
 
@@ -1144,69 +1277,75 @@ a { color: inherit; text-decoration: none; }
         <p class="leader-bio">
           „Holčovice jsou můj domov a práce pro ně má smysl. Chci pokračovat — s pokorou, s otevřeností a s vědomím, že každé rozhodnutí má dopad na životy konkrétních lidí."
         </p>
-        <p class="leader-desc">
-          Martin Hradil stojí v čele obce jako starosta a je přímým kontaktním bodem pro každého obyvatele. Jako inženýr přistupuje k problémům analyticky a systematicky — hledá řešení, která jsou proveditelná, finančně udržitelná a v souladu s dlouhodobými zájmy obce. Za jeho vedení obec úspěšně koordinovala záchranné práce po povodních v říjnu 2024, zajistila dotace na obnovu infrastruktury a spustila řadu investičních akcí. Je zastáncem otevřené radnice — věří, že každý občan má právo vědět, jak se hospodaří s obecními penězi, a proto zastupitelstvo jedná transparentně a Holčovický hlasatel vychází pravidelně. Doplňte osobní informace — odkud pochází, jak dlouho v Holčovicích žije, čím se profesně zabývá, rodina.
-        </p>
+        <div class="leader-desc leader-desc-cols">
+          <p>Martin Hradil stojí v čele obce jako starosta a je přímým kontaktním bodem pro každého obyvatele. Jako inženýr přistupuje k rozhodnutím analyticky a systematicky — hledá řešení proveditelná, finančně udržitelná a v souladu s dlouhodobými zájmy Holčovic. Za jeho vedení obec úspěšně koordinovala záchranné práce po povodních v říjnu 2024, zajistila dotace na obnovu infrastruktury a spustila řadu investičních akcí — od rekonstrukce obecních budov až po zahájení sanace sesuvů.</p>
+          <p>Je přesvědčeným zastáncem otevřené radnice. Věří, že každý občan má právo vědět, jak se hospodaří s obecními penězi — proto zastupitelstvo zasedá transparentně a Holčovický hlasatel vychází každý měsíc. Ve volném čase [doplňte záliby]. Žije v Holčovicích [doplňte počet] let, [rodinný stav]. Kontakt na starostu: <a href="mailto:starosta@obecholcovice.cz" style="color:var(--gold)">starosta@obecholcovice.cz</a></p>
+        </div>
       </div>
     </div>
 
-    <!-- Ostatní kandidáti 2–9 -->
+    <!-- Kandidáti 2–9: 3sl. mřížka — místostarosta 2/3, ostatní 1/3 -->
     <div class="candidates-grid fi">
 
-      <div class="cand-card">
-        <div class="cand-num">02</div>
-        <h3>Bc. Jakub Moravčík</h3>
-        <div class="cand-role">Místostarosta · kandidát č. 2</div>
-        <p class="cand-bio">Jakub Moravčík působí jako místostarosta obce a je pravou rukou starosty při každodenní agendě. Má na starosti zejména koordinaci technické správy obce, přípravu zakázek a komunikaci s dodavateli stavebních prací. V minulém volebním období dohlížel na průběh klíčových investičních akcí, včetně obnovy komunikací po povodni. Doplňte osobní údaje — vzdělání, profese, rodinný stav, záliby.</p>
+      <!-- ŘÁDEK 2: místostarosta (2/3) + Libor Včelný (1/3) -->
+      <div class="cand-card cand-card--wide">
+        <div class="cand-wide-num"><span>02</span></div>
+        <div class="cand-wide-body">
+          <h3>Bc. Jakub Moravčík</h3>
+          <div class="cand-role">Místostarosta · kandidát č. 2</div>
+          <p class="cand-bio">Jakub Moravčík působí jako místostarosta obce — pravá ruka starosty při každodenní agendě i při přípravě velkých investičních akcí. Koordinuje technickou správu obecního majetku, připravuje podklady pro výběrová řízení a jedná s dodavateli stavebních prací i projekčními kancelářemi. Právě on měl na starosti přípravu zakázek na obnovu komunikací po povodni a sanaci sesuvů — od prvotních průzkumů přes projektovou dokumentaci až po vypsání soutěže. Práci pro obec bere jako dlouhodobý závazek, ne jako funkci. Doplňte osobní údaje — vzdělání, záliby, odkud pochází, rodina.</p>
+        </div>
       </div>
 
       <div class="cand-card">
         <div class="cand-num">03</div>
-        <h3>Jméno Příjmení</h3>
-        <div class="cand-role">Zastupitel/ka · kandidát č. 3</div>
-        <p class="cand-bio">Celý život v Holčovicích. Aktivní člen/ka místního hasičského sboru SDH Holčovice, spoluorganizátor/ka akcí pro děti a mládež. V zastupitelstvu se soustředí na komunitní život, podporu spolků a péči o veřejná prostranství. Věří, že dobře fungující obec se pozná podle toho, zda se v ní lidé potkávají a pomáhají si. Doplňte osobní údaje.</p>
+        <h3>Bc. Libor Včelný</h3>
+        <div class="cand-role">Zastupitel · kandidát č. 3</div>
+        <p class="cand-bio">Libor Včelný zná obecní správu zevnitř — jako bývalý starosta a nyní úředník má přehled o tom, jak funguje systém financování obce, dotační politika i každodenní administrativa. Do zastupitelstva přináší institucionální paměť a schopnost navigovat složitá jednání se státními orgány a krajem. Jeho zkušenost je zárukou kontinuity a prevencí zbytečných chyb.</p>
       </div>
 
+      <!-- ŘÁDEK 3: Holinka · Šarman · Eichler -->
       <div class="cand-card">
         <div class="cand-num">04</div>
-        <h3>Jméno Příjmení</h3>
-        <div class="cand-role">Zastupitel/ka · kandidát č. 4</div>
-        <p class="cand-bio">Podnikatel/ka nebo zaměstnanec/kyně s praktickým pohledem na hospodaření. Do zastupitelstva přináší zkušenost z oblasti [doplňte obor] a zájem o to, aby obecní rozpočet byl vynakládán efektivně a výsledky byly vidět. Zastánce/kyně investic do infrastruktury a rozvoje turistiky v okolí Jeseníků. Doplňte osobní údaje.</p>
+        <h3>Jaromír Holinka</h3>
+        <div class="cand-role">Zastupitel · kandidát č. 4</div>
+        <p class="cand-bio">Záchranář. Povolání, kde se rozhoduje pod tlakem a každá sekunda má váhu. Jaromír Holinka přináší do zastupitelstva klidnou hlavu v krizových situacích, respekt k pravidlům a empatii k lidem v nouzi. Aktivně se podílel na koordinaci pomoci po povodních. Prosazuje, aby obec byla na mimořádné události lépe připravena — protipovodňová opatření a spolupráce s IZS jsou pro něj osobní prioritou.</p>
       </div>
 
       <div class="cand-card">
         <div class="cand-num">05</div>
-        <h3>Jméno Příjmení</h3>
-        <div class="cand-role">Zastupitel/ka · kandidát č. 5</div>
-        <p class="cand-bio">Rodič školou povinných dětí s přímým zájmem o kvalitu základní školy, školní družiny a mimoškolních aktivit. Zapojená/ý do organizace Příměstského tábora a Naučného kempu Prudká. V zastupitelstvu prosazuje, aby obec myslela na budoucí generace — na děti, které tu jednou budou rozhodovat po nás. Doplňte osobní údaje.</p>
+        <h3>Ing. Petr Šarman</h3>
+        <div class="cand-role">Zastupitel · kandidát č. 5</div>
+        <p class="cand-bio">SW manažer s přehledem o digitálních technologiích, projektovém řízení a efektivitě procesů. V zastupitelstvu prosazuje moderní přístupy ke správě obce — od digitalizace agend přes transparentní zveřejňování dat až po efektivní komunikaci s občany online. Věří, že i malá obec může fungovat chytře a že technologie nejsou jen pro města.</p>
       </div>
 
       <div class="cand-card">
         <div class="cand-num">06</div>
-        <h3>Jméno Příjmení</h3>
-        <div class="cand-role">Zastupitel/ka · kandidát č. 6</div>
-        <p class="cand-bio">Dlouholetý/á obyvatel/ka jedné z místních částí — Dlouhé Vsi, Hejnova, Jelení, Komory nebo Spáleného. Přináší do zastupitelstva pohled lidí, kteří nežijí přímo v centru obce, ale jejichž každodenní potřeby jsou stejně důležité. Zajímá se o stav místních cest, dostupnost služeb a zachování typického rázu vesnic. Doplňte osobní údaje.</p>
+        <h3>Václav Eichler</h3>
+        <div class="cand-role">Bývalý zastupitel · kandidát č. 6</div>
+        <p class="cand-bio">Geodet s přesností v krvi a citem pro terén. Václav Eichler jako geodet doslova zná holčovický katastr do detailu — vědí, kde vedou hranice pozemků, kudy probíhají sítě a kde jsou problematická místa v krajině. Jeho odbornost je neocenitelná při přípravě stavebních záměrů, plánování cest i při řešení sousedských sporů o hranice. Do zastupitelstva se vrací s jasnou rolí: věcný odborný hlas.</p>
       </div>
 
+      <!-- ŘÁDEK 4: kandidáti 7–9 -->
       <div class="cand-card">
         <div class="cand-num">07</div>
         <h3>Jméno Příjmení</h3>
         <div class="cand-role">Kandidát/ka · č. 7</div>
-        <p class="cand-bio">Aktivní sportovec/kyně a člen/ka TJ Tatran Holčovice. Ví, co znamená organizovat akce dobrovolnicky a co spolkové životě v malé obci obnáší. Do zastupitelstva přináší energii a zájem o to, aby Holčovice měly dobré sportovní zázemí — hřiště, zimní kluzišti i podmínky pro turisty a cyklisty přijíždějící do Jeseníků. Doplňte osobní údaje.</p>
+        <p class="cand-bio">Aktivní člen/ka TJ Tatran Holčovice a dobrovolník/ice při pořádání obecních akcí. Ví, co obnáší organizovat akce pro celou obec — a ví, co lidem v Holčovicích chybí. Do zastupitelstva přináší přímý kontakt s každodenním životem obce a zájem o to, aby sportovní a kulturní zázemí sloužilo opravdu všem generacím. Doplňte osobní údaje.</p>
       </div>
 
       <div class="cand-card">
         <div class="cand-num">08</div>
         <h3>Jméno Příjmení</h3>
         <div class="cand-role">Kandidát/ka · č. 8</div>
-        <p class="cand-bio">Senior/ka s pamětí sahající do dob, kdy obec vypadala jinak — a s jasnou představou o tom, čeho si na Holčovicích váží. Do zastupitelstva přináší zkušenost, trpělivost a pohled generace, které záleží na tom, aby obec zachovala svůj charakter, pečovala o historii a zůstala přívětivým místem pro lidi všech věků. Doplňte osobní údaje.</p>
+        <p class="cand-bio">Rodák/čka z Holčovic nebo jedné z místních částí, s pamětí na to, jak obec vypadala dřív — a s jasnou představou o tom, čím by měla být. Do zastupitelstva přináší generační zkušenost, smysl pro tradice a zájem na tom, aby Holčovice zůstaly místem, kde stojí za to žít celý život, ne jen přes léto. Doplňte osobní údaje.</p>
       </div>
 
       <div class="cand-card">
         <div class="cand-num">09</div>
         <h3>Jméno Příjmení</h3>
         <div class="cand-role">Kandidát/ka · č. 9</div>
-        <p class="cand-bio">Nová tvář na kandidátce — mladý/á člověk s čerstvým pohledem a odhodláním přiložit ruku k dílu. Pochází z Holčovic nebo se sem nedávno přistěhoval/a a chce mít pocit, že tu může ovlivnit věci kolem sebe. Věří, že komunální politika je nejblíže lidem a že právě na místní úrovni má každý hlas skutečný dopad. Doplňte osobní údaje.</p>
+        <p class="cand-bio">Nová tvář na kandidátce — člověk, který se rozhodl přestat jen přihlížet a začít přikládat ruku k dílu. Věří, že komunální politika je nejblíže lidem a že právě na místní úrovni má každý hlas skutečný dopad. Přináší svěží pohled, chuť učit se a odhodlání pracovat pro obec, v níž chce žít. Doplňte osobní údaje.</p>
       </div>
 
     </div>
