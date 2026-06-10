@@ -1,0 +1,6 @@
+# Ochrana seed skriptu — povolit pouze z vaší IP nebo interně
+# Odkomentujte pro uzamčení po seedu:
+# Require all denied
+
+# Nebo omezit na konkrétní IP:
+# Require ip 123.456.789.0

@@ -6,9 +6,22 @@
     Deny from all
 </Files>
 
+# Ochrana test souboru — smazat po otestování
+<Files "test-db.php">
+    # Odkomentujte po testu:
+    # Require all denied
+</Files>
+
 # CORS hlavičky pro všechny PHP endpointy
 <FilesMatch "\.php$">
     Header set Access-Control-Allow-Origin "https://od.prorozvojholcovic.cz"
-    Header set Access-Control-Allow-Methods "GET, POST, OPTIONS"
-    Header set Access-Control-Allow-Headers "Content-Type"
+    Header set Access-Control-Allow-Methods "GET, POST, PUT, DELETE, OPTIONS"
+    Header set Access-Control-Allow-Headers "Content-Type, Authorization"
 </FilesMatch>
+
+# Handle OPTIONS preflight requests
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteCond %{REQUEST_METHOD} OPTIONS
+    RewriteRule ^(.*)$ $1 [R=200,L]
+</IfModule>
