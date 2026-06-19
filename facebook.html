@@ -12,531 +12,275 @@
 :root {
   --navy:       #1C3354;
   --navy-deep:  #0F1E32;
-  --navy-mid:   #264878;
   --gold:       #B8873A;
   --gold-light: #D4A85C;
   --gold-pale:  #F0E0C0;
   --gold-wash:  #FAF4EB;
   --cream:      #F6F1E9;
-  --cream-dark: #EDE6D8;
-  --text:       #1A1612;
   --text-mid:   #4A443C;
-  --text-muted: #8A8178;
   --border:     #DDD5C5;
   --white:      #FFFFFF;
   --fb-blue:    #1877F2;
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; }
-body {
-  font-family: 'DM Sans', -apple-system, sans-serif;
-  background: var(--cream);
-  color: var(--text);
-  line-height: 1.7;
-  -webkit-font-smoothing: antialiased;
-}
+html, body { height: 100%; overflow: hidden; }
+body { font-family: 'DM Sans', -apple-system, sans-serif; -webkit-font-smoothing: antialiased; }
 a { color: inherit; text-decoration: none; }
 
-.wrap { max-width: 1100px; margin: 0 auto; padding: 0 32px; }
+/* ─── 2-panel layout ─────────────────────── */
+.fb-app { display: flex; height: 100vh; overflow: hidden; }
 
-/* ── Scroll progress ─────────────────────────── */
-.scroll-bar {
-  position: fixed; top: 0; left: 0; z-index: 1100;
-  height: 2px; width: 0%;
-  background: linear-gradient(to right, var(--gold), var(--gold-light));
-  transition: width .1s linear; pointer-events: none;
+/* ─── Sidebar ────────────────────────────── */
+.fb-sidebar {
+  width: 290px;
+  flex-shrink: 0;
+  background: var(--navy-deep);
+  display: flex;
+  flex-direction: column;
+  padding: 40px 32px 36px;
+  overflow-y: auto;
+  position: relative;
+  z-index: 1;
+  border-right: 1px solid rgba(255,255,255,.06);
+}
+.fb-sidebar::before {
+  content: '';
+  position: absolute; inset: 0; pointer-events: none;
+  background: radial-gradient(ellipse at 0% 110%, rgba(184,135,58,.14) 0%, transparent 60%);
 }
 
-/* ── Nav ─────────────────────────────────────── */
-.nav {
-  position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
-  transition: background .35s, box-shadow .35s;
-}
-.nav.scrolled {
-  background: rgba(10,24,40,.96);
-  box-shadow: 0 2px 20px rgba(0,0,0,.25);
-  backdrop-filter: blur(12px);
-}
-.nav-inner {
-  max-width: 1200px; margin: 0 auto;
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 0 32px; height: 68px;
-}
-.nav-wordmark {
+/* Logo — stejný styl jako nav-wordmark na hlavní stránce */
+.sidebar-logo {
   font-family: 'Cormorant Garamond', serif;
   font-size: 1.15rem; font-weight: 300;
   color: var(--white); letter-spacing: .04em;
   display: flex; flex-direction: column; line-height: 1.15;
-  opacity: 0; pointer-events: none; transition: opacity .3s;
+  position: relative; margin-bottom: 44px;
 }
-.nav.scrolled .nav-wordmark { opacity: 1; pointer-events: auto; }
-.nav-wordmark strong { font-weight: 600; font-size: 1.05rem; }
-.nav-back {
-  display: flex; align-items: center; gap: 8px;
-  font-size: .72rem; letter-spacing: .08em; text-transform: uppercase; font-weight: 500;
-  color: rgba(255,255,255,.78); transition: color .2s;
-}
-.nav-back:hover { color: var(--gold-light); }
-.nav-back svg { width: 14px; height: 14px; }
+.sidebar-logo strong { font-weight: 600; font-size: 1.05rem; }
 
-/* ── Page hero ───────────────────────────────── */
-.page-hero {
-  background: linear-gradient(160deg, var(--navy-deep) 0%, var(--navy) 60%, #1a3a6e 100%);
-  padding: 130px 32px 70px;
-  text-align: center; position: relative; overflow: hidden;
-}
-.page-hero::before {
-  content: '';
-  position: absolute; inset: 0;
-  background-image: radial-gradient(circle at 20% 50%, rgba(24,119,242,.15) 0%, transparent 55%),
-                    radial-gradient(circle at 80% 30%, rgba(184,135,58,.08) 0%, transparent 50%);
-  pointer-events: none;
-}
-.hero-eyebrow {
-  display: flex; align-items: center; justify-content: center; gap: 12px;
-  margin-bottom: 18px;
-}
-.hero-eyebrow-line { width: 32px; height: 1px; background: var(--gold-light); opacity: .5; }
-.hero-eyebrow-text {
-  font-size: .62rem; letter-spacing: .28em; text-transform: uppercase;
-  font-weight: 500; color: var(--gold-light);
-}
-.page-hero h1 {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(2.2rem, 5vw, 3.8rem);
-  font-weight: 300; color: var(--white); line-height: 1.1; margin-bottom: 16px;
-}
-.page-hero h1 em { font-style: italic; color: var(--gold-light); }
-.page-hero-sub {
-  font-size: .88rem; color: rgba(255,255,255,.62);
-  max-width: 560px; margin: 0 auto; line-height: 1.75;
-}
-
-/* ── Hlavní obsah ────────────────────────────── */
-.fb-section {
-  padding: 80px 32px;
-  background: var(--white);
-  background-image: radial-gradient(circle, rgba(184,135,58,.07) 1px, transparent 1px);
-  background-size: 28px 28px;
-}
-.fb-layout {
-  display: grid;
-  grid-template-columns: 1fr 2fr;
-  gap: 60px;
-  align-items: start;
-}
-
-/* Levý sloupec — info */
-.fb-info {}
-.fb-info-eyebrow {
-  font-size: .6rem; letter-spacing: .22em; text-transform: uppercase;
-  font-weight: 600; color: var(--gold); margin-bottom: 14px;
+/* Ornament */
+.sidebar-orn {
   display: flex; align-items: center; gap: 10px;
+  margin-bottom: 22px; position: relative;
 }
-.fb-info-eyebrow::before {
-  content: ''; width: 20px; height: 1px; background: var(--gold); opacity: .5;
-}
-.fb-info h2 {
+.sidebar-orn-line { height: 1px; flex: 1; background: rgba(255,255,255,.12); }
+.sidebar-orn-dot  { width: 6px; height: 6px; background: var(--gold); transform: rotate(45deg); opacity: .55; flex-shrink: 0; }
+
+/* Nadpis */
+.sidebar-title {
   font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(1.8rem, 3.5vw, 2.6rem);
-  font-weight: 300; color: var(--navy); line-height: 1.1; margin-bottom: 16px;
+  font-size: 1.85rem; font-weight: 300;
+  color: var(--white); line-height: 1.12; margin-bottom: 14px;
+  position: relative;
 }
-.fb-info p {
-  font-size: .88rem; color: var(--text-mid); line-height: 1.78; margin-bottom: 14px;
+.sidebar-title em { font-style: italic; color: var(--gold-light); display: block; }
+
+/* Popis */
+.sidebar-desc {
+  font-size: .82rem; color: rgba(255,255,255,.52);
+  line-height: 1.72; margin-bottom: 36px; position: relative;
 }
 
-/* Velké FB tlačítko */
+/* Tlačítka */
+.sidebar-actions {
+  display: flex; flex-direction: column; gap: 10px;
+  position: relative; margin-bottom: auto;
+}
+
 .btn-fb {
-  display: inline-flex; align-items: center; gap: 10px;
+  display: flex; align-items: center; gap: 10px;
   background: var(--fb-blue); color: var(--white);
-  border-radius: 4px; padding: 13px 24px;
-  font-size: .82rem; font-weight: 600; letter-spacing: .04em;
+  border-radius: 4px; padding: 12px 18px;
+  font-size: .78rem; font-weight: 600; letter-spacing: .03em;
   transition: background .2s, transform .2s;
-  margin-top: 10px; margin-bottom: 28px;
 }
-.btn-fb:hover { background: #1464d8; transform: translateY(-2px); }
-.btn-fb svg { width: 20px; height: 20px; fill: var(--white); flex-shrink: 0; }
+.btn-fb:hover { background: #1464d8; transform: translateY(-1px); }
+.btn-fb svg { width: 18px; height: 18px; fill: var(--white); flex-shrink: 0; }
 
-/* Info box — jak reagovat */
-.fb-how {
-  background: var(--gold-wash);
-  border: 1px solid var(--gold-pale);
-  border-radius: 6px;
-  padding: 20px 22px;
-  margin-top: 8px;
-}
-.fb-how-title {
-  font-size: .7rem; letter-spacing: .12em; text-transform: uppercase;
-  font-weight: 600; color: var(--navy); margin-bottom: 12px;
-}
-.fb-how ul { list-style: none; display: flex; flex-direction: column; gap: 9px; }
-.fb-how li {
-  display: flex; gap: 10px; align-items: flex-start;
-  font-size: .82rem; color: var(--text-mid); line-height: 1.55;
-}
-.fb-how li::before {
-  content: ''; flex-shrink: 0; width: 6px; height: 6px;
-  background: var(--gold); transform: rotate(45deg);
-  margin-top: 6px; opacity: .7;
-}
-
-/* Pravý sloupec — embed */
-.fb-embed-col {}
-.fb-embed-label {
-  font-size: .6rem; letter-spacing: .2em; text-transform: uppercase;
-  font-weight: 600; color: var(--text-muted);
-  display: flex; align-items: center; gap: 10px; margin-bottom: 16px;
-}
-.fb-embed-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
-
-.fb-plugin-wrap {
-  background: var(--white);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  overflow: hidden;
-  box-shadow: 0 4px 24px rgba(28,51,84,.08);
-  /* Responzivní výška */
-  min-height: 500px;
-}
-
-/* Fallback message pokud iframe nefunguje */
-.fb-fallback {
-  display: none; /* skrýt pokud embed funguje */
-  padding: 48px 32px;
-  text-align: center;
-  color: var(--text-muted);
-  font-size: .88rem; line-height: 1.7;
-}
-.fb-fallback a { color: var(--fb-blue); border-bottom: 1px solid rgba(24,119,242,.3); }
-
-/* Poznámka k App ID */
-.fb-note {
-  margin-top: 14px;
-  padding: 14px 18px;
-  background: #fffbf0;
-  border: 1px solid #f0e4b8;
-  border-radius: 5px;
-  font-size: .78rem; color: #6a5a30; line-height: 1.6;
-}
-.fb-note strong { font-weight: 600; }
-
-/* ── CTA pruh ────────────────────────────────── */
-.fb-cta {
-  background: var(--navy);
-  padding: 64px 32px; text-align: center;
-  position: relative; overflow: hidden;
-}
-.fb-cta::before {
-  content: '';
-  position: absolute; inset: 0;
-  background-image: radial-gradient(circle at 30% 50%, rgba(184,135,58,.12) 0%, transparent 60%);
-  pointer-events: none;
-}
-.fb-cta h2 {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(1.8rem, 4vw, 2.8rem);
-  font-weight: 300; color: var(--white); margin-bottom: 14px;
-  position: relative;
-}
-.fb-cta h2 em { color: var(--gold-light); font-style: italic; }
-.fb-cta p {
-  font-size: .88rem; color: rgba(255,255,255,.62);
-  max-width: 480px; margin: 0 auto 32px; line-height: 1.75;
-  position: relative;
-}
-.fb-cta-btns { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; position: relative; }
-
-/* Sdílecí lišta */
-.fb-share {
-  padding: 48px 32px;
-  background: var(--cream);
-  text-align: center;
-}
-.fb-share p {
-  font-size: .84rem; color: var(--text-muted); margin-bottom: 18px;
-}
-.share-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
-.share-btn {
-  display: inline-flex; align-items: center; gap: 8px;
-  font-size: .74rem; font-weight: 500; letter-spacing: .06em;
-  padding: 9px 20px; border-radius: 4px;
-  border: 1px solid var(--border); color: var(--text-mid);
+.btn-share {
+  display: flex; align-items: center; gap: 10px;
+  background: rgba(255,255,255,.07);
+  border: 1px solid rgba(255,255,255,.12);
+  color: rgba(255,255,255,.8);
+  border-radius: 4px; padding: 11px 18px;
+  font-size: .78rem; font-weight: 500; letter-spacing: .03em;
   transition: background .2s, border-color .2s;
 }
-.share-btn:hover { background: var(--gold-wash); border-color: var(--gold-pale); }
-.share-btn svg { width: 16px; height: 16px; }
-.share-btn--fb { background: var(--fb-blue); color: var(--white); border-color: var(--fb-blue); }
-.share-btn--fb:hover { background: #1464d8; border-color: #1464d8; }
-.share-btn--fb svg { fill: var(--white); }
+.btn-share:hover { background: rgba(255,255,255,.12); border-color: rgba(255,255,255,.22); }
+.btn-share svg { width: 16px; height: 16px; flex-shrink: 0; }
 
-/* ── Footer ──────────────────────────────────── */
-.fb-footer {
-  background: var(--navy-deep);
-  padding: 40px 32px; text-align: center;
-  font-size: .78rem; color: rgba(255,255,255,.4); line-height: 1.8;
+.btn-back {
+  display: flex; align-items: center; gap: 8px;
+  color: rgba(255,255,255,.38);
+  font-size: .72rem; letter-spacing: .07em; text-transform: uppercase; font-weight: 500;
+  padding: 8px 0; margin-top: 4px;
+  transition: color .2s;
 }
-.fb-footer a { color: var(--gold-light); }
-.fb-footer-name {
+.btn-back:hover { color: var(--gold-light); }
+.btn-back svg { width: 14px; height: 14px; }
+
+/* Patička */
+.sidebar-footer {
+  margin-top: 40px; padding-top: 24px;
+  border-top: 1px solid rgba(255,255,255,.07);
+  position: relative;
+}
+.sidebar-footer-name {
   font-family: 'Cormorant Garamond', serif;
-  font-size: 1.2rem; font-weight: 300;
-  color: rgba(255,255,255,.6); margin-bottom: 6px; letter-spacing: .04em;
+  font-size: 1rem; font-weight: 300;
+  color: rgba(255,255,255,.4); letter-spacing: .04em; margin-bottom: 4px;
 }
-.fb-footer-name em { color: var(--gold-light); font-style: italic; }
+.sidebar-footer-name em { font-style: italic; color: var(--gold); }
+.sidebar-footer p { font-size: .68rem; color: rgba(255,255,255,.25); line-height: 1.6; }
 
-/* ── Tlačítka (konzistentní s hlavní stránkou) ── */
-.btn-primary {
-  display: inline-block; padding: 13px 32px;
-  background: var(--gold); color: var(--white);
-  font-size: .75rem; font-weight: 600; letter-spacing: .14em; text-transform: uppercase;
-  border-radius: 3px; transition: background .2s, transform .2s;
-}
-.btn-primary:hover { background: var(--gold-light); transform: translateY(-2px); }
-.btn-ghost {
-  display: inline-block; padding: 12px 30px;
-  border: 1.5px solid rgba(255,255,255,.35); color: rgba(255,255,255,.82);
-  font-size: .75rem; font-weight: 500; letter-spacing: .12em; text-transform: uppercase;
-  border-radius: 3px; transition: border-color .2s, color .2s;
-}
-.btn-ghost:hover { border-color: var(--white); color: var(--white); }
-
-/* ── Responzivita ────────────────────────────── */
-@media (max-width: 860px) {
-  .fb-layout { grid-template-columns: 1fr; gap: 40px; }
-}
-@media (max-width: 700px) {
-  .fb-section { padding: 60px 20px; }
-  .page-hero  { padding: 110px 20px 56px; }
-  .wrap { padding: 0 20px; }
+/* ─── Pravý panel — FB feed ──────────────── */
+.fb-main {
+  flex: 1;
+  background: var(--cream);
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  overflow: hidden;
 }
 
-/* ── Fade-in ─────────────────────────────────── */
-.fi { opacity: 0; transform: translateY(22px); transition: opacity .6s ease, transform .6s ease; }
-.fi.on { opacity: 1; transform: translateY(0); }
+/* Wrapper přesně na šířku FB widgetu */
+.fb-frame-wrap {
+  width: 500px;
+  max-width: 100%;
+  height: 100vh;
+  background: var(--white);
+  box-shadow: 0 0 0 1px rgba(0,0,0,.06), 2px 0 32px rgba(0,0,0,.04), -2px 0 32px rgba(0,0,0,.04);
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.fb-frame-wrap iframe {
+  width: 100%;
+  border: none;
+  display: block;
+}
+
+/* ─── Responzivita ───────────────────────── */
+@media (max-width: 680px) {
+  html, body { overflow: auto; }
+  .fb-app { flex-direction: column; height: auto; }
+  .fb-sidebar { width: 100%; padding: 28px 20px 24px; }
+  .sidebar-logo { margin-bottom: 28px; }
+  .sidebar-desc { margin-bottom: 24px; }
+  .sidebar-actions { flex-direction: row; flex-wrap: wrap; }
+  .sidebar-footer { display: none; }
+  .fb-main { height: 82vh; }
+  .fb-frame-wrap { width: 100%; height: 82vh; }
+}
 </style>
 </head>
 <body>
 
-<div class="scroll-bar" id="scrollBar"></div>
+<div class="fb-app">
 
-<!-- NAVIGACE -->
-<nav class="nav" id="nav">
-  <div class="nav-inner">
-    <a href="index_backup.html" class="nav-wordmark">
+  <!-- ── SIDEBAR ────────────────────────────── -->
+  <aside class="fb-sidebar">
+
+    <a href="index_backup.html" class="sidebar-logo">
       <strong>Pro rozvoj</strong>
       Holčovic
     </a>
-    <a href="index_backup.html" class="nav-back">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-        <path d="M19 12H5M12 5l-7 7 7 7"/>
-      </svg>
-      Zpět na hlavní stránku
-    </a>
-  </div>
-</nav>
 
-<!-- HERO -->
-<section class="page-hero">
-  <div class="hero-eyebrow">
-    <div class="hero-eyebrow-line"></div>
-    <span class="hero-eyebrow-text">Pro rozvoj Holčovic · Sociální sítě</span>
-    <div class="hero-eyebrow-line"></div>
-  </div>
-  <h1>Sledujte nás<br>na <em>Facebooku</em></h1>
-  <p class="page-hero-sub">
-    Nejnovější zprávy z kampaně, fotky z akcí a aktuální dění v Holčovicích —
-    vše na naší facebookové stránce. Dejte nám palec nahoru a sledujte nás.
-  </p>
-</section>
-
-<!-- FB EMBED + INFO -->
-<section class="fb-section">
-  <div class="wrap">
-    <div class="fb-layout fi">
-
-      <!-- LEVÝ SLOUPEC: info -->
-      <div class="fb-info">
-        <div class="fb-info-eyebrow">Facebook stránka</div>
-        <h2>Pro rozvoj Holčovic</h2>
-        <p>
-          Naše facebooková stránka je místem, kde zveřejňujeme
-          novinky z kampaně, fotky z obecních akcí a komentujeme
-          dění v Holčovicích. Přidejte se — lajkujte, sdílejte
-          a reagujte přímo na Facebooku.
-        </p>
-        <p>
-          Ke komentování a přímé reakci na příspěvky budete
-          přesměrováni na Facebook — stačí být přihlášeni.
-        </p>
-
-        <a href="https://www.facebook.com/ProRozvojHolcovic/"
-           target="_blank" rel="noopener noreferrer"
-           class="btn-fb">
-          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
-          </svg>
-          Přejít na Facebook stránku
-        </a>
-
-        <div class="fb-how">
-          <div class="fb-how-title">Jak reagovat na příspěvky</div>
-          <ul>
-            <li>V panelu vpravo klikněte na příspěvek — otevře se na Facebooku</li>
-            <li>Lajkujte, komentujte a sdílejte přímo tam</li>
-            <li>Sledujte stránku — dostanete upozornění na nové příspěvky</li>
-            <li>Pište nám zprávy přes Messenger přímo z naší stránky</li>
-          </ul>
-        </div>
-
-        <div class="fb-note" style="margin-top:20px">
-          <strong>Poznámka k zobrazení feedu:</strong>
-          Embedded Facebook feed vyžaduje, aby byl web provozován přes HTTPS
-          a může být blokován blokátory reklam. Pokud se feed nezobrazí,
-          použijte tlačítko výše pro přechod přímo na Facebook.
-        </div>
-      </div>
-
-      <!-- PRAVÝ SLOUPEC: FB embed -->
-      <div class="fb-embed-col">
-        <div class="fb-embed-label">Nejnovější příspěvky</div>
-
-        <div class="fb-plugin-wrap">
-          <!-- Facebook Pages Plugin — iframe varianta (nevyžaduje App ID) -->
-          <iframe
-            src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2FProRozvojHolcovic%2F&tabs=timeline&width=500&height=700&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true"
-            width="100%"
-            height="700"
-            style="border:none;overflow:hidden;display:block"
-            scrolling="no"
-            frameborder="0"
-            allowfullscreen="true"
-            allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
-            title="Pro rozvoj Holčovic — Facebook stránka">
-          </iframe>
-
-          <!-- Fallback pokud iframe selže -->
-          <div class="fb-fallback" id="fbFallback">
-            <svg width="48" height="48" viewBox="0 0 24 24" fill="#1877F2" style="margin-bottom:16px">
-              <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
-            </svg>
-            <p>Feed se nepodařilo načíst — pravděpodobně je blokován vaším prohlížečem nebo rozšířením.</p>
-            <p style="margin-top:10px">
-              <a href="https://www.facebook.com/ProRozvojHolcovic/" target="_blank" rel="noopener noreferrer">
-                Otevřít stránku přímo na Facebooku →
-              </a>
-            </p>
-          </div>
-        </div>
-
-        <!-- SDK varianta jako záloha (s App ID — doplňte pokud máte) -->
-        <!--
-        <div id="fb-root"></div>
-        <script async defer crossorigin="anonymous"
-          src="https://connect.facebook.net/cs_CZ/sdk.js#xfbml=1&version=v18.0&appId=VASE_APP_ID">
-        </script>
-        <div class="fb-page"
-          data-href="https://www.facebook.com/ProRozvojHolcovic/"
-          data-tabs="timeline"
-          data-width=""
-          data-height="700"
-          data-small-header="false"
-          data-adapt-container-width="true"
-          data-hide-cover="false"
-          data-show-facepile="true">
-          <blockquote cite="https://www.facebook.com/ProRozvojHolcovic/" class="fb-xfbml-parse-ignore">
-            <a href="https://www.facebook.com/ProRozvojHolcovic/">Pro rozvoj Holčovic</a>
-          </blockquote>
-        </div>
-        -->
-
-      </div>
+    <div class="sidebar-orn">
+      <div class="sidebar-orn-line"></div>
+      <div class="sidebar-orn-dot"></div>
+      <div class="sidebar-orn-line"></div>
     </div>
-  </div>
-</section>
 
-<!-- CTA PRUH -->
-<section class="fb-cta">
-  <h2>Dejte nám <em>palec nahoru</em></h2>
-  <p>
-    Sledujte stránku a budete jako první vědět o novinkách,
-    akcích a výsledcích voleb. Komunální politika je nejblíže lidem —
-    a my chceme, abyste byli součástí.
-  </p>
-  <div class="fb-cta-btns">
-    <a href="https://www.facebook.com/ProRozvojHolcovic/"
-       target="_blank" rel="noopener noreferrer"
-       class="btn-primary">Lajkovat stránku na FB</a>
-    <a href="index_backup.html" class="btn-ghost">← Zpět na hlavní stránku</a>
-  </div>
-</section>
+    <h1 class="sidebar-title">
+      Sledujte nás<br>na <em>Facebooku</em>
+    </h1>
 
-<!-- SDÍLENÍ -->
-<section class="fb-share">
-  <div class="wrap">
-    <p>Pomozte nám šířit naši kampaň — sdílejte ji se sousedy a přáteli</p>
-    <div class="share-btns">
-      <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fwww.facebook.com%2FProRozvojHolcovic%2F"
+    <p class="sidebar-desc">
+      Novinky z kampaně, fotky z akcí a aktuální dění
+      v Holčovicích — vše na naší facebookové stránce.
+    </p>
+
+    <div class="sidebar-actions">
+
+      <!-- Přejít na FB -->
+      <a href="https://www.facebook.com/ProRozvojHolcovic/"
          target="_blank" rel="noopener noreferrer"
-         class="share-btn share-btn--fb">
+         class="btn-fb">
         <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
           <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
         </svg>
+        Přejít na FB stránku
+      </a>
+
+      <!-- Sdílet na FB -->
+      <a href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fwww.facebook.com%2FProRozvojHolcovic%2F"
+         target="_blank" rel="noopener noreferrer"
+         class="btn-share">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+          <circle cx="18" cy="5" r="3"/>
+          <circle cx="6" cy="12" r="3"/>
+          <circle cx="18" cy="19" r="3"/>
+          <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/>
+          <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
+        </svg>
         Sdílet na Facebooku
       </a>
-      <a href="index_backup.html" class="share-btn">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="16" height="16">
-          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
-          <polyline points="9 22 9 12 15 12 15 22"/>
-        </svg>
-        Hlavní stránka kampaně
-      </a>
-      <a href="program.html" class="share-btn">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" width="16" height="16">
-          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-          <polyline points="14 2 14 8 20 8"/>
-          <line x1="16" y1="13" x2="8" y2="13"/>
-          <line x1="16" y1="17" x2="8" y2="17"/>
-        </svg>
-        Celý program
-      </a>
-    </div>
-  </div>
-</section>
 
-<!-- FOOTER -->
-<footer class="fb-footer">
-  <div class="fb-footer-name">Pro rozvoj <em>Holčovic</em></div>
-  <p>Volební uskupení · Komunální volby 2026 · Holčovice, Moravskoslezský kraj</p>
-  <p style="margin-top:8px">
-    <a href="index_backup.html">← Zpět na hlavní stránku</a>
-    &nbsp;·&nbsp;
-    <a href="https://www.facebook.com/ProRozvojHolcovic/" target="_blank" rel="noopener noreferrer">Facebook →</a>
-  </p>
-</footer>
+      <!-- Zpět -->
+      <a href="index_backup.html" class="btn-back">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+          <path d="M19 12H5M12 5l-7 7 7 7"/>
+        </svg>
+        Zpět na hlavní stránku
+      </a>
+
+    </div>
+
+    <div class="sidebar-footer">
+      <div class="sidebar-footer-name">Pro rozvoj <em>Holčovic</em></div>
+      <p>Volební uskupení · Komunální volby 2026<br>Holčovice, Moravskoslezský kraj<br>&copy; 2026 Pro rozvoj Holčovic</p>
+    </div>
+
+  </aside>
+
+  <!-- ── FB FEED ────────────────────────────── -->
+  <main class="fb-main">
+    <div class="fb-frame-wrap">
+      <iframe
+        id="fbFrame"
+        src=""
+        width="500"
+        scrolling="no"
+        frameborder="0"
+        allowfullscreen="true"
+        allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
+        title="Pro rozvoj Holčovic — Facebook stránka">
+      </iframe>
+    </div>
+  </main>
+
+</div>
 
 <script>
-const nav = document.getElementById('nav');
-const scrollBar = document.getElementById('scrollBar');
-
-function onScroll() {
-  const y   = window.scrollY;
-  const max = document.documentElement.scrollHeight - window.innerHeight;
-  nav.classList.toggle('scrolled', y > 60);
-  if (max > 0) scrollBar.style.width = (y / max * 100) + '%';
-}
-window.addEventListener('scroll', onScroll, { passive: true });
-onScroll();
-
-/* Fade-in */
-const io = new IntersectionObserver((entries) => {
-  entries.forEach((e, i) => {
-    if (e.isIntersecting) {
-      setTimeout(() => e.target.classList.add('on'), i * 80);
-      io.unobserve(e.target);
-    }
+(function () {
+  const frame = document.getElementById('fbFrame');
+  const h = Math.round(window.innerHeight);
+  const params = new URLSearchParams({
+    href: 'https://www.facebook.com/ProRozvojHolcovic/',
+    tabs: 'timeline',
+    width: '500',
+    height: String(h),
+    small_header: 'false',
+    adapt_container_width: 'true',
+    hide_cover: 'false',
+    show_facepile: 'true'
   });
-}, { threshold: 0.07 });
-document.querySelectorAll('.fi').forEach(el => io.observe(el));
+  frame.src = 'https://www.facebook.com/plugins/page.php?' + params.toString();
+  frame.style.height = h + 'px';
+})();
 </script>
 
 </body>

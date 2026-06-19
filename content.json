@@ -1,0 +1,140 @@
+{
+  "hero": {
+    "tagline": "Řád a klid. Pokračujeme poctivě, společně a bez zbytečných třenic.",
+    "text": "Holčovice jsou domov — a domov si zaslouží stabilní ruce. Náš tým pracuje napříč politickým spektrem, bez stranických půtek a bez dělení na my a oni. Věříme, že obec nejlépe slouží svým lidem tehdy, kdy se v ní klidně žije — s fungujícími službami, aktivní komunitou a vědomím, že věci jsou v pořádku."
+  },
+  "program": {
+    "cards": [
+      {
+        "title": "Obnova po povodních a budoucí ochrana",
+        "text": "Povodeň v říjnu 2024 zasáhla obec tvrdě. Koordinovali jsme záchranné práce, zajistili dotace a podepsali zakázky na sanaci sesuvů i obnovu komunikací. Teď chceme dotáhnout vše do konce a zároveň připravit preventivní opatření: tvorbu tůní a mokřadů ke zpomalení vody v krajině, přehrazení menších toků a zpevnění břehů — aby příští velká voda způsobila méně škod než ta minulá."
+      },
+      {
+        "title": "Základní služby v obci",
+        "text": "Obecní restaurace, Pošta Partner, zdravotní středisko, škola — v malé obci jsou tyto služby životně důležité a trh je sám od sebe nezajistí. Spustili jsme rekonstrukci bytu a pošty v Holčovicích IV. Škola má novou ředitelku a čeká ji obnova. Chceme udržet praktického lékaře a aktivně jednat o možnosti otevření zubní ordinace přímo v obci."
+      },
+      {
+        "title": "Místo pro život",
+        "text": "Bez spolkového života by Holčovice ztratily svou duši. Každoročně podporujeme SDH, TJ Tatran, farnost i folklorní soubor. Nová obecní knihovna otevřela v červnu 2026. Chceme nabízet obecní pozemky pro výstavbu dle nového ÚP a podporovat zelené investice: ČOV, kotlíkové dotace a odpovědné nakládání s odpadem."
+      },
+      {
+        "title": "Turistika, příroda a péče o krajinu",
+        "text": "Holčovice leží ve výjimečném prostředí — Zlatohorská vrchovina, Jesenická CHKO, vrchol Jedlová na 875 m. Udržujeme turistickou infrastrukturu a spolupracujeme s více než dvaceti ubytovacími zařízeními v obci. Chceme zlepšit naučné stezky, podpořit cykloturistiku a pečovat o krajinu — zeleň, lesy, sady a biologickou rozmanitost v katastru obce."
+      },
+      {
+        "title": "Otevřený úřad a zodpovědné hospodaření",
+        "text": "Holčovický hlasatel vychází každý měsíc, zápisy ze zastupitelstva jsou veřejné a rozpočty schvalujeme s rozmyslem. Chceme pokračovat v pečlivém hospodaření, aktivně čerpat dotační tituly a financovat investice bez zbytečného zadlužování. Věříme, že každý občan má právo vědět, jak se nakládá s obecními penězi."
+      }
+    ]
+  },
+  "vysledky": {
+    "ongoing": [
+      {
+        "title": "Každoroční podpora místních spolků",
+        "text": "TJ Tatran, SDH Holčovice, SDH Spálené, ŘKF — každý rok dotace, každý rok podpora. Hasiči, sportovci a farnost dávají obci duši a my za ně stojíme organizačně i finančně."
+      },
+      {
+        "title": "Bohatý kulturní a sportovní program",
+        "text": "Festival Holčovice, Gulášohraní, Pohár starosty, Příměstský tábor, Naučný kemp Prudká, Ples obce — takhle má obec žít."
+      },
+      {
+        "title": "Transparentní hospodaření a komunikace",
+        "text": "Holčovický hlasatel vychází každý měsíc, zápisy a rozpočty jsou veřejné. Otevřenost není volba — je to závazek vůči každému občanu."
+      }
+    ],
+    "dated": [
+      {
+        "date": "říjen 2024",
+        "title": "Povodeň — okamžitá reakce a dotace",
+        "text": "Koordinace záchranných prací, komunikace s krajem a zajištění dotací na obnovu infrastruktury — to vše během hodin a dnů od katastrofy."
+      },
+      {
+        "date": "květen 2026",
+        "title": "Sanace sesuvů + rekonstrukce bytu a pošty",
+        "text": "Uzavřeny zakázky na sanaci svahů poškozených povodní a na rekonstrukci bytu s poštovním prostorem v Holčovicích IV."
+      },
+      {
+        "date": "červen 2026",
+        "title": "Nová obecní knihovna + obnova komunikací",
+        "text": "Slavnostní otevření knihovny ke Dni dětí a vypsání zakázky na opravu místních komunikací poškozených povodní."
+      }
+    ]
+  },
+  "kandidati": {
+    "c1": {
+      "badge": "Lídr kandidátky · Starosta obce",
+      "name": "Ing. Martin Hradil",
+      "role": "Starosta obce Holčovice · kandidát č. 1",
+      "quote": "„Holčovice jsou můj domov a práce pro ně má smysl. Chci pokračovat — s pokorou, s otevřeností a s vědomím, že každé rozhodnutí má dopad na životy konkrétních lidí."",
+      "bio1": "Martin Hradil stojí v čele obce jako starosta a je přímým kontaktním bodem pro každého obyvatele. Jako inženýr přistupuje k rozhodnutím analyticky a systematicky — hledá řešení proveditelná, finančně udržitelná a v souladu s dlouhodobými zájmy Holčovic. Za jeho vedení obec úspěšně koordinovala záchranné práce po povodních v říjnu 2024, zajistila dotace na obnovu infrastruktury a spustila řadu investičních akcí — od rekonstrukce obecních budov až po zahájení sanace sesuvů.",
+      "bio2": "Je přesvědčeným zastáncem otevřené radnice. Věří, že každý občan má právo vědět, jak se hospodaří s obecními penězi — proto zastupitelstvo zasedá transparentně a Holčovický hlasatel vychází každý měsíc. Ve volném čase [doplňte záliby]. Žije v Holčovicích [doplňte počet] let, [rodinný stav]. Kontakt na starostu: <a href=\"mailto:starosta@obecholcovice.cz\" style=\"color:var(--gold)\">starosta@obecholcovice.cz</a>"
+    },
+    "c2": {
+      "name": "Bc. Jakub Moravčík",
+      "role": "Místostarosta · kandidát č. 2",
+      "bio": "Jakub Moravčík působí jako místostarosta obce — pravá ruka starosty při každodenní agendě i při přípravě velkých investičních akcí. Koordinuje technickou správu obecního majetku, připravuje podklady pro výběrová řízení a jedná s dodavateli stavebních prací i projekčními kancelářemi. Právě on měl na starosti přípravu zakázek na obnovu komunikací po povodni a sanaci sesuvů — od prvotních průzkumů přes projektovou dokumentaci až po vypsání soutěže. Práci pro obec bere jako dlouhodobý závazek, ne jako funkci. Doplňte osobní údaje — vzdělání, záliby, odkud pochází, rodina."
+    },
+    "c3": {
+      "name": "Bc. Libor Včelný",
+      "role": "Zastupitel · kandidát č. 3",
+      "bio": "Libor Včelný zná obecní správu zevnitř — jako bývalý starosta a nyní úředník má přehled o tom, jak funguje systém financování obce, dotační politika i každodenní administrativa. Do zastupitelstva přináší institucionální paměť a schopnost navigovat složitá jednání se státními orgány a krajem. Jeho zkušenost je zárukou kontinuity a prevencí zbytečných chyb."
+    },
+    "c4": {
+      "name": "Jaromír Holinka",
+      "role": "Zastupitel · kandidát č. 4",
+      "bio": "Záchranář. Povolání, kde se rozhoduje pod tlakem a každá sekunda má váhu. Jaromír Holinka přináší do zastupitelstva klidnou hlavu v krizových situacích, respekt k pravidlům a empatii k lidem v nouzi. Aktivně se podílel na koordinaci pomoci po povodních. Prosazuje, aby obec byla na mimořádné události lépe připravena — protipovodňová opatření a spolupráce s IZS jsou pro něj osobní prioritou."
+    },
+    "c5": {
+      "name": "Ing. Petr Šarman",
+      "role": "Zastupitel · kandidát č. 5",
+      "bio": "SW manažer s přehledem o digitálních technologiích, projektovém řízení a efektivitě procesů. V zastupitelstvu prosazuje moderní přístupy ke správě obce — od digitalizace agend přes transparentní zveřejňování dat až po efektivní komunikaci s občany online. Věří, že i malá obec může fungovat chytře a že technologie nejsou jen pro města."
+    },
+    "c6": {
+      "name": "Vendula Poláchová",
+      "role": "Zastupitelka · předsedkyně kontrolního výboru · kandidátka č. 6",
+      "bio": "Vendula Poláchová je nejmladší členkou stávajícího zastupitelstva a předsedkyní kontrolního výboru — zárukou, že přijatá usnesení jsou skutečně plněna. Přináší do týmu energii, svěžest a zájem zapojit mladší generaci. Do příštího volebního období vstupuje s cílem propojit zkušenosti starší části týmu s novými nápady a přivést k věci lidi, kteří dosud stáli stranou komunálního života."
+    },
+    "c7": {
+      "name": "Martina Nováková",
+      "role": "Kandidátka č. 7",
+      "bio": "Martina Nováková je pevnou součástí každodenního života obce. Zná její tvář i bolesti — z pohledu matky, sousedky i aktivní občanky. Do zastupitelstva přináší zájem o veřejná prostranství, péči o rodiny a zájem na tom, aby se v Holčovicích dobře žilo všem generacím. Doplňte osobní údaje."
+    },
+    "c8": {
+      "name": "Jaromír Krpec",
+      "role": "Kandidát č. 8",
+      "bio": "Jaromír Krpec je člověk činu. Ví, co obnáší přiložit ruku k dílu při opravách, akcích i každodenní péči o obec. Do zastupitelstva přináší praktický pohled a odhodlání dělat věci, ne jen mluvit o nich — a to je přesně to, co komunální politika potřebuje. Doplňte osobní údaje."
+    },
+    "c9": {
+      "name": "Václav Eichler",
+      "role": "Bývalý zastupitel · kandidát č. 9",
+      "bio": "Geodet s přesností v krvi a citem pro terén. Václav Eichler doslova zná holčovický katastr do detailu — kde vedou hranice pozemků, kudy probíhají sítě a kde jsou problematická místa v krajině. Jeho odbornost je neocenitelná při přípravě stavebních záměrů, plánování cest i při řešení sousedských sporů o hranice. Do zastupitelstva se vrací jako věcný odborný hlas."
+    },
+    "c10": {
+      "name": "Božena Drlíková",
+      "role": "Náhradnice · kandidátka č. 10",
+      "bio": "Božena Drlíková je náhradnicí na kandidátce — připravena převzít mandát zastupitelky, kdyby to situace vyžadovala. V obci je aktivní a dobře se v ní orientuje; přináší komunitní pohled a zájem o sociální soudržnost a pohodu v Holčovicích. Doplňte osobní údaje."
+    }
+  },
+  "volby": {
+    "sub": "Každý hlas rozhoduje — a v malé obci to platí dvojnásob. Podpořte lidi, kteří Holčovicím věnují svůj čas, zkušenosti a srdce. Přijďte k volbám.",
+    "badge": "Přijďte k volbám · Podzim 2026"
+  },
+  "program_page": {
+    "hero_sub": "Pět témat, v nichž jsme konkrétní — co se podařilo v tomto volebním období a co chceme udělat v tom příštím. Slibujeme jen to, na co máme síly a zkušenosti.",
+    "povodni": {
+      "lead": "Říjnová povodeň 2024 prověřila schopnost vedení reagovat rychle a efektivně. Koordinace záchranných prací, zajištění dotací a příprava projektů na obnovu proběhly bez prodlení. Teď chceme dokončit, co bylo zahájeno, a zároveň přijmout preventivní opatření, aby příští velká voda způsobila méně škod."
+    },
+    "sluzby": {
+      "lead": "V malé obci jsou klíčové služby životně důležité — a trh je sám od sebe nezajistí. Proto je zajišťuje obec: restaurace, pošta, zdravotní středisko, škola. Za jejich zachování a rozvoj neseme přímou odpovědnost."
+    },
+    "zivot": {
+      "lead": "Holčovice nejsou jen adresy v katastru — jsou domov. Spolkový život, kultura, možnost postavit dům, čistá voda a vzduch — to jsou věci, které dělají obec místem, kde stojí za to žít celý život, ne jen přes léto."
+    },
+    "turistika": {
+      "lead": "Holčovice leží ve výjimečném prostředí — Zlatohorská vrchovina, Jesenická CHKO, vrchol Jedlová na 875 m. Turistika a příroda jsou součástí identity obce i zdrojem místní ekonomiky. Máme povinnost o krajinu pečovat, ne ji jen využívat."
+    },
+    "urad": {
+      "lead": "Každý občan má právo vědět, jak se nakládá s obecními penězi. Transparentnost není marketingový slogan — je to základní podmínka důvěry mezi vedením obce a jejími obyvateli. Hospodaříme obezřetně, s rozmyslem a na dlouhodobou perspektivu."
+    }
+  }
+}
