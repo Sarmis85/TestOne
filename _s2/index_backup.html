@@ -379,39 +379,79 @@ a { color: inherit; text-decoration: none; }
   transform: translateZ(0);
 }
 
-/* Kandidáti → Kontakt */
-#kontakt {
+/* Kandidáti → Výzva k volbám */
+.section-volby {
   position: relative;
-  padding-top: 132px;
+  padding-top: 132px; padding-bottom: 0;
+  background: var(--navy-deep);
+  text-align: center;
 }
-/*
-  Foto vrstva sahá 54px NAHORU do krémové zóny #kandidati.
-  clip-path ořízne foto na tvar:
-    - v přechodové zóně (horních 54px): jen pravý trojúhelník (/ sklon)
-    - v sekci samé: celá šířka
-  → tmavý foto-trojúhelník je viditelný na světlém krémovém pozadí výše.
-  #kontakt leží v DOM za #kandidati → přirozeně se maluje navrch.
-*/
-#kontakt::before {
+.section-volby::before {
   content: '';
   position: absolute; top: -54px; left: 0; right: 0; bottom: 0;
   background-image: url('media/sky6.jpg');
   background-size: cover;
   background-position: center 50%;
-  filter: brightness(.52) saturate(.8);
+  filter: brightness(.45) saturate(.7);
   clip-path: polygon(100% 0, 100% 100%, 0 100%, 0 54px);
   transform: translateZ(0);
 }
-/* Overlay — stejný tvar jako foto */
-#kontakt::after {
+.section-volby::after {
   content: '';
   position: absolute; top: -54px; left: 0; right: 0; bottom: 0;
-  background: rgba(10,20,38,.25);
+  background: rgba(10,20,38,.3);
   clip-path: polygon(100% 0, 100% 100%, 0 100%, 0 54px);
   pointer-events: none;
 }
-#kontakt .wrap {
-  position: relative; z-index: 1;
+.section-volby .wrap { position: relative; z-index: 1; padding-bottom: 80px; }
+.volby-eyebrow {
+  display: flex; align-items: center; justify-content: center; gap: 14px;
+  font-size: .62rem; letter-spacing: .28em; text-transform: uppercase;
+  font-weight: 500; color: var(--gold-light);
+  margin-bottom: 28px; padding-top: 16px;
+}
+.volby-eyebrow-line { width: 36px; height: 1px; background: var(--gold); opacity: .5; }
+.volby-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(3.4rem, 10vw, 7.5rem);
+  font-weight: 300; color: var(--white); line-height: 1.0; margin-bottom: 0;
+}
+.volby-title em { font-style: italic; color: var(--gold-light); display: block; }
+.volby-sub {
+  font-size: .92rem; color: rgba(255,255,255,.65);
+  max-width: 520px; margin: 24px auto 36px; line-height: 1.78;
+}
+.volby-badge {
+  display: inline-flex; align-items: center; gap: 14px;
+  border: 1px solid rgba(184,135,58,.35);
+  border-radius: 60px; padding: 12px 28px; margin-bottom: 44px;
+}
+.volby-badge-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--gold); flex-shrink: 0;
+  animation: volbyPulse 1.8s ease-in-out infinite;
+}
+@keyframes volbyPulse {
+  0%,100% { opacity:.6; transform:scale(1); }
+  50%      { opacity:1;  transform:scale(1.5); }
+}
+.volby-badge-text {
+  font-size: .68rem; letter-spacing: .2em; text-transform: uppercase;
+  font-weight: 600; color: var(--gold-light);
+}
+.volby-btns { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; margin-bottom: 72px; }
+.volby-footer { border-top: 1px solid rgba(255,255,255,.08); padding: 40px 0; }
+.volby-footer-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.15rem; font-weight: 300;
+  color: rgba(255,255,255,.6); letter-spacing: .06em; margin-bottom: 6px;
+}
+.volby-footer-name em { font-style: italic; color: var(--gold-light); }
+.volby-footer p { font-size: .74rem; color: rgba(255,255,255,.38); line-height: 1.7; }
+@media (max-width: 700px) {
+  .section-volby { padding-top: 100px; }
+  .volby-title { font-size: clamp(2.8rem, 12vw, 4.5rem); }
+  .volby-btns { flex-direction: column; align-items: center; }
 }
 
 /* ══════════════════════════════════════════════
@@ -914,9 +954,64 @@ a { color: inherit; text-decoration: none; }
   .candidates-grid  { grid-template-columns: repeat(2, 1fr); }
   .cand-card--wide  { grid-column: span 2; }
 }
+/* První karta programu (01) zabírá 2/3 šířky */
+.priority-card--wide { grid-column: span 2; }
+.priority-card--wide .priority-photo { height: 180px; }
+@media (max-width: 1024px) {
+  .priority-card--wide .priority-photo { height: 148px; }
+}
+@media (max-width: 640px) {
+  .priority-card--wide { grid-column: span 1; }
+}
+
 @media (max-width: 400px) {
   .candidates-grid  { grid-template-columns: 1fr; }
   .cand-card--wide  { grid-column: span 1; }
+  .cand-card--nahradnik { grid-column: span 1; }
+}
+
+/* ══════════════════════════════════════════════
+   DOPLŇKY — program link, náhradník
+   ══════════════════════════════════════════════ */
+.priority-link {
+  display: inline-flex; align-items: center; gap: 5px;
+  margin-top: 14px;
+  font-size: .76rem; letter-spacing: .05em; font-weight: 500;
+  color: var(--gold); transition: gap .22s, color .22s;
+}
+.priority-link:hover { color: var(--navy); gap: 9px; }
+
+.inline-link {
+  color: var(--gold);
+  border-bottom: 1px solid rgba(184,135,58,.3);
+  transition: border-color .2s;
+}
+.inline-link:hover { border-color: var(--gold); }
+
+.cand-card--nahradnik {
+  grid-column: span 3;
+  background: #f2ede6;
+  border-color: #cdc8be;
+  opacity: .75;
+  cursor: default;
+}
+.cand-card--nahradnik:hover {
+  transform: none;
+  box-shadow: none;
+  border-color: #cdc8be;
+}
+.cand-card--nahradnik::before { display: none; }
+.cand-card--nahradnik h3 { color: #6a6460; }
+.cand-card--nahradnik .cand-role { color: #928d84; }
+.cand-card--nahradnik .cand-num { opacity: .38; }
+.nahradnik-label {
+  display: inline-block;
+  font-size: .57rem; letter-spacing: .13em; text-transform: uppercase; font-weight: 600;
+  background: #ddd8cf; color: #7a7468;
+  border-radius: 2px; padding: 3px 9px; margin-bottom: 8px;
+}
+@media (max-width: 640px) {
+  .cand-card--nahradnik { grid-column: span 2; }
 }
 </style>
 </head>
@@ -941,7 +1036,7 @@ a { color: inherit; text-decoration: none; }
       <li><a href="#program">Program</a></li>
       <li><a href="#vysledky">Výsledky</a></li>
       <li><a href="#kandidati">Kandidáti</a></li>
-      <li><a href="#kontakt">Kontakt</a></li>
+      <li><a href="facebook.html">Facebook</a></li>
     </ul>
     <button class="nav-burger" id="burger" aria-label="Menu">
       <span></span><span></span><span></span>
@@ -961,14 +1056,15 @@ a { color: inherit; text-decoration: none; }
     <h1>Pro rozvoj<br><em>Holčovic</em></h1>
 
     <p class="hero-tagline">
-      Zkušeně, odpovědně a s láskou k místu, kde žijeme.
+      Řád a klid. Pokračujeme poctivě, společně a bez zbytečných třenic.
     </p>
 
     <p class="hero-text">
-      Holčovice jsou víc než adresa — jsou domov. Kandidujeme proto, abychom
-      v tom mohli pokračovat: pečlivě hospodařit, opravovat, co se opravit má,
-      podporovat spolky a lidi, kteří tuto obec každý den oživují,
-      a otevřeně s vámi mluvit o tom, co děláme a proč.
+      Holčovice jsou domov — a domov si zaslouží stabilní ruce.
+      Náš tým pracuje napříč politickým spektrem, bez stranických půtek
+      a bez dělení na my a oni. Věříme, že obec nejlépe slouží svým lidem
+      tehdy, kdy se v ní klidně žije — s fungujícími službami, aktivní
+      komunitou a vědomím, že věci jsou v pořádku.
     </p>
 
     <div class="hero-btns">
@@ -999,18 +1095,19 @@ a { color: inherit; text-decoration: none; }
         <div class="orn-glyph"><span></span><span></span><span></span></div>
         <div class="orn-line"></div>
       </div>
-      <p class="sec-sub">Šest oblastí, v nichž jsme konkrétní a v nichž máme výsledky.<br>Slibujeme jen to, co lze splnit — a na co máme síly i zkušenosti.</p>
+      <p class="sec-sub">Pět oblastí, v nichž jsme konkrétní a máme výsledky.<br>Každé téma podrobněji rozvádíme na stránce <a href="program.html" class="inline-link">celého programu →</a></p>
     </div>
 
     <div class="priorities-grid fi">
 
-      <div class="priority-card">
+      <div class="priority-card priority-card--wide">
         <div class="priority-photo" style="background-image:url('media/sky3.jpg')">
           <div class="priority-num">01</div>
         </div>
         <div class="priority-body">
-          <h3>Obnova po povodních a bezpečná infrastruktura</h3>
-          <p>Povodeň v říjnu 2024 zasáhla obec tvrdě — poškodila komunikace, svahy a obecní majetek. Zahájili jsme obnovu; teď ji chceme dotáhnout do konce. Veřejnou zakázkou na obnovu komunikací jsme zajistili financování oprav. Pracujeme na sanaci sesuvů, které povodeň způsobila na více místech v obci. Zároveň připravujeme preventivní opatření — zpevnění břehů, čištění koryt a přípravu krizových plánů ve spolupráci s IZS — aby příští velká voda způsobila méně škod než ta minulá.</p>
+          <h3>Obnova po povodních a budoucí ochrana</h3>
+          <p>Povodeň v říjnu 2024 zasáhla obec tvrdě. Koordinovali jsme záchranné práce, zajistili dotace a podepsali zakázky na sanaci sesuvů i obnovu komunikací. Teď chceme dotáhnout vše do konce a zároveň připravit preventivní opatření: tvorbu tůní a mokřadů ke zpomalení vody v krajině, přehrazení menších toků a zpevnění břehů — aby příští velká voda způsobila méně škod než ta minulá.</p>
+          <a href="program.html#povodni" class="priority-link">Výsledky a plány tématu →</a>
         </div>
       </div>
 
@@ -1019,8 +1116,9 @@ a { color: inherit; text-decoration: none; }
           <div class="priority-num">02</div>
         </div>
         <div class="priority-body">
-          <h3>Cesty, chodníky a veřejný prostor</h3>
-          <p>Kvalita místních komunikací přímo ovlivňuje každodenní život — od cesty do práce po bezpečný pohyb dětí a seniorů. Chceme systematicky opravovat povrchy cest a chodníků v Holčovicích i místních částech — Dlouhé Vsi, Hejnově, Jelení, Komoře a Spáleném. Obecní budovy, hřiště a veřejná prostranství budeme udržovat v dobrém stavu průběžně, ne až tehdy, kdy oprava přijde třikrát dráž. Zvláštní pozornost věnujeme rekonstrukci bytu a pošty v Holčovicích IV, jejíž příprava je již v běhu.</p>
+          <h3>Základní služby v obci</h3>
+          <p>Obecní restaurace, Pošta Partner, zdravotní středisko, škola — v malé obci jsou tyto služby životně důležité a trh je sám od sebe nezajistí. Spustili jsme rekonstrukci bytu a pošty v Holčovicích IV. Škola má novou ředitelku a čeká ji obnova. Chceme udržet praktického lékaře a aktivně jednat o možnosti otevření zubní ordinace přímo v obci.</p>
+          <a href="program.html#sluzby" class="priority-link">Výsledky a plány tématu →</a>
         </div>
       </div>
 
@@ -1029,8 +1127,9 @@ a { color: inherit; text-decoration: none; }
           <div class="priority-num">03</div>
         </div>
         <div class="priority-body">
-          <h3>Obecní restaurace, pošta a dostupné služby</h3>
-          <p>V malé obci jsou některé služby nenahraditelné — a trh je sám od sebe nezajistí. Obecní restauraci v Obecním domě chceme zachovat jako místo setkávání pro všechny generace; není to jen hospoda, ale společenské centrum obce. Pošta Partner, kterou v obci provozujeme, zajišťuje přístup k bankovním a poštovním službám bez nutnosti jet do Krnova nebo Města Albrechtic. Budeme hledat další možnosti, jak v obci udržet praktický lékař nebo dostupnou zubní ordinaci.</p>
+          <h3>Místo pro život</h3>
+          <p>Bez spolkového života by Holčovice ztratily svou duši. Každoročně podporujeme SDH, TJ Tatran, farnost i folklorní soubor. Nová obecní knihovna otevřela v červnu 2026. Chceme nabízet obecní pozemky pro výstavbu dle nového ÚP a podporovat zelené investice: ČOV, kotlíkové dotace a odpovědné nakládání s odpadem.</p>
+          <a href="program.html#zivot" class="priority-link">Výsledky a plány tématu →</a>
         </div>
       </div>
 
@@ -1039,8 +1138,9 @@ a { color: inherit; text-decoration: none; }
           <div class="priority-num">04</div>
         </div>
         <div class="priority-body">
-          <h3>Spolky, děti, mládež a senioři</h3>
-          <p>Hasiči SDH Holčovice a SDH Spálené, fotbalisté a sportovci TJ Tatran Holčovice, farnost, folklorní soubor Starý Hejnov — to jsou lidé, kteří udržují obec živou. Chceme je podporovat finančně i organizačně, protože bez spolkového života by Holčovice ztratily svou tvář. Nová obecní knihovna, otevřená v roce 2026, je dalším krokem: místem pro děti, seniory i všechny, kdo hledají klidné setkání nad knihou nebo na kulturní akci. Příměstský tábor a Naučný kemp Prudká zůstanou součástí nabídky pro holčovické děti.</p>
+          <h3>Turistika, příroda a péče o krajinu</h3>
+          <p>Holčovice leží ve výjimečném prostředí — Zlatohorská vrchovina, Jesenická CHKO, vrchol Jedlová na 875 m. Udržujeme turistickou infrastrukturu a spolupracujeme s více než dvaceti ubytovacími zařízeními v obci. Chceme zlepšit naučné stezky, podpořit cykloturistiku a pečovat o krajinu — zeleň, lesy, sady a biologickou rozmanitost v katastru obce.</p>
+          <a href="program.html#turistika" class="priority-link">Výsledky a plány tématu →</a>
         </div>
       </div>
 
@@ -1049,18 +1149,9 @@ a { color: inherit; text-decoration: none; }
           <div class="priority-num">05</div>
         </div>
         <div class="priority-body">
-          <h3>Turistika, příroda a péče o krajinu</h3>
-          <p>Holčovice leží ve výjimečném prostředí — na pomezí Zlatohorské vrchoviny a Jesenické CHKO, s nejvyšším bodem Jedlová na 875 metrech. Okolí Pradědu, rašeliniště Rejvíz, historické hornické Zlaté Hory i původní dřevěnice v místních částech — to vše přitahuje turisty a cyklisty. Chceme zlepšit turistickou infrastrukturu, udržovat naučné stezky a aktivně spolupracovat s provozovateli více než dvaceti ubytovacích zařízení v obci. Zároveň se chceme postarat o krajinu — projekt prevence vzniku odpadů, péče o zeleň a odpovědný přístup k lesům v katastru obce.</p>
-        </div>
-      </div>
-
-      <div class="priority-card">
-        <div class="priority-photo" style="background-image:url('media/sky6.jpg')">
-          <div class="priority-num">06</div>
-        </div>
-        <div class="priority-body">
-          <h3>Otevřená radnice a poctivé hospodaření</h3>
-          <p>Hospodaření obce musí být čitelné a předvídatelné. Schvalujeme rozpočty s rozmyslem, změny oznamujeme transparentně — v Holčovickém hlasateli, na webu i na úřední desce. Zastupitelstvo se schází pravidelně a zápisy jsou veřejně dostupné. Chceme pokračovat v péči o finanční stabilitu obce, aktivně využívat dotační tituly státu a Moravskoslezského kraje a hospodařit tak, aby obec mohla investovat i v horších letech. Každý občan má právo vědět, kam jdou jeho daně.</p>
+          <h3>Otevřený úřad a zodpovědné hospodaření</h3>
+          <p>Holčovický hlasatel vychází každý měsíc, zápisy ze zastupitelstva jsou veřejné a rozpočty schvalujeme s rozmyslem. Chceme pokračovat v pečlivém hospodaření, aktivně čerpat dotační tituly a financovat investice bez zbytečného zadlužování. Věříme, že každý občan má právo vědět, jak se nakládá s obecními penězi.</p>
+          <a href="program.html#urad" class="priority-link">Výsledky a plány tématu →</a>
         </div>
       </div>
 
@@ -1099,18 +1190,8 @@ a { color: inherit; text-decoration: none; }
               <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
             </div>
             <div class="timeline-body">
-              <h4>Stabilní a odpovědné vedení obce</h4>
-              <p>Obec fungovala bez politických turbulencí. Rozhodnutí se přijímala věcně, s rozmyslem a v zájmu všech obyvatel — ne v zájmu stranické linie. Zastupitelé jsou dostupní a otevření.</p>
-            </div>
-          </div>
-
-          <div class="timeline-item">
-            <div class="timeline-dot">
-              <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
-            </div>
-            <div class="timeline-body">
               <h4>Každoroční podpora místních spolků</h4>
-              <p>TJ Tatran Holčovice, SDH Holčovice, SDH Spálené a ŘKF Holčovice — každý rok dotace, každý rok podpora. Hasiči, sportovci a farnost dávají obci duši. Bez obecního zázemí by tato činnost nebyla možná.</p>
+              <p>TJ Tatran, SDH Holčovice, SDH Spálené, ŘKF — každý rok dotace, každý rok podpora. Hasiči, sportovci a farnost dávají obci duši a my za ně stojíme organizačně i finančně.</p>
             </div>
           </div>
 
@@ -1120,7 +1201,7 @@ a { color: inherit; text-decoration: none; }
             </div>
             <div class="timeline-body">
               <h4>Bohatý kulturní a sportovní program</h4>
-              <p>Festival Holčovice, Gulášohraní, Pohár starosty, Příměstský tábor, Naučný kemp Prudká, Varhanní koncert, Holčovický uzlík, Ples obce, Dogtrekkingový závod — takhle má obec žít. Stojíme za každou z nich organizačně i finančně.</p>
+              <p>Festival Holčovice, Gulášohraní, Pohár starosty, Příměstský tábor, Naučný kemp Prudká, Ples obce — takhle má obec žít.</p>
             </div>
           </div>
 
@@ -1130,17 +1211,7 @@ a { color: inherit; text-decoration: none; }
             </div>
             <div class="timeline-body">
               <h4>Transparentní hospodaření a komunikace</h4>
-              <p>Holčovický hlasatel vychází pravidelně každý měsíc. Zápisy ze zastupitelstva a rozpočty jsou veřejné. Věříme, že otevřenost není volba — je to závazek vůči každému občanu, který nás pověřil správou věcí veřejných.</p>
-            </div>
-          </div>
-
-          <div class="timeline-item">
-            <div class="timeline-dot">
-              <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
-            </div>
-            <div class="timeline-body">
-              <h4>Zachování klíčových obecních služeb</h4>
-              <p>Obecní restaurace, Pošta Partner, knihovna, základní škola — v malé obci jsou tyto služby nenahraditelné. Trh je sám od sebe nezajistí; my ano. Udržovat je je vědomé politické rozhodnutí, za nímž stojíme.</p>
+              <p>Holčovický hlasatel vychází každý měsíc, zápisy a rozpočty jsou veřejné. Otevřenost není volba — je to závazek vůči každému občanu.</p>
             </div>
           </div>
 
@@ -1158,19 +1229,8 @@ a { color: inherit; text-decoration: none; }
             </div>
             <div class="timeline-body">
               <div class="timeline-date">říjen 2024</div>
-              <h4>Koordinace záchranných prací po povodních</h4>
-              <p>Povodeň v říjnu 2024 zasáhla obec tvrdě. Vedení okamžitě koordinovalo záchranné práce a komunikovalo s krajem, státními orgány i dobrovolníky. Díky rychlé reakci se podařilo zajistit dotace na obnovu, které by obec ze svého rozpočtu pokrýt nemohla.</p>
-            </div>
-          </div>
-
-          <div class="timeline-item">
-            <div class="timeline-dot">
-              <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
-            </div>
-            <div class="timeline-body">
-              <div class="timeline-date">2024–2025</div>
-              <h4>Projektová dokumentace a žádosti o dotace</h4>
-              <p>Měsíce přípravné práce — průzkumy, projekční dokumentace, jednání s dotačními úřady. Výsledek: zajištěné financování pro sanaci sesuvů i obnovu komunikací, které by obec ze svého rozpočtu financovat nemohla.</p>
+              <h4>Povodeň — okamžitá reakce a dotace</h4>
+              <p>Koordinace záchranných prací, komunikace s krajem a zajištění dotací na obnovu infrastruktury — to vše během hodin a dnů od katastrofy.</p>
             </div>
           </div>
 
@@ -1180,19 +1240,8 @@ a { color: inherit; text-decoration: none; }
             </div>
             <div class="timeline-body">
               <div class="timeline-date">květen 2026</div>
-              <h4>Zakázka: sanace sesuvů v obci</h4>
-              <p>Vypsána a uzavřena veřejná zakázka na sanaci sesuvů, které povodeň způsobila na více místech v obci. Akce pokrývá zpevnění svahů a odvedení srážkové vody tak, aby se situace neopakovala.</p>
-            </div>
-          </div>
-
-          <div class="timeline-item">
-            <div class="timeline-dot">
-              <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
-            </div>
-            <div class="timeline-body">
-              <div class="timeline-date">květen 2026</div>
-              <h4>Zahájení rekonstrukce bytu a pošty</h4>
-              <p>Spuštěna rekonstrukce bytu a poštovního prostoru v Holčovicích IV. Oprava zajistí důstojné podmínky pro bydlení a zachování Pošty Partner přímo v obci — klíčová služba zejména pro seniory.</p>
+              <h4>Sanace sesuvů + rekonstrukce bytu a pošty</h4>
+              <p>Uzavřeny zakázky na sanaci svahů poškozených povodní a na rekonstrukci bytu s poštovním prostorem v Holčovicích IV.</p>
             </div>
           </div>
 
@@ -1202,30 +1251,8 @@ a { color: inherit; text-decoration: none; }
             </div>
             <div class="timeline-body">
               <div class="timeline-date">červen 2026</div>
-              <h4>Otevření nové obecní knihovny</h4>
-              <p>Slavnostní otevření obecní knihovny v den Dne dětí. Místo pro všechny generace — pro děti, seniory i každého, kdo hledá klidné setkání nad knihou. Provozuje ji kronikářka obce Žaneta Dolanová.</p>
-            </div>
-          </div>
-
-          <div class="timeline-item">
-            <div class="timeline-dot">
-              <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
-            </div>
-            <div class="timeline-body">
-              <div class="timeline-date">červen 2026</div>
-              <h4>Zakázka: obnova komunikací po povodni</h4>
-              <p>Vypsána veřejná zakázka na obnovu místních komunikací poškozených povodní. Opravy se dotknou úseků ve více částech obce — výsledek bude vidět a hmatatelný.</p>
-            </div>
-          </div>
-
-          <div class="timeline-item">
-            <div class="timeline-dot">
-              <svg viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
-            </div>
-            <div class="timeline-body">
-              <div class="timeline-date">2026</div>
-              <h4>Projekt prevence komunálního odpadu</h4>
-              <p>Spuštěn projekt prevence vzniku skleněného a biologicky rozložitelného odpadu. Krok k odpovědnému hospodaření s přírodními zdroji a ke snížení nákladů na odvoz odpadu pro celou obec.</p>
+              <h4>Nová obecní knihovna + obnova komunikací</h4>
+              <p>Slavnostní otevření knihovny ke Dni dětí a vypsání zakázky na opravu místních komunikací poškozených povodní.</p>
             </div>
           </div>
 
@@ -1254,7 +1281,7 @@ a { color: inherit; text-decoration: none; }
         <div class="orn-glyph"><span></span><span></span><span></span></div>
         <div class="orn-line"></div>
       </div>
-      <p class="sec-sub">Kandidujeme jako sousedé a spoluobčané — lidé, kteří v Holčovicích žijí, pracují a mají je rádi. Nejsme straníci — jsme místní.</p>
+      <p class="sec-sub">Spolupracujeme napříč politickým spektrem — jako sousedé a spoluobčané, kteří Holčovice znají a mají je rádi. Chceme lidi spojovat, ne rozdělovat.</p>
     </div>
 
     <!-- Hlavní kandidát — featured -->
@@ -1321,83 +1348,75 @@ a { color: inherit; text-decoration: none; }
 
       <div class="cand-card">
         <div class="cand-num">06</div>
-        <h3>Václav Eichler</h3>
-        <div class="cand-role">Bývalý zastupitel · kandidát č. 6</div>
-        <p class="cand-bio">Geodet s přesností v krvi a citem pro terén. Václav Eichler jako geodet doslova zná holčovický katastr do detailu — vědí, kde vedou hranice pozemků, kudy probíhají sítě a kde jsou problematická místa v krajině. Jeho odbornost je neocenitelná při přípravě stavebních záměrů, plánování cest i při řešení sousedských sporů o hranice. Do zastupitelstva se vrací s jasnou rolí: věcný odborný hlas.</p>
+        <h3>Vendula Poláchová</h3>
+        <div class="cand-role">Zastupitelka · předsedkyně kontrolního výboru · kandidátka č. 6</div>
+        <p class="cand-bio">Vendula Poláchová je nejmladší členkou stávajícího zastupitelstva a předsedkyní kontrolního výboru — zárukou, že přijatá usnesení jsou skutečně plněna. Přináší do týmu energii, svěžest a zájem zapojit mladší generaci. Do příštího volebního období vstupuje s cílem propojit zkušenosti starší části týmu s novými nápady a přivést k věci lidi, kteří dosud stáli stranou komunálního života.</p>
       </div>
 
       <!-- ŘÁDEK 4: kandidáti 7–9 -->
       <div class="cand-card">
         <div class="cand-num">07</div>
-        <h3>Jméno Příjmení</h3>
-        <div class="cand-role">Kandidát/ka · č. 7</div>
-        <p class="cand-bio">Aktivní člen/ka TJ Tatran Holčovice a dobrovolník/ice při pořádání obecních akcí. Ví, co obnáší organizovat akce pro celou obec — a ví, co lidem v Holčovicích chybí. Do zastupitelstva přináší přímý kontakt s každodenním životem obce a zájem o to, aby sportovní a kulturní zázemí sloužilo opravdu všem generacím. Doplňte osobní údaje.</p>
+        <h3>Martina Nováková</h3>
+        <div class="cand-role">Kandidátka č. 7</div>
+        <p class="cand-bio">Martina Nováková je pevnou součástí každodenního života obce. Zná její tvář i bolesti — z pohledu matky, sousedky i aktivní občanky. Do zastupitelstva přináší zájem o veřejná prostranství, péči o rodiny a zájem na tom, aby se v Holčovicích dobře žilo všem generacím. Doplňte osobní údaje.</p>
       </div>
 
       <div class="cand-card">
         <div class="cand-num">08</div>
-        <h3>Jméno Příjmení</h3>
-        <div class="cand-role">Kandidát/ka · č. 8</div>
-        <p class="cand-bio">Rodák/čka z Holčovic nebo jedné z místních částí, s pamětí na to, jak obec vypadala dřív — a s jasnou představou o tom, čím by měla být. Do zastupitelstva přináší generační zkušenost, smysl pro tradice a zájem na tom, aby Holčovice zůstaly místem, kde stojí za to žít celý život, ne jen přes léto. Doplňte osobní údaje.</p>
+        <h3>Jaromír Krpec</h3>
+        <div class="cand-role">Kandidát č. 8</div>
+        <p class="cand-bio">Jaromír Krpec je člověk činu. Ví, co obnáší přiložit ruku k dílu při opravách, akcích i každodenní péči o obec. Do zastupitelstva přináší praktický pohled a odhodlání dělat věci, ne jen mluvit o nich — a to je přesně to, co komunální politika potřebuje. Doplňte osobní údaje.</p>
       </div>
 
       <div class="cand-card">
         <div class="cand-num">09</div>
-        <h3>Jméno Příjmení</h3>
-        <div class="cand-role">Kandidát/ka · č. 9</div>
-        <p class="cand-bio">Nová tvář na kandidátce — člověk, který se rozhodl přestat jen přihlížet a začít přikládat ruku k dílu. Věří, že komunální politika je nejblíže lidem a že právě na místní úrovni má každý hlas skutečný dopad. Přináší svěží pohled, chuť učit se a odhodlání pracovat pro obec, v níž chce žít. Doplňte osobní údaje.</p>
+        <h3>Václav Eichler</h3>
+        <div class="cand-role">Bývalý zastupitel · kandidát č. 9</div>
+        <p class="cand-bio">Geodet s přesností v krvi a citem pro terén. Václav Eichler doslova zná holčovický katastr do detailu — kde vedou hranice pozemků, kudy probíhají sítě a kde jsou problematická místa v krajině. Jeho odbornost je neocenitelná při přípravě stavebních záměrů, plánování cest i při řešení sousedských sporů o hranice. Do zastupitelstva se vrací jako věcný odborný hlas.</p>
+      </div>
+
+      <!-- ŘÁDEK 5: náhradnice -->
+      <div class="cand-card cand-card--nahradnik">
+        <div class="nahradnik-label">Náhradnice</div>
+        <div class="cand-num">10</div>
+        <h3>Božena Drlíková</h3>
+        <div class="cand-role">Náhradnice · kandidátka č. 10</div>
+        <p class="cand-bio">Božena Drlíková je náhradnicí na kandidátce — připravena převzít mandát zastupitelky, kdyby to situace vyžadovala. V obci je aktivní a dobře se v ní orientuje; přináší komunitní pohled a zájem o sociální soudržnost a pohodu v Holčovicích. Doplňte osobní údaje.</p>
       </div>
 
     </div>
   </div>
 </section>
 
-<!-- KONTAKT -->
-<section class="section section-navy" id="kontakt">
-  <div class="wrap">
-    <div class="contact-wrap">
-
-      <div class="contact-info fi-l">
-        <span class="sec-eyebrow" style="color:var(--gold-light)">Napište nám</span>
-        <h2>Ozvěte se nám</h2>
-        <p class="lead">
-          Máte podnět, otázku nebo nápad pro Holčovice? Napište nám.
-          Každý hlas bereme vážně — obec stavíme dohromady a váš pohled
-          je pro nás důležitý. Snažíme se odpovídat do 48 hodin.
-        </p>
-        <div class="contact-legal">
-          <div class="contact-legal-name">Pro rozvoj <em>Holčovic</em></div>
-          <p>Volební uskupení · Holčovice, Moravskoslezský kraj<br>
-          &copy; 2026 Pro rozvoj Holčovic · Všechna práva vyhrazena</p>
-        </div>
-      </div>
-
-      <form class="contact-form fi" id="contactForm" novalidate>
-        <!-- Honeypot — skryté pole, lidé ho nevyplní, roboti ano -->
-        <div style="position:absolute;left:-9999px;opacity:0;pointer-events:none" aria-hidden="true">
-          <label for="f-website">Website</label>
-          <input type="text" id="f-website" name="website" tabindex="-1" autocomplete="off">
-        </div>
-
-        <div class="frow">
-          <div class="fgrp">
-            <label for="f-name">Jméno</label>
-            <input type="text" id="f-name" name="name" placeholder="Vaše jméno" required>
-          </div>
-          <div class="fgrp">
-            <label for="f-email">E-mail</label>
-            <input type="email" id="f-email" name="email" placeholder="vas@email.cz" required>
-          </div>
-        </div>
-        <div class="fgrp">
-          <label for="f-msg">Zpráva</label>
-          <textarea id="f-msg" name="message" placeholder="Váš podnět, otázka nebo nápad pro Holčovice…" required></textarea>
-        </div>
-        <button type="submit" class="btn-send" id="formBtn">Odeslat zprávu</button>
-        <p id="form-ok" style="display:none"></p>
-        <p id="form-err" style="display:none;font-size:.84rem;color:#f87c7c;margin-top:4px;font-style:italic"></p>
-      </form>
-
+<!-- VÝZVA K VOLBÁM -->
+<section class="section-volby" id="volby">
+  <div class="wrap fi">
+    <div class="volby-eyebrow">
+      <div class="volby-eyebrow-line"></div>
+      <span>Komunální volby · Holčovice · 2026</span>
+      <div class="volby-eyebrow-line"></div>
+    </div>
+    <h2 class="volby-title">
+      Je to ve<br><em>vašich rukou.</em>
+    </h2>
+    <p class="volby-sub">
+      Každý hlas rozhoduje — a v malé obci to platí dvojnásob.
+      Podpořte lidi, kteří Holčovicím věnují svůj čas, zkušenosti a srdce.
+      Přijďte k volbám.
+    </p>
+    <div class="volby-badge">
+      <div class="volby-badge-dot"></div>
+      <span class="volby-badge-text">Přijďte k volbám · Podzim 2026</span>
+      <div class="volby-badge-dot"></div>
+    </div>
+    <div class="volby-btns">
+      <a href="#program" class="btn-primary">Náš program</a>
+      <a href="facebook.html" class="btn-ghost">Sledujte nás na Facebooku →</a>
+    </div>
+    <div class="volby-footer">
+      <div class="volby-footer-name">Pro rozvoj <em>Holčovic</em></div>
+      <p>Volební uskupení · Holčovice, Moravskoslezský kraj<br>
+      &copy; 2026 Pro rozvoj Holčovic · Všechna práva vyhrazena</p>
     </div>
   </div>
 </section>
@@ -1477,48 +1496,6 @@ document.querySelectorAll('.timeline-item').forEach(el => {
   tlIo.observe(el);
 });
 
-/* Priority karty — foto zoom při hover (číslování je statické) */
-
-/* Formulář — AJAX odesílání přes mailer.php */
-document.getElementById('contactForm').addEventListener('submit', async function(e) {
-  e.preventDefault();
-
-  const btn    = document.getElementById('formBtn');
-  const ok     = document.getElementById('form-ok');
-  const err    = document.getElementById('form-err');
-
-  ok.style.display  = 'none';
-  err.style.display = 'none';
-  btn.disabled = true;
-  btn.textContent = 'Odesílám…';
-
-  try {
-    const res  = await fetch('mailer.php', {
-      method: 'POST',
-      body:   new FormData(this)
-    });
-    const data = await res.json();
-
-    if (data.ok) {
-      ok.textContent    = 'Děkujeme za zprávu — ozveme se co nejdříve.';
-      ok.style.display  = 'block';
-      ok.style.color    = '#7de8a8';
-      ok.style.fontStyle = 'italic';
-      ok.style.fontSize  = '.84rem';
-      ok.style.marginTop = '4px';
-      this.reset();
-    } else {
-      err.textContent   = data.error || 'Nepodařilo se odeslat zprávu.';
-      err.style.display = 'block';
-    }
-  } catch {
-    err.textContent   = 'Chyba připojení — zkuste to prosím znovu.';
-    err.style.display = 'block';
-  }
-
-  btn.disabled = false;
-  btn.textContent = 'Odeslat zprávu';
-});
 </script>
 
 </body>

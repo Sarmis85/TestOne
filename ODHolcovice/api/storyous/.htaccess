@@ -1,0 +1,12 @@
+# Ochrana StoryOus konfigurace a token cache
+<Files "config.php">
+    Require all denied
+</Files>
+<Files ".token_cache.json">
+    Require all denied
+</Files>
+
+# Po nasazení: uzamkněte test.php
+# <Files "test.php">
+#     Require all denied
+# </Files>

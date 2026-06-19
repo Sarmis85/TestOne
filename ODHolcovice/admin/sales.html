@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta name="robots" content="noindex, nofollow">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tržby – Admin · Obecní dům Holčovice</title>
+  <link rel="stylesheet" href="../css/admin.css">
+</head>
+<body>
+<div class="admin-root">
+<aside class="admin-sidebar" id="admin-sidebar">
+  <div class="admin-sidebar__header"><div class="admin-sidebar__brand"><img src="../img/OD_Logo_průhledné.png" class="admin-sidebar__logo-img" alt="OD"><div><div class="admin-sidebar__name">Obecní dům</div><div class="admin-sidebar__sub">Admin</div></div></div><button class="admin-sidebar__toggle"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 19l-7-7 7-7M18 19l-7-7 7-7"/></svg></button></div>
+  <nav class="admin-sidebar__nav">
+    <div class="admin-sidebar__section-title">Přehled</div>
+    <a href="index.html" class="admin-nav-item"><svg class="admin-nav-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg><span class="admin-nav-item__label">Dashboard</span></a>
+    <div class="admin-sidebar__section-title">Vedoucí</div>
+    <a href="menu.html" class="admin-nav-item"><svg class="admin-nav-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 2h2l.4 2M7 13h10l4-8H5.4"/></svg><span class="admin-nav-item__label">Jídelní lístek</span></a>
+    <a href="weekly-menu.html" class="admin-nav-item"><svg class="admin-nav-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg><span class="admin-nav-item__label">Týdenní menu</span></a>
+    <a href="foods.html" class="admin-nav-item"><svg class="admin-nav-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/></svg><span class="admin-nav-item__label">Seznamy jídel</span></a>
+    <a href="sales.html" class="admin-nav-item active"><svg class="admin-nav-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20V10M18 20V4M6 20v-4"/></svg><span class="admin-nav-item__label">Tržby</span></a>
+    <div class="admin-sidebar__section-title">Restaurace</div>
+    <a href="orders.html" class="admin-nav-item"><svg class="admin-nav-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14"/></svg><span class="admin-nav-item__label">Objednávky</span></a>
+    <a href="reservations.html" class="admin-nav-item"><svg class="admin-nav-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/></svg><span class="admin-nav-item__label">Rezervace</span></a>
+    <div class="admin-sidebar__section-title">Obec</div>
+    <a href="events.html" class="admin-nav-item"><svg class="admin-nav-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18V5l12-2v13"/></svg><span class="admin-nav-item__label">Akce & Události</span></a>
+    <a href="content.html" class="admin-nav-item"><svg class="admin-nav-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg><span class="admin-nav-item__label">Články</span></a>
+    <div class="admin-sidebar__section-title">Systém</div>
+    <a href="users.html" class="admin-nav-item"><svg class="admin-nav-item__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg><span class="admin-nav-item__label">Uživatelé</span></a>
+  </nav>
+  <div class="admin-sidebar__footer"><div class="admin-user-mini"><div class="admin-user-mini__avatar">JV</div><div class="admin-user-mini__info"><div class="admin-user-mini__name">Jana Veselá</div><div class="admin-user-mini__role">Vedoucí restaurace</div></div></div></div>
+</aside>
+
+<div class="admin-main">
+  <header class="admin-topbar">
+    <meta name="robots" content="noindex, nofollow">
+    <h1 class="admin-topbar__title">Tržby</h1>
+    <div class="admin-topbar__actions">
+      <a href="../index.html" class="btn btn--ghost btn--sm" style="display:flex;align-items:center;gap:0.4rem"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>Zpět na web</a>
+      <button class="btn btn--outline btn--sm" onclick="syncNow()" id="btn-sync">Synchronizovat ze StoryOus</button>
+    </div>
+  </header>
+
+  <main class="admin-content">
+    <div class="admin-page-header">
+      <div>
+        <h2 class="admin-page-title">Přehled tržeb</h2>
+        <p class="admin-page-subtitle">Data ze systému StoryOus · <span id="last-sync">Poslední sync: —</span></p>
+      </div>
+      <div class="admin-page-actions" style="display:flex;gap:0.5rem;align-items:center">
+        <label style="font-size:0.8125rem;color:var(--c-text-muted)">Od:</label>
+        <input type="date" id="date-from" class="form-input" style="width:auto;padding:0.4rem 0.6rem;font-size:0.875rem">
+        <label style="font-size:0.8125rem;color:var(--c-text-muted)">Do:</label>
+        <input type="date" id="date-till" class="form-input" style="width:auto;padding:0.4rem 0.6rem;font-size:0.875rem">
+        <select id="period-select" class="form-select" style="width:auto;padding:0.4rem 0.6rem;font-size:0.875rem">
+          <option value="daily">Denně</option>
+          <option value="weekly">Týdně</option>
+          <option value="monthly" selected>Měsíčně</option>
+        </select>
+        <button class="btn btn--primary btn--sm" onclick="loadStats()">Zobrazit</button>
+      </div>
+    </div>
+
+    <!-- KPI Cards -->
+    <div class="kpi-grid" id="kpi-grid">
+      <div class="kpi-card kpi-card--green">
+        <div class="kpi-card__header"><div class="kpi-card__icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg></div></div>
+        <div class="kpi-card__value" id="kpi-revenue">— Kč</div>
+        <div class="kpi-card__label">Celkové tržby</div>
+      </div>
+      <div class="kpi-card kpi-card--gold">
+        <div class="kpi-card__header"><div class="kpi-card__icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2"/><line x1="1" y1="10" x2="23" y2="10"/></svg></div></div>
+        <div class="kpi-card__value" id="kpi-bills">—</div>
+        <div class="kpi-card__label">Počet účtenek</div>
+      </div>
+      <div class="kpi-card kpi-card--blue">
+        <div class="kpi-card__header"><div class="kpi-card__icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></div></div>
+        <div class="kpi-card__value" id="kpi-guests">—</div>
+        <div class="kpi-card__label">Hostů celkem</div>
+      </div>
+      <div class="kpi-card kpi-card--brown">
+        <div class="kpi-card__header"><div class="kpi-card__icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20V10M18 20V4M6 20v-4"/></svg></div></div>
+        <div class="kpi-card__value" id="kpi-avg">— Kč</div>
+        <div class="kpi-card__label">Průměrná útrata</div>
+      </div>
+    </div>
+
+    <!-- Revenue Chart -->
+    <div class="admin-table-card" style="margin-bottom:1.5rem">
+      <div class="admin-table-card__header">
+        <h3 class="admin-table-card__title">Vývoj tržeb</h3>
+      </div>
+      <div style="padding:1rem;min-height:200px" id="chart-container">
+        <div id="chart-bars" style="display:flex;align-items:flex-end;gap:4px;height:180px;border-bottom:1px solid var(--c-border-light);padding-bottom:0.5rem"></div>
+        <div id="chart-labels" style="display:flex;gap:4px;font-size:0.7rem;color:var(--c-text-muted);margin-top:0.3rem"></div>
+      </div>
+    </div>
+
+    <!-- Two columns: Top items + Payment methods -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-bottom:1.5rem">
+
+      <!-- Top prodávané položky -->
+      <div class="admin-table-card">
+        <div class="admin-table-card__header">
+          <h3 class="admin-table-card__title">Nejprodávanější položky</h3>
+        </div>
+        <div class="admin-table-wrap">
+          <table class="admin-table">
+            <thead><tr><th>#</th><th>Položka</th><th style="text-align:right">Prodáno</th><th style="text-align:right">Tržba</th></tr></thead>
+            <tbody id="top-items-table">
+              <tr><td colspan="4" style="text-align:center;color:var(--c-text-muted);padding:2rem">Načítání...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Platební metody -->
+      <div class="admin-table-card">
+        <div class="admin-table-card__header">
+          <h3 class="admin-table-card__title">Platební metody</h3>
+        </div>
+        <div class="admin-table-wrap">
+          <table class="admin-table">
+            <thead><tr><th>Metoda</th><th style="text-align:right">Počet</th><th style="text-align:right">Celkem</th></tr></thead>
+            <tbody id="payment-methods-table">
+              <tr><td colspan="3" style="text-align:center;color:var(--c-text-muted);padding:2rem">Načítání...</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Timeline table -->
+    <div class="admin-table-card">
+      <div class="admin-table-card__header">
+        <h3 class="admin-table-card__title">Přehled po období</h3>
+      </div>
+      <div class="admin-table-wrap">
+        <table class="admin-table">
+          <thead><tr>
+            <th>Období</th>
+            <th style="text-align:right">Účtenky</th>
+            <th style="text-align:right">Tržba</th>
+            <th style="text-align:right">Spropitné</th>
+            <th style="text-align:right">Průměr/účet</th>
+            <th style="text-align:right">Hostů</th>
+          </tr></thead>
+          <tbody id="timeline-table">
+            <tr><td colspan="6" style="text-align:center;color:var(--c-text-muted);padding:2rem">Načítání dat ze StoryOus...</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </main>
+</div>
+</div>
+
+<div class="toast-container"></div>
+<script src="../js/admin.js"></script>
+<script src="../js/admin-auth.js"></script>
+<script>
+const paymentLabels = {
+  cash: 'Hotovost', card: 'Karta', mealCard: 'Stravenky',
+  mealTicket: 'Stravenky', voucher: 'Poukaz', qerko: 'Qerko',
+  split: 'Rozdělená', cashless: 'Bezhotovostní',
+  moveToHotel: 'Na pokoj', others: 'Ostatní', unknown: 'Neznámá'
+};
+
+function fmt(n) {
+  return Number(n || 0).toLocaleString('cs-CZ', {minimumFractionDigits: 0, maximumFractionDigits: 0});
+}
+
+async function loadStats() {
+  const from = document.getElementById('date-from').value;
+  const till = document.getElementById('date-till').value;
+  const period = document.getElementById('period-select').value;
+
+  try {
+    const res = await fetch(`../api/storyous/stats.php?from=${from}&till=${till}&period=${period}`);
+    if (!res.ok) throw new Error('API error');
+    const data = await res.json();
+
+    const t = data.totals || {};
+    document.getElementById('kpi-revenue').textContent = fmt(t.revenue) + ' Kč';
+    document.getElementById('kpi-bills').textContent = fmt(t.bill_count);
+    document.getElementById('kpi-guests').textContent = fmt(t.guests);
+    document.getElementById('kpi-avg').textContent = fmt(t.avg_bill) + ' Kč';
+
+    // Chart
+    const timeline = data.timeline || [];
+    const maxRev = Math.max(...timeline.map(r => r.revenue), 1);
+    const bars = document.getElementById('chart-bars');
+    const labels = document.getElementById('chart-labels');
+    bars.innerHTML = timeline.map(r => {
+      const h = Math.max((r.revenue / maxRev) * 160, 2);
+      return `<div style="flex:1;background:var(--c-gold);border-radius:3px 3px 0 0;height:${h}px;min-width:8px;cursor:pointer" title="${r.period}: ${fmt(r.revenue)} Kč"></div>`;
+    }).join('');
+    labels.innerHTML = timeline.map((r, i) => {
+      const show = timeline.length <= 15 || i % Math.ceil(timeline.length / 12) === 0;
+      return `<div style="flex:1;text-align:center;min-width:8px;overflow:hidden;white-space:nowrap">${show ? r.period.replace(/^\d{4}-/, '') : ''}</div>`;
+    }).join('');
+
+    // Top items
+    const topEl = document.getElementById('top-items-table');
+    const top = data.top_items || [];
+    topEl.innerHTML = top.length ? top.map((item, i) => `
+      <tr>
+        <td style="font-weight:600;color:var(--c-text-muted)">${i + 1}</td>
+        <td class="admin-table__cell--name">${item.name}</td>
+        <td style="text-align:right">${fmt(item.total_sold)}x</td>
+        <td style="text-align:right;font-weight:600">${fmt(item.total_revenue)} Kč</td>
+      </tr>
+    `).join('') : '<tr><td colspan="4" style="text-align:center;color:var(--c-text-muted);padding:1rem">Žádná data</td></tr>';
+
+    // Payment methods
+    const pmEl = document.getElementById('payment-methods-table');
+    const pm = data.payment_methods || [];
+    pmEl.innerHTML = pm.length ? pm.map(m => `
+      <tr>
+        <td>${paymentLabels[m.payment_method] || m.payment_method}</td>
+        <td style="text-align:right">${fmt(m.count)}x</td>
+        <td style="text-align:right;font-weight:600">${fmt(m.total)} Kč</td>
+      </tr>
+    `).join('') : '<tr><td colspan="3" style="text-align:center;color:var(--c-text-muted);padding:1rem">Žádná data</td></tr>';
+
+    // Timeline table
+    const tlEl = document.getElementById('timeline-table');
+    tlEl.innerHTML = timeline.length ? timeline.map(r => `
+      <tr>
+        <td style="font-weight:600">${r.period}</td>
+        <td style="text-align:right">${fmt(r.bill_count)}</td>
+        <td style="text-align:right;font-weight:600;color:var(--c-green-700,#2d6a4f)">${fmt(r.revenue)} Kč</td>
+        <td style="text-align:right">${fmt(r.tips)} Kč</td>
+        <td style="text-align:right">${fmt(r.avg_bill)} Kč</td>
+        <td style="text-align:right">${fmt(r.guests)}</td>
+      </tr>
+    `).join('') : '<tr><td colspan="6" style="text-align:center;color:var(--c-text-muted);padding:2rem">Žádná data pro vybrané období</td></tr>';
+
+    // Last sync
+    if (data.last_sync) {
+      document.getElementById('last-sync').textContent = 'Poslední sync: ' + new Date(data.last_sync.started_at).toLocaleString('cs');
+    }
+
+  } catch (e) {
+    console.warn('Stats API nedostupné:', e);
+    document.getElementById('timeline-table').innerHTML =
+      '<tr><td colspan="6" style="text-align:center;color:var(--c-text-muted);padding:2rem">StoryOus sync zatím není nakonfigurován. Vyplňte API klíče v api/storyous/config.php</td></tr>';
+    document.getElementById('top-items-table').innerHTML =
+      '<tr><td colspan="4" style="text-align:center;color:var(--c-text-muted);padding:1rem">Není k dispozici</td></tr>';
+    document.getElementById('payment-methods-table').innerHTML =
+      '<tr><td colspan="3" style="text-align:center;color:var(--c-text-muted);padding:1rem">Není k dispozici</td></tr>';
+  }
+}
+
+async function syncNow() {
+  const btn = document.getElementById('btn-sync');
+  btn.disabled = true;
+  btn.textContent = 'Synchronizuji...';
+  try {
+    const res = await fetch('../api/storyous/sync-all.php');
+    const data = await res.json();
+    if (data.ok) {
+      Toast.show({title: 'Sync dokončen', message: `Menu: ${data.results?.menu?.synced ?? '?'}, Účtenky: ${data.results?.bills?.synced ?? '?'}`, type: 'success'});
+      loadStats();
+    } else {
+      Toast.show({title: 'Chyba sync', message: data.error || data.message, type: 'error'});
+    }
+  } catch (e) {
+    Toast.show({title: 'Sync selhal', message: e.message, type: 'error'});
+  }
+  btn.disabled = false;
+  btn.textContent = 'Synchronizovat ze StoryOus';
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  const now = new Date();
+  document.getElementById('date-till').value = now.toISOString().split('T')[0];
+  const sixMonths = new Date(now);
+  sixMonths.setMonth(sixMonths.getMonth() - 6);
+  document.getElementById('date-from').value = sixMonths.toISOString().split('T')[0];
+
+  AdminSidebar.init();
+  loadStats();
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,208 @@
+<!--
+  ╔══════════════════════════════════════════════════════════════════╗
+  ║  ARCHIVOVANÁ SEKCE KONTAKT — Pro rozvoj Holčovic                ║
+  ║  Archivováno: 19. 6. 2026                                       ║
+  ║                                                                  ║
+  ║  JAK ZNOVU POUŽÍT:                                              ║
+  ║  1. Přidat CSS blok do <style> v index_backup.html              ║
+  ║  2. Nahradit sekci .section-volby tímto HTML                    ║
+  ║  3. Přidat JS snippet na konec <script> bloku                   ║
+  ║  4. Ujistit se, že mailer.php je přítomen na serveru            ║
+  ║  5. Nav: změnit "Facebook" zpět na href="#kontakt"             ║
+  ╚══════════════════════════════════════════════════════════════════╝
+-->
+
+
+<!-- ═══════════════════════════════════════════════
+     CSS — vložit do <style> v index_backup.html
+     ═══════════════════════════════════════════════ -->
+<!--
+<style>
+/* Kandidáti → Kontakt */
+#kontakt {
+  position: relative;
+  padding-top: 132px;
+}
+#kontakt::before {
+  content: '';
+  position: absolute; top: -54px; left: 0; right: 0; bottom: 0;
+  background-image: url('media/sky6.jpg');
+  background-size: cover;
+  background-position: center 50%;
+  filter: brightness(.52) saturate(.8);
+  clip-path: polygon(100% 0, 100% 100%, 0 100%, 0 54px);
+  transform: translateZ(0);
+}
+#kontakt::after {
+  content: '';
+  position: absolute; top: -54px; left: 0; right: 0; bottom: 0;
+  background: rgba(10,20,38,.25);
+  clip-path: polygon(100% 0, 100% 100%, 0 100%, 0 54px);
+  pointer-events: none;
+}
+#kontakt .wrap { position: relative; z-index: 1; }
+
+.contact-wrap {
+  display: grid; grid-template-columns: 5fr 7fr;
+  gap: 80px; align-items: start;
+}
+.contact-info h2 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  font-weight: 300; color: var(--white);
+  margin-bottom: 14px; line-height: 1.15;
+}
+.contact-info .lead {
+  font-size: .9rem; color: rgba(255,255,255,.68);
+  line-height: 1.8; margin-bottom: 32px;
+}
+.contact-legal {
+  margin-top: 40px; padding-top: 24px;
+  border-top: 1px solid rgba(255,255,255,.08);
+}
+.contact-legal-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.1rem; font-weight: 300;
+  color: rgba(255,255,255,.65); letter-spacing: .06em; margin-bottom: 6px;
+}
+.contact-legal-name em { font-style: italic; color: var(--gold-light); }
+.contact-legal p { font-size: .74rem; color: rgba(255,255,255,.48); line-height: 1.7; }
+
+.contact-form { display: flex; flex-direction: column; gap: 13px; }
+.frow { display: grid; grid-template-columns: 1fr 1fr; gap: 13px; }
+.fgrp { display: flex; flex-direction: column; gap: 5px; }
+.fgrp label {
+  font-size: .72rem; letter-spacing: .1em; text-transform: uppercase;
+  color: rgba(255,255,255,.4); font-weight: 500;
+}
+.fgrp input, .fgrp textarea {
+  background: rgba(255,255,255,.07);
+  border: 1px solid rgba(255,255,255,.13);
+  border-radius: 3px; padding: 11px 15px;
+  color: var(--white);
+  font-family: 'DM Sans', sans-serif; font-size: .9rem;
+  outline: none; transition: border-color .2s, background .2s;
+}
+.fgrp input:focus, .fgrp textarea:focus {
+  border-color: var(--gold-light); background: rgba(255,255,255,.1);
+}
+.fgrp input::placeholder, .fgrp textarea::placeholder { color: rgba(255,255,255,.45); }
+.fgrp textarea { min-height: 160px; resize: vertical; }
+.btn-send {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--gold); color: var(--white);
+  border: none; padding: 13px 36px; border-radius: 3px;
+  font-size: .8rem; font-weight: 600;
+  letter-spacing: .12em; text-transform: uppercase;
+  cursor: pointer; transition: background .2s, transform .2s;
+  align-self: flex-start;
+}
+.btn-send:hover { background: var(--gold-light); transform: translateY(-2px); }
+
+@media (max-width: 860px) {
+  .contact-wrap { grid-template-columns: 1fr; gap: 44px; }
+  .frow { grid-template-columns: 1fr; }
+  .contact-legal { margin-top: 28px; padding-top: 20px; }
+}
+</style>
+-->
+
+
+<!-- ═══════════════════════════════════════════════
+     HTML — nahradit sekci .section-volby
+     ═══════════════════════════════════════════════ -->
+
+<!-- KONTAKT -->
+<section class="section section-navy" id="kontakt">
+  <div class="wrap">
+    <div class="contact-wrap">
+
+      <div class="contact-info fi-l">
+        <span class="sec-eyebrow" style="color:var(--gold-light)">Napište nám</span>
+        <h2>Ozvěte se nám</h2>
+        <p class="lead">
+          Máte podnět, otázku nebo nápad pro Holčovice? Napište nám.
+          Každý hlas bereme vážně — obec stavíme dohromady a váš pohled
+          je pro nás důležitý. Snažíme se odpovídat do 48 hodin.
+        </p>
+        <div class="contact-legal">
+          <div class="contact-legal-name">Pro rozvoj <em>Holčovic</em></div>
+          <p>Volební uskupení · Holčovice, Moravskoslezský kraj<br>
+          &copy; 2026 Pro rozvoj Holčovic · Všechna práva vyhrazena</p>
+        </div>
+      </div>
+
+      <form class="contact-form fi" id="contactForm" novalidate>
+        <!-- Honeypot — skryté pole, lidé ho nevyplní, roboti ano -->
+        <div style="position:absolute;left:-9999px;opacity:0;pointer-events:none" aria-hidden="true">
+          <label for="f-website">Website</label>
+          <input type="text" id="f-website" name="website" tabindex="-1" autocomplete="off">
+        </div>
+
+        <div class="frow">
+          <div class="fgrp">
+            <label for="f-name">Jméno</label>
+            <input type="text" id="f-name" name="name" placeholder="Vaše jméno" required>
+          </div>
+          <div class="fgrp">
+            <label for="f-email">E-mail</label>
+            <input type="email" id="f-email" name="email" placeholder="vas@email.cz" required>
+          </div>
+        </div>
+        <div class="fgrp">
+          <label for="f-msg">Zpráva</label>
+          <textarea id="f-msg" name="message" placeholder="Váš podnět, otázka nebo nápad pro Holčovice…" required></textarea>
+        </div>
+        <button type="submit" class="btn-send" id="formBtn">Odeslat zprávu</button>
+        <p id="form-ok" style="display:none"></p>
+        <p id="form-err" style="display:none;font-size:.84rem;color:#f87c7c;margin-top:4px;font-style:italic"></p>
+      </form>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════
+     JS — přidat na konec <script> bloku
+     ═══════════════════════════════════════════════ -->
+<!--
+<script>
+document.getElementById('contactForm').addEventListener('submit', async function(e) {
+  e.preventDefault();
+
+  const btn = document.getElementById('formBtn');
+  const ok  = document.getElementById('form-ok');
+  const err = document.getElementById('form-err');
+
+  ok.style.display  = 'none';
+  err.style.display = 'none';
+  btn.disabled = true;
+  btn.textContent = 'Odesílám…';
+
+  try {
+    const res  = await fetch('mailer.php', { method: 'POST', body: new FormData(this) });
+    const data = await res.json();
+
+    if (data.ok) {
+      ok.textContent   = 'Děkujeme za zprávu — ozveme se co nejdříve.';
+      ok.style.display = 'block';
+      ok.style.color   = '#7de8a8';
+      ok.style.fontStyle = 'italic';
+      ok.style.fontSize  = '.84rem';
+      ok.style.marginTop = '4px';
+      this.reset();
+    } else {
+      err.textContent   = data.error || 'Nepodařilo se odeslat zprávu.';
+      err.style.display = 'block';
+    }
+  } catch {
+    err.textContent   = 'Chyba připojení — zkuste to prosím znovu.';
+    err.style.display = 'block';
+  }
+
+  btn.disabled = false;
+  btn.textContent = 'Odeslat zprávu';
+});
+</script>
+-->
