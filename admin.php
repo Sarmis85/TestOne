@@ -91,6 +91,27 @@ a{color:inherit;text-decoration:none}
 .btn-logout{font-size:.75rem;opacity:.5;cursor:pointer;background:none;border:none;color:#fff;padding:4px 8px;border-radius:3px}
 .btn-logout:hover{opacity:.9;background:rgba(255,255,255,.1)}
 
+/* ── Maintenance bar ── */
+.maint-bar{display:flex;align-items:center;gap:16px;padding:10px 24px;border-bottom:1px solid #e0e0e0;background:#fff}
+.maint-bar.on{background:#fff8f0;border-bottom-color:#f5c98a}
+.maint-status{font-size:.8rem;font-weight:600;display:flex;align-items:center;gap:8px}
+.maint-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+.maint-bar.on  .maint-dot{background:#e67e22}
+.maint-bar.off .maint-dot{background:#27ae60}
+.maint-bar.on  .maint-text{color:#c0610a}
+.maint-bar.off .maint-text{color:#1e8449}
+.toggle-wrap{display:flex;align-items:center;gap:8px;cursor:pointer}
+.toggle-input{display:none}
+.toggle-track{width:40px;height:22px;background:#ccc;border-radius:11px;position:relative;transition:background .2s;flex-shrink:0}
+.toggle-track::after{content:'';position:absolute;top:3px;left:3px;width:16px;height:16px;border-radius:50%;background:#fff;transition:transform .2s;box-shadow:0 1px 3px rgba(0,0,0,.25)}
+.toggle-input:checked+.toggle-track{background:#e67e22}
+.toggle-input:checked+.toggle-track::after{transform:translateX(18px)}
+.toggle-label{font-size:.8rem;color:#555;user-select:none}
+.btn-preview{display:inline-flex;align-items:center;gap:5px;font-size:.77rem;color:#1C3354;border:1px solid #c5d2e0;border-radius:4px;padding:5px 12px;font-weight:500;cursor:pointer;text-decoration:none;background:#f4f7fb;transition:background .15s}
+.btn-preview:hover{background:#e8edf4}
+.maint-hint{font-size:.72rem;color:#999;margin-left:auto}
+.maint-saving{font-size:.72rem;color:#B8873A;margin-left:4px}
+
 /* ── Tabs ─── */
 .tabs{background:#fff;border-bottom:1px solid #ddd;padding:0 24px;display:flex;gap:0}
 .tab-btn{padding:14px 20px;font-size:.84rem;font-weight:500;color:#666;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;background:none;border-top:none;border-left:none;border-right:none;transition:color .2s,border-color .2s}
@@ -157,6 +178,26 @@ a{color:inherit;text-decoration:none}
     <button class="btn-save" id="btnSave" onclick="saveAll()">Uložit změny</button>
     <a href="admin.php?action=logout"><button class="btn-logout">Odhlásit</button></a>
   </div>
+</div>
+
+<!-- MAINTENANCE BAR -->
+<?php $maint = $content['maintenance'] ?? true; ?>
+<div class="maint-bar <?= $maint ? 'on' : 'off' ?>" id="maintBar">
+  <div class="maint-status">
+    <div class="maint-dot"></div>
+    <span class="maint-text" id="maintText">Režim údržby: <?= $maint ? 'ZAPNUTO' : 'VYPNUTO' ?></span>
+  </div>
+  <label class="toggle-wrap">
+    <input type="checkbox" class="toggle-input" id="maintToggle" onchange="saveMaint()" <?= $maint ? 'checked' : '' ?>>
+    <div class="toggle-track"></div>
+    <span class="toggle-label" id="maintToggleLabel"><?= $maint ? 'Web je v údržbě' : 'Web je živý' ?></span>
+  </label>
+  <a href="/?preview=1" target="_blank" class="btn-preview">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+    Náhled plného webu
+  </a>
+  <span class="maint-saving" id="maintSaving"></span>
+  <span class="maint-hint">Náhled funguje 8 hodin po kliknutí · <a href="/?preview=0" target="_blank" style="color:#B8873A">Zrušit náhled</a></span>
 </div>
 
 <div class="tabs">
@@ -450,12 +491,47 @@ function setPath(obj, path, value) {
 
 function buildJson() {
   var data = {};
+  data.maintenance = document.getElementById('maintToggle').checked;
   document.querySelectorAll('[data-path]').forEach(function(el) {
     var path = el.getAttribute('data-path');
     var val = el.value;
     setPath(data, path, val);
   });
   return data;
+}
+
+/* ── Okamžité uložení maintenance přepínače ── */
+function saveMaint() {
+  var on    = document.getElementById('maintToggle').checked;
+  var bar   = document.getElementById('maintBar');
+  var text  = document.getElementById('maintText');
+  var label = document.getElementById('maintToggleLabel');
+  var hint  = document.getElementById('maintSaving');
+  bar.className    = 'maint-bar ' + (on ? 'on' : 'off');
+  text.textContent  = 'Režim údržby: ' + (on ? 'ZAPNUTO' : 'VYPNUTO');
+  label.textContent = on ? 'Web je v údržbě' : 'Web je živý';
+  hint.textContent  = 'Ukládám…';
+
+  /* Načti aktuální JSON, uprav maintenance, ulož */
+  fetch('content.json?t=' + Date.now())
+    .then(function(r){ return r.json(); })
+    .then(function(data){
+      data.maintenance = on;
+      return fetch('admin.php?action=save', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'X-Csrf-Token': CSRF },
+        body: JSON.stringify(data)
+      });
+    })
+    .then(function(r){ return r.json(); })
+    .then(function(d){
+      hint.textContent = d.ok ? '✓ Uloženo' : '✗ Chyba';
+      setTimeout(function(){ hint.textContent = ''; }, 3000);
+    })
+    .catch(function(){
+      hint.textContent = '✗ Chyba připojení';
+      setTimeout(function(){ hint.textContent = ''; }, 3000);
+    });
 }
 
 function saveAll() {
