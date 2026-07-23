@@ -104,6 +104,12 @@
           el.innerHTML = val;
         }
       });
+
+      /* Viditelnost kandidáta č. 10 */
+      if (data.kandidati && data.kandidati.c10_visible === false) {
+        var c10 = document.querySelector('.cand-card--nahradnik');
+        if (c10) c10.style.display = 'none';
+      }
     })
     .catch(function () { /* tichá chyba — content.json neexistuje nebo je poškozený */ });
 })();

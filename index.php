@@ -12,7 +12,7 @@ if (isset($_GET['preview'])) {
         header('Location: /');
     } else {
         setcookie('prh_preview', '1', time() + 28800, '/'); // 8 hodin
-        header('Location: /index_backup.html');
+        header('Location: /index.html');
     }
     exit;
 }
@@ -21,10 +21,10 @@ $preview = !empty($_COOKIE['prh_preview']);
 
 // ── Routing ─────────────────────────────────────────────────
 if (!$maintenance || $preview) {
-    // Plný web
-    header('Location: /index_backup.html');
+    // Plný web — přímá URL na soubor, obchází index.php
+    header('Location: /index.html');
     exit;
 }
 
-// Stránka v údržbě — zobraz placeholder, URL zůstane /
-include __DIR__ . '/index.html';
+// Stránka v údržbě — zobraz maintenance page, URL zůstane /
+include __DIR__ . '/maintenance.html';

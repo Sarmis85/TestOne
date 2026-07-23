@@ -124,10 +124,24 @@ a{color:inherit;text-decoration:none}
 
 /* ── Sekce ─── */
 .section{background:#fff;border:1px solid #e0e0e0;border-radius:6px;margin-bottom:20px;overflow:hidden}
-.section-head{background:#f7f7f7;border-bottom:1px solid #e8e8e8;padding:12px 20px;display:flex;align-items:center;gap:10px}
+.section-head{background:#f7f7f7;border-bottom:1px solid #e8e8e8;padding:12px 20px;display:flex;align-items:center;gap:10px;cursor:pointer;user-select:none}
+.section-head:hover{background:#f0f0f0}
 .section-head h2{font-size:.88rem;font-weight:600;color:#333}
 .section-head .badge{font-size:.68rem;background:#e8edf4;color:#1C3354;border-radius:3px;padding:2px 7px;font-weight:500}
+.section-arrow{margin-left:auto;font-size:.7rem;color:#aaa;transition:transform .22s;flex-shrink:0}
+.section-head.collapsed .section-arrow{transform:rotate(-90deg)}
 .section-body{padding:20px}
+.section-body.collapsed{display:none}
+
+/* ── Visibility toggle (c10) ── */
+.vis-toggle-row{display:flex;align-items:center;gap:10px;padding:10px 0 4px}
+.vis-toggle-row label{font-size:.78rem;font-weight:600;color:#555;cursor:pointer;display:flex;align-items:center;gap:8px}
+.vis-toggle-row .vis-track{width:36px;height:20px;background:#ccc;border-radius:10px;position:relative;transition:background .2s;flex-shrink:0}
+.vis-toggle-row .vis-track::after{content:'';position:absolute;top:2px;left:2px;width:16px;height:16px;border-radius:50%;background:#fff;transition:transform .2s;box-shadow:0 1px 3px rgba(0,0,0,.2)}
+.vis-toggle-row input:checked+.vis-track{background:#27ae60}
+.vis-toggle-row input:checked+.vis-track::after{transform:translateX(16px)}
+.vis-toggle-row input{display:none}
+.vis-label{font-size:.78rem;color:#555}
 .fields{display:grid;gap:14px}
 
 /* ── Pole ─── */
@@ -369,7 +383,6 @@ a{color:inherit;text-decoration:none}
         ['07','c7','Kandidátka'],
         ['08','c8','Kandidát'],
         ['09','c9','Bývalý zastupitel'],
-        ['10','c10','Náhradnice'],
       ];
       foreach ($cands as [$num, $key, $hint]):
       ?>
@@ -393,6 +406,35 @@ a{color:inherit;text-decoration:none}
         </div>
       </div>
       <?php endforeach; ?>
+
+      <!-- Kandidát 10 — s přepínačem viditelnosti -->
+      <?php $c10vis = $content['kandidati']['c10_visible'] ?? true; ?>
+      <div class="cand-group">
+        <div class="cand-label">Kandidát 10 <span style="font-weight:400;color:#999">(Náhradnice)</span></div>
+        <div class="vis-toggle-row">
+          <label>
+            <input type="checkbox" data-path="kandidati.c10_visible" <?= $c10vis ? 'checked' : '' ?>>
+            <div class="vis-track"></div>
+          </label>
+          <span class="vis-label">Zobrazit na webu</span>
+        </div>
+        <div class="fields">
+          <div class="grid-2">
+            <div class="field">
+              <label>Jméno</label>
+              <input type="text" data-path="kandidati.c10.name" value="<?= v($c,'kandidati','c10','name') ?>">
+            </div>
+            <div class="field">
+              <label>Role</label>
+              <input type="text" data-path="kandidati.c10.role" value="<?= v($c,'kandidati','c10','role') ?>">
+            </div>
+          </div>
+          <div class="field">
+            <label>Bio</label>
+            <textarea class="tall" data-path="kandidati.c10.bio"><?= v($c,'kandidati','c10','bio') ?></textarea>
+          </div>
+        </div>
+      </div>
 
     </div>
   </div>
@@ -494,11 +536,35 @@ function buildJson() {
   data.maintenance = document.getElementById('maintToggle').checked;
   document.querySelectorAll('[data-path]').forEach(function(el) {
     var path = el.getAttribute('data-path');
-    var val = el.value;
+    var val = el.type === 'checkbox' ? el.checked : el.value;
     setPath(data, path, val);
   });
   return data;
 }
+
+/* ── Sbalitelné sekce ── */
+function initCollapsible() {
+  document.querySelectorAll('.section-head').forEach(function(head) {
+    if (head.querySelector('.section-arrow')) return;
+    var arrow = document.createElement('span');
+    arrow.className = 'section-arrow';
+    arrow.innerHTML = '&#9660;';
+    head.appendChild(arrow);
+    var key = 'sec:' + (head.querySelector('h2') ? head.querySelector('h2').textContent : Math.random());
+    if (localStorage.getItem(key) === 'closed') {
+      head.classList.add('collapsed');
+      head.nextElementSibling.classList.add('collapsed');
+    }
+    head.addEventListener('click', function() {
+      var body = head.nextElementSibling;
+      var closing = !head.classList.contains('collapsed');
+      head.classList.toggle('collapsed', closing);
+      body.classList.toggle('collapsed', closing);
+      localStorage.setItem(key, closing ? 'closed' : 'open');
+    });
+  });
+}
+document.addEventListener('DOMContentLoaded', initCollapsible);
 
 /* ── Okamžité uložení maintenance přepínače ── */
 function saveMaint() {
